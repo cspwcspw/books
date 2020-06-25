@@ -1,0 +1,1118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9. Working with Booleans and Conditional Statements &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="10. Value-returning methods" href="methods_value_returning.html" />
+    <link rel="prev" title="8. Void Methods" href="methods_void.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="methods_value_returning.html" title="10. Value-returning methods"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="methods_void.html" title="8. Void Methods"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="working-with-booleans-and-conditional-statements">
+<h1>9. Working with Booleans and Conditional Statements<a class="headerlink" href="#working-with-booleans-and-conditional-statements" title="Permalink to this headline">¶</a></h1>
+<p>Programs get really interesting when we can test conditions and change the
+program behaviour depending on the outcome of the tests.  That&#8217;s what this
+chapter is about.</p>
+<div class="section" id="boolean-values-and-expressions">
+<span id="index-0"></span><h2>9.1. Boolean values and expressions<a class="headerlink" href="#boolean-values-and-expressions" title="Permalink to this headline">¶</a></h2>
+<p>A <em>Boolean</em> value is either true or false.  It is named
+after the British mathematician, George Boole, who first formulated <em>Boolean
+algebra</em> &#8212; some rules for reasoning about and combining these values.
+This is the basis of all modern computer logic.</p>
+<p>In C#, the two Boolean values are <code class="docutils literal"><span class="pre">false</span></code> and <code class="docutils literal"><span class="pre">true</span></code> (remember that this
+language is case sensitive, so they must be exactly as shown), and the C# type is <code class="docutils literal"><span class="pre">bool</span></code>.
+We can define and initialize variables of type <code class="docutils literal"><span class="pre">bool</span></code>:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre> <span class="kt">bool</span> <span class="n">passwordIsValid</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+
+ <span class="p">...</span>
+ <span class="k">if</span> <span class="p">(</span><span class="n">enteredPassword</span> <span class="p">==</span> <span class="s">&quot;magic&quot;</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="n">passwordIsValid</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+ <span class="p">}</span>
+ <span class="k">else</span>
+ <span class="p">{</span>
+     <span class="n">passwordIsValid</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>A <strong>Boolean expression</strong> is an expression that evaluates to produce a result which is
+a Boolean value.  For example, the operator <code class="docutils literal"><span class="pre">==</span></code> tests if two values are equal.
+It produces (or <em>yields</em>) a Boolean value.  So another much more compact
+way to write lines 4 - 11 in the above code would be like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre> <span class="n">passwordIsValid</span> <span class="p">=</span> <span class="n">enteredPassword</span> <span class="p">==</span> <span class="s">&quot;magic&quot;</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Remember the rule for assignment: evaluate the right side of the assignment first.  Then assign
+the resulting value to the variable on the left.
+Convince yourself that the short version is equivalent to the longer version, and
+ensure that you understand the <em>generalization</em> here:  variables, expressions and assignment are not
+just restricted to simple number types: some expressions can produce Boolean results, some can produce
+string results, some integer results, etc.  So assignment is very general, and will work as long as
+we don&#8217;t violate the C# rules about types.</p>
+</div>
+<div class="section" id="comparison-operators">
+<span id="index-1"></span><h2>9.2. Comparison operators<a class="headerlink" href="#comparison-operators" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">==</span></code> operator is one of six common <strong>comparison operators</strong> which all produce
+a <code class="docutils literal"><span class="pre">bool</span></code> result; here are C# expressions showing all six:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre>                  <span class="c1">//  Evaluates to true if _________________</span>
+<span class="n">x</span> <span class="p">==</span> <span class="n">y</span>            <span class="c1">//    x is equal to y</span>
+<span class="n">x</span> <span class="p">!=</span> <span class="n">y</span>            <span class="c1">//    x is not equal to y</span>
+<span class="n">x</span> <span class="p">&gt;</span> <span class="n">y</span>             <span class="c1">//    x is greater than y</span>
+<span class="n">x</span> <span class="p">&lt;</span> <span class="n">y</span>             <span class="c1">//    x is less than y</span>
+<span class="n">x</span> <span class="p">&gt;=</span> <span class="n">y</span>            <span class="c1">//    x is greater than or equal to y</span>
+<span class="n">x</span> <span class="p">&lt;=</span> <span class="n">y</span>            <span class="c1">//    x is less than or equal to y</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Although these operations are probably familiar, the C# symbols are
+different from the mathematical symbols. A common error is to use a single
+equal sign (<code class="docutils literal"><span class="pre">=</span></code>) instead of a double equal sign (<code class="docutils literal"><span class="pre">==</span></code>). Remember that <code class="docutils literal"><span class="pre">=</span></code>
+is an assignment operator and <code class="docutils literal"><span class="pre">==</span></code> is a comparison operator. Also, there is
+no such thing as <code class="docutils literal"><span class="pre">=&lt;</span></code> or <code class="docutils literal"><span class="pre">=&gt;</span></code>.</p>
+<p>These comparison operators will work for most simple types like <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">double</span></code> and <code class="docutils literal"><span class="pre">char</span></code>.
+The operators that test for equality (<code class="docutils literal"><span class="pre">==</span></code> and <code class="docutils literal"><span class="pre">!=</span></code>) also work for strings, but we
+unfortunately cannot use the ordering operators (<code class="docutils literal"><span class="pre">&lt;</span></code> , <code class="docutils literal"><span class="pre">&lt;=</span></code>, <code class="docutils literal"><span class="pre">&gt;</span></code>, or <code class="docutils literal"><span class="pre">&gt;=</span></code>) for comparing
+strings. (There is another way to compare strings which we&#8217;ll get to in the chapter about strings.)</p>
+<p>Like any other types we&#8217;ve seen so far, Boolean values can be assigned to
+variables (of type <code class="docutils literal"><span class="pre">bool</span></code>), or used in a <code class="docutils literal"><span class="pre">String.Format</span></code> method in much the same
+way as we previously used <code class="docutils literal"><span class="pre">int</span></code> or <code class="docutils literal"><span class="pre">double</span></code> values.</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="kt">int</span> <span class="n">age</span> <span class="p">=</span> <span class="m">23</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kt">bool</span> <span class="n">old_enough_to_get_driving_licence</span> <span class="p">=</span> <span class="n">age</span> <span class="p">&gt;=</span> <span class="m">18</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">s</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;It says {0}.&quot;</span><span class="p">,</span> <span class="n">old_enough_to_get_driving_licence</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="logical-operators">
+<span id="index-2"></span><h2>9.3. Logical operators<a class="headerlink" href="#logical-operators" title="Permalink to this headline">¶</a></h2>
+<p>There are three <strong>logical operators</strong> associated with Booleans: <em>and</em>, <em>or</em>, and <em>not</em>.
+C# uses the syntax <code class="docutils literal"><span class="pre">&amp;&amp;</span></code>, <code class="docutils literal"><span class="pre">||</span></code>, and <code class="docutils literal"><span class="pre">!</span></code> for these.  So when we see these C# tokens
+we&#8217;ll pronounce <code class="docutils literal"><span class="pre">&amp;&amp;</span></code> as <em>and</em>, we&#8217;ll say <em>or</em> when we read the token <code class="docutils literal"><span class="pre">||</span></code>, and we&#8217;ll
+pronounce <code class="docutils literal"><span class="pre">!</span></code> as <em>not</em>.</p>
+<p>Logical operators allow us to build more complex Boolean expressions from simpler Boolean expressions.
+For example, <code class="docutils literal"><span class="pre">(x</span> <span class="pre">&gt;</span> <span class="pre">0)</span> <span class="pre">&amp;&amp;</span> <span class="pre">(x</span> <span class="pre">&lt;</span> <span class="pre">10)</span></code> evaluates to <code class="docutils literal"><span class="pre">true</span></code> only if <code class="docutils literal"><span class="pre">x</span></code> is greater than 0 <em>and</em>
+at the same time, x is less than 10.</p>
+<div class="admonition-this-shorthand-is-not-allowed admonition">
+<p class="first admonition-title">This shorthand is <em>not</em> allowed</p>
+<p>In maths we often see shorthand such as  <em>0 &lt; x &lt; 10</em>.  There are really two separate
+sub-conditions here.  In C# we have to write those two parts separately as</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="p">...</span>      <span class="p">(</span><span class="m">0</span> <span class="p">&lt;</span> <span class="n">x</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="last">The parentheses could have been left out, but it looks nicer grouped like this, and
+we don&#8217;t have to remember whether the <code class="docutils literal"><span class="pre">&amp;&amp;</span></code> or the <code class="docutils literal"><span class="pre">&lt;</span></code> operator takes precedence
+(gets done first).</p>
+</div>
+<p><code class="docutils literal"><span class="pre">e1</span> <span class="pre">||</span> <span class="pre">e2</span></code> is <code class="docutils literal"><span class="pre">true</span></code> if <em>either</em> of the conditions is <code class="docutils literal"><span class="pre">true</span></code>.
+For example, <code class="docutils literal"><span class="pre">(n</span> <span class="pre">%</span> <span class="pre">2</span> <span class="pre">==</span> <span class="pre">0)</span> <span class="pre">||</span> <span class="pre">(n</span> <span class="pre">%</span> <span class="pre">3</span> <span class="pre">==</span> <span class="pre">0)</span></code>
+determines if the number <code class="docutils literal"><span class="pre">n</span></code> is divisible by 2 <em>or</em> if it is divisible by 3.  (What do
+we think happens if <code class="docutils literal"><span class="pre">n</span></code> is divisible by both 2 and by 3 at the same time?
+What is the smallest positive integer that can be divided exactly by both 2 and 3?
+Will the expression yield <code class="docutils literal"><span class="pre">false</span></code> or <code class="docutils literal"><span class="pre">true</span></code>?  Try it.)</p>
+<p>Finally, the <code class="docutils literal"><span class="pre">!</span></code> logical operator negates a Boolean value, so <code class="docutils literal"><span class="pre">!(x</span> <span class="pre">&gt;</span> <span class="pre">y)</span></code>
+is <code class="docutils literal"><span class="pre">true</span></code> if <code class="docutils literal"><span class="pre">(x</span> <span class="pre">&gt;</span> <span class="pre">y)</span></code> is <code class="docutils literal"><span class="pre">false</span></code>, that is, if <code class="docutils literal"><span class="pre">x</span></code> is less than or equal to
+<code class="docutils literal"><span class="pre">y</span></code>.</p>
+<p>The expression on the left of the <code class="docutils literal"><span class="pre">||</span></code> operator is evaluated first: if the result is <code class="docutils literal"><span class="pre">true</span></code>,
+C# does not (and need not) evaluate the expression on the right &#8212; this is called <em>short-circuit evaluation</em>.
+Similarly, for the <em>and</em> operator, if the expression on the left of <code class="docutils literal"><span class="pre">&amp;&amp;</span></code> yields <code class="docutils literal"><span class="pre">false</span></code>, C# does not
+need to, nor attempt to, evaluate the expression on the right.</p>
+<p>So there are no unnecessary evaluations.</p>
+<p>Short circuit evaluation means that the order in which one writes the tests can make a
+difference. And programmers take advantage of that fact.
+For example, dividing by zero will cause a run-time error.
+Consider these two fragments of code:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="p">...</span>      <span class="p">(</span><span class="n">k</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="p">/</span> <span class="n">k</span> <span class="p">&gt;</span> <span class="m">10</span><span class="p">)</span>     <span class="c1">// this works even when k == 0</span>
+<span class="p">...</span>      <span class="p">(</span><span class="n">x</span> <span class="p">/</span> <span class="n">k</span> <span class="p">&gt;</span> <span class="m">10</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">k</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>     <span class="c1">// this crashes when k == 0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>If <code class="docutils literal"><span class="pre">k</span></code> is zero, the first one works, and returns <code class="docutils literal"><span class="pre">false</span></code> without even attempting to
+do the problematic division. But the second one will crash.
+So we have to be careful to order our expressions correctly.</p>
+</div>
+<div class="section" id="truth-tables">
+<h2>9.4. Truth Tables<a class="headerlink" href="#truth-tables" title="Permalink to this headline">¶</a></h2>
+<p>A truth table is a small table that allows us to show all the possible inputs,
+and to give the results for the logical operators.  Because the <code class="docutils literal"><span class="pre">&amp;&amp;</span></code> and <code class="docutils literal"><span class="pre">||</span></code>
+operators each have two operands, and each operand can have one of two values,
+there are only four rows in a truth table that
+describes the semantics (meaning) of these operators:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="30%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">e1</th>
+<th class="head">e2</th>
+<th class="head">(e1 &amp;&amp; e2)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>false</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>true</td>
+<td>true</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>In a Truth Table, we sometimes use T and F as shorthand for the two
+Boolean operands: here is the truth table describing <code class="docutils literal"><span class="pre">||</span></code>:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">e1</th>
+<th class="head">e2</th>
+<th class="head">(e1 || e2)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>F</td>
+<td>F</td>
+<td>F</td>
+</tr>
+<tr class="row-odd"><td>F</td>
+<td>T</td>
+<td>T</td>
+</tr>
+<tr class="row-even"><td>T</td>
+<td>F</td>
+<td>T</td>
+</tr>
+<tr class="row-odd"><td>T</td>
+<td>T</td>
+<td>T</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The third logical operator, <code class="docutils literal"><span class="pre">!</span></code>, only takes a one operand,
+so describing its operation using a truth table only needs two rows:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">e</th>
+<th class="head">! e</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>F</td>
+<td>T</td>
+</tr>
+<tr class="row-odd"><td>T</td>
+<td>F</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="simplifying-boolean-expressions">
+<h2>9.5. Simplifying Boolean Expressions<a class="headerlink" href="#simplifying-boolean-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Any set of rules for simplifying and rearranging expressions is called an <em>algebra</em>.
+For example, we are all familiar with school algebra rules, such as  <em>n times 0 is 0</em>.</p>
+<p>Here we see a different algebra &#8212; the <em>Boolean</em> algebra &#8212;
+which provides a slightly different set of rules for working with Boolean values.</p>
+<p>First, some simplification rules involving the <code class="docutils literal"><span class="pre">&amp;&amp;</span></code> operator:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="19%" />
+<col width="44%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x &amp;&amp; false</td>
+<td>==</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>false &amp;&amp; x</td>
+<td>==</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>y &amp;&amp; x</td>
+<td>==</td>
+<td>x &amp;&amp; y  <a class="footnote-reference" href="#id3" id="id1">[1]</a></td>
+</tr>
+<tr class="row-even"><td>x &amp;&amp; true</td>
+<td>==</td>
+<td>x</td>
+</tr>
+<tr class="row-odd"><td>true &amp;&amp; x</td>
+<td>==</td>
+<td>x</td>
+</tr>
+<tr class="row-even"><td>x &amp;&amp; x</td>
+<td>==</td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Here are some corresponding rules for the <code class="docutils literal"><span class="pre">||</span></code> operator:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x || false</td>
+<td>==</td>
+<td>x</td>
+</tr>
+<tr class="row-even"><td>false || x</td>
+<td>==</td>
+<td>x</td>
+</tr>
+<tr class="row-odd"><td>y || x</td>
+<td>==</td>
+<td>x || y   <a class="footnote-reference" href="#id3" id="id2">[1]</a></td>
+</tr>
+<tr class="row-even"><td>x || true</td>
+<td>==</td>
+<td>true</td>
+</tr>
+<tr class="row-odd"><td>true || x</td>
+<td>==</td>
+<td>true</td>
+</tr>
+<tr class="row-even"><td>x || x</td>
+<td>==</td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Two <code class="docutils literal"><span class="pre">!</span></code> operators cancel each other:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="23%" />
+<col width="32%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>! (! x)</td>
+<td>==</td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> In the algebra, these rules are valid.  But because of short-circuit
+evaluation (described in the previous section), changing the order of
+evaluation of x and y might sidestep (or cause) some crashing
+expression. So in a program we need extra care
+when using <code class="docutils literal"><span class="pre">&amp;&amp;</span></code> and <code class="docutils literal"><span class="pre">||</span></code>.</td></tr>
+</tbody>
+</table>
+<span class="target" id="index-3"></span></div>
+<div class="section" id="conditional-execution">
+<span id="index-4"></span><h2>9.6. Conditional execution<a class="headerlink" href="#conditional-execution" title="Permalink to this headline">¶</a></h2>
+<p>In order to write useful programs, we almost always need the ability to check
+conditions and change the behaviour of the program. <strong>Conditional
+statements</strong> give us this ability. The simplest kind of conditional statement
+is the <strong>if</strong> statement with an <code class="docutils literal"><span class="pre">else</span></code> part:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0} is even.&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">));</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Did you know that 2 is the only even prime number?&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0} is odd.&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">));</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span>
+       <span class="s">&quot;Multiplying two odd numbers always gives an odd result!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition-flowchart-of-an-if-statement-with-an-else-part admonition">
+<p class="first admonition-title">Flowchart of an if statement with an else part</p>
+<img alt="_images/flowchart_if_else.png" class="last" src="_images/flowchart_if_else.png" />
+</div>
+<p>The flow of control enters at the top and the condition is evaluated.
+If it evaluates to <code class="docutils literal"><span class="pre">true</span></code>, the first block of statements is executed.
+If the condition (which is a Boolean expression) evaluates to <code class="docutils literal"><span class="pre">false</span></code> the entire
+first block of statements
+is skipped, and instead
+the block of statements under the <code class="docutils literal"><span class="pre">else</span></code> clause is executed.</p>
+<p>There is no limit on the number of statements that can appear in a block of statements &#8212; blocks can
+even be empty - like this &#8212; <code class="docutils literal"><span class="pre">{</span>&nbsp; <span class="pre">}</span></code>  for those occasions when we might want to &#8220;do nothing&#8221;.
+(This often is the case when we create some scaffolding code and intend to return later with the exact details.)
+So we can encounter code like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">computerTurnToPlay</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">computerTurnToPlay</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// TODO: arrange logic for computer to make next move ...</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+   <span class="c1">// TODO: arrange logic for human to make the next move ...</span>
+<span class="p">}</span>
+<span class="n">computerTurnToPlay</span> <span class="p">=</span> <span class="p">!</span> <span class="n">computerTurnToPlay</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Can you see what we&#8217;re doing at line 11 here?</p>
+</div>
+<div class="section" id="omitting-the-else-part">
+<span id="index-5"></span><h2>9.7. Omitting the <code class="docutils literal"><span class="pre">else</span></code> part<a class="headerlink" href="#omitting-the-else-part" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-flowchart-of-an-if-statement-with-no-else admonition">
+<p class="first admonition-title">Flowchart of an if statement with no else</p>
+<img alt="_images/flowchart_if_only.png" class="last" src="_images/flowchart_if_only.png" />
+</div>
+<p>A simplified form of the <code class="docutils literal"><span class="pre">if</span></code> statement is one in which the <code class="docutils literal"><span class="pre">else</span></code> clause is omitted entirely.
+In this case, when the condition evaluates to <code class="docutils literal"><span class="pre">true</span></code>, the statements are
+executed, otherwise the flow of execution continues to the statement after the <code class="docutils literal"><span class="pre">if</span></code>.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">msg</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Invalid negative number {0}. I&#39;ll use 42.&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+    <span class="n">x</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="nested-conditionals">
+<span id="index-6"></span><h2>9.8. Nested conditionals<a class="headerlink" href="#nested-conditionals" title="Permalink to this headline">¶</a></h2>
+<p>One conditional can also be <strong>nested</strong> within another. (We&#8217;ll keep repeating the theme of
+composability &#8212; that each feature in the language can be re-used in other features to
+build bigger compositions.)   Consider this flowchart:</p>
+<div class="admonition-flowchart-of-a-nested-conditional admonition">
+<p class="first admonition-title">Flowchart of a nested conditional</p>
+<img alt="_images/flowchart_nested_conditional.png" class="last" src="_images/flowchart_nested_conditional.png" />
+</div>
+<p>We could code it in C# like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="n">y</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="p">...</span> <span class="n">statements_a</span>
+ <span class="p">}</span>
+ <span class="k">else</span>
+ <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">&gt;</span> <span class="n">y</span><span class="p">)</span>
+      <span class="p">{</span>
+         <span class="p">...</span> <span class="n">statements_b</span>
+      <span class="p">}</span>
+      <span class="k">else</span>
+      <span class="p">{</span>
+         <span class="p">...</span> <span class="n">statements_c</span>  <span class="c1">// executed when x == y</span>
+      <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Nested conditionals very quickly become difficult to read and understand.
+It is probably a good idea to avoid them when we can.</p>
+<p>Logical operators sometimes provide a way to simplify nested conditional
+statements.  Say we start with this code:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;x is a positive single digit.&quot;</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 5 is only executed if we satisfy both the conditionals, so instead of the above we could make
+a more complex condition using the <code class="docutils literal"><span class="pre">&amp;&amp;</span></code> operator.  Now we&#8217;ll only need a single <code class="docutils literal"><span class="pre">if</span></code> statement,
+and it now suggests to the human reader that both conditions must be mentally chunked, and are not
+separate unrelated things:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">if</span> <span class="p">((</span><span class="n">x</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">))</span>
+ <span class="p">{</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;x is a positive single digit.&quot;</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="conditional-expressions">
+<h2>9.9. Conditional Expressions<a class="headerlink" href="#conditional-expressions" title="Permalink to this headline">¶</a></h2>
+<p>C# also has a conditional <em>expression</em> (not to be confused with the
+conditional <em>statement</em> - the <code class="docutils literal"><span class="pre">if</span></code> statement), that can
+be used in the middle of any other expression.
+The syntax is <code class="docutils literal"><span class="pre">condition</span> <span class="pre">?</span> <span class="pre">e1</span> <span class="pre">:</span> <span class="pre">e2</span></code>.
+Depending on <code class="docutils literal"><span class="pre">condition</span></code>, either <code class="docutils literal"><span class="pre">e1</span></code> or <code class="docutils literal"><span class="pre">e2</span></code> will become the result of evaluating the expression.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">bigger</span> <span class="p">=</span> <span class="n">x</span> <span class="p">&gt;</span> <span class="n">y</span> <span class="p">?</span> <span class="n">x</span> <span class="p">:</span> <span class="n">y</span><span class="p">;</span>   <span class="c1">// assign the larger of x and y to bigger</span>
+</pre></div>
+</td></tr></table></div>
+<p>To emphasize that we can use this in the middle of any other expression, and the return
+type doesn&#8217;t need to be an integer, or even a number, we could say</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;x is {0} 10.&quot;</span><span class="p">,</span>
+              <span class="n">x</span> <span class="p">&lt;</span> <span class="m">10</span> <span class="p">?</span> <span class="s">&quot;less than&quot;</span> <span class="p">:</span> <span class="s">&quot;greater or equal to&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Conditional expressions seem more readable if we add unnecessary parentheses, especially around
+the conditional part:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;x is {0} 10.&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">)</span> <span class="p">?</span> <span class="s">&quot;less than&quot;</span> <span class="p">:</span> <span class="s">&quot;greater or equal to&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>This again emphasizes <em>composability</em> &#8212; we can put expressions inside other expressions, and now we
+can also put conditional expressions inside other expressions.   And of course, conditional expressions
+can nest inside other conditional expressions too!</p>
+</div>
+<div class="section" id="logical-opposites">
+<span id="index-7"></span><h2>9.10. Logical opposites<a class="headerlink" href="#logical-opposites" title="Permalink to this headline">¶</a></h2>
+<p>Each of the six relational operators has a logical opposite: for example,
+suppose we can get a driving licence when our age is greater or equal to 18,
+we can <em>not</em> get the driving licence when we are less than 18.</p>
+<p>Notice that the opposite of <code class="docutils literal"><span class="pre">&gt;=</span></code> is <code class="docutils literal"><span class="pre">&lt;</span></code>.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">operator</th>
+<th class="head">logical opposite</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>==</td>
+<td>!=</td>
+</tr>
+<tr class="row-odd"><td>!=</td>
+<td>==</td>
+</tr>
+<tr class="row-even"><td>&lt;</td>
+<td>&gt;=</td>
+</tr>
+<tr class="row-odd"><td>&lt;=</td>
+<td>&gt;</td>
+</tr>
+<tr class="row-even"><td>&gt;</td>
+<td>&lt;=</td>
+</tr>
+<tr class="row-odd"><td>&gt;=</td>
+<td>&lt;</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Understanding these logical opposites allows us to sometimes get rid of <code class="docutils literal"><span class="pre">!</span></code>
+operators.  Not operators are often quite difficult to read in computer code, and
+our intentions will sometimes be clearer if we can eliminate them.</p>
+<p>For example, if we wrote this C#:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(!</span> <span class="p">(</span><span class="n">age</span> <span class="p">&gt;=</span> <span class="m">18</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Hey, you&#39;re too young to get a driving licence!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>it would probably be clearer to use the simplification laws, and to write instead:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">age</span> <span class="p">&lt;</span> <span class="m">18</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Hey, you&#39;re too young to get a driving licence!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="de-morgan-s-laws">
+<span id="index-8"></span><h2>9.11. de Morgan&#8217;s Laws<a class="headerlink" href="#de-morgan-s-laws" title="Permalink to this headline">¶</a></h2>
+<p>Two powerful simplification laws (called de Morgan&#8217;s laws) are often
+helpful when simplifying Boolean expressions:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">!(e1 &amp;&amp; e2)  ==  (! e1) || (! e2)</span>
+<span class="go">!(e1 || e2)  ==  (! e1) &amp;&amp; (! e2)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This is a bit like school algebra where we learned that we could take a factor into
+brackets, or take a factor out.  Here we&#8217;re taking negation into or out of the brackets.</p>
+<p>For example, suppose we can slay the dragon only if our magic
+light-sabre sword is charged to 90% or higher,
+and we have 100 or more energy units in our protective shield.
+We find this fragment of C# code in the game <a class="footnote-reference" href="#id5" id="id4">[2]</a>:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(!((</span><span class="n">sword_charge</span> <span class="p">&gt;=</span> <span class="m">0.90</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">shield_energy</span> <span class="p">&gt;=</span> <span class="m">100</span><span class="p">)))</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Your attack fails, the dragon fries you to a crisp!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;The dragon dies. You rescue the gorgeous princess!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>Of course, in the real game we would have a profile that would indicate our preference
+for rescuing a gorgeous princess, a handsome prince, or both.</td></tr>
+</tbody>
+</table>
+<p>de Morgan&#8217;s laws together with the logical opposites let us
+rework the condition into a (perhaps) easier to understand fragment:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">((</span><span class="n">sword_charge</span> <span class="p">&lt;</span> <span class="m">0.90</span><span class="p">)</span> <span class="p">||</span> <span class="p">(</span><span class="n">shield_energy</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Your attack fails, the dragon fries you to a crisp!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;The dragon dies. You rescue the gorgeous princess!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Another way to eliminate the negation from the original example would be to swap around the <code class="docutils literal"><span class="pre">then</span></code> and
+<code class="docutils literal"><span class="pre">else</span></code> parts of the conditional.  So here is a third version, also equivalent:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">((</span><span class="n">sword_charge</span> <span class="p">&gt;=</span> <span class="m">0.90</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">shield_energy</span> <span class="p">&gt;=</span> <span class="m">100</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;The dragon dies. You rescue the gorgeous princess!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Your attack fails, the dragon fries you to a crisp!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>This last version is probably the best of the three, because it very closely matches
+the initial English statement. Clarity of our code (for other humans),
+and making it easy to see that the code does what was expected should always
+be a top priority.</p>
+<p>As our programming skills develop we&#8217;ll find we have
+more than one way to solve any problem.  So good programs are <em>designed</em>.
+We make choices that favour clarity, simplicity, and elegance.  The job
+title <em>software architect</em> says a lot about what &#8212; we are <em>architects</em>
+who make trade-off decisions in our products to balance beauty,
+functionality, simplicity and clarity in our creations.</p>
+<div class="admonition-tip-spend-some-time-in-playful-mode admonition">
+<p class="first admonition-title">Tip: Spend some time in playful mode</p>
+<p>With programming there is often anxiety
+about whether we&#8217;ll get it working by the deadline.</p>
+<p>But once our program works, we can relax into a more playful mode where really
+deep learning and fun can happen.  So we should play around a bit trying to polish it up.
+Write good comments.  Would the code be clearer with different variable names?
+Could we have done it more elegantly?  Should we rather use a method to chunk
+these statements that seem to do something sensible?
+Can we simplify the conditionals and the boolean expressions?</p>
+<p class="last">We think of our code as our creative expression,
+our work of art!  We make it great, something we&#8217;re proud of!</p>
+</div>
+</div>
+<div class="section" id="the-switch-statement">
+<span id="index-9"></span><h2>9.12. The <code class="docutils literal"><span class="pre">switch</span></code> statement<a class="headerlink" href="#the-switch-statement" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">if</span></code> statement is useful for for choosing between two alternatives.  By contrast, the <code class="docutils literal"><span class="pre">switch</span></code> statement handles multiple selections by passing control
+to one of the <code class="docutils literal"><span class="pre">case</span></code> statements within its body. It takes the following form:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">switch</span> <span class="p">(</span><span class="n">expression</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">case</span> <span class="n">constant</span><span class="p">-</span><span class="n">expression</span><span class="p">-</span><span class="m">1</span><span class="p">:</span>
+      <span class="n">statements</span>
+      <span class="k">break</span>
+   <span class="k">case</span> <span class="n">constant</span><span class="p">-</span><span class="n">expression</span><span class="p">-</span><span class="m">2</span><span class="p">:</span>
+      <span class="n">statements</span>
+      <span class="k">break</span>
+   <span class="p">...</span>
+   <span class="k">default</span><span class="p">:</span>
+      <span class="n">statements</span>
+      <span class="k">break</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <em>switch expression</em> on line 1 must be a bool, char, string, int, or an enum (which we will cover later).  Each
+constant expression in the different cases must be of this type too.   Consider this sample method:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">void</span> <span class="nf">funFact</span><span class="p">(</span><span class="kt">string</span> <span class="n">planetName</span><span class="p">)</span>
+<span class="p">{</span>  <span class="c1">// assign to fact something interesting about each planet</span>
+  <span class="kt">string</span> <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="n">planetName</span><span class="p">.</span><span class="n">ToLower</span><span class="p">())</span>  <span class="c1">// converts the string all to lowercase letters</span>
+  <span class="p">{</span>
+    <span class="k">case</span> <span class="s">&quot;mercury&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;Closest planet to the Sun.&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">&quot;venus&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;Brightest object visible from Earth, apart from the Sun and the Moon.&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">&quot;earth&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;We live here. More than 7 billion of us!&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">&quot;mars&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;Curiosity landed here in 2012. It sent back great pictures.&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">&quot;jupiter&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;One of two planets which are called Gas Giants.&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">&quot;saturn&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;The second Gas Giant. It has spectacular rings.&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">&quot;uranus&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;The first Ice Giant, with winds up to 900 km/h.&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">&quot;neptune&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;The second Ice Giant, about 30 times further from the Sun than the Earth.&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="s">&quot;pluto&quot;</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="s">&quot;After redefining the criteria for a planet, Pluto is no longer a planet.&quot;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+     <span class="k">default</span><span class="p">:</span>
+      <span class="n">fact</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0} Not a planet in this universe!&quot;</span><span class="p">,</span> <span class="n">planetName</span><span class="p">);</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;{0}: {1}&quot;</span><span class="p">,</span> <span class="n">planetName</span><span class="p">,</span> <span class="n">fact</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>At line 4 the expression is evaluated, and control is transferred to the matching case statement.
+The switch statement can include any number of cases, but no two case constants can be the same.</p>
+<p>Notice that a <code class="docutils literal"><span class="pre">break</span></code> statement (or a <code class="docutils literal"><span class="pre">return</span></code> or some not-yet-covered ways of transferring control)
+is required after each case block.</p>
+<p>If the switch expression does not match any case, the <code class="docutils literal"><span class="pre">default</span></code> block will be executed (if we provide one).
+But if we don&#8217;t provide one, then nothing is executed and control jumps to the statement after the switch.</p>
+<p>It is even possible to have multiple case labels apply to a single block of statements.  For example,</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">switch</span> <span class="p">(</span><span class="n">dayNum</span><span class="p">)</span>   <span class="c1">// assume days are numbered from 0 to 6, with 0 being Sunday</span>
+<span class="p">{</span>
+    <span class="k">case</span> <span class="m">0</span><span class="p">:</span> <span class="k">case</span> <span class="m">6</span><span class="p">:</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Weekend&quot;</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="m">1</span><span class="p">:</span> <span class="k">case</span> <span class="m">2</span><span class="p">:</span> <span class="k">case</span> <span class="m">3</span><span class="p">:</span> <span class="k">case</span> <span class="m">4</span><span class="p">:</span> <span class="k">case</span> <span class="m">5</span><span class="p">:</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Weekday&quot;</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition-cute-but-is-it-necessary admonition">
+<p class="first admonition-title">Cute, but is it necessary?</p>
+<p>We can program without a <code class="docutils literal"><span class="pre">switch</span></code> statement: we can write equivalent
+code just using a bunch of <code class="docutils literal"><span class="pre">if</span></code> statements.  Computer Scientists (the theoreticians, especially),
+like to identify which statements are &#8220;essential&#8221;, and which are just &#8220;nice-to-have&#8221;.</p>
+<p>It turns out that one needs very few essential features in languages like this: some way of looping, (<code class="docutils literal"><span class="pre">while</span></code>),
+some way of testing (<code class="docutils literal"><span class="pre">if</span></code>) and some way of moving from one statement to the next.  And we need some way
+to store values, and a way to get back the stored values (i.e. variables).</p>
+<p>So <code class="docutils literal"><span class="pre">switch</span></code> is nice-to-have, not essential.  The same is true for  <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">foreach</span></code>:
+they can be written using <code class="docutils literal"><span class="pre">while</span></code>.</p>
+<p class="last">All the other features exist to make programming more convenient, and to capture our
+mental chunking and help us organize our thoughts better. But we could still get the
+computation done without all the nice-to-have extras like methods, <code class="docutils literal"><span class="pre">switch</span></code> and <code class="docutils literal"><span class="pre">foreach</span></code>.</p>
+</div>
+</div>
+<div class="section" id="glossary">
+<h2>9.13. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-boolean-algebra">Boolean algebra</dt>
+<dd>Some rules for rearranging and reasoning about Boolean expressions.</dd>
+<dt id="term-boolean-expression">Boolean expression</dt>
+<dd>An expression that, when evaluated, will result in either true or false.</dd>
+<dt id="term-boolean-value">Boolean value</dt>
+<dd>There are only two possible Boolean values: <code class="docutils literal"><span class="pre">false</span></code> and <code class="docutils literal"><span class="pre">true</span></code>. Boolean
+values result when a Boolean expression is evaluated by C#.  They have type <code class="docutils literal"><span class="pre">bool</span></code>.</dd>
+<dt id="term-branch">branch</dt>
+<dd>One of the possible paths of the flow of execution determined by
+conditional execution.</dd>
+<dt id="term-comparison-operator">comparison operator</dt>
+<dd>One of the six operators that compares two values: <code class="docutils literal"><span class="pre">==</span></code>, <code class="docutils literal"><span class="pre">!=</span></code>, <code class="docutils literal"><span class="pre">&gt;</span></code>,
+<code class="docutils literal"><span class="pre">&lt;</span></code>, <code class="docutils literal"><span class="pre">&gt;=</span></code>, and <code class="docutils literal"><span class="pre">&lt;=</span></code>.</dd>
+<dt id="term-condition">condition</dt>
+<dd>Another name for a Boolean expression.</dd>
+<dt id="term-conditional-expression">conditional expression</dt>
+<dd>An expression where the resulting value is a choice of one of two alternatives: a condition is evaluated
+to determine which choice gets made.   The syntax is  <code class="docutils literal"><span class="pre">(condition)</span> <span class="pre">?</span> <span class="pre">e1</span> <span class="pre">:</span> <span class="pre">e2</span></code></dd>
+<dt id="term-conditional-statement">conditional statement</dt>
+<dd>A statement that controls the flow of execution depending on some condition.
+The <code class="docutils literal"><span class="pre">if</span></code> statement and the <code class="docutils literal"><span class="pre">switch</span></code> statements were covered in this chapter.</dd>
+<dt id="term-logical-operator">logical operator</dt>
+<dd>One of the operators that combines or manipulates Boolean expressions: <code class="docutils literal"><span class="pre">&amp;&amp;</span></code>,
+<code class="docutils literal"><span class="pre">||</span></code>, and <code class="docutils literal"><span class="pre">!</span></code>.</dd>
+<dt id="term-nesting">nesting</dt>
+<dd>Putting one program structure within another, such as a conditional statement
+inside a branch of another conditional statement.</dd>
+<dt id="term-switch-statement">switch statement</dt>
+<dd>A statement that allows selection of one of many cases.  Each case can
+contain a block of statements for execution.</dd>
+<dt id="term-truth-table">truth table</dt>
+<dd>A concise table of Boolean values that can describe the semantics (meaning)
+of an operator.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>9.14. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Give the logical opposites of these conditions</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">b</span></code></li>
+<li><code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;=</span> <span class="pre">b</span></code></li>
+<li><code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;=</span> <span class="pre">18</span>&nbsp; <span class="pre">&amp;&amp;</span>&nbsp; <span class="pre">day</span> <span class="pre">==</span> <span class="pre">3</span></code></li>
+<li><code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;=</span> <span class="pre">18</span>&nbsp; <span class="pre">&amp;&amp;</span>&nbsp; <span class="pre">day</span> <span class="pre">!=</span> <span class="pre">3</span></code></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first">What do these expressions evaluate to?  (Assume <code class="docutils literal"><span class="pre">x</span></code> has the value 15 and <code class="docutils literal"><span class="pre">y</span></code> has the value 10)</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">3</span> <span class="pre">==</span> <span class="pre">3</span></code></li>
+<li><code class="docutils literal"><span class="pre">3</span> <span class="pre">!=</span> <span class="pre">3</span></code></li>
+<li><code class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;=</span> <span class="pre">y</span></code></li>
+<li><code class="docutils literal"><span class="pre">!</span> <span class="pre">(x</span> <span class="pre">&lt;</span> <span class="pre">y)</span></code></li>
+<li><code class="docutils literal"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">2</span> <span class="pre">==</span> <span class="pre">0</span> <span class="pre">?</span> <span class="pre">&quot;even&quot;</span> <span class="pre">:</span> <span class="pre">&quot;odd&quot;</span></code></li>
+<li><code class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">y</span> <span class="pre">?</span> <span class="pre">x</span> <span class="pre">:</span> <span class="pre">y</span></code></li>
+<li><code class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">y</span> <span class="pre">?</span> <span class="pre">x-y</span> <span class="pre">?</span> <span class="pre">y-x</span></code></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first">In the Conditional Expressions section we wrote an expression to find the bigger
+of two integers, and we assigned it to <code class="docutils literal"><span class="pre">bigger</span></code>.
+We also noted that conditional expressions can nest inside other conditional
+expressions.
+Write a single expression that returns the biggest of three integers, <code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, <code class="docutils literal"><span class="pre">z</span></code>.</p>
+</li>
+<li><p class="first">Complete this truth table:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="10%" />
+<col width="21%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">p</th>
+<th class="head">q</th>
+<th class="head">r</th>
+<th class="head">(! (p &amp;&amp; q)) || r</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>F</td>
+<td>F</td>
+<td>F</td>
+<td>?</td>
+</tr>
+<tr class="row-odd"><td>F</td>
+<td>F</td>
+<td>T</td>
+<td>?</td>
+</tr>
+<tr class="row-even"><td>F</td>
+<td>T</td>
+<td>F</td>
+<td>?</td>
+</tr>
+<tr class="row-odd"><td>F</td>
+<td>T</td>
+<td>T</td>
+<td>?</td>
+</tr>
+<tr class="row-even"><td>T</td>
+<td>F</td>
+<td>F</td>
+<td>?</td>
+</tr>
+<tr class="row-odd"><td>T</td>
+<td>F</td>
+<td>T</td>
+<td>?</td>
+</tr>
+<tr class="row-even"><td>T</td>
+<td>T</td>
+<td>F</td>
+<td>?</td>
+</tr>
+<tr class="row-odd"><td>T</td>
+<td>T</td>
+<td>T</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">Simplify these expressions or fragments of code:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">!(subjectsPassed</span> <span class="pre">&gt;=</span> <span class="pre">4)</span></code></li>
+<li><code class="docutils literal"><span class="pre">!</span> <span class="pre">((likeClickCount</span> <span class="pre">&lt;</span> <span class="pre">8)</span> <span class="pre">&amp;&amp;</span> <span class="pre">(phoneMaker</span> <span class="pre">!=</span> <span class="pre">&quot;Samsung&quot;))</span></code></li>
+<li><code class="docutils literal"><span class="pre">if</span> <span class="pre">(!</span> <span class="pre">(!</span> <span class="pre">oldEnoughToDrive))</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first">Modify the turtle bar chart exercise from the earlier chapter so that the bar for any value
+of 100 or more is filled with red, values between [50 and 100) are filled with yellow,
+and bars representing values less than 50 are filled with green.  If our program can also
+deal with negative numbers, can we make this colour scheme reflect on the X axis?</p>
+</li>
+<li><p class="first">Floating point arithmetic is inaccurate.  To understand why, on a piece
+of paper, divide 10 by 3 and write down the decimal result.  We&#8217;ll find it does not terminate,
+so we&#8217;ll need an infinitely long sheet of paper.  The <em>representation</em> of numbers in computer
+memory or on our calculator has similar problems: memory is finite, and some digits eventually have
+to be discarded or rounded. So small inaccuracies creep in.   Try this code:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre> <span class="kt">double</span> <span class="n">a</span> <span class="p">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">Sqrt</span><span class="p">(</span><span class="m">2.0</span><span class="p">);</span>
+      <span class="c1">// `a` is irrational, i.e. has an infinite number of non-repeating digits</span>
+ <span class="kt">double</span> <span class="n">b</span> <span class="p">=</span> <span class="n">a</span> <span class="p">*</span> <span class="n">a</span><span class="p">;</span>
+ <span class="kt">bool</span> <span class="n">is_B_two</span> <span class="p">=</span> <span class="p">(</span><span class="n">b</span> <span class="p">==</span> <span class="m">2.0</span><span class="p">);</span>    <span class="c1">// After squaring a, do we arrive back at 2.0?</span>
+ <span class="kt">double</span> <span class="n">error</span> <span class="p">=</span> <span class="n">b</span> <span class="p">-</span> <span class="m">2.0</span><span class="p">;</span>
+ <span class="kt">string</span> <span class="n">msg</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot; a is {0}\n b is {1}\n is_B_two is {2}\n error is {3}&quot;</span><span class="p">,</span>
+                                    <span class="n">a</span><span class="p">,</span>         <span class="n">b</span><span class="p">,</span>         <span class="n">is_B_two</span><span class="p">,</span>         <span class="n">error</span><span class="p">);</span>
+ <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>The take-away message is that we have to be especially careful with floating-point arithmetic.
+Floating point values are <em>approximations</em> to the actual values, so
+it is never safe to test floating point numbers for exact equality against each another.  So
+even a number like <code class="docutils literal"><span class="pre">Math.PI</span></code> in C# is not exactly accurate: it is just &#8220;very close&#8221;!</p>
+<p>If we have run this code we&#8217;ll also notice an interesting thing: although the numbers do
+not <em>compare</em> as being equal to each other on line 5, the output shows <code class="docutils literal"><span class="pre">b</span> <span class="pre">is</span> <span class="pre">2.0</span></code>.
+So the <code class="docutils literal"><span class="pre">string.Format</span></code> has kindly rounded our <em>very close</em> number to display it as
+human-friendly 2.0, but when we subtract it from 2.0 we still get a non-zero result!
+Beware!</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="methods_value_returning.html" title="10. Value-returning methods"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="methods_void.html" title="8. Void Methods"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

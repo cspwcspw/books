@@ -1,0 +1,8 @@
+﻿<Window x:Class="TrafficLights.TrafficLightsMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TrafficLightsMainWindow" Height="243" Width="170">
+    <Grid>
+        <Image Height="163" HorizontalAlignment="Left" Margin="22,12,0,0" Name="image1" Stretch="None" VerticalAlignment="Top" Width="100" />
+    </Grid>
+</Window>

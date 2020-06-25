@@ -1,0 +1,18 @@
+﻿<Window x:Class="ThinkLib.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button Content= "Draw pattern" Height="31" HorizontalAlignment="Left" Margin="32,0,0,237" Name="btnDemo" VerticalAlignment="Bottom" Width="79" Click="btnDemo_Click" />
+        <Canvas HorizontalAlignment="Stretch" Margin="136,26,20,12" Name="playground" VerticalAlignment="Stretch" Background="#FFE5E2D9" >
+
+            <Polyline Stroke="#FF0000FF" Margin="145,53,417,168" Name="thePolyLine" StrokeThickness="2" StrokeLineJoin="Round" Canvas.Left="-40" Canvas.Top="15">
+            <Polyline.Points>
+                <Point>10,0</Point>
+                <Point>10,100</Point>
+             </Polyline.Points>
+            </Polyline>
+        </Canvas>
+        <Button Content="Reset" Height="30" HorizontalAlignment="Left" Margin="32,164,0,0" Name="btnReset" VerticalAlignment="Top" Width="79" Click="btnReset_Click" />
+    </Grid>
+</Window>

@@ -1,0 +1,32 @@
+﻿<Window x:Class="ArbFeatures.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pete's First Program" Height="426" Width="540">
+    <Grid>
+        <Button Content="Spiral" Height="26" HorizontalAlignment="Left" Margin="12,9,0,0" Name="btnSpiral" VerticalAlignment="Top" Width="56" BorderBrush="#FFDB3030" Background="#FF3EE83E" Click="btnSpiral_Click" />
+        <Button Content="Fancy Spiral" Height="23" HorizontalAlignment="Left" Margin="12,41,0,0" Name="button1" VerticalAlignment="Top" Width="56" Click="button1_Click" />
+        <Canvas HorizontalAlignment="Stretch" Margin="83,12,0,0" Name="playground" VerticalAlignment="Stretch">
+            <Canvas.Background>
+                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                    <GradientStop Color="#FFF3C566" Offset="0.546" />
+                    <GradientStop Color="#FFDFFF9E" Offset="0.998" />
+                </LinearGradientBrush>
+            </Canvas.Background>
+            <Slider Canvas.Left="404" Canvas.Top="75" Height="222" Name="slider2" Orientation="Vertical" Width="25" TickPlacement="TopLeft" TickFrequency="100" Background="#FFEDD8D8" ValueChanged="slider2_ValueChanged" Maximum="255" IsDirectionReversed="False" />
+            <Image Canvas.Left="92" Canvas.Top="29" Height="47" Name="image1" Stretch="Fill" Width="54" Source="/ArbFeatures;component/Images/ball.png" />
+            <Label Content="Label" Name="Slide2Val" Canvas.Left="-9" Canvas.Top="274" />
+            <ListBox Canvas.Left="316" Canvas.Top="25" Height="100" Name="listBox1" Width="82" />
+        </Canvas>
+        <Button Content="Koch" Height="23" HorizontalAlignment="Left" Margin="12,70,0,0" Name="btnKoch" VerticalAlignment="Top" Width="54" Click="btnKoch_Click" />
+        <Button Content="Clear Tess" Height="24" HorizontalAlignment="Left" Margin="12,0,0,2" Name="butClearTess" VerticalAlignment="Bottom" Width="61" Click="butClearTess_Click" />
+        <Button Content="Visibility" Height="23" HorizontalAlignment="Left" Margin="12,99,0,0" Name="btnToggleVisibility" VerticalAlignment="Top" Width="51" Click="btnToggleVisibility_Click" />
+        <Button Content="Line" Height="23" HorizontalAlignment="Left" Margin="12,128,0,0" Name="btnLine" VerticalAlignment="Top" Width="51" Click="btnLine_Click" />
+        <Button Content="Hello" Height="23" HorizontalAlignment="Left" Margin="12,157,0,0" Name="btnHello" VerticalAlignment="Top" Width="49" Click="btnHello_Click" />
+        <Slider Height="18" HorizontalAlignment="Left" Margin="12,0,0,62" Name="slider1" VerticalAlignment="Bottom" Width="56" Maximum="10" ValueChanged="slider1_ValueChanged" />
+        <Button Content="Kill Alex" Height="20" HorizontalAlignment="Left" Margin="9,0,0,36" Name="btnKillAlex" VerticalAlignment="Bottom" Width="65" Click="btnKillAlex_Click" />
+        <Button Content="Star" Height="23" HorizontalAlignment="Left" Margin="12,186,0,0" Name="btnStar" VerticalAlignment="Top" Width="49" Click="btnStar_Click" />
+        <Button Content="Madness" HorizontalAlignment="Left" Margin="10,217,0,147" Name="btnMadness" Width="59" Click="btnMadness_Click" VerticalAlignment="Top" />
+        <Button Content="MoreMad" HorizontalAlignment="Left" Margin="10,246,0,118" Name="btnMoreMad" Width="59" Click="btnMoreMad_Click" VerticalAlignment="Top" />
+        <Button Content="Shape" Height="27" HorizontalAlignment="Left" Margin="9,274,0,0" Name="btnAppearance" VerticalAlignment="Top" Width="60" Click="btnAppearance_Click" />
+    </Grid>
+</Window>

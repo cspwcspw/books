@@ -1,0 +1,23 @@
+﻿<Window x:Class="Window_design_chapter.MoviesILike"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="My Movie Preferences" Height="300" Width="300">
+    <Grid Background="#FFD9F2E8">
+        <GroupBox Header="Movies I Like" Height="236" HorizontalAlignment="Left" Margin="32,13,0,0" Name="groupBox1" VerticalAlignment="Top" Width="200" FontSize="28" FontFamily="Comic Sans MS">
+            <Grid Width="201">
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                        <GradientStop Color="#FF54F355" Offset="0.289" />
+                        <GradientStop Color="#FFFFFF9B" Offset="1" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <CheckBox Content="Romance" Height="26" HorizontalAlignment="Left" Margin="12,1,0,0" Name="checkBox1" VerticalAlignment="Top" FontSize="16" Width="121" Foreground="#FF93129D" />
+                <CheckBox Content="Action" FontSize="16" Height="26" HorizontalAlignment="Left" Margin="12,33,0,0" Name="checkBox2" VerticalAlignment="Top" Width="121" Foreground="#FF93129D" />
+                <CheckBox Content="Sci-Fi" FontSize="16" Height="26" HorizontalAlignment="Left" Margin="12,65,0,0" Name="checkBox3" VerticalAlignment="Top" Width="121" Foreground="#FF93129D" />
+                <CheckBox Content="History" FontSize="16" Height="26" HorizontalAlignment="Left" Margin="12,97,0,0" Name="checkBox4" VerticalAlignment="Top" Width="121" Foreground="#FF93129D" />
+                <CheckBox Content="Comedy" FontSize="16" Height="26" HorizontalAlignment="Left" Margin="12,129,0,0" Name="checkBox5" VerticalAlignment="Top" Width="139" Foreground="#FF93129D" />
+                <CheckBox Content="Psycho-Thriller" FontSize="16" Height="26" HorizontalAlignment="Left" Margin="12,161,0,0" Name="checkBox6" VerticalAlignment="Top" Width="139" Foreground="#FF93129D" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

@@ -1,0 +1,10 @@
+﻿<Window x:Class="Fragments.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Menu by book chapters" Height="440" Width="275" Loaded="Window_Loaded"  >
+    <Grid>
+        <ListBox HorizontalAlignment="Stretch" Margin="23,42,20,12" Name="listBox1" VerticalAlignment="Stretch" SelectionChanged="listBox1_SelectionChanged" />
+        <Label Content="Select items to run fragments" Height="26" HorizontalAlignment="Left" Margin="22,10,0,0" Name="label1" VerticalAlignment="Top" Width="192" />
+        <TextBox Height="22" HorizontalAlignment="Left" Margin="33,-9,0,0" Name="textBox1" VerticalAlignment="Top" Width="200" FontSize="18" />
+    </Grid>
+</Window>

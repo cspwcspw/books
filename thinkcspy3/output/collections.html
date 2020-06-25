@@ -1,0 +1,617 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>23. Collections of objects &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="24. Inheritance" href="inheritance.html" />
+    <link rel="prev" title="22. Even more OOP" href="even_more_oop.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="inheritance.html" title="24. Inheritance"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="even_more_oop.html" title="22. Even more OOP"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="collections-of-objects">
+<h1>23. Collections of objects<a class="headerlink" href="#collections-of-objects" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="composition">
+<h2>23.1. Composition<a class="headerlink" href="#composition" title="Permalink to this headline">¶</a></h2>
+<p>By now, we have seen several examples of composition. One of the first
+examples was using a method invocation as part of an expression.  Another
+example is the nested structure of statements; we can put an <code class="docutils literal notranslate"><span class="pre">if</span></code> statement
+within a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, within another <code class="docutils literal notranslate"><span class="pre">if</span></code> statement, and so on.</p>
+<p>Having seen this pattern, and having learned about lists and objects, we
+should not be surprised to learn that we can create lists of objects. We can
+also create objects that contain lists (as attributes); we can create lists
+that contain lists; we can create objects that contain objects; and so on.</p>
+<p>In this chapter and the next, we will look at some examples of these
+combinations, using <code class="docutils literal notranslate"><span class="pre">Card</span></code> objects as an example.</p>
+</div>
+<div class="section" id="card-objects">
+<h2>23.2. <code class="docutils literal notranslate"><span class="pre">Card</span></code> objects<a class="headerlink" href="#card-objects" title="Permalink to this headline">¶</a></h2>
+<p>If you are not familiar with common playing cards, now would be a good time to
+get a deck, or else this chapter might not make much sense.  There are
+fifty-two cards in a deck, each of which belongs to one of four suits and one
+of thirteen ranks. The suits are Spades, Hearts, Diamonds, and Clubs (in
+descending order in bridge). The ranks are Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+Jack, Queen, and King. Depending on the game that we are playing, the rank of
+Ace may be higher than King or lower than 2.
+The rank is sometimes called the face-value of the card.</p>
+<p>If we want to define a new object to represent a playing card, it is obvious
+what the attributes should be: <code class="docutils literal notranslate"><span class="pre">rank</span></code> and <code class="docutils literal notranslate"><span class="pre">suit</span></code>. It is not as obvious what
+type the attributes should be. One possibility is to use strings containing
+words like <code class="docutils literal notranslate"><span class="pre">&quot;Spade&quot;</span></code> for suits and <code class="docutils literal notranslate"><span class="pre">&quot;Queen&quot;</span></code> for ranks. One problem with
+this implementation is that it would not be easy to compare cards to see which
+had a higher rank or suit.</p>
+<p>An alternative is to use integers to <strong>encode</strong> the ranks and suits.  By
+encode, we do not mean what some people think, which is to encrypt or translate
+into a secret code. What a computer scientist means by encode is to define a
+mapping between a sequence of numbers and the items I want to represent. For
+example:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">Spades</span>   <span class="o">--&gt;</span>  <span class="mi">3</span>
+<span class="n">Hearts</span>   <span class="o">--&gt;</span>  <span class="mi">2</span>
+<span class="n">Diamonds</span> <span class="o">--&gt;</span>  <span class="mi">1</span>
+<span class="n">Clubs</span>    <span class="o">--&gt;</span>  <span class="mi">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>An obvious feature of this mapping is that the suits map to integers in order,
+so we can compare suits by comparing integers. The mapping for ranks is fairly
+obvious; each of the numerical ranks maps to the corresponding integer, and for
+face cards:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">Jack</span>   <span class="o">--&gt;</span>  <span class="mi">11</span>
+<span class="n">Queen</span>  <span class="o">--&gt;</span>  <span class="mi">12</span>
+<span class="n">King</span>   <span class="o">--&gt;</span>  <span class="mi">13</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The reason we are using mathematical notation for these mappings is that they
+are not part of the Python program. They are part of the program design, but
+they never appear explicitly in the code. The class definition for the <code class="docutils literal notranslate"><span class="pre">Card</span></code>
+type looks like this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Card</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suit</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">suit</span> <span class="o">=</span> <span class="n">suit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">=</span> <span class="n">rank</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>As usual, we provide an initialization method that takes an optional parameter
+for each attribute.</p>
+<p>To create some objects, representing say the 3 of Clubs and the Jack of Diamonds, use these commands:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">three_of_clubs</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">card1</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>In the first case above, for example, the first argument, <code class="docutils literal notranslate"><span class="pre">0</span></code>, represents the suit Clubs.</p>
+<div class="admonition-save-this-code-for-later-use admonition">
+<p class="first admonition-title">Save this code for later use …</p>
+<p class="last">In the next chapter we assume that we have save the <code class="docutils literal notranslate"><span class="pre">Cards</span></code> class,
+and the upcoming <code class="docutils literal notranslate"><span class="pre">Deck</span></code> class in a file called <code class="docutils literal notranslate"><span class="pre">Cards.py</span></code>.</p>
+</div>
+</div>
+<div class="section" id="class-attributes-and-the-str-method">
+<h2>23.3. Class attributes and the <code class="docutils literal notranslate"><span class="pre">__str__</span></code> method<a class="headerlink" href="#class-attributes-and-the-str-method" title="Permalink to this headline">¶</a></h2>
+<p>In order to print <code class="docutils literal notranslate"><span class="pre">Card</span></code> objects in a way that people can easily read, we
+want to map the integer codes onto words. A natural way to do that is with
+lists of strings. We assign these lists to <strong>class attributes</strong> at the top of
+the class definition:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Card</span><span class="p">:</span>
+    <span class="n">suits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Clubs&quot;</span><span class="p">,</span> <span class="s2">&quot;Diamonds&quot;</span><span class="p">,</span> <span class="s2">&quot;Hearts&quot;</span><span class="p">,</span> <span class="s2">&quot;Spades&quot;</span><span class="p">]</span>
+    <span class="n">ranks</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;narf&quot;</span><span class="p">,</span> <span class="s2">&quot;Ace&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span> <span class="s2">&quot;7&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;8&quot;</span><span class="p">,</span> <span class="s2">&quot;9&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;Jack&quot;</span><span class="p">,</span> <span class="s2">&quot;Queen&quot;</span><span class="p">,</span> <span class="s2">&quot;King&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">suit</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">suit</span> <span class="o">=</span> <span class="n">suit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">=</span> <span class="n">rank</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ranks</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; of &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">suits</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">suit</span><span class="p">])</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>A class attribute is defined outside of any method, and it can be accessed from
+any of the methods in the class.</p>
+<p>Inside <code class="docutils literal notranslate"><span class="pre">__str__</span></code>, we can use <code class="docutils literal notranslate"><span class="pre">suits</span></code> and <code class="docutils literal notranslate"><span class="pre">ranks</span></code> to map the numerical
+values of <code class="docutils literal notranslate"><span class="pre">suit</span></code> and <code class="docutils literal notranslate"><span class="pre">rank</span></code> to strings. For example, the expression
+<code class="docutils literal notranslate"><span class="pre">self.suits[self.suit]</span></code> means use the attribute <code class="docutils literal notranslate"><span class="pre">suit</span></code> from the object
+<code class="docutils literal notranslate"><span class="pre">self</span></code> as an index into the class attribute named <code class="docutils literal notranslate"><span class="pre">suits</span></code>, and select the
+appropriate string.</p>
+<p>The reason for the <code class="docutils literal notranslate"><span class="pre">&quot;narf&quot;</span></code> in the first element in <code class="docutils literal notranslate"><span class="pre">ranks</span></code> is to act as a
+place keeper for the zero-eth element of the list, which will never be used.
+The only valid ranks are 1 to 13. This wasted item is not entirely necessary.
+We could have started at 0, as usual, but it is less confusing to encode the
+rank 2 as integer 2, 3 as 3, and so on.</p>
+<p>With the methods we have so far, we can create and print cards:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">card1</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">card1</span><span class="p">)</span>
+<span class="go">Jack of Diamonds</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Class attributes like <code class="docutils literal notranslate"><span class="pre">suits</span></code> are shared by all <code class="docutils literal notranslate"><span class="pre">Card</span></code> objects. The
+advantage of this is that we can use any <code class="docutils literal notranslate"><span class="pre">Card</span></code> object to access the class
+attributes:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">card2</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">card2</span><span class="p">)</span>
+<span class="go">3 of Diamonds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">card2</span><span class="o">.</span><span class="n">suits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="go">Diamonds</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Because every <code class="docutils literal notranslate"><span class="pre">Card</span></code> instance references the same class attribute, we have an
+aliasing situation.  The disadvantage is that if we modify a class attribute, it affects every
+instance of the class. For example, if we decide that Jack of Diamonds should
+really be called Jack of Swirly Whales, we could do this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">card1</span><span class="o">.</span><span class="n">suits</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Swirly Whales&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">card1</span><span class="p">)</span>
+<span class="go">Jack of Swirly Whales</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The problem is that <em>all</em> of the Diamonds just became Swirly Whales:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">card2</span><span class="p">)</span>
+<span class="go">3 of Swirly Whales</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>It is usually not a good idea to modify class attributes.</p>
+</div>
+<div class="section" id="comparing-cards">
+<h2>23.4. Comparing cards<a class="headerlink" href="#comparing-cards" title="Permalink to this headline">¶</a></h2>
+<p>For primitive types, there are six relational operators ( <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">==</span></code>,
+etc.) that compare values and determine when one is greater than, less than, or
+equal to another.   If we want our own types to be comparable using the syntax
+of these relational operators, we need to define six corresponding special methods
+in our class.</p>
+<p>We’d like to start with a single method named <code class="docutils literal notranslate"><span class="pre">cmp</span></code> that houses the logic of ordering.
+By convention, a comparison method takes two parameters, <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">other</span></code>,
+and returns 1 if the first object is greater, -1 if the second object is greater,
+and 0 if they are equal to each other.</p>
+<p>Some types are completely ordered, which means that we can compare any two
+elements and tell which is bigger. For example, the integers and the
+floating-point numbers are completely ordered. Some types are unordered, which
+means that there is no meaningful way to say that one element is bigger than
+another. For example, the fruits are unordered, which is why we cannot compare
+apples and oranges, and we cannot meaningfully order a collection of images,
+or a collection of cellphones.</p>
+<p>Playing cards are partially ordered, which means that sometimes we
+can compare cards and sometimes not. For example, we know that the 3 of Clubs
+is higher than the 2 of Clubs, and the 3 of Diamonds is higher than the 3 of
+Clubs. But which is better, the 3 of Clubs or the 2 of Diamonds? One has a
+higher rank, but the other has a higher suit.</p>
+<p>In order to make cards comparable, we have to decide which is more important,
+rank or suit. To be honest, the choice is arbitrary. For the sake of choosing,
+we will say that suit is more important, because a new deck of cards comes
+sorted with all the Clubs together, followed by all the Diamonds, and so on.</p>
+<p>With that decided, we can write <code class="docutils literal notranslate"><span class="pre">cmp</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cmp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="c1"># Check the suits</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suit</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">suit</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suit</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">suit</span><span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="c1"># Suits are the same... check ranks</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">rank</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">rank</span><span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="c1"># Ranks are the same... it&#39;s a tie</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>In this ordering, Aces appear lower than Deuces (2s).</p>
+<p>Now, we can define the six special methods that do the
+overloading of each of the relational operators for us:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmp</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmp</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmp</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmp</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmp</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmp</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>With this machinery in place, the relational operators now work as we’d like them to:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">card1</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">card2</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">card3</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">card1</span> <span class="o">&lt;</span> <span class="n">card2</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">card1</span> <span class="o">==</span> <span class="n">card3</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="decks">
+<h2>23.5. Decks<a class="headerlink" href="#decks" title="Permalink to this headline">¶</a></h2>
+<p>Now that we have objects to represent <code class="docutils literal notranslate"><span class="pre">Card</span></code>s, the next logical step is to
+define a class to represent a <code class="docutils literal notranslate"><span class="pre">Deck</span></code>. Of course, a deck is made up of cards,
+so each <code class="docutils literal notranslate"><span class="pre">Deck</span></code> object will contain a list of cards as an attribute.  Many card
+games will need at least two different decks — a red deck and a blue deck.</p>
+<p>The following is a class definition for the <code class="docutils literal notranslate"><span class="pre">Deck</span></code> class. The initialization
+method creates the attribute <code class="docutils literal notranslate"><span class="pre">cards</span></code> and generates the standard pack of
+fifty-two cards:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Deck</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cards</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">suit</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Card</span><span class="p">(</span><span class="n">suit</span><span class="p">,</span> <span class="n">rank</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The easiest way to populate the deck is with a nested loop. The outer loop
+enumerates the suits from 0 to 3. The inner loop enumerates the ranks from 1 to
+13. Since the outer loop iterates four times, and the inner loop iterates
+thirteen times, the total number of times the body is executed is fifty-two
+(thirteen times four). Each iteration creates a new instance of <code class="docutils literal notranslate"><span class="pre">Card</span></code> with
+the current suit and rank, and appends that card to the <code class="docutils literal notranslate"><span class="pre">cards</span></code> list.</p>
+<p>With this in place, we can instantiate some decks:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">red_deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="p">()</span>
+<span class="n">blue_deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="printing-the-deck">
+<h2>23.6. Printing the deck<a class="headerlink" href="#printing-the-deck" title="Permalink to this headline">¶</a></h2>
+<p>As usual, when we define a new type we want a method that prints the
+contents of an instance. To print a <code class="docutils literal notranslate"><span class="pre">Deck</span></code>, we traverse the list and print each
+<code class="docutils literal notranslate"><span class="pre">Card</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Deck</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">print_deck</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Here, and from now on, the ellipsis (<code class="docutils literal notranslate"><span class="pre">...</span></code>) indicates that we have omitted
+the other methods in the class.</p>
+<p>As an alternative to <code class="docutils literal notranslate"><span class="pre">print_deck</span></code>, we could write a <code class="docutils literal notranslate"><span class="pre">__str__</span></code> method for
+the <code class="docutils literal notranslate"><span class="pre">Deck</span></code> class. The advantage of <code class="docutils literal notranslate"><span class="pre">__str__</span></code> is that it is more flexible.
+Rather than just printing the contents of the object, it generates a string
+representation that other parts of the program can manipulate before printing,
+or store for later use.</p>
+<p>Here is a version of <code class="docutils literal notranslate"><span class="pre">__str__</span></code> that returns a string representation of a
+<code class="docutils literal notranslate"><span class="pre">Deck</span></code>. To add a bit of pizzazz, it arranges the cards in a cascade where
+each card is indented one space more than the previous card:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Deck</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">)):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This example demonstrates several features. First, instead of traversing
+<code class="docutils literal notranslate"><span class="pre">self.cards</span></code> and assigning each card to a variable, we are using <code class="docutils literal notranslate"><span class="pre">i</span></code> as a
+loop variable and an index into the list of cards.</p>
+<p>Second, we are using the string multiplication operator to indent each card by
+one more space than the last. The expression <code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">&quot;</span> <span class="pre">*</span> <span class="pre">i</span></code> yields a number of
+spaces equal to the current value of <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p>
+<p>Third, instead of using the <code class="docutils literal notranslate"><span class="pre">print</span></code> command to print the cards, we use the
+<code class="docutils literal notranslate"><span class="pre">str</span></code> function. Passing an object as an argument to <code class="docutils literal notranslate"><span class="pre">str</span></code> is equivalent to
+invoking the <code class="docutils literal notranslate"><span class="pre">__str__</span></code> method on the object.</p>
+<p>Finally, we are using the variable <code class="docutils literal notranslate"><span class="pre">s</span></code> as an <strong>accumulator</strong>.  Initially,
+<code class="docutils literal notranslate"><span class="pre">s</span></code> is the empty string. Each time through the loop, a new string is
+generated and concatenated with the old value of <code class="docutils literal notranslate"><span class="pre">s</span></code> to get the new value.
+When the loop ends, <code class="docutils literal notranslate"><span class="pre">s</span></code> contains the complete string representation of the
+<code class="docutils literal notranslate"><span class="pre">Deck</span></code>, which looks like this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">red_deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">red_deck</span><span class="p">)</span>
+<span class="go">Ace of Clubs</span>
+<span class="go"> 2 of Clubs</span>
+<span class="go">  3 of Clubs</span>
+<span class="go">   4 of Clubs</span>
+<span class="go">     5 of Clubs</span>
+<span class="go">       6 of Clubs</span>
+<span class="go">        7 of Clubs</span>
+<span class="go">         8 of Clubs</span>
+<span class="go">          9 of Clubs</span>
+<span class="go">           10 of Clubs</span>
+<span class="go">            Jack of Clubs</span>
+<span class="go">             Queen of Clubs</span>
+<span class="go">              King of Clubs</span>
+<span class="go">               Ace of Diamonds</span>
+<span class="go">                2 of Diamonds</span>
+<span class="go">                 ...</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>And so on. Even though the result appears on 52 lines, it is one long string
+that contains newlines.</p>
+</div>
+<div class="section" id="shuffling-the-deck">
+<h2>23.7. Shuffling the deck<a class="headerlink" href="#shuffling-the-deck" title="Permalink to this headline">¶</a></h2>
+<p>If a deck is perfectly shuffled, then any card is equally likely to appear
+anywhere in the deck, and any location in the deck is equally likely to contain
+any card.</p>
+<p>To shuffle the deck, we will use the <code class="docutils literal notranslate"><span class="pre">randrange</span></code> function from the <code class="docutils literal notranslate"><span class="pre">random</span></code>
+module. With two integer arguments, <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">randrange</span></code> chooses a
+random integer in the range <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;=</span> <span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">b</span></code>. Since the upper bound is strictly
+less than <code class="docutils literal notranslate"><span class="pre">b</span></code>, we can use the length of a list as the second parameter, and
+we are guaranteed to get a legal index. For example, if <code class="docutils literal notranslate"><span class="pre">rng</span></code> has already
+been instantiated as a random number source, this expression chooses
+the index of a random card in a deck:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">rng</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>An easy way to shuffle the deck is by traversing the cards and swapping each
+card with a randomly chosen one. It is possible that the card will be swapped
+with itself, but that is fine. In fact, if we precluded that possibility, the
+order of the cards would be less than entirely random:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Deck</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">random</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span>        <span class="c1"># Create a random generator</span>
+        <span class="n">num_cards</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cards</span><span class="p">):</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num_cards</span><span class="p">)</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Rather than assume that there are fifty-two cards in the deck, we get the
+actual length of the list and store it in <code class="docutils literal notranslate"><span class="pre">num_cards</span></code>.</p>
+<p>For each card in the deck, we choose a random card from among the cards that
+haven’t been shuffled yet. Then we swap the current card (<code class="docutils literal notranslate"><span class="pre">i</span></code>) with the
+selected card (<code class="docutils literal notranslate"><span class="pre">j</span></code>). To swap the cards we use a tuple assignment:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>While this is a good shuffling method, a random number generator object also
+has a <code class="docutils literal notranslate"><span class="pre">shuffle</span></code> method that can shuffle elements in a list, in place.
+So we could rewrite this function to use the one provided for us:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Deck</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">random</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span>        <span class="c1"># Create a random generator</span>
+        <span class="n">rng</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">)</span>      <span class="c1"># uUse its shuffle method</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="removing-and-dealing-cards">
+<h2>23.8. Removing and dealing cards<a class="headerlink" href="#removing-and-dealing-cards" title="Permalink to this headline">¶</a></h2>
+<p>Another method that would be useful for the <code class="docutils literal notranslate"><span class="pre">Deck</span></code> class is <code class="docutils literal notranslate"><span class="pre">remove</span></code>,
+which takes a card as a parameter, removes it, and returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if
+the card was in the deck and <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Deck</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">card</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">in</span></code> operator returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the first operand is in the second.
+If the first operand is an object, Python uses
+the object’s <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> method to determine equality with items in the list.
+Since the <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> we provided in the <code class="docutils literal notranslate"><span class="pre">Card</span></code> class checks for deep equality, the
+<code class="docutils literal notranslate"><span class="pre">remove</span></code> method checks for deep equality.</p>
+<p>To deal cards, we want to remove and return the top card. The list method
+<code class="docutils literal notranslate"><span class="pre">pop</span></code> provides a convenient way to do that:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Deck</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Actually, <code class="docutils literal notranslate"><span class="pre">pop</span></code> removes the <em>last</em> card in the list, so we are in effect
+dealing from the bottom of the deck.</p>
+<p>One more operation that we are likely to want is the Boolean function
+<code class="docutils literal notranslate"><span class="pre">is_empty</span></code>, which returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the deck contains no cards:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Deck</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span> <span class="o">==</span> <span class="p">[]</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="glossary">
+<h2>23.9. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-encode">encode</dt>
+<dd>To represent one type of value using another type of value by
+constructing a mapping between them.</dd>
+<dt id="term-class-attribute">class attribute</dt>
+<dd>A variable that is defined inside a class definition but outside any
+method. Class attributes are accessible from any method in the class
+and are shared by all instances of the class.</dd>
+<dt id="term-accumulator">accumulator</dt>
+<dd>A variable used in a loop to accumulate a series of values, such as by
+concatenating them onto a string or adding them to a running sum.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>23.10. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Modify <code class="docutils literal notranslate"><span class="pre">cmp</span></code> so that Aces are ranked higher than Kings.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="inheritance.html" title="24. Inheritance"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="even_more_oop.html" title="22. Even more OOP"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

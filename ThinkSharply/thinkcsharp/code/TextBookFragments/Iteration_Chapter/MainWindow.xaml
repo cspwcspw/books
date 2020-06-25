@@ -1,0 +1,24 @@
+﻿<Window x:Class="Iteration_Chapter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Calculate" Height="334" Width="508">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF3BB0D1" Offset="0.772" />
+                <GradientStop Color="#FFB1E1EF" Offset="0.12" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Button Content="GO!" Height="23" HorizontalAlignment="Left" Margin="40,56,0,0" Name="btnGo" VerticalAlignment="Top" Width="32" Click="btnGo_Click" />
+        <TextBox HorizontalAlignment="Stretch" Margin="114,14,12,12" Name="txtResult" VerticalAlignment="Stretch" FontFamily="Consolas" VerticalScrollBarVisibility="Auto" />
+        <TextBox Height="24" HorizontalAlignment="Left" Margin="37,26,0,0" Name="textBox1" VerticalAlignment="Top" Width="34" Text="17" />
+        <TextBlock Height="18" HorizontalAlignment="Left" Margin="19,8,0,0" Name="textBlock1" Text="Number" VerticalAlignment="Top" Background="{x:Null}" />
+    </Grid>
+    <Window.BorderBrush>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF899BBC" Offset="0.152" />
+            <GradientStop Color="White" Offset="0.959" />
+            <GradientStop Color="#FF676767" Offset="0.916" />
+        </LinearGradientBrush>
+    </Window.BorderBrush>
+</Window>

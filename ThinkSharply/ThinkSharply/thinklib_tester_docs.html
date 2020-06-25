@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ThinkLib.Tester Documentation &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="Getting Started with ThinkLib" href="thinklib_getting_started.html" />
+    <link rel="prev" title="ThinkLib.Turtle Documentation" href="thinklib_turtle_docs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="thinklib_getting_started.html" title="Getting Started with ThinkLib"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="thinklib_turtle_docs.html" title="ThinkLib.Turtle Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="thinklib-tester-documentation">
+<h1>ThinkLib.Tester Documentation<a class="headerlink" href="#thinklib-tester-documentation" title="Permalink to this headline">¶</a></h1>
+<p>The textbook makes extensive use of a lightweight unit tester that we provide.
+It exists purely to support the textbook examples.  There are other more complex
+and comprehensive test frameworks that should be used in more advanced situations.</p>
+<p>There is just one class method:</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">static</span> <span class="k">public</span> <span class="k">void</span> <span class="nf">TestEq</span><span class="p">(</span><span class="kt">object</span> <span class="n">actual</span><span class="p">,</span> <span class="kt">object</span> <span class="n">expected</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Calling the method will check whether <code class="docutils literal"><span class="pre">actual</span></code> is equal (in a type-lenient sense) to <code class="docutils literal"><span class="pre">expected</span></code>.  TestEq
+can currently cope with value types (int, bool, char, float, double, Key (the type for keyboard key presses),
+Point, etc.), and strings.</p>
+<p>For numbers, it will do some lenient type-conversion behind your back, so a test will consider
+3.0 and 3 to be equal.</p>
+<p>TestEq can also cope with some fairly simple cases of lists or arrays being equal to each other: only
+one-dimensional lists and arrays are catered for at this time.</p>
+<p>There is a class property called AbsTolerance:</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">static</span> <span class="k">public</span> <span class="kt">double</span> <span class="n">AbsTolerance</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>It has a default small value (0.01).
+This is intended for floating point comparisons where exact equality testing is not safe because of possible
+rounding inaccuracies.   AbsTolerance can be set to some other value.</p>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="thinklib_getting_started.html" title="Getting Started with ThinkLib"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="thinklib_turtle_docs.html" title="ThinkLib.Turtle Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

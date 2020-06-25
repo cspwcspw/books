@@ -1,0 +1,10 @@
+﻿<Window x:Class="Fragments.RandomDemoGUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FrameworkClassLib" Height="300" Width="300">
+    <Grid Background="#FF7A72D6">
+        <Button Content="Random Cards" Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="btnRandom" VerticalAlignment="Top" Width="97" Click="btnRandom_Click" />
+        <TextBox  HorizontalAlignment="Stretch" Margin="10,98,12,12" Name="txtResult" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" />
+        <Button Content="Random Dbl" Height="23" HorizontalAlignment="Left" Margin="139,12,0,0" Name="btnRandomDbl" VerticalAlignment="Top" Width="97" Click="btnRandomDbl_Click" />
+    </Grid>
+</Window>

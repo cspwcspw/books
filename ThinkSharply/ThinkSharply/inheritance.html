@@ -1,0 +1,700 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>28. Inheritance &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="29. Dictionaries" href="dictionaries.html" />
+    <link rel="prev" title="27. In the Caves — a Case Study" href="in_the_caves.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="dictionaries.html" title="29. Dictionaries"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="in_the_caves.html" title="27. In the Caves — a Case Study"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="inheritance">
+<h1>28. Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ve spoken a few times in the book about the <em>is-a</em> relationship: the idea
+that a <code class="docutils literal"><span class="pre">FileNotFoundException</span></code> is-a <code class="docutils literal"><span class="pre">IOException</span></code> which in turn is-a <code class="docutils literal"><span class="pre">Exception</span></code>,
+which is-a <code class="docutils literal"><span class="pre">Object</span></code>.</p>
+<p>We sometimes use the terms <strong>subtype</strong>, <strong>derived class</strong>, <strong>child class</strong>
+or <strong>descendant class</strong> to mean the same as is-a.
+A <code class="docutils literal"><span class="pre">FileNotFoundException</span></code> is a subtype (or derived class, or child class) of <code class="docutils literal"><span class="pre">Exception</span></code>.</p>
+<p>Conversely, we say <code class="docutils literal"><span class="pre">Exception</span></code> is a <strong>supertype</strong>, a <strong>base class</strong>, a <strong>parent class</strong>
+or an <strong>ancestor class</strong> of <code class="docutils literal"><span class="pre">FileNotFoundException</span></code>.</p>
+<p>We say that a derived class <em>specializes</em> the base class.</p>
+<p>The <code class="docutils literal"><span class="pre">Exception</span></code> type is important because it can be used in a <code class="docutils literal"><span class="pre">try</span> <span class="pre">...</span> <span class="pre">catch</span></code> construct.
+But when we say some base type can be used in some way, we really mean that any of its
+derived (or child) types will also work in that same situation.</p>
+<p>This is a very powerful idea: something that works for a base type T will also be
+able to work for any class derived from T.</p>
+<p>We&#8217;ve seen this idea repeatedly in our GUI work too.  All the controls we&#8217;ve used
+&#8212; <code class="docutils literal"><span class="pre">Canvas</span></code>, <code class="docutils literal"><span class="pre">Button</span></code>, <code class="docutils literal"><span class="pre">TextBox</span></code>, etc., on are derived from <code class="docutils literal"><span class="pre">UIElement</span></code>.
+A window knows how to position, layout, and display any <code class="docutils literal"><span class="pre">UIElement</span></code>, and how to interact
+with the control for mouse click events, key press events, giving the control focus, and
+so on.</p>
+<p>So what is <strong>inheritance</strong>?  When we derive a child class from a parent class, the
+child automatically inherits all the capabilities of the parent.  So a <code class="docutils literal"><span class="pre">Button</span></code>
+can do everything that its ancestors can do.  And it then gets some extra
+specialization &#8212; it might look different, or know about Click events.</p>
+<p>All the GUIs we&#8217;ve built are specialized types of the <code class="docutils literal"><span class="pre">Window</span></code> class.   So our
+own windows have their own buttons and canvases, but they&#8217;re also able to be
+resized on the screen, they know how to respond to clicking the close button,
+they already know how to work with the Title bar, key presses, mouse movement,
+timers, etc.   And we didn&#8217;t have to do anything to get that all for free!
+It was all inherited.</p>
+<p>Imagine if human inheritance worked like this: you always inherited your
+mom&#8217;s capabilities.  She might be a great athlete, a concert pianist, and
+a master chef.  You&#8217;d start off already having those capabilities!
+(Unlike humans, C# classes only ever have one parent class!)</p>
+<div class="section" id="let-s-do-it">
+<h2>28.1. Let&#8217;s do it!<a class="headerlink" href="#let-s-do-it" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;re going to create a new class that inherits from an existing class,
+and we&#8217;ll give it some new capabilities that it doesn&#8217;t already have.</p>
+<p>We want a <code class="docutils literal"><span class="pre">TurtleGTX</span></code> type <a class="footnote-reference" href="#id2" id="id1">[1]</a>.  We&#8217;ll start by adding two new methods to
+our specialized turtles.  The <code class="docutils literal"><span class="pre">Jump(distance)</span></code> method will make our
+turtle hop the specified distance without drawing a line.  And the <code class="docutils literal"><span class="pre">Spin()</span></code>
+method will spin our turtle around a few times and leave it facing in a
+random direction.  These should be <em>additions</em> to what the turtles can
+already do, so we still expect our new turtles to be able to
+move forward, change the brush, stamp a footprint, and do everything else.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>GTX was a suffix used on earlier motor cars, standing for <em>&#8220;Grand Tourismo X&#8221;</em>.
+The GTX models had higher performance, more features, were fancier, and cost more.
+Check out some retro images of the 1971 Plymouth GTX!</td></tr>
+</tbody>
+</table>
+<p>We create a new class called <code class="docutils literal"><span class="pre">TurtleGTX</span></code>, add a few <code class="docutils literal"><span class="pre">using</span></code> directives
+and provide a constructor.  So we start with this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+ <span class="p">...</span>
+ <span class="k">using</span> <span class="nn">System.Windows.Media</span><span class="p">;</span>
+ <span class="k">using</span> <span class="nn">ThinkLib</span><span class="p">;</span>
+
+ <span class="k">namespace</span> <span class="nn">Fragments</span>
+ <span class="p">{</span>
+<span class="hll">     <span class="k">public</span> <span class="k">class</span> <span class="nc">TurtleGTX</span><span class="p">:</span> <span class="n">Turtle</span>
+</span>     <span class="p">{</span>
+         <span class="n">Random</span> <span class="n">rng</span><span class="p">;</span>
+
+         <span class="k">public</span> <span class="nf">TurtleGTX</span><span class="p">(</span><span class="n">Canvas</span> <span class="n">playground</span><span class="p">,</span> <span class="kt">double</span> <span class="n">homeX</span><span class="p">=</span><span class="m">50</span><span class="p">,</span> <span class="kt">double</span> <span class="n">homeY</span><span class="p">=</span><span class="m">100</span><span class="p">)</span>
+<span class="hll">             <span class="p">:</span> <span class="k">base</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="n">homeX</span><span class="p">,</span> <span class="n">homeY</span><span class="p">)</span>
+</span>         <span class="p">{</span>
+             <span class="n">rng</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+             <span class="n">LineBrush</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RadialGradientBrush</span><span class="p">(</span><span class="n">Colors</span><span class="p">.</span><span class="n">LimeGreen</span><span class="p">,</span> <span class="n">Colors</span><span class="p">.</span><span class="n">HotPink</span><span class="p">);</span>
+             <span class="n">BrushWidth</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 8, the definition of the class, says &#8220;this class inherits from Turtle&#8221;, so
+<code class="docutils literal"><span class="pre">TurtleGTX</span></code> is-a <code class="docutils literal"><span class="pre">Turtle</span></code> and can already do everything that our ordinary
+plain turtles can do.</p>
+<p>When we create instances of our new class the constructor at line 12 will be called.
+What is needed now is to <em>also</em> run our inherited constructor code &#8212; because it
+does the setup steps for those parts of the new object that are the &#8220;ordinary&#8221; turtle,
+and then we can do a few extra initialization steps that apply to the &#8220;extended&#8221;
+parts of the object that are only found in the fancier GTX models.</p>
+<p>So line 13 calls the constructor code that was originally written in the base class.
+In a child class, the keyword <code class="docutils literal"><span class="pre">base</span></code> always refers to &#8220;as inherited from my parent&#8221;.
+So <code class="docutils literal"><span class="pre">base(...)</span></code> means &#8220;call my constructor code as I initially inherited it&#8221;,  and <code class="docutils literal"><span class="pre">base.Forward(10);</span></code>
+means &#8220;call my <code class="docutils literal"><span class="pre">Forward</span></code> method, as I initially inherited it&#8221;.</p>
+<p>Lines 15-17 are executed after the base constructor completes its execution.
+We instantiate a random number generator object (we&#8217;ll need it shortly for
+the <code class="docutils literal"><span class="pre">Spin</span></code> method we intend to add), and we change two of the default settings:
+whereas &#8220;ordinary&#8221; turtles come out of the factor with thin magenta brushes, we&#8217;ll
+do the factory initialization of our GTX turtles with fat brushes and a fancy brush.
+This will help us to easily see that we&#8217;re working with a GTX turtle, not a plain one.</p>
+<p>Notice in lines 16 and 17:  <code class="docutils literal"><span class="pre">LineBrush</span></code> and <code class="docutils literal"><span class="pre">BrushWidth</span></code> are properties of a turtle instance.
+So usually, we&#8217;d have to qualify them with an object, and say <code class="docutils literal"><span class="pre">Alex.BrushWidth</span></code>.  But
+because of inheritance, these are now our own methods for our own object.
+We can call the method without qualification <em>because it is part of this class</em> &#8212;
+not because we wrote it explicitly, but because we inherited all the parent&#8217;s
+public or protected members.</p>
+<p>Let&#8217;s set up our usual GUI with a canvas and a button, instantiate a turtle
+of type <code class="docutils literal"><span class="pre">TurtleGTX</span></code>, and get it to do some ordinary things.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">TurtleGTXGUI</span><span class="p">:</span> <span class="n">Window</span>
+ <span class="p">{</span>
+<span class="hll">     <span class="n">TurtleGTX</span> <span class="n">tess</span><span class="p">;</span>
+</span>
+     <span class="k">public</span> <span class="nf">TurtleGTXGUI</span><span class="p">()</span>
+     <span class="p">{</span>
+         <span class="n">InitializeComponent</span><span class="p">();</span>
+<span class="hll">         <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TurtleGTX</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="m">200</span><span class="p">,</span> <span class="m">200</span><span class="p">);</span>
+</span>     <span class="p">}</span>
+
+     <span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+     <span class="p">{</span>   <span class="c1">// Draw three squares, and turn a bit after each one...</span>
+         <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+         <span class="p">{</span>
+             <span class="c1">// Draw a square</span>
+             <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">side</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">side</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">;</span> <span class="n">side</span><span class="p">++)</span>
+             <span class="p">{</span>   <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">100</span><span class="p">);</span>
+                 <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+             <span class="p">}</span>
+             <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">20</span><span class="p">);</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The only changes now are the type of tess, in lines 3 and 8.
+Otherwise, everything that we inherited from the plain turtle type
+works exactly as before.  Clicking the button a few times produces this:</p>
+<img alt="_images/turtleGTX_1.png" src="_images/turtleGTX_1.png" />
+<p>Here&#8217;s a further observation: in our first chapter on methods we
+created a method to get a turtle to draw a square.  Let&#8217;s re-use
+that code, and replace lines 11-22 above with this new code:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="k">void</span> <span class="nf">drawSquare</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sz</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">side</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">side</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">;</span> <span class="n">side</span><span class="p">++)</span>
+     <span class="p">{</span>
+         <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">sz</span><span class="p">);</span>
+         <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+
+ <span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+ <span class="p">{</span>   <span class="c1">// Draw three squares, and turn a bit after each one...</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+     <span class="p">{</span>
+         <span class="n">drawSquare</span><span class="p">(</span><span class="n">tess</span><span class="p">,</span> <span class="m">100</span><span class="p">);</span>
+         <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">20</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>It still works. But, notice a very subtle thing: the type
+of argument <code class="docutils literal"><span class="pre">tess</span></code> line line 14 is <code class="docutils literal"><span class="pre">TurtleGTX</span></code>, but the type of
+the parameter in <code class="docutils literal"><span class="pre">drawSquare</span></code> is <code class="docutils literal"><span class="pre">Turtle</span></code>.
+Yet the compiler doesn&#8217;t give an error, and the code works.  This is
+because a <code class="docutils literal"><span class="pre">TurtleGTX</span></code> is-a <code class="docutils literal"><span class="pre">Turtle</span></code>.</p>
+<p>A object of a descendant type can be assigned to, or be used as if its
+type is an ancestor type.  We can use <code class="docutils literal"><span class="pre">tess</span></code> as a plain old turtle,
+assign her to a plain old turtle type of variable, pass her to a
+parameter of type <code class="docutils literal"><span class="pre">Turtle</span></code>.  So any methods we already have to work
+with <code class="docutils literal"><span class="pre">Turtle</span></code> can automatically also work with any types of objects that
+are descendant from <code class="docutils literal"><span class="pre">Turtle</span></code>.</p>
+<p>This feature is called <strong>subtype polymorphism</strong>.  Polymorphism
+means many (poly) types or forms (morph).  The <code class="docutils literal"><span class="pre">drawSquare</span></code> method is polymorphic
+in that it can work with different types of objects, just as long as
+they&#8217;re all descendant types of <code class="docutils literal"><span class="pre">Turtle</span></code>.</p>
+<p>OK. We are now ready for making some more serious improvements to the GTX
+version of the turtle.</p>
+</div>
+<div class="section" id="adding-new-behaviour">
+<h2>28.2. Adding new behaviour<a class="headerlink" href="#adding-new-behaviour" title="Permalink to this headline">¶</a></h2>
+<p>Adding new behaviour is as easy as adding some new public methods to the
+<code class="docutils literal"><span class="pre">TurtleGTX</span></code> class.  Let&#8217;s implement the two methods we wanted:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">public</span> <span class="k">void</span> <span class="nf">Jump</span><span class="p">(</span><span class="kt">double</span> <span class="n">distance</span><span class="p">)</span>
+ <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">BrushDown</span><span class="p">)</span>
+    <span class="p">{</span>
+         <span class="n">BrushDown</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+         <span class="n">Forward</span><span class="p">(</span><span class="n">distance</span><span class="p">);</span>
+         <span class="n">BrushDown</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+     <span class="p">}</span>
+     <span class="k">else</span>
+     <span class="p">{</span>
+         <span class="n">Forward</span><span class="p">(</span><span class="n">distance</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+
+ <span class="k">public</span> <span class="k">void</span> <span class="nf">Spin</span><span class="p">()</span>
+ <span class="p">{</span>
+     <span class="kt">int</span> <span class="n">theta</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">360</span><span class="p">);</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">t</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">t</span> <span class="p">&lt;</span> <span class="m">199</span><span class="p">;</span> <span class="n">t</span><span class="p">++)</span>
+     <span class="p">{</span>
+         <span class="n">Right</span><span class="p">(</span><span class="n">theta</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>If the brush is down, jumping requires picking up the brush and putting it back down after moving.
+To spin the turtle a random amount, we pick a random angle and then repeatedly turn by that angle,
+so that we can briefly see the turtle spinning on the playground before it sets off on its (random) new heading.</p>
+<p>We go back to the GUI, add another button and another handler, and this test code:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo2_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">40</span><span class="p">);</span>
+<span class="hll">     <span class="n">tess</span><span class="p">.</span><span class="n">Spin</span><span class="p">();</span>
+</span>     <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+<span class="hll">     <span class="n">tess</span><span class="p">.</span><span class="n">Jump</span><span class="p">(</span><span class="m">20</span><span class="p">);</span>
+</span>     <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">20</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now we can use the extended features of the new class (and, if you watch IntelliSense, it knows about them too.)</p>
+<p>Clicking the new button a few times gives us something like this ...</p>
+<img alt="_images/turtleGTX_2.png" src="_images/turtleGTX_2.png" />
+<p>Let&#8217;s make one more refinement to complete this section.
+The IntelliSense for the new <code class="docutils literal"><span class="pre">Jump</span></code> and <code class="docutils literal"><span class="pre">Spin</span></code> methods is not helpful.
+We usually expect some help explaining briefly what a method does, and
+what it&#8217;s parameters and return values are.  In C#, we can write
+special comments (they start with three forward slashes  ///) before
+any definition.  These will be picked up by the
+compiler and become part of the IntelliSense mechanism.   (You&#8217;ll
+find in Visual Studio that the editor understands the three slashes,
+and will write the skeletons of the comments for you.)
+So we go back to the TurtleGTX class now, and add suitable comments:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre> <span class="c1">/// &lt;summary&gt;</span>
+ <span class="c1">/// A fancy type of Turtle to illustrate some ideas about inheritance.</span>
+ <span class="c1">/// &lt;/summary&gt;</span>
+<span class="hll"> <span class="k">public</span> <span class="k">class</span> <span class="nc">TurtleGTX</span><span class="p">:</span> <span class="n">Turtle</span>
+</span> <span class="p">{</span>
+     <span class="p">...</span>
+
+     <span class="c1">/// &lt;summary&gt;</span>
+     <span class="c1">/// Move forward with the brush up, but leave the brush in the same</span>
+     <span class="c1">/// state as it was.</span>
+     <span class="c1">/// &lt;/summary&gt;</span>
+     <span class="c1">/// &lt;param name=&quot;distance&quot;&gt;How far to hop forward.&lt;/param&gt;</span>
+<span class="hll">     <span class="k">public</span> <span class="k">void</span> <span class="nf">Jump</span><span class="p">(</span><span class="kt">double</span> <span class="n">distance</span><span class="p">)</span>
+</span>     <span class="p">...</span>
+
+     <span class="c1">/// &lt;summary&gt;</span>
+     <span class="c1">/// Spin the turtle a few times and leave it facing in a random heading.</span>
+     <span class="c1">/// &lt;/summary&gt;</span>
+<span class="hll">     <span class="k">public</span> <span class="k">void</span> <span class="nf">Spin</span><span class="p">()</span>
+</span>     <span class="p">...</span>
+</pre></div>
+</td></tr></table></div>
+<p>With these comments added (notice we&#8217;ve commented above the class and the two new methods)
+we&#8217;ll see the results in IntelliSense:</p>
+<img alt="_images/IntelliSense.png" src="_images/IntelliSense.png" />
+</div>
+<div class="section" id="changing-existing-behaviour">
+<h2>28.3. Changing existing behaviour<a class="headerlink" href="#changing-existing-behaviour" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ve added some new behaviour to our <code class="docutils literal"><span class="pre">TurtleGTX</span></code> type. But so far,
+all the underlying behaviour of the base Turtle class remains unchanged.</p>
+<p>There is a second use for inheritance &#8212; to <strong>override</strong> behaviour from the base
+class, so that our child class objects work differently.</p>
+<p>Where might this be useful?</p>
+<p>Suppose we have a spelling checker with a <code class="docutils literal"><span class="pre">CheckSpelling(string</span> <span class="pre">word)</span></code> method.
+Perhaps we could make a specialized spelling checker that knows local slang or
+domain-specific words.  So we&#8217;d like to change how <code class="docutils literal"><span class="pre">CheckSpelling</span></code> goes about
+its business, by making it also look in our slang dictionary.</p>
+<p>Or consider a <code class="docutils literal"><span class="pre">FileStream</span></code> object &#8212; it allows reading and writing to a stream
+that it connects to an underlying file.  Typical file systems have some
+potential security risks.  If your program writes sensitive passwords or
+data to disk, some other program might be able to access it or corrupt it.
+So Windows provides what is called <em>Isolated Storage</em> &#8212; a
+private storage area that belongs to a single program and user.  (Other
+users will get their own isolated storage, and other applications get their
+own isolated storage too.)  So there is a class called
+<code class="docutils literal"><span class="pre">IsolatedStorageFileStream</span></code> that is derived from <code class="docutils literal"><span class="pre">FileStream</span></code>.  It can
+only open, create, read and write data in isolated storage.  So in this case,
+it must <em>restrict</em> what the base class is capable of.</p>
+<p>You can think up other examples too.  You might want to inherit from a Web
+Browser control (there is one in WPF), but modify some existing behaviour by
+overriding its methods so that your users can only
+access &#8220;approved&#8221; web sites.</p>
+</div>
+<div class="section" id="id3">
+<h2>28.4. Let&#8217;s do it!<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ll continue with the <code class="docutils literal"><span class="pre">TurtleGTX</span></code> class.  Unfortunately, our
+turtle has just become a teenager <a class="footnote-reference" href="#id5" id="id4">[2]</a> and does the opposite of
+whatever they&#8217;re told to do.  And they&#8217;ll only complete 90% of whatever
+is asked.  So we&#8217;ll override the <code class="docutils literal"><span class="pre">Left</span></code> method
+to make it turn <code class="docutils literal"><span class="pre">Right</span></code> instead, and vice-versa, and
+<code class="docutils literal"><span class="pre">Forward</span></code> will move backward.  We add the following methods
+to the class:</p>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>This is not a bias against teenagers. But it makes a fun and
+understandable way to explain some pretty complicated ideas...</td></tr>
+</tbody>
+</table>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Left</span><span class="p">(</span><span class="kt">double</span> <span class="n">degrees</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="k">base</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="n">degrees</span><span class="p">*</span><span class="m">0.9</span><span class="p">);</span>
+ <span class="p">}</span>
+
+ <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Right</span><span class="p">(</span><span class="kt">double</span> <span class="n">degrees</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="k">base</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="n">degrees</span><span class="p">*</span><span class="m">0.9</span><span class="p">);</span>
+ <span class="p">}</span>
+
+ <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Forward</span><span class="p">(</span><span class="kt">double</span> <span class="n">distance</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="k">base</span><span class="p">.</span><span class="n">Forward</span><span class="p">(-</span><span class="n">distance</span><span class="p">*</span><span class="m">0.9</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal"><span class="pre">override</span></code> keyword says that we&#8217;re changing our existing behaviour that we
+inherited from the parent class.  In our modified interpretation of what <code class="docutils literal"><span class="pre">Left</span></code> should do,
+at line 3, we call our inherited <code class="docutils literal"><span class="pre">Right</span></code> method,
+(but we only turn 90% of what was requested).
+So calling <code class="docutils literal"><span class="pre">Left(90)</span></code> on a GTX turtle will turn it to the right by 81 degrees.
+Similarly, we negate the distance: our new <code class="docutils literal"><span class="pre">Forward</span></code> method calls our inherited
+<code class="docutils literal"><span class="pre">Forward</span></code> method, but with a different argument.</p>
+<p>We go back to the first demo that drew three squares.  On the left we
+show how it used to work.  On the right we show what the same calling
+code produces now after we&#8217;ve overridden the behaviour of these three methods.</p>
+<img alt="_images/teenageTurtle.png" src="_images/teenageTurtle.png" />
+<p>Now let&#8217;s make a really important observation, one which is key to having
+a good understanding of inheritance and behaviour that is overridden.
+Our code made use of this <code class="docutils literal"><span class="pre">DrawSquare</span></code> method.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="k">void</span> <span class="nf">drawSquare</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sz</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">side</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">side</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">;</span> <span class="n">side</span><span class="p">++)</span>
+     <span class="p">{</span>
+         <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">sz</span><span class="p">);</span>
+         <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>As we remarked earlier, the parameter type here is <code class="docutils literal"><span class="pre">Turtle</span></code>. Because
+of subtype polymorphism, we can pass a <code class="docutils literal"><span class="pre">TurtleGTX</span></code> argument to it.</p>
+<p>So what does the method call at line 5 actually do?  Does it use
+our modified <code class="docutils literal"><span class="pre">Forward</span></code> method (that actually goes backwards), or
+does it use the original <code class="docutils literal"><span class="pre">Forward</span></code> method because <code class="docutils literal"><span class="pre">t</span></code> is defined
+as a <code class="docutils literal"><span class="pre">Turtle</span></code>?   Or, using our silly analogy, does the teenager still
+behave like a teenager even though they&#8217;re here in the role of &#8220;person&#8221;?</p>
+<p>Yes, <code class="docutils literal"><span class="pre">t</span></code> is still a teenager!
+<code class="docutils literal"><span class="pre">t</span></code> references an object: that object is a <code class="docutils literal"><span class="pre">TurtleGTX</span></code>.   The fact
+that the variable can reference a <code class="docutils literal"><span class="pre">Turtle</span></code> doesn&#8217;t change what is in memory &#8212;
+in memory, we have a <code class="docutils literal"><span class="pre">TurtleGTX</span></code>, with its own behaviour and methods.
+So at line 6, its <code class="docutils literal"><span class="pre">Right</span></code> method actually turns to the left.</p>
+</div>
+<div class="section" id="a-popular-override">
+<h2>28.5. A popular override<a class="headerlink" href="#a-popular-override" title="Permalink to this headline">¶</a></h2>
+<p>Every type ultimately inherits from the <code class="docutils literal"><span class="pre">object</span></code> base class.  So every object
+that we can possibly create in C# has four methods that it inherits from <code class="docutils literal"><span class="pre">object</span></code>.
+One of those is <code class="docutils literal"><span class="pre">ToString()</span></code>.   Whenever C# needs to convert an object to a string
+(as it needs to do if we convert the object to a string using, say, string formatting),
+this method gets called to do the conversion.   Let&#8217; see what happens when we call
+<code class="docutils literal"><span class="pre">ToString()</span></code> on tess:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>  <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">tess</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+</pre></div>
+</td></tr></table></div>
+<p>We&#8217;ll get our message box popping up, and showing the <em>type</em> of tess.  That is what
+the default behaviour is.  But, of course, we could override it for our TurtleGTX.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="k">public</span> <span class="k">override</span> <span class="kt">string</span> <span class="nf">ToString</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">string</span> <span class="n">msg</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;I&#39;m a fancy turtle at position ({0:f0},{1:f0}) with heading {2:f0}&quot;</span><span class="p">,</span>
+               <span class="k">this</span><span class="p">.</span><span class="n">Position</span><span class="p">.</span><span class="n">X</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="n">Position</span><span class="p">.</span><span class="n">Y</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="n">Heading</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">msg</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now we get something more special:</p>
+<img alt="_images/ToStringOverride.png" src="_images/ToStringOverride.png" />
+<p>It is quite usual to override the <code class="docutils literal"><span class="pre">ToString()</span></code> method and to have it report some
+useful information about its internal state.</p>
+</div>
+<div class="section" id="a-touch-of-sanity">
+<h2>28.6. A touch of sanity<a class="headerlink" href="#a-touch-of-sanity" title="Permalink to this headline">¶</a></h2>
+<p>Wouldn&#8217;t it be nice if we could inherit from our bank account class,
+and override its withdrawal method so that each time
+we withdraw money we could call the inherited deposit method instead!</p>
+<p>There are two security mechanisms that help.</p>
+<ul class="simple">
+<li>We can mark a class as <code class="docutils literal"><span class="pre">sealed</span></code>.
+It is not possible to derive any subclasses from a sealed class.  Many of the
+.NET framework classes are sealed, so that we cannot maliciously or erroneously
+change their behaviour.  Try to inherit from the <code class="docutils literal"><span class="pre">string</span></code> class, and see
+what happens.  Or read the documentation for the <code class="docutils literal"><span class="pre">string</span></code> class.</li>
+<li>You cannot override a method in a class unless the class definition itself
+catered for that when it was originally written.  A class writer can mark
+individual methods or properties in a class with a keyword <code class="docutils literal"><span class="pre">virtual</span></code>.  This means
+&#8220;can be overridden by my descendants&#8221;.   So the Turtle class has given us
+permission to override methods like <code class="docutils literal"><span class="pre">Left</span></code> and <code class="docutils literal"><span class="pre">Forward</span></code>, but at the
+same time there are some of its methods (<code class="docutils literal"><span class="pre">FlushToPlayground</span></code> is one) that
+it does not allow us to override.</li>
+</ul>
+</div>
+<div class="section" id="glossary">
+<h2>28.7. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-ancestor-class">ancestor class</dt>
+<dd>Same as base class.</dd>
+<dt id="term-base-class">base class</dt>
+<dd>A class which is used as a basis for another more specialized derived class.</dd>
+<dt id="term-child-class">child class</dt>
+<dd>Same as derived class.</dd>
+<dt id="term-derived-class">derived class</dt>
+<dd>A class which defined in terms of another class by inheriting the functionality of the
+base base.</dd>
+<dt id="term-descendant-class">descendant class</dt>
+<dd>Same as derived class.</dd>
+<dt id="term-hierarchy">hierarchy</dt>
+<dd>A tree-like structure.  In this chapter, we&#8217;ve been interested in how classes are
+related to each other, so the hierarchy is the &#8220;family tree&#8221; of classes.</dd>
+<dt id="term-inherit">inherit</dt>
+<dd>To receive capability and behaviour from a base class.</dd>
+<dt id="term-instance">instance</dt>
+<dd>An object whose type is of some class.  Instance and object are used interchangeably.</dd>
+<dt id="term-object"><code class="docutils literal"><span class="pre">object</span></code></dt>
+<dd>This is the ultimate base class of all other classes in the .NET framework, and in C#.
+It is the root of the class hierarchy from which every other class is derived.  (In
+the framework, its name is spelled with a capital &#8216;O&#8217;, in C#, with a lower-case &#8216;o&#8217;.)</dd>
+<dt id="term-override"><code class="docutils literal"><span class="pre">override</span></code></dt>
+<dd>A C# keyword that indicates that a method definition is modifying the
+behaviour that it inherited from its base class.</dd>
+<dt id="term-parent-class">parent class</dt>
+<dd>Same as base class.</dd>
+<dt id="term-polymorphism">polymorphism</dt>
+<dd>Able to work with many types.
+The origin of the word is from &#8220;poly) (many) and &#8220;morph&#8221; (forms).</dd>
+<dt id="term-sealed-class">sealed class</dt>
+<dd>A class that cannot be derived or used as a base for a new class.</dd>
+<dt id="term-subtype">subtype</dt>
+<dd>Same as derived class.</dd>
+<dt id="term-subtype-polymorphism">subtype polymorphism</dt>
+<dd><p class="first">Polymorphism that is possible because anything that works for type T will
+automatically also work for any subtypes of T.</p>
+<p class="last">There are other mechanisms for polymorphism too.
+Contrast this idea to the &#8220;parametric polymorphism&#8221;
+we get with generic types, e.g. <code class="docutils literal"><span class="pre">List&lt;Turtle&gt;</span></code> or <code class="docutils literal"><span class="pre">List&lt;Button&gt;</span></code>.
+There is no subtype relationship between <code class="docutils literal"><span class="pre">Turtle</span></code> and <code class="docutils literal"><span class="pre">Button</span></code>,
+yet <code class="docutils literal"><span class="pre">List</span></code> can handle the different types.</p>
+</dd>
+<dt id="term-supertype">supertype</dt>
+<dd>Same as base class.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>28.8. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Look up the <code class="docutils literal"><span class="pre">IO.Stream</span></code> class at <a class="reference external" href="http://msdn.microsoft.com/en-us/library/system.io.stream.aspx">http://msdn.microsoft.com/en-us/library/system.io.stream.aspx</a>,
+expand its inheritance hierarchy and determine the key purpose or responsibilities of at least
+three of its derived classes.</li>
+<li>Add an <code class="docutils literal"><span class="pre">Odometer</span></code> property to <code class="docutils literal"><span class="pre">TurtleGTX</span></code> so that a turtle keeps track of
+the mileage (total distance) it has travelled since it was created.
+To keep it simple, only count the distance from the <code class="docutils literal"><span class="pre">Forward</span></code> method.</li>
+<li>If you travel backwards (<code class="docutils literal"><span class="pre">tess.Forward(-50)</span></code>) does your odometer count up,
+or does it count down?  What should it do?  Fix it.
+(On older cars with mechanical odometers, some unscrupulous car dealers
+run the odometer backwards to improve the resale value.
+Drive a car backwards down the street, and determine whether the
+odometer counts forward or backwards.)</li>
+<li>Our TurtleGTX has a brush that it uses to draw its lines.  But brushes need
+ink.  Give the turtle a supply of ink.  On each move that draws a line (i.e.
+only when the pen is down) consume some of the ink supply.  When the ink runs
+out, throw an &#8220;Ink Cartridge Empty&#8221; exception.  Any attempt to make the turtle
+draw after that should throw the exception.  Provide a way for the client to
+interrogate how full the ink tank is, and provide a <code class="docutils literal"><span class="pre">ChangeInkCartridge</span></code>
+method that can fix our broken turtle. (Bonus exercises could
+be to make the rate at which the ink gets consumed depend on the
+width of the brush, or, like inkjet printers, to have differernt ink
+cartridges for Cyan, Magenta, Yellow and Black ink supplies.
+The possibilities seem ink-credible.)</li>
+<li>In our Recursion chapter we learned about great-looking Koch fractals.
+Our teenage TurtleGTX becomes fascinated by the nesting of the patterns.
+So whenever he/she is asked to move <code class="docutils literal"><span class="pre">Forward</span></code> by any distance, the turtle
+playfully does a detour, making a Koch order 2 curve instead.
+Provide an override for the <code class="docutils literal"><span class="pre">Forward</span></code> method to achieve this.</li>
+<li>Add to the previous exercise: provide a <code class="docutils literal"><span class="pre">KochOrder</span></code> property that
+the user can set. Give it an initial default value of zero: this
+will mean the turtle takes no detours, since a Koch line of order 0
+is just a straight line.   Then if the user sets the value of
+KochOrder to be 3, the turtle will detour with order 3 Koch curves.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="dictionaries.html" title="29. Dictionaries"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="in_the_caves.html" title="27. In the Caves — a Case Study"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

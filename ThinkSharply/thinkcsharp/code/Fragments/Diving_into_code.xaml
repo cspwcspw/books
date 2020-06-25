@@ -1,0 +1,9 @@
+﻿<Window x:Class="Fragments.Diving_into_code"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Diving_into_code" Height="300" Width="300">
+    <Grid>
+        <Button Content="Click Me" Height="43" HorizontalAlignment="Left" Margin="22,26,0,0" Name="button1" VerticalAlignment="Top" Width="97" Click="button1_Click" />
+        <TextBox Height="148" HorizontalAlignment="Left" Margin="12,100,0,0" Name="txtResults" VerticalAlignment="Top" Width="254" VerticalScrollBarVisibility="Auto" />
+    </Grid>
+</Window>

@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6. Nesting Things in Other Things &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="7. Hello, Little Turtles!" href="hello_little_turtles.html" />
+    <link rel="prev" title="5. Diving into Code" href="diving_into_code.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="hello_little_turtles.html" title="7. Hello, Little Turtles!"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="diving_into_code.html" title="5. Diving into Code"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <img alt="_images/file_tree.png" class="align-right" src="_images/file_tree.png" />
+<div class="section" id="nesting-things-in-other-things">
+<h1>6. Nesting Things in Other Things<a class="headerlink" href="#nesting-things-in-other-things" title="Permalink to this headline">¶</a></h1>
+<p>In Computer Science we often organize things into <strong>trees</strong>.</p>
+<p>One really useful example is the
+directory structures on our disk drives.  In the example shown
+here (the source code for this book), we have a top-level
+directory called <code class="docutils literal"><span class="pre">bookSource</span></code> which has subdirectories
+<code class="docutils literal"><span class="pre">_static</span></code>, <code class="docutils literal"><span class="pre">_templates</span></code> and <code class="docutils literal"><span class="pre">illustrations</span></code>.  There are
+many sub-directories under <code class="docutils literal"><span class="pre">illustrations</span></code>, (none of their
+sub-detail is presently shown).  In addition, within the <code class="docutils literal"><span class="pre">illustrations</span></code>
+directory we have a number of files like <code class="docutils literal"><span class="pre">alex04.png</span></code>.</p>
+<p>Now go back to Section 2.6 and look again at the Solution Explorer
+in Visual Studio.  It uses the same ideas: our solution contains
+some programs which contain a number of other sub-trees.   The
+syntax is a little different, but the idea is similar.</p>
+<p>What other trees have we already seen?    Well, this textbook
+(like most) is arranged into chapters with sections and subsections.</p>
+<div class="section" id="nesting-in-our-guis">
+<h2>6.1. Nesting in our GUIs<a class="headerlink" href="#nesting-in-our-guis" title="Permalink to this headline">¶</a></h2>
+<p>Here again are some of our favourite controls, as presented in Chapter 3.
+For a bit more insight into how the GUI works, we&#8217;re going to look at
+how some controls are nested, or contained, in others.</p>
+<img alt="_images/favourite_controls.png" src="_images/favourite_controls.png" />
+<p>In Visual Studio, we can navigate to the menu item <code class="docutils literal"><span class="pre">View</span> <span class="pre">|</span> <span class="pre">Other</span> <span class="pre">Windows</span> <span class="pre">|</span> <span class="pre">Document</span> <span class="pre">Outline</span></code>
+and we can get a tree-like view that shows the nesting of our GUI controls:</p>
+<img alt="_images/document_outline.png" src="_images/document_outline.png" />
+<p>We need to be able to relate what we see in our document outline to what we
+see in our GUI.  The outline shows us that our top-level structure
+is a Window that contains just one control, a grid.  The grid in
+turn contains a canvas (named <code class="docutils literal"><span class="pre">canvas1</span></code>), two text boxes,
+a label, an image, and a button.</p>
+<p>But the canvas is itself is a container with more children: it
+contains a description for its background, a rectangle, three
+check boxes, and three radio buttons.</p>
+<div class="section" id="how-does-this-help-us">
+<h3>6.1.1. How does this help us?<a class="headerlink" href="#how-does-this-help-us" title="Permalink to this headline">¶</a></h3>
+<p>Play a bit with the GUI design in Visual Studio, for example,
+by moving the canvas to a different position.  What we immediately
+notice is that all the children controls that are nested within
+the canvas move with the parent canvas.   In other words, their
+positions are defined relative to the canvas, not relative to
+the window.</p>
+<p>Similarly, when we run our programs, if we move our window to
+a different part of our screen, everything owned by the window
+moves too.  (It would be weird if we moved a window and the
+window left its buttons behind in the old positions!)  So here
+too, everything &#8220;owned&#8221; by the window is positioned and
+defined relative to where the window is at the moment.</p>
+<p>So by using a canvas (or a panel, or any other control that
+can act as a parent for other controls), we bring a very
+convenient organization to our programs.</p>
+</div>
+<div class="section" id="but-there-is-even-more">
+<h3>6.1.2. But there is even more<a class="headerlink" href="#but-there-is-even-more" title="Permalink to this headline">¶</a></h3>
+<p>Every control has a property called <code class="docutils literal"><span class="pre">Opacity</span></code> (from the word
+<em>opaque</em> which is the opposite of <em>transparent</em>).  Normally,
+the opacity of a control has the value 1, (i.e. 100%) which means &#8220;fully opaque&#8221;.
+Setting the value smaller make the control partially transparent,
+so you can see through it.  If we set the value to 0 it becomes
+fully transparent.</p>
+<p>Let us do the following now: we&#8217;ll move the canvas over the top
+of the image of the queen.  So the queen won&#8217;t be visible when we
+run our program.  Then we&#8217;ll create a handler for the
+button, and each time we click the button we&#8217;ll execute
+this code which makes the canvas a little less opaque:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">canvas1</span><span class="p">.</span><span class="n">Opacity</span> <span class="p">=</span> <span class="n">canvas1</span><span class="p">.</span><span class="n">Opacity</span> <span class="p">*</span> <span class="m">0.90</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 3, an assignment statement, works by first evaluating the
+right hand side to compute the new opacity value.  Then the value
+is stored into the <code class="docutils literal"><span class="pre">Opacity</span></code> property of <code class="docutils literal"><span class="pre">canvas1</span></code>.</p>
+<p>When we run our program the queen is initially hidden behind the
+canvas.  As we repeatedly click the button the canvas becomes
+less opaque: we see less of the canvas and more of the queen.</p>
+<p>But an important point is that because the canvas controls its
+children controls (the rectangle, the check boxes and the radio buttons),
+they also automatically become more transparent, along with the parent.
+So the opacity property applies to the parent and any children that
+it contains.</p>
+<p>If we look back at the Document Outline window above, we&#8217;ll see that
+there are are visibility radio buttons next to each control too.  So if we
+hide <code class="docutils literal"><span class="pre">canvas1</span></code>, all its children become hidden too.   Under the padlock
+icon we can also check the button to lock the canvas.  As we do this, all its
+children also become locked.  A locked control cannot be moved on the GUI
+in the GUI designer: it is a safety feature that allows us to get our layout
+looking good, and then to prevent us from accidentally messing it up again.</p>
+<p>Having our controls nested and grouped in this way allows us to
+work with the whole nested structure (move it about, change its
+opacity, kide it, etc.) by simply changing a property
+in the parent container.</p>
+</div>
+<div class="section" id="the-xaml-also-reflects-this-things-within-other-things-nesting-structure">
+<h3>6.1.3. The XAML also reflects this things-within-other-things nesting structure<a class="headerlink" href="#the-xaml-also-reflects-this-things-within-other-things-nesting-structure" title="Permalink to this headline">¶</a></h3>
+<p>If you are interested in reading the XAML (and recall that the
+XAML is just another way to describe the structure of the GUI),
+we&#8217;ll need to understand a few rules about the XAML.  XAML
+is a special usage of a more general notation called XML.</p>
+<p>In XML, every element is described by enclosing it in
+opening and closing tags.  An opening tag can also
+describe some properties. Tags are a bit like brackets and parentheses
+in familiar arithmetic expressions: they can nest inside one
+another, and every open bracket (or parenthesis) must have a
+matching closing bracket (or parenthesis).
+We must be able to spot where the tag opens,
+and where it ends.</p>
+<p>Here is the XAML for this GUI:</p>
+<img alt="_images/document_xaml.png" src="_images/document_xaml.png" />
+<p>On line 6 we see the &#8220;opening&#8221; canvas tag with
+some properties.  The corresponding &#8220;closing&#8221;
+tag is on line 20.  The small boxes at the left on
+lines 1, 5, 6 and 7 are great for exploring and
+understanding the nested tree-like structure: we can expand or fold
+down the detail of any element, and hide its children.</p>
+<p>XML also uses a shorthand for closing a tag if
+it has no nested sub-components.
+In XML, the long-winded <code class="docutils literal"><span class="pre">&lt;SomeTag&gt;</span>&nbsp; <span class="pre">&lt;/SomeTag&gt;</span></code> can be
+abbreviated to <code class="docutils literal"><span class="pre">&lt;SomeTag</span> <span class="pre">/&gt;</span></code>.  This shorthand form is
+used on lines 13-19.</p>
+</div>
+</div>
+<div class="section" id="we-want-menus-with-sub-menus-and-more-menus">
+<h2>6.2. We want Menus, with Sub-Menus, and more Menus!<a class="headerlink" href="#we-want-menus-with-sub-menus-and-more-menus" title="Permalink to this headline">¶</a></h2>
+<p>Menus are really powerful tools for organizing a GUI.
+Program designers can pack a lot of functionality into a very
+convenient (and compact) menu structure, as shown in this
+fragment of the Visual Studio menus:</p>
+<img alt="_images/vs_menus.png" src="_images/vs_menus.png" />
+<p>Looking at Visual Studio  (yours might be a bit different from a different
+set of preferences), all the functionality is arranged
+into a menu with 13 major groupings across the top.  In the illustration,
+we&#8217;ve gone down into the <code class="docutils literal"><span class="pre">File</span></code> menu, which in turn contains another
+menu with a number of items, some of them with sub-menus.  (This should sound
+similar to having directories that contain files and more sub-directories!)
+In the illustration we&#8217;ve opened yet another sub-menu, and we can now make a choice.</p>
+<p>In our programs, each menu item that has no further substructure works
+a lot like a button. When a menu item is selected it generates a <code class="docutils literal"><span class="pre">Click</span></code> event.
+We can attach a handler to respond to the event so that when
+our user selects the menu item we can respond by executing some code.</p>
+<p>Let us build a simple menu for our GUI: we&#8217;ll have month names across the
+top, and under each month we&#8217;ll keep the names of friends with birthdays
+in the month.   Here is what it will look like when we start:</p>
+<img alt="_images/menu_birthdays.png" src="_images/menu_birthdays.png" />
+<p>The Visual Studio properties editor is not very helpful when editing menus like
+this.  So in this case, it might be easier for us just to edit the XAML instead.</p>
+<p>If we copy and paste this code into our XAML, (make this a child of the <code class="docutils literal"><span class="pre">Grid</span></code> control
+of your window), you&#8217;ll get a menu just like the one shown above.</p>
+<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;Menu</span> <span class="na">Height=</span><span class="s">&quot;25&quot;</span> <span class="na">HorizontalAlignment=</span><span class="s">&quot;Stretch&quot;</span> <span class="na">Name=</span><span class="s">&quot;menu1&quot;</span> <span class="na">VerticalAlignment=</span><span class="s">&quot;Top&quot;</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;MenuItem</span> <span class="na">Header=</span><span class="s">&quot;Jan&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;MenuItem</span> <span class="na">Header=</span><span class="s">&quot;Alex&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;MenuItem</span> <span class="na">Header=</span><span class="s">&quot;Bill&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;MenuItem</span> <span class="na">Header=</span><span class="s">&quot;Tess&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/MenuItem&gt;</span>
+    <span class="nt">&lt;MenuItem</span> <span class="na">Header=</span><span class="s">&quot;Feb&quot;</span> <span class="nt">&gt;</span>
+        <span class="nt">&lt;MenuItem</span> <span class="na">Header=</span><span class="s">&quot;Zola&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/MenuItem&gt;</span>
+    <span class="nt">&lt;MenuItem</span> <span class="na">Header=</span><span class="s">&quot;March&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/Menu&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now we can just edit the XAML to extend the menu for all twelve months of the year,
+and to add more friends.</p>
+<p>None of these menu items has been given its own name yet (and we can omit this
+step if we want to), nor have they had an event handler attached.  Let us
+attach one event handler to the <code class="docutils literal"><span class="pre">Tess</span></code> menu item by changing
+line 5 of the XAML like this:</p>
+<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;MenuItem</span> <span class="na">Header=</span><span class="s">&quot;Tess&quot;</span> <span class="na">Click=</span><span class="s">&quot;Tess_Click&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>As we&#8217;ve seen before, what this does is &#8220;attaches&#8221; an event handler
+to a click event on this menu item.  All we have to do now is jump into the
+code-behind, and provide the event handler, which might look like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">Tess_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;It is Tess&#39; birthday on 15 January!&quot;</span><span class="p">,</span> <span class="s">&quot;Birthday reminder&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>We now have a program with a rich menu structure.  When we select the <code class="docutils literal"><span class="pre">Tess</span></code> menu item
+our handler responds by popping up a reminder.</p>
+<div class="admonition-nesting admonition">
+<p class="first admonition-title">Nesting</p>
+<p>This idea of organizing complex information or creating complex structures
+by nesting things in others &#8212; e.g. menus that contain other
+menus, directories that contain other directories, or GUI controls like
+the canvas that can contain other controls (even other canvas controls),
+and fragments of XAML that contain other fragments of XAML
+&#8212; is a big deal in Computer Science.  It is important enough that we&#8217;ve
+devoted a separate chapter to this idea.</p>
+<p class="last">Try to find other examples of nesting
+too, and work on thinking about all these different uses as coming from
+the same essential underlying idea.</p>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2>6.3. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>In an earlier chapter we had some exercises in which we built GUIs.
+Revisit those GUIs, and observe the nesting structure using both the
+Document Outline feature, and by examining the XAML.</li>
+<li>In the previous chapter we introduced block-comments.  Devise an experiment
+to determine whether one block-comment can nest inside another.  Record
+your findings.</li>
+<li>Suppose you&#8217;re going to write an application of your own invention.  Perhaps
+you&#8217;ll use it to manage your music collection, or to chat in a chat room,
+or to keep track of famous quotes.
+Design a GUI for your application with a menu structure that contains
+at least 10 menu items, one of which must be nested at least 3 levels deep.</li>
+<li>Do this experiment: place a button on a GUI and make it pop up a message
+box when it is clicked.  Now change the opacity of the button so that it
+becomes fully transparent, and run your program. Can you still click the
+button even when it is hidden behind its invisibility cloak?  Can you imagine
+how this might be used to trick a user into
+doing something that they might not otherwise do?</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="hello_little_turtles.html" title="7. Hello, Little Turtles!"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="diving_into_code.html" title="5. Diving into Code"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

@@ -1,0 +1,735 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>28. Trees &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Debugging" href="app_a.html" />
+    <link rel="prev" title="27. Queues" href="queues.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="app_a.html" title="Debugging"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="queues.html" title="27. Queues"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="trees">
+<h1>28. Trees<a class="headerlink" href="#trees" title="Permalink to this headline">¶</a></h1>
+<p>Like linked lists, trees are made up of nodes. A common kind of tree is a
+<strong>binary tree</strong>, in which each node contains a reference to two other nodes
+(possibly <code class="docutils literal notranslate"><span class="pre">None</span></code>). These references are referred to as the left and right
+subtrees. Like list nodes, tree nodes also contain cargo. A state diagram for a
+tree looks like this:</p>
+<img alt="_images/tree1.png" src="_images/tree1.png" />
+<p>To avoid cluttering up the picture, we often omit the <code class="docutils literal notranslate"><span class="pre">None</span></code>s.</p>
+<p>The top of the tree (the node <code class="docutils literal notranslate"><span class="pre">tree</span></code> refers to) is called the <strong>root</strong>. In
+keeping with the tree metaphor, the other nodes are called branches and the
+nodes at the tips with null references are called <strong>leaves</strong>. It may seem odd
+that we draw the picture with the root at the top and the leaves at the bottom,
+but that is not the strangest thing.</p>
+<p>To make things worse, computer scientists mix in another metaphor: the family
+tree. The top node is sometimes called a <strong>parent</strong> and the nodes it refers to
+are its <strong>children</strong>. Nodes with the same parent are called <strong>siblings</strong>.</p>
+<p>Finally, there is a geometric vocabulary for talking about trees. We already
+mentioned left and right, but there is also up (toward the parent/root) and
+down (toward the children/leaves). Also, all of the nodes that are the same
+distance from the root comprise a <strong>level</strong> of the tree.</p>
+<p>We probably don’t need three metaphors for talking about trees, but there they
+are.</p>
+<p>Like linked lists, trees are recursive data structures because they are defined
+recursively.  A tree is either:</p>
+<ol class="arabic simple">
+<li>the empty tree, represented by <code class="docutils literal notranslate"><span class="pre">None</span></code>, or</li>
+<li>a node that contains an object reference (cargo) and two tree references.</li>
+</ol>
+<div class="section" id="building-trees">
+<h2>28.1. Building trees<a class="headerlink" href="#building-trees" title="Permalink to this headline">¶</a></h2>
+<p>The process of assembling a tree is similar to the process of assembling a
+linked list. Each constructor invocation builds a single node.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Tree</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cargo</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cargo</span> <span class="o">=</span> <span class="n">cargo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">left</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cargo</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">cargo</span></code> can be any type, but the <code class="docutils literal notranslate"><span class="pre">left</span></code> and <code class="docutils literal notranslate"><span class="pre">right</span></code> parameters should
+be tree nodes. <code class="docutils literal notranslate"><span class="pre">left</span></code> and <code class="docutils literal notranslate"><span class="pre">right</span></code> are optional; the default value is
+<code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>To print a node, we just print the cargo.</p>
+<p>One way to build a tree is from the bottom up. Allocate the child nodes first:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">left</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Then create the parent node and link it to the children:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>We can write this code more concisely by nesting constructor invocations:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Either way, the result is the tree at the beginning of the chapter.</p>
+</div>
+<div class="section" id="traversing-trees">
+<h2>28.2. Traversing trees<a class="headerlink" href="#traversing-trees" title="Permalink to this headline">¶</a></h2>
+<p>Any time you see a new data structure, your first question should be, “How do I
+traverse it?” The most natural way to traverse a tree is recursively. For
+example, if the tree contains integers as cargo, this function returns their
+sum:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">total</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">total</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="n">total</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">)</span> <span class="o">+</span> <span class="n">tree</span><span class="o">.</span><span class="n">cargo</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The base case is the empty tree, which contains no cargo, so the sum is 0. The
+recursive step makes two recursive calls to find the sum of the child trees.
+When the recursive calls complete, we add the cargo of the parent and return
+the total.</p>
+</div>
+<div class="section" id="expression-trees">
+<h2>28.3. Expression trees<a class="headerlink" href="#expression-trees" title="Permalink to this headline">¶</a></h2>
+<p>A tree is a natural way to represent the structure of an expression.  Unlike
+other notations, it can represent the computation unambiguously. For example,
+the infix expression <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">3</span></code> is ambiguous unless we know that the
+multiplication happens before the addition.</p>
+<p>This expression tree represents the same computation:</p>
+<img alt="_images/tree2.png" src="_images/tree2.png" />
+<p>The nodes of an expression tree can be operands like <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">2</span></code> or
+operators like <code class="docutils literal notranslate"><span class="pre">+</span></code> and <code class="docutils literal notranslate"><span class="pre">*</span></code>. Operands are leaf nodes; operator nodes contain
+references to their operands. (All of these operators are <strong>binary</strong>, meaning
+they have exactly two operands.)</p>
+<p>We can build this tree like this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Looking at the figure, there is no question what the order of operations is;
+the multiplication happens first in order to compute the second operand of the
+addition.</p>
+<p>Expression trees have many uses. The example in this chapter uses trees to
+translate expressions to postfix, prefix, and infix. Similar trees are used
+inside compilers to parse, optimize, and translate programs.</p>
+</div>
+<div class="section" id="tree-traversal">
+<h2>28.4. Tree traversal<a class="headerlink" href="#tree-traversal" title="Permalink to this headline">¶</a></h2>
+<p>We can traverse an expression tree and print the contents like this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">cargo</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+    <span class="n">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>In other words, to print a tree, first print the contents of the root, then
+print the entire left subtree, and then print the entire right subtree. This
+way of traversing a tree is called a <strong>preorder</strong>, because the contents of the
+root appear <em>before</em> the contents of the children. For the previous example,
+the output is:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">+ 1 * 2 3</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This format is different from both postfix and infix; it is another notation
+called <strong>prefix</strong>, in which the operators appear before their operands.</p>
+<p>You might suspect that if you traverse the tree in a different order, you will
+get the expression in a different notation. For example, if you print the
+subtrees first and then the root node, you get:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_tree_postorder</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+    <span class="n">print_tree_postorder</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+    <span class="n">print_tree_postorder</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">cargo</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The result, <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">2</span> <span class="pre">3</span> <span class="pre">*</span> <span class="pre">+</span></code>, is in postfix! This order of traversal is called
+<strong>postorder</strong>.</p>
+<p>Finally, to traverse a tree <strong>inorder</strong>, you print the left tree, then the
+root, and then the right tree:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_tree_inorder</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+    <span class="n">print_tree_inorder</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">cargo</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">print_tree_inorder</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The result is <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">3</span></code>, which is the expression in infix.</p>
+<p>To be fair, we should point out that we have omitted an important complication.
+Sometimes when we write an expression in infix, we have to use parentheses to
+preserve the order of operations. So an inorder traversal is not quite
+sufficient to generate an infix expression.</p>
+<p>Nevertheless, with a few improvements, the expression tree and the three
+recursive traversals provide a general way to translate expressions from one
+format to another.</p>
+<p>If we do an inorder traversal and keep track of what level in the tree we are
+on, we can generate a graphical representation of a tree:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_tree_indented</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+    <span class="n">print_tree_indented</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  &quot;</span> <span class="o">*</span> <span class="n">level</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">cargo</span><span class="p">))</span>
+    <span class="n">print_tree_indented</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">level</span></code> keeps track of where we are in the tree. By default, it
+is initially 0. Each time we make a recursive call, we pass <code class="docutils literal notranslate"><span class="pre">level+1</span></code> because
+the child’s level is always one greater than the parent’s. Each item is
+indented by two spaces per level. The result for the example tree is:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree_indented</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">    3</span>
+<span class="go">  *</span>
+<span class="go">    2</span>
+<span class="go">+</span>
+<span class="go">  1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>If you look at the output sideways, you see a simplified version of the
+original figure.</p>
+</div>
+<div class="section" id="building-an-expression-tree">
+<h2>28.5. Building an expression tree<a class="headerlink" href="#building-an-expression-tree" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we parse infix expressions and build the corresponding
+expression trees. For example, the expression <code class="docutils literal notranslate"><span class="pre">(3</span> <span class="pre">+</span> <span class="pre">7)</span> <span class="pre">*</span> <span class="pre">9</span></code> yields the
+following tree:</p>
+<img alt="_images/tree3.png" src="_images/tree3.png" />
+<p>Notice that we have simplified the diagram by leaving out the names of the
+attributes.</p>
+<p>The parser we will write handles expressions that include numbers, parentheses,
+and the operators <code class="docutils literal notranslate"><span class="pre">+</span></code> and <code class="docutils literal notranslate"><span class="pre">*</span></code>. We assume that the input string has already
+been tokenized into a Python list (producing this list is left as an exercise).
+The token list for <code class="docutils literal notranslate"><span class="pre">(3</span> <span class="pre">+</span> <span class="pre">7)</span> <span class="pre">*</span> <span class="pre">9</span></code> is:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">end</span></code> token is useful for preventing the parser from reading past the end
+of the list.</p>
+<p>The first function we’ll write is <code class="docutils literal notranslate"><span class="pre">get_token</span></code>, which takes a token list and
+an expected token as parameters. It compares the expected token to the first
+token on the list: if they match, it removes the token from the list and
+returns <code class="docutils literal notranslate"><span class="pre">True</span></code>; otherwise, it returns <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_token</span><span class="p">(</span><span class="n">token_list</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">token_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">token_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Since <code class="docutils literal notranslate"><span class="pre">token_list</span></code> refers to a mutable object, the changes made here are
+visible to any other variable that refers to the same object.</p>
+<p>The next function, <code class="docutils literal notranslate"><span class="pre">get_number</span></code>, handles operands. If the next token in
+<code class="docutils literal notranslate"><span class="pre">token_list</span></code> is a number, <code class="docutils literal notranslate"><span class="pre">get_number</span></code> removes it and returns a leaf node
+containing the number; otherwise, it returns <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_number</span><span class="p">(</span><span class="n">token_list</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">token_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">del</span> <span class="n">token_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Before continuing, we should test <code class="docutils literal notranslate"><span class="pre">get_number</span></code> in isolation. We assign a list
+of numbers to <code class="docutils literal notranslate"><span class="pre">token_list</span></code>, extract the first, print the result, and print
+what remains of the token list:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">get_number</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree_postorder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="go">[11, &quot;end&quot;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The next method we need is <code class="docutils literal notranslate"><span class="pre">get_product</span></code>, which builds an expression
+tree for products. A simple product has two numbers as operands, like
+<code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">7</span></code>.</p>
+<p>Here is a version of <code class="docutils literal notranslate"><span class="pre">get_product</span></code> that handles simple products.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_product</span><span class="p">(</span><span class="n">token_list</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">get_number</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">get_token</span><span class="p">(</span><span class="n">token_list</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">get_number</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Assuming that <code class="docutils literal notranslate"><span class="pre">get_number</span></code> succeeds and returns a singleton tree, we assign
+the first operand to <code class="docutils literal notranslate"><span class="pre">a</span></code>. If the next character is <code class="docutils literal notranslate"><span class="pre">*</span></code>, we get the second
+number and build an expression tree with <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, and the operator.</p>
+<p>If the next character is anything else, then we just return the leaf node with
+<code class="docutils literal notranslate"><span class="pre">a</span></code>. Here are two examples:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">get_product</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree_postorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">9 11 *</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">get_product</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree_postorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">9</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The second example implies that we consider a single operand to be a kind of
+product. This definition of product is counter-intuitive, but it turns out to be
+useful.</p>
+<p>Now we have to deal with compound products, like like <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">5</span> <span class="pre">*</span> <span class="pre">13</span></code>. We treat
+this expression as a product of products, namely <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">(5</span> <span class="pre">*</span> <span class="pre">13)</span></code>.  The
+resulting tree is:</p>
+<img alt="_images/tree4.png" src="_images/tree4.png" />
+<p>With a small change in <code class="docutils literal notranslate"><span class="pre">get_product</span></code>, we can handle an arbitrarily long
+product:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_product</span><span class="p">(</span><span class="n">token_list</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">get_number</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">get_token</span><span class="p">(</span><span class="n">token_list</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">get_product</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>       <span class="c1"># This line changed</span>
+        <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>In other words, a product can be either a singleton or a tree with <code class="docutils literal notranslate"><span class="pre">*</span></code> at the
+root, a number on the left, and a product on the right. This kind of recursive
+definition should be starting to feel familiar.</p>
+<p>Let’s test the new version with a compound product:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="mi">5</span> <span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">get_product</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree_postorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">2 3 5 7 * * *</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Next we will add the ability to parse sums. Again, we use a slightly
+counter-intuitive definition of sum. For us, a sum can be a tree with <code class="docutils literal notranslate"><span class="pre">+</span></code> at
+the root, a product on the left, and a sum on the right. Or, a sum can be just
+a product.</p>
+<p>If you are willing to play along with this definition, it has a nice property:
+we can represent any expression (without parentheses) as a sum of products.
+This property is the basis of our parsing algorithm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">get_sum</span></code> tries to build a tree with a product on the left and a sum on
+the right. But if it doesn’t find a <code class="docutils literal notranslate"><span class="pre">+</span></code>, it just builds a product.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_sum</span><span class="p">(</span><span class="n">token_list</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">get_product</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">get_token</span><span class="p">(</span><span class="n">token_list</span><span class="p">,</span> <span class="s2">&quot;+&quot;</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">get_sum</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Let’s test it with <code class="docutils literal notranslate"><span class="pre">9</span> <span class="pre">*</span> <span class="pre">11</span> <span class="pre">+</span> <span class="pre">5</span> <span class="pre">*</span> <span class="pre">7</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">get_sum</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree_postorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">9 11 * 5 7 * +</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>We are almost done, but we still have to handle parentheses. Anywhere in an
+expression where there can be a number, there can also be an entire sum
+enclosed in parentheses. We just need to modify <code class="docutils literal notranslate"><span class="pre">get_number</span></code> to handle
+<strong>subexpressions</strong>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_number</span><span class="p">(</span><span class="n">token_list</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">get_token</span><span class="p">(</span><span class="n">token_list</span><span class="p">,</span> <span class="s2">&quot;(&quot;</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">get_sum</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>         <span class="c1"># Get the subexpression</span>
+        <span class="n">get_token</span><span class="p">(</span><span class="n">token_list</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>      <span class="c1"># Remove the closing parenthesis</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">token_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">del</span> <span class="n">token_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Let’s test this code with <code class="docutils literal notranslate"><span class="pre">9</span> <span class="pre">*</span> <span class="pre">(11</span> <span class="pre">+</span> <span class="pre">5)</span> <span class="pre">*</span> <span class="pre">7</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">token_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">get_sum</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_tree_postorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">9 11 5 + 7 * *</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The parser handled the parentheses correctly; the addition happens before the
+multiplication.</p>
+<p>In the final version of the program, it would be a good idea to give
+<code class="docutils literal notranslate"><span class="pre">get_number</span></code> a name more descriptive of its new role.</p>
+</div>
+<div class="section" id="handling-errors">
+<h2>28.6. Handling errors<a class="headerlink" href="#handling-errors" title="Permalink to this headline">¶</a></h2>
+<p>Throughout the parser, we’ve been assuming that expressions are well-formed.
+For example, when we reach the end of a subexpression, we assume that the next
+character is a close parenthesis. If there is an error and the next character
+is something else, we should deal with it.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_number</span><span class="p">(</span><span class="n">token_list</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">get_token</span><span class="p">(</span><span class="n">token_list</span><span class="p">,</span> <span class="s2">&quot;(&quot;</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">get_sum</span><span class="p">(</span><span class="n">token_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">get_token</span><span class="p">(</span><span class="n">token_list</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Missing close parenthesis&quot;)</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The rest of the function omitted</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">raise</span></code> statement throws the exception object which we create.
+In this case we simply used the most appropriate type of built-in exception
+that we could find, but you should be aware that you can create your own
+more specific user-defined exceptions if you need to. If the function that called
+<code class="docutils literal notranslate"><span class="pre">get_number</span></code>, or one of the other functions in the traceback, handles the
+exception, then the program can continue.  Otherwise, Python will print an
+error message and quit.</p>
+</div>
+<div class="section" id="the-animal-tree">
+<h2>28.7. The animal tree<a class="headerlink" href="#the-animal-tree" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we develop a small program that uses a tree to represent a
+knowledge base.</p>
+<p>The program interacts with the user to create a tree of questions and animal
+names. Here is a sample run:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>Are you thinking of an animal? y
+Is it a bird? n
+What is the animals name? dog
+What question would distinguish a dog from a bird? Can it fly
+If the animal were dog the answer would be? n
+
+Are you thinking of an animal? y
+Can it fly? n
+Is it a dog? n
+What is the animals name? cat
+What question would distinguish a cat from a dog? Does it bark
+If the animal were cat the answer would be? n
+
+Are you thinking of an animal? y
+Can it fly? n
+Does it bark? y
+Is it a dog? y
+I rule!
+
+Are you thinking of an animal? n
+</pre></div>
+</div>
+</div></blockquote>
+<p>Here is the tree this dialog builds:</p>
+<img alt="_images/tree5.png" src="_images/tree5.png" />
+<p>At the beginning of each round, the program starts at the top of the tree and
+asks the first question. Depending on the answer, it moves to the left or right
+child and continues until it gets to a leaf node. At that point, it makes a
+guess. If the guess is not correct, it asks the user for the name of the new
+animal and a question that distinguishes the (bad) guess from the new animal.
+Then it adds a node to the tree with the new question and the new animal.</p>
+<p>Here is the code:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">yes</span><span class="p">(</span><span class="n">ques</span><span class="p">):</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">ques</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span>
+
+<span class="k">def</span> <span class="nf">animal</span><span class="p">():</span>
+    <span class="c1"># Start with a singleton</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s2">&quot;bird&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Loop until the user quits</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">yes</span><span class="p">(</span><span class="s2">&quot;Are you thinking of an animal? &quot;</span><span class="p">):</span> <span class="k">break</span>
+
+        <span class="c1"># Walk the tree</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="k">while</span> <span class="n">tree</span><span class="o">.</span><span class="n">left</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prompt</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">cargo</span> <span class="o">+</span> <span class="s2">&quot;? &quot;</span>
+            <span class="k">if</span> <span class="n">yes</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
+                <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">right</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">left</span>
+
+        <span class="c1"># Make a guess</span>
+        <span class="n">guess</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">cargo</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Is it a &quot;</span> <span class="o">+</span> <span class="n">guess</span> <span class="o">+</span> <span class="s2">&quot;? &quot;</span>
+        <span class="k">if</span> <span class="n">yes</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I rule!&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Get new information</span>
+        <span class="n">prompt</span>  <span class="o">=</span> <span class="s2">&quot;What is the animal&#39;s name? &quot;</span>
+        <span class="n">animal</span>  <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="n">prompt</span>  <span class="o">=</span> <span class="s2">&quot;What question would distinguish a </span><span class="si">{0}</span><span class="s2"> from a </span><span class="si">{1}</span><span class="s2">? &quot;</span>
+        <span class="n">question</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">animal</span><span class="p">,</span> <span class="n">guess</span><span class="p">))</span>
+
+        <span class="c1"># Add new information to the tree</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">cargo</span> <span class="o">=</span> <span class="n">question</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;If the animal were </span><span class="si">{0}</span><span class="s2"> the answer would be? &quot;</span>
+        <span class="k">if</span> <span class="n">yes</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">animal</span><span class="p">)):</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">animal</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">animal</span><span class="p">)</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The function <code class="docutils literal notranslate"><span class="pre">yes</span></code> is a helper; it prints a prompt and then takes input from
+the user. If the response begins with <em>y</em> or <em>Y</em>, the function returns
+<code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>The condition of the outer loop of <code class="docutils literal notranslate"><span class="pre">animal</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, which means it will
+continue until the <code class="docutils literal notranslate"><span class="pre">break</span></code> statement executes, if the user is not thinking of
+an animal.</p>
+<p>The inner <code class="docutils literal notranslate"><span class="pre">while</span></code> loop walks the tree from top to bottom, guided by the
+user’s responses.</p>
+<p>When a new node is added to the tree, the new question replaces the cargo, and
+the two children are the new animal and the original cargo.</p>
+<p>One shortcoming of the program is that when it exits, it forgets everything you
+carefully taught it! Fixing this problem is left as an exercise.</p>
+</div>
+<div class="section" id="glossary">
+<h2>28.8. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-binary-operator">binary operator</dt>
+<dd>An operator that takes two operands.</dd>
+<dt id="term-binary-tree">binary tree</dt>
+<dd>A tree in which each node refers to zero, one, or two dependent nodes.</dd>
+<dt id="term-child">child</dt>
+<dd>One of the nodes referred to by a node.</dd>
+<dt id="term-leaf">leaf</dt>
+<dd>A bottom-most node in a tree, with no children.</dd>
+<dt id="term-level">level</dt>
+<dd>The set of nodes equidistant from the root.</dd>
+<dt id="term-parent">parent</dt>
+<dd>The node that refers to a given node.</dd>
+<dt id="term-postorder">postorder</dt>
+<dd>A way to traverse a tree, visiting the children of each node before the
+node itself.</dd>
+<dt id="term-prefix-notation">prefix notation</dt>
+<dd>A way of writing a mathematical expression with each operator appearing
+before its operands.</dd>
+<dt id="term-preorder">preorder</dt>
+<dd>A way to traverse a tree, visiting each node before its children.</dd>
+<dt id="term-root">root</dt>
+<dd>The topmost node in a tree, with no parent.</dd>
+<dt id="term-siblings">siblings</dt>
+<dd>Nodes that share a common parent.</dd>
+<dt id="term-subexpression">subexpression</dt>
+<dd>An expression in parentheses that acts as a single operand in a larger
+expression.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>28.9. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Modify <code class="docutils literal notranslate"><span class="pre">print_tree_inorder</span></code> so that it puts parentheses around every
+operator and pair of operands. Is the output correct and unambiguous?  Are
+the parentheses always necessary?</li>
+<li>Write a function that takes an expression string and returns a token list.</li>
+<li>Find other places in the expression tree functions where errors can occur
+and add appropriate <code class="docutils literal notranslate"><span class="pre">raise</span></code> statements. Test your code with improperly
+formed expressions.</li>
+<li>Think of various ways you might save the animal knowledge tree in a file.
+Implement the one you think is easiest.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="app_a.html" title="Debugging"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="queues.html" title="27. Queues"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

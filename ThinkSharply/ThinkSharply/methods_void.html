@@ -1,0 +1,666 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8. Void Methods &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="9. Working with Booleans and Conditional Statements" href="conditionals.html" />
+    <link rel="prev" title="7. Hello, Little Turtles!" href="hello_little_turtles.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="conditionals.html" title="9. Working with Booleans and Conditional Statements"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hello_little_turtles.html" title="7. Hello, Little Turtles!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="void-methods">
+<h1>8. Void Methods<a class="headerlink" href="#void-methods" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="methods">
+<span id="index-0"></span><h2>8.1. Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<p>In C#, a <strong>method</strong> is a named sequence of statements
+that belong together.  Their primary purpose is to help us
+organize programs into chunks that match how we think about
+the problem.</p>
+<p>There are two main kinds of methods that we work with:</p>
+<ul class="simple">
+<li><strong>value-returning methods</strong> which are executed because we want them to
+do some calculation and return a value,</li>
+<li><strong>void methods</strong> which do not return a value.  They are executed
+because they <em>do</em> something interesting.</li>
+</ul>
+<p>We cover the void methods in this chapter, and talk about value-returning
+methods a little further into the course.</p>
+<p>Suppose we&#8217;re working with turtles, and we find that we&#8217;re having to
+draw many squares, all of different sizes.   &#8220;Draw a square&#8221; is an <em>abstraction</em>,
+or a mental chunk, of a number of smaller steps.  So let&#8217;s write a method to capture the pattern
+of this &#8220;building block&#8221;:   We&#8217;ll make these changes to our Alex and Tess program from the previous chapter.
+This will be a void method, because our goal is not to calculate a result:  our goal is to get
+the turtle to <em>do</em> something.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span class="hll"><span class="k">private</span> <span class="k">void</span> <span class="nf">drawSquare</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sz</span><span class="p">)</span>  <span class="c1">// t and sz are parameters</span>
+</span><span class="p">{</span>
+    <span class="kt">int</span> <span class="n">side</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">side</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">sz</span><span class="p">);</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+        <span class="n">side</span> <span class="p">=</span> <span class="n">side</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">WarpTo</span><span class="p">(</span><span class="m">10.5</span><span class="p">,</span> <span class="m">30.8</span><span class="p">);</span>
+<span class="hll">    <span class="n">drawSquare</span><span class="p">(</span><span class="n">tess</span><span class="p">,</span> <span class="m">50.2</span><span class="p">);</span>      <span class="c1">// this is a call-site where we use our method</span>
+</span>
+    <span class="n">alex</span><span class="p">.</span><span class="n">WarpTo</span><span class="p">(</span><span class="m">80.0</span><span class="p">,</span> <span class="m">80.0</span><span class="p">);</span>
+<span class="hll">    <span class="n">drawSquare</span><span class="p">(</span><span class="n">alex</span><span class="p">,</span> <span class="m">80.0</span><span class="p">);</span>
+</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">WarpTo</span><span class="p">(</span><span class="m">200.0</span><span class="p">,</span> <span class="m">150.0</span><span class="p">);</span>
+<span class="hll">    <span class="n">drawSquare</span><span class="p">(</span><span class="n">tess</span><span class="p">,</span> <span class="m">120.0</span><span class="p">);</span>     <span class="c1">// tess and 120.0 are arguments</span>
+</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Clicking the button now produces this:</p>
+<blockquote>
+<div><img alt="_images/turtle05.png" src="_images/turtle05.png" />
+</div></blockquote>
+<p>Every method has a <strong>method signature</strong> followed by a <strong>method body</strong>.</p>
+<p>Here the method signatures are at lines 1 and 12.</p>
+<p>The body of the <code class="docutils literal"><span class="pre">DrawSquare</span></code> method contains everything from line 2 to line 10, while
+the body of the <code class="docutils literal"><span class="pre">btnDemo1_Click</span></code> method is at lines 13-22.</p>
+<p>The signature contains a name for our method &#8212; in our example we called it <code class="docutils literal"><span class="pre">drawSquare</span></code>.
+The signature also has two <strong>parameters</strong> that make it general:
+one to tell the method which turtle to use, and the other to tell it the size
+of the square to draw.</p>
+<p>Defining a new method does not make the method run. To <strong>invoke</strong> the method we need a
+<strong>method call</strong>. We&#8217;ve already seen how to call some of the turtle methods like
+<code class="docutils literal"><span class="pre">Right</span></code> and <code class="docutils literal"><span class="pre">Forward</span></code>.  A method call requires the name of the method
+followed by some values, called <strong>arguments</strong>.   The arguments are <strong>passed</strong> to
+the method by assigning them to the parameters in the method.</p>
+<p>At this stage, if your method has two parameters, your <strong>call sites</strong>
+&#8212; the places in our code where we call the method &#8212; should have two matching
+arguments. (This rule is relaxed in more advanced C#.)  And any argument value you provide
+must be of an appropriate type that can be assigned to its corresponding parameter.</p>
+<p>We use the terms <em>call a method</em> and <em>invoke a method</em> interchangeably &#8212; they mean the same thing.</p>
+<p>So lines 15, 18, and 21 are our call sites.  We call our new method three times in this code,
+passing different arguments each time.  So, for example,
+when the method is invoked from line 15, the variable <code class="docutils literal"><span class="pre">sz</span></code> is assigned the value 50,
+and the variable <code class="docutils literal"><span class="pre">t</span></code> refers to Tess.</p>
+<p>Once we&#8217;ve defined a method, we can call it as often as we like, and its
+statements will be executed each time we call it.  And, as we see above, we
+can use it to get any of our turtles to draw a square of any size.</p>
+<p>Parameters play a very interesting role in methods.  They allow us to generalize
+the methods.  Look again at <code class="docutils literal"><span class="pre">drawSquare</span></code>.  We could have written it without the <code class="docutils literal"><span class="pre">sz</span></code>
+parameter, and simply hard-coded a value like 100 into line 6.  But then our method
+would be less general: it would only be able to draw squares of size 100. Similarly,
+we could have omitted the Turtle parameter from the method and hard-coded to use
+some specific turtle, say Tess, at lines 6 and 7. Once again, that would make the
+method less general.</p>
+<p>An important thinking skill when we create our own methods is to decide what parts
+of the task (or mental chunk) that we&#8217;re coding for must be fixed for all uses of
+the methods, and what parts should be <em>pluggable</em> to make the method general.  Parameters
+provide the mechanism to plug different values into the method at each different
+call site.</p>
+<p>In the next example, we&#8217;ve created a variation, and we get
+Alex to draw 15 squares.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">drawMulticolorSquare</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sz</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Brush</span><span class="p">[]</span> <span class="n">bs</span> <span class="p">=</span> <span class="p">{</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Red</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Yellow</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Magenta</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Blue</span> <span class="p">};</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">Brush</span> <span class="n">b</span> <span class="k">in</span> <span class="n">bs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">LineBrush</span> <span class="p">=</span> <span class="n">b</span><span class="p">;</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">sz</span><span class="p">);</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">alex</span><span class="p">.</span><span class="n">BrushWidth</span> <span class="p">=</span> <span class="m">3.14</span><span class="p">;</span>
+    <span class="n">alex</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">size</span> <span class="p">=</span> <span class="m">20.0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">15</span><span class="p">;</span> <span class="n">i</span> <span class="p">=</span> <span class="n">i</span> <span class="p">+</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">drawMulticolorSquare</span><span class="p">(</span><span class="n">alex</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+        <span class="n">size</span> <span class="p">=</span> <span class="n">size</span> <span class="p">+</span> <span class="m">6.1</span><span class="p">;</span>        <span class="c1">// Increase the size for next time</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">10.0</span><span class="p">);</span>       <span class="c1">// Move alex along a little</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">18.0</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<img alt="_images/turtle06.png" src="_images/turtle06.png" />
+<p>Here we&#8217;ve sneaked in arrays, and two more of C#&#8217;s looping mechanisms.</p>
+<p>Line 3 creates an <em>array</em> of values &#8212; four in this case.  Each value is a different
+colour brush.   Line 4 <em>iterates</em> through all the elements in the array using C#&#8217;s <code class="docutils literal"><span class="pre">foreach</span></code> loop.
+So on the first pass of the loop, the variable <code class="docutils literal"><span class="pre">b</span></code> is assigned (given) the value <code class="docutils literal"><span class="pre">Brushes.Red</span></code>.
+Then the body of the loop
+is executed.  Next time, <code class="docutils literal"><span class="pre">b</span></code> is assigned the value <code class="docutils literal"><span class="pre">Brushes.Yellow</span></code>.  Again the body of the loop is
+executed (and it sets the turtle brush to <code class="docutils literal"><span class="pre">b</span></code>, draws a side, turns the corner).  So in a <code class="docutils literal"><span class="pre">foreach</span></code>
+loop, the number of times the loop is executed depends on how many elements are in the array.
+In our example, we have four different brushes in the array, so we draw four sides.</p>
+<p>Line 17 introduces the third flavour of C# loops: the <code class="docutils literal"><span class="pre">for</span></code> loop.  Look up the <code class="docutils literal"><span class="pre">for</span></code> loop in Microsoft&#8217;s
+C# Reference manual.</p>
+</div>
+<div class="section" id="methods-can-call-other-methods">
+<h2>8.2. Methods can call other Methods<a class="headerlink" href="#methods-can-call-other-methods" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s assume now we want a method to draw a rectangle.  (A rectangle is a generalization
+of a square.)  We need to be able to call
+the method with different arguments for width and height.  And, unlike the case of the
+square, we cannot repeat the same thing 4 times, because the four sides are not equal.</p>
+<p>So we eventually come up with this rather nice code that can draw a rectangle.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">drawRectangle</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">wSz</span><span class="p">,</span> <span class="kt">double</span> <span class="n">hSz</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">2</span><span class="p">;</span> <span class="n">i</span> <span class="p">=</span> <span class="n">i</span> <span class="p">+</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">wSz</span><span class="p">);</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">hSz</span><span class="p">);</span>
+        <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The parameter names are deliberately chosen to be short to ensure they&#8217;re not misunderstood.
+In real programs, once we&#8217;ve had more experience, we will insist on better variable names than this.
+But the point is that the program doesn&#8217;t &#8220;understand&#8221; that we&#8217;re drawing a rectangle, or that the
+parameters represent the width and the height.  Concepts like rectangle, width, and height are
+the meaning we humans have, not concepts that the program or the computer understands.</p>
+<p><em>Thinking like a scientist</em> involves looking for patterns and
+relationships.  In the code above, we&#8217;ve done that to some extent.  We did not just draw four sides.
+Instead, we spotted that we could draw the rectangle as two halves, and used a loop to
+repeat that pattern twice.</p>
+<p>But now we connect some more dots in our head: we realize that a square is a
+special kind of rectangle.  We already have a method that draws a rectangle,
+so we can use that to draw our square too.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">drawSquare</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">tx</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sz</span><span class="p">)</span>   <span class="c1">// a new version</span>
+<span class="p">{</span>
+    <span class="n">drawRectangle</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">sz</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">drawRectangle</span><span class="p">(</span><span class="n">tess</span><span class="p">,</span> <span class="m">150.0</span><span class="p">,</span> <span class="m">100.0</span><span class="p">);</span>
+    <span class="n">drawSquare</span><span class="p">(</span><span class="n">alex</span><span class="p">,</span> <span class="m">75.0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>After clicking the button we&#8217;ll find this in our playground:</p>
+<blockquote>
+<div><img alt="_images/turtle07.png" src="_images/turtle07.png" />
+</div></blockquote>
+<p>There are some points worth noting here:</p>
+<ul class="simple">
+<li>Methods can call other methods.</li>
+<li>Rewriting <code class="docutils literal"><span class="pre">drawSquare</span></code> like this captures the relationship
+that we&#8217;ve spotted between squares and rectangles.</li>
+<li>A caller of this method might say <code class="docutils literal"><span class="pre">drawSquare(alex,</span> <span class="pre">75.0)</span></code>.  The parameters
+<code class="docutils literal"><span class="pre">tx</span></code> and <code class="docutils literal"><span class="pre">sz</span></code>, are given the values of alex and 75.0 respectively.</li>
+<li>In the body of <code class="docutils literal"><span class="pre">drawSquare</span></code>, the parameters are just like any other variable.</li>
+<li>When the call is about to be made to <code class="docutils literal"><span class="pre">drawRectangle</span></code>, the values in variables <code class="docutils literal"><span class="pre">tx</span></code> and <code class="docutils literal"><span class="pre">sz</span></code>
+are fetched first, then the call happens.  So as we enter the top of
+method <code class="docutils literal"><span class="pre">drawRectangle</span></code>, its parameter <code class="docutils literal"><span class="pre">t</span></code> is assigned the Tess object.  <code class="docutils literal"><span class="pre">wSz</span></code> and
+<code class="docutils literal"><span class="pre">hSz</span></code> are both given the value 75.</li>
+<li>In this example we&#8217;ve chosen different names for the parameters in <code class="docutils literal"><span class="pre">drawSquare</span></code> and in
+<code class="docutils literal"><span class="pre">drawRectangle</span></code>.  But the names are what we call <strong>local</strong> names:  You can choose any
+name you like for the parameters of a method.  Even if you re-use the same name as is used in
+some other method, they are different variables.  (Different families could have a
+dog called Rex: the same name doesn&#8217;t mean they&#8217;re the same dog!)  So make sure
+you still understand the argument passing if the parameter name in <code class="docutils literal"><span class="pre">drawSquare</span></code>
+is changed to <code class="docutils literal"><span class="pre">t</span></code> instead of <code class="docutils literal"><span class="pre">tx</span></code>.</li>
+</ul>
+<p>So far, it may not be clear why it is worth the trouble to create all of these
+new methods. There are many good reasons, but this example demonstrates two:</p>
+<ol class="arabic simple">
+<li>Creating a new method gives us an opportunity to name a group of
+statements.  Methods can simplify a program by hiding a complex computation
+behind a single call. The method (including its name) can capture our
+mental chunking, or <em>abstraction</em>, of the problem.</li>
+<li>Creating a new method can make a program smaller by eliminating repetitive
+code.</li>
+</ol>
+</div>
+<div class="section" id="flow-of-control">
+<span id="index-1"></span><h2>8.3. Flow of Control<a class="headerlink" href="#flow-of-control" title="Permalink to this headline">¶</a></h2>
+<p>We can imagine the computer has a moving finger which always points to
+the next statement to be executed.  The way the finger moves from one
+statement to the next is called the <strong>flow of control</strong>, sometimes also
+called <strong>control flow</strong>.</p>
+<p>We&#8217;ve see event handlers attached to events: when a button is clicked,
+the flow of control executes the statements in the handler one after the
+other, until it leaves the handler and goes back to wait for another event.</p>
+<p>Method calls are a detour in the control flow. Instead of going to
+the next statement, the control jumps to the first line of the called method,
+executes all the statements there, and then comes back to pick up where it left
+off.</p>
+<p>That sounds simple enough, until we remember that one method can call
+another. While in the middle of one method, the program might have to execute
+the statements in another method. But while executing that new method, the
+program might have to execute yet another method!</p>
+<p>C# keeps track of where it is, so each time a method completes,
+control returns to where it was called from.</p>
+<div class="admonition-watch-the-control-flow-in-action admonition" id="index-2">
+<p class="first admonition-title">Watch the control flow in action</p>
+<p>See a video demonstration at <a class="reference external" href="http://www.ict.ru.ac.za/resources/thinksharply/videos/debugging1.avi">http://www.ict.ru.ac.za/resources/thinksharply/videos/debugging1.avi</a></p>
+<p>In Visual Studio (VS), we can debug our programs and &#8220;single-step&#8221; through
+any program.  VS will highlight each line of code just before it is about to
+be executed.</p>
+<p>To get into <em>debugging mode</em>, we set <strong>breakpoints</strong> in the code.  This fragment shows
+a breakpoint set on line 50.  (Set or remove the breakpoints by clicking where the red
+icon is shown to the left of line 50.)  The red highlighted section shows that execution
+will be interrupted before the first step of the <code class="docutils literal"><span class="pre">for</span></code> loop (defining the variable <code class="docutils literal"><span class="pre">i</span></code>
+and initializing it to zero.)</p>
+<img alt="_images/breakpoint01.png" src="_images/breakpoint01.png" />
+<p>Once breakpoints are set we can execute the program, click its buttons, etc. and when we
+reach a breakpoint VS enters <strong>debugging mode</strong>. (VS has at least three modes: editing,
+running and debugging.  We know which mode we&#8217;re in by watching the title bar of VS: when
+editing, only the name of your solution is shown. Otherwise VS shows the name of the
+solution followed by  &#8220;(Debugging)&#8221; or by &#8220;(Running)&#8221;.)</p>
+<p>In debugging mode we can single-step (key F11 executes the next instruction),
+or we can hover the cursor over any
+variable to get VS to pop up the current value of that variable.
+So this makes it easy to inspect the state of the program &#8212; the
+current values that are assigned to the program&#8217;s variables.  Below we see
+that we&#8217;ve stepped through a few statements and we&#8217;re about to execute line
+55.  We&#8217;ve hovered the cursor over the variable <code class="docutils literal"><span class="pre">hSz</span></code> and we see that
+it currently has the value 100.0.</p>
+<img alt="_images/breakpoint02.png" src="_images/breakpoint02.png" />
+<p>Notice also that there is a little pin on the pop-up. If you pin the pop-up,
+it remains there.  So you can pin values for many variables and see how they
+change as you execute your code step by step.  So here is the same code with
+three variables pinned for inspection:</p>
+<img alt="_images/breakpoint03.png" src="_images/breakpoint03.png" />
+<p>Single-stepping is a powerful mechanism for building a deep and thorough understanding of
+what is happening as each statement is executed.  Learn to use breakpoints and
+single-stepping feature well, and be mentally proactive:  as you work through the code,
+challenge yourself before each step: <em>&#8220;What changes will this line make to
+any variables (or *state</em>) in my program?&#8221;* and <em>&#8220;Where will flow of execution go next?&#8221;</em></p>
+<p class="last">After a few steps of debugging you can go back to running mode by
+removing the breakpoint and clicking the Run icon again.</p>
+</div>
+</div>
+<div class="section" id="a-turtle-bar-chart">
+<span id="index-3"></span><h2>8.4. A Turtle Bar Chart<a class="headerlink" href="#a-turtle-bar-chart" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s do a slightly bigger example now.</p>
+<p>The turtle has a lot more power than we&#8217;ve seen so far.
+Details are in the documentation for the turtle, in the appendix of this book.</p>
+<p>Here are a couple of new tricks for our turtles:</p>
+<ul>
+<li><p class="first">We can get a turtle to display text at its current position.  The method to do that is
+<code class="docutils literal"><span class="pre">alex.Stamp(&quot;Hello&quot;)</span></code>.   The argument is the text to be displayed &#8212; it must be a string.
+But the Stamp method takes some extra <em>optional</em> arguments which can change the position and rotation of the
+text.  If you use the method with only the one string argument, it creates a rectangular label containing the text,
+and places the top left edge of the label at the turtle position.  So the text lines up below the turtle, and
+is written horizontally across the screen.</p>
+</li>
+<li><p class="first">If you supply the next two arguments e.g. <code class="docutils literal"><span class="pre">alex.Stamp(&quot;Hello&quot;,5,</span> <span class="pre">-20)</span></code> the label will be offset an additional
+5 units in the X direction, and -20 in the Y direction.  So the text will now appear further to the right of
+the turtle, and above the turtle, 20 units nearer the top edge of the screen.</p>
+</li>
+<li><p class="first">And there is still another optional argument.  Once we know where the text should go relative to a turtle who is
+facing east (its Heading is 0.0 degrees), we can provide a Boolean argument to tell the system to rotate the
+text to the same heading as the turtle.  So here is a small sample that shows the options we have:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="n">tess</span><span class="p">.</span><span class="n">Reset</span><span class="p">();</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="m">70</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">(</span><span class="s">&quot;1. Default position of text is here...&quot;</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">(</span><span class="s">&quot;2. With offsets, we move the text. &quot;</span><span class="p">,</span> <span class="m">10.0</span><span class="p">,</span> <span class="p">-</span><span class="m">24.1</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">(</span><span class="s">&quot;3. With offsets and rotation.&quot;</span><span class="p">,</span> <span class="m">10.0</span><span class="p">,</span> <span class="p">-</span><span class="m">24.1</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<img alt="_images/turtle08.png" src="_images/turtle08.png" />
+</li>
+<li><p class="first">Every turtle has some properties called TextBrush, TextFontFamily, TextFontSize, TextFontStyle, TextFontWeight,
+which we can set: so we can get our turtle to create huge text in hot pink colours with our favourite font.  Experiment a bit.</p>
+</li>
+<li><p class="first">Turtles usually draw shapes with lines: but there is a property called <code class="docutils literal"><span class="pre">Filling</span></code> that tells the turtle to fill the
+interior of its shapes rather than draw an outline. Along with this we can set the FillBrush property (If we don&#8217;t set
+it, the turtle&#8217;s LineBrush will be used to fill too.)</p>
+</li>
+</ul>
+<p>Ok, so can we get Tess to draw a bar chart?  Let us start with some data to be charted,</p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">int[]</span> <span class="pre">xs</span> <span class="pre">=</span> <span class="pre">{</span> <span class="pre">24,</span> <span class="pre">57,</span> <span class="pre">100,</span> <span class="pre">120,</span> <span class="pre">80,</span> <span class="pre">130,</span> <span class="pre">110</span> <span class="pre">};</span></code></div></blockquote>
+<p>To tackle the problem, we think about how to break it into decent sub-problems or chunks.  A good building block
+is to be able to draw a single bar of a given height, with a fixed width.  So let&#8217;s make a void method to capture
+this mental chunking:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">draw_bar</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">t</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Get turtle t to draw one bar, of height.</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">height</span><span class="p">);</span>     <span class="c1">// Draw up the left side</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">40</span><span class="p">);</span>         <span class="c1">// Width of bar, along the top</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">height</span><span class="p">);</span>     <span class="c1">// And down again!</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>            <span class="c1">// Put the turtle facing the way we found it.</span>
+    <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>         <span class="c1">// Leave small gap after each bar</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now to draw the whole chart we need to repeatedly call our method.  So code like this
+could appear in a handler:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">drawChart_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Reset</span><span class="p">();</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span> <span class="p">=</span> <span class="p">{</span> <span class="m">24</span><span class="p">,</span> <span class="m">57</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="m">120</span><span class="p">,</span> <span class="m">80</span><span class="p">,</span> <span class="m">130</span><span class="p">,</span> <span class="m">110</span> <span class="p">};</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">LineBrush</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Purple</span><span class="p">;</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="n">draw_bar</span><span class="p">(</span><span class="n">tess</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>What we get is not fantastically impressive, but it is a good start!</p>
+<blockquote>
+<div><img alt="_images/tess_bar_1.png" src="_images/tess_bar_1.png" />
+</div></blockquote>
+<p>Notice that we used an array of integers
+and integer angles for turning the turtle.  But, of course, C# can see that the turtle&#8217;s methods take
+double parameters.  C# will do the type conversions automatically for us, because it is always safe
+to convert an int to a double.  But C# won&#8217;t try to do the automatic conversion in the opposite
+direction, because converting a double to an int can lose information.  If we want to do a conversion
+that potentially could discard some precision, we have to do it ourselves.</p>
+<p>Next, at the top of each bar, we&#8217;ll print the value of the data.
+We&#8217;ll do this in the body of <code class="docutils literal"><span class="pre">draw_bar</span></code>, by adding   <code class="docutils literal"><span class="pre">t.Stamp(string.Format(&quot;{0}&quot;,</span> <span class="pre">height),</span> <span class="pre">0,</span> <span class="pre">-24);</span></code>
+just before line 7.   The result looks much better now:</p>
+<img alt="_images/tess_bar_2.png" src="_images/tess_bar_2.png" />
+<p>Now let&#8217;s turn on the filling capability for a nice effect.  Our final handler now looks like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">drawChart_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span> <span class="p">=</span> <span class="p">{</span> <span class="m">24</span><span class="p">,</span> <span class="m">57</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="m">120</span><span class="p">,</span> <span class="m">80</span><span class="p">,</span> <span class="m">130</span><span class="p">,</span> <span class="m">110</span> <span class="p">};</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Reset</span><span class="p">();</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">LineBrush</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Purple</span><span class="p">;</span>
+
+<span class="hll">    <span class="n">tess</span><span class="p">.</span><span class="n">Filling</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">draw_bar</span><span class="p">(</span><span class="n">tess</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="hll">    <span class="n">tess</span><span class="p">.</span><span class="n">Filling</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>It produces the following very satisfying result:</p>
+<blockquote>
+<div><img alt="_images/tess_bar_3.png" src="_images/tess_bar_3.png" />
+</div></blockquote>
+<div class="admonition-a-small-challenge admonition">
+<p class="first admonition-title">A small challenge</p>
+<p>Brushes are very flexible things.  A LinearGradientBrush gives a blend of colours along a certain angle.  A RadialGradientBrush
+is also quite interesting.  Turtles have different brushes for their line operations and their filling operations.  So after line 5,
+you could try one of these.</p>
+<div class="last highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">tess</span><span class="p">.</span><span class="n">FillBrush</span> <span class="p">=</span> <span class="k">new</span> <span class="n">LinearGradientBrush</span><span class="p">(</span><span class="n">Colors</span><span class="p">.</span><span class="n">Cyan</span><span class="p">,</span> <span class="n">Colors</span><span class="p">.</span><span class="n">Red</span><span class="p">,</span> <span class="m">45</span><span class="p">);</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">FillBrush</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RadialGradientBrush</span><span class="p">(</span><span class="n">Colors</span><span class="p">.</span><span class="n">Yellow</span><span class="p">,</span> <span class="n">Colors</span><span class="p">.</span><span class="n">Magenta</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="glossary">
+<h2>8.5. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-argument">argument</dt>
+<dd>A value provided to a method when the method is called. This value
+is assigned to the corresponding parameter in the method.  The argument
+can be the result of an expression which may involve operators,
+operands and calls to other value-returning methods.</dd>
+<dt id="term-call-site">call site</dt>
+<dd>A place in our code where we call a method.</dd>
+<dt id="term-flow-of-execution">flow of execution</dt>
+<dd>The order in which statements are executed.</dd>
+<dt id="term-method">method</dt>
+<dd>A named sequence of statements that performs some useful operation.
+Methods may or may not take parameters.  In this chapter we&#8217;ve seen void methods
+(they don&#8217;t return any result).  In a future chapter we&#8217;ll see value-returning methods.</dd>
+<dt id="term-method-body">method body</dt>
+<dd>The block of statements that come after the method signature.  The body always
+starts and ends with matching braces  {  }.</dd>
+<dt id="term-method-call">method call</dt>
+<dd>A statement that causes a method to execute. It consists of the name of the
+method followed by arguments enclosed in parentheses.</dd>
+<dt id="term-method-signature-signature">method signature, signature</dt>
+<dd>The initial part of a method which contains details about its name, it&#8217;s return type (or
+the special keyword <code class="docutils literal"><span class="pre">void</span></code>), and its parameters. (Some headers may use more advanced features
+&#8212; for example, the keyword <code class="docutils literal"><span class="pre">private</span></code> will be covered later.)  See <em>method body</em>.</dd>
+<dt id="term-lifetime">lifetime</dt>
+<dd>Variables and objects have lifetimes &#8212; they are created at some point during
+program execution, and are destroyed at some later time.</dd>
+<dt id="term-local-variable">local variable</dt>
+<dd>A variable defined inside a method. A local variable can only be used
+inside its method.  Parameters of a method are also special kinds
+of local variables.</dd>
+<dt id="term-parameter">parameter</dt>
+<dd>A name used inside a method to refer to the argument which was passed
+to it from the call site.</dd>
+<dt id="term-refactor">refactor</dt>
+<dd>A fancy word to describe reorganizing our program code, usually to make
+it more understandable.  Typically, we have a program that is already working,
+then we go back to &#8220;tidy it up&#8221;.  This often involves writing good comments,
+choosing better variable names, simplifying the code where we can, or spotting repeated patterns
+and moving that code into a method.</dd>
+<dt id="term-signature">signature</dt>
+<dd>See <em>method signature</em>.</dd>
+<dt id="term-void-method">void method</dt>
+<dd>The opposite of a value-returning method: one that does not return a value.  It is
+executed for the work it does, rather than for the value it returns.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>8.6. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Write a void method to draw a square.  Use it in a program to draw the image shown below.
+Assume each side is 20 units.
+(Hint: notice that the turtle has already moved away from the ending point of the last
+square when the program ends.)</p>
+<img alt="_images/five_squares.png" src="_images/five_squares.png" />
+</li>
+<li><p class="first">Write a void method to draw this. Assume the innermost square is 20 units per side,
+and each successive square is 20 units bigger, per side, than the one inside it.</p>
+<img alt="_images/nested_squares.png" src="_images/nested_squares.png" />
+</li>
+<li><p class="first">Write a void method <code class="docutils literal"><span class="pre">draw_poly(t,</span> <span class="pre">n,</span> <span class="pre">sz)</span></code> which makes a turtle
+draw a regular polygon.
+When called with <code class="docutils literal"><span class="pre">draw_poly(tess,</span> <span class="pre">8,</span> <span class="pre">50)</span></code>, it will draw a shape like this:</p>
+<img alt="_images/regularpolygon.png" src="_images/regularpolygon.png" />
+</li>
+<li><p class="first">Draw this pretty pattern.</p>
+<img alt="_images/tess08.png" src="_images/tess08.png" />
+</li>
+<li><p class="first">The two spirals in this picture differ only by the turn angle.  Draw both.</p>
+<a class="reference internal image-reference" href="_images/tess_spirals.png"><img alt="_images/tess_spirals.png" src="_images/tess_spirals.png" style="height: 240px;" /></a>
+</li>
+<li><p class="first">Write a void method <code class="docutils literal"><span class="pre">draw_equitriangle(t,</span> <span class="pre">sz)</span></code> which calls <code class="docutils literal"><span class="pre">draw_poly</span></code> from the
+earlier question to have its turtle draw a equilateral triangle.</p>
+</li>
+<li><p class="first">Write a void method to draw a star, where the length of each side is 50 units.
+(Hint: You should turn the turtle by 144 degrees at each point.)</p>
+<blockquote>
+<div><img alt="_images/star.png" src="_images/star.png" />
+</div></blockquote>
+</li>
+<li><p class="first">Extend your program above.  Draw five stars, but between each, pick up the pen,
+move forward by 175 units, turn right by 144, put the pen down, and draw the next star.
+You&#8217;ll get something like this:</p>
+<img alt="_images/five_stars.png" src="_images/five_stars.png" />
+<p>What would it look like if you didn&#8217;t pick up the pen?</p>
+</li>
+<li><p class="first">Study the turtle bar chart program, and determine what you think will happen if we provide some
+negative values in the data to be charted.  Then try it out and confirm that you understand it well!
+Then peek ahead at the next chapter, see how the <code class="docutils literal"><span class="pre">if</span></code> statement works, and change the turtle bar chart
+program so that positive bars are filled with a blue brush, and negative bars are filled with a red brush.
+Also arrange that the value that labels negative bars displays below the bar, rather than inside it.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="conditionals.html" title="9. Working with Booleans and Conditional Statements"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="hello_little_turtles.html" title="7. Hello, Little Turtles!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

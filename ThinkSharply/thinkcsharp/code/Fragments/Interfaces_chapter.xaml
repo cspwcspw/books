@@ -1,0 +1,8 @@
+﻿<Window x:Class="Fragments.Interfaces_chapter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Interfaces_chapter" Height="300" Width="300">
+    <Grid>
+        <Button Content="Demo1" Height="29" HorizontalAlignment="Left" Margin="20,32,0,0" Name="btnDemo1" VerticalAlignment="Top" Width="60" Click="btnDemo1_Click" />
+    </Grid>
+</Window>

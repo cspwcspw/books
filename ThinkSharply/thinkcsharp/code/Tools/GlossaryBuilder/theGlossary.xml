@@ -1,0 +1,2937 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Definition>
+    <Term>int</Term>
+    <Rhs>This is any whole number between approximately -2,000,000,000 and 2,000,000,000.</Rhs>
+    <ChapterTitle>Chapter 1 The Way of the Program</ChapterTitle>
+    <ChapterNum>1</ChapterNum>
+    <TermHtml>&lt;cite&gt;int&lt;/cite&gt;</TermHtml>
+    <RhsHtml>This is any whole number between approximately -2,000,000,000 and 2,000,000,000.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>bool</Term>
+    <Rhs>This is either true or false.</Rhs>
+    <ChapterTitle>Chapter 1 The Way of the Program</ChapterTitle>
+    <ChapterNum>1</ChapterNum>
+    <TermHtml>&lt;cite&gt;bool&lt;/cite&gt;</TermHtml>
+    <RhsHtml>This is either true or false.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>double</Term>
+    <Rhs>This is any number with a dot in it.</Rhs>
+    <ChapterTitle>Chapter 1 The Way of the Program</ChapterTitle>
+    <ChapterNum>1</ChapterNum>
+    <TermHtml>&lt;cite&gt;double&lt;/cite&gt;</TermHtml>
+    <RhsHtml>This is any number with a dot in it.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>char</Term>
+    <Rhs>This is any single character, digit, or punctuation mark.  In C#, a char is always enclosed in single-quotation ( &amp;#8216; ) marks.</Rhs>
+    <ChapterTitle>Chapter 1 The Way of the Program</ChapterTitle>
+    <ChapterNum>1</ChapterNum>
+    <TermHtml>&lt;cite&gt;char&lt;/cite&gt;</TermHtml>
+    <RhsHtml>This is any single character, digit, or punctuation mark.  In C#, a char is always enclosed in single-quotation ( &amp;#8216; ) marks.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>string</Term>
+    <Rhs>This is zero or more characters, digits, and/or punctuation marks.  In C#, a string is always enclosed in quotation ( &amp;#8221; ) marks.</Rhs>
+    <ChapterTitle>Chapter 1 The Way of the Program</ChapterTitle>
+    <ChapterNum>1</ChapterNum>
+    <TermHtml>&lt;cite&gt;string&lt;/cite&gt;</TermHtml>
+    <RhsHtml>This is zero or more characters, digits, and/or punctuation marks.  In C#, a string is always enclosed in quotation ( &amp;#8221; ) marks.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>application</Term>
+    <Rhs>Another name for a program.</Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>application</TermHtml>
+    <RhsHtml>Another name for a program.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>container control</Term>
+    <Rhs>
+      A control that can have children controls.  It allows us to group, organize,
+      and lay out the children controls.  The Grid is a container control.  Visual
+      Studio starts off a new WPF application by giving us a blank Grid to begin with.  (See
+      line 5 of the XAML code in the screen shot above: there is a Grid instance that
+      contains everything else.)
+    </Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>container control</TermHtml>
+    <RhsHtml>
+      A control that can have children controls.  It allows us to group, organize,
+      and lay out the children controls.  The Grid is a container control.  Visual
+      Studio starts off a new WPF application by giving us a blank Grid to begin with.  (See
+      line 5 of the XAML code in the screen shot above: there is a Grid instance that
+      contains everything else.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>control</Term>
+    <Rhs>
+      Any of the visual components or building blocks that we can use to design our window.
+      Some examples are buttons, sliders, menus, panels, labels, images and text boxes.
+    </Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>control</TermHtml>
+    <RhsHtml>
+      Any of the visual components or building blocks that we can use to design our window.
+      Some examples are buttons, sliders, menus, panels, labels, images and text boxes.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>design time</Term>
+    <Rhs>
+      The time when we are designing our window, or writing code for our application.
+      See run time.
+    </Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>design time</TermHtml>
+    <RhsHtml>
+      The time when we are designing our window, or writing code for our application.
+      See &lt;em&gt;run time&lt;/em&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>properties window</Term>
+    <Rhs>One of the Visual Studio windows that lets us edit properties on our control instances.</Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>properties window</TermHtml>
+    <RhsHtml>One of the Visual Studio windows that lets us edit properties on our control instances.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>property</Term>
+    <Rhs>
+      Each instance of a control (say a button instance) has properties
+      such as: the text that it displays; its size; its position; its background colour;
+      the font it uses for text; the font size, etc.
+    </Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>property</TermHtml>
+    <RhsHtml>
+      Each instance of a control (say a button instance) has properties
+      such as: the text that it displays; its size; its position; its background colour;
+      the font it uses for text; the font size, etc.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>run time</Term>
+    <Rhs>The time when our program is running. See design time.</Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>run time</TermHtml>
+    <RhsHtml>The time when our program is running. See &lt;em&gt;design time&lt;/em&gt;.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>toolbox</Term>
+    <Rhs>
+      One of the Visual Studio sub-windows that shows the control types that
+      we can use when designing our own applications.
+    </Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>toolbox</TermHtml>
+    <RhsHtml>
+      One of the Visual Studio sub-windows that shows the control types that
+      we can use when designing our own applications.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Visual Studio</Term>
+    <Rhs>
+      A software product from Microsoft that helps us design applications that
+      start with a MainWindow which can contain other visual components like Buttons,
+      Sliders and Images.
+    </Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>Visual Studio</TermHtml>
+    <RhsHtml>
+      A software product from Microsoft that helps us design applications that
+      start with a MainWindow which can contain other visual components like Buttons,
+      Sliders and Images.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>WPF</Term>
+    <Rhs>
+      Windows Presentation Foundation (WPF) is a set of tools that allows us to build
+      applications with a window for interaction with our users.
+    </Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>WPF</TermHtml>
+    <RhsHtml>
+      Windows Presentation Foundation (WPF) is a set of tools that allows us to build
+      applications with a window for interaction with our users.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>WPF application</Term>
+    <Rhs>
+      A WPF application (which is the kind we&amp;#8217;re building here) is an application built using
+      the WPF tools, and it will always open a main window when it starts running.
+    </Rhs>
+    <ChapterTitle>Chapter 2 Visual Studio Survival Guide</ChapterTitle>
+    <ChapterNum>2</ChapterNum>
+    <TermHtml>WPF application</TermHtml>
+    <RhsHtml>
+      A WPF application (which is the kind we&amp;#8217;re building here) is an application built using
+      the WPF tools, and it will always open a main window when it starts running.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>back-end</Term>
+    <Rhs>
+      One of the three parts of a modern application.  The back-end often runs
+      remotely (at our bank, or on facebook).  See also front-end and code-behind.
+    </Rhs>
+    <ChapterTitle>Chapter 3 Start with a Window</ChapterTitle>
+    <ChapterNum>3</ChapterNum>
+    <TermHtml>back-end</TermHtml>
+    <RhsHtml>
+      One of the three parts of a modern application.  The back-end often runs
+      remotely (at our bank, or on facebook).  See also &lt;em&gt;front-end&lt;/em&gt; and &lt;em&gt;code-behind&lt;/em&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>code-behind</Term>
+    <Rhs>
+      The part of an application that responds to what the user does and carries out
+      the useful work of the program.   See also back-end and front-end.
+    </Rhs>
+    <ChapterTitle>Chapter 3 Start with a Window</ChapterTitle>
+    <ChapterNum>3</ChapterNum>
+    <TermHtml>code-behind</TermHtml>
+    <RhsHtml>
+      The part of an application that responds to what the user does and carries out
+      the useful work of the program.   See also &lt;em&gt;back-end&lt;/em&gt; and &lt;em&gt;front-end&lt;/em&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>container control</Term>
+    <Rhs>
+      A control that can have children controls.  It allows us to group, organize,
+      and lay out the children controls.  The Canvas is a container.  In the last
+      chapter we also saw that a Grid is a container, and can have children.
+    </Rhs>
+    <ChapterTitle>Chapter 3 Start with a Window</ChapterTitle>
+    <ChapterNum>3</ChapterNum>
+    <TermHtml>container control</TermHtml>
+    <RhsHtml>
+      A control that can have children controls.  It allows us to group, organize,
+      and lay out the children controls.  The Canvas is a container.  In the last
+      chapter we also saw that a Grid is a container, and can have children.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>event</Term>
+    <Rhs>
+      Something external that happens.  An SMS arriving at your phone is an event.  For
+      GUI applications that we write, events occur when a user clicks a button, or moves a
+      slider, or resizes our window, or moves the mouse, or presses a key on the keyboard.
+      An event can occur on a control &amp;#8212; if the send button is clicked, the button
+      gets the click event and passes it to our code behind.
+      Events can also occur on our window &amp;#8212; e.g. if the window is resized, so the resize event
+      happens to the window.
+    </Rhs>
+    <ChapterTitle>Chapter 3 Start with a Window</ChapterTitle>
+    <ChapterNum>3</ChapterNum>
+    <TermHtml>event</TermHtml>
+    <RhsHtml>
+      Something external that happens.  An SMS arriving at your phone is an event.  For
+      GUI applications that we write, events occur when a user clicks a button, or moves a
+      slider, or resizes our window, or moves the mouse, or presses a key on the keyboard.
+      An event can occur on a control &amp;#8212; if the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;send&lt;/span&gt;&lt;/tt&gt; button is clicked, the button
+      gets the click event and passes it to our code behind.
+      Events can also occur on our window &amp;#8212; e.g. if the window is resized, so the resize event
+      happens to the window.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>front-end</Term>
+    <Rhs>Another name for the GUI or interface to an application.  See also back-end and code-behind.</Rhs>
+    <ChapterTitle>Chapter 3 Start with a Window</ChapterTitle>
+    <ChapterNum>3</ChapterNum>
+    <TermHtml>front-end</TermHtml>
+    <RhsHtml>Another name for the GUI or interface to an application.  See also &lt;em&gt;back-end&lt;/em&gt; and &lt;em&gt;code-behind&lt;/em&gt;.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>GUI</Term>
+    <Rhs>
+      A Graphical User Interface.  This is the part of your application that the user
+      can interact with, by entering text, clicking buttons, setting sliders, etc.   In the
+      first programs we write, the GUI will always be a single window.
+    </Rhs>
+    <ChapterTitle>Chapter 3 Start with a Window</ChapterTitle>
+    <ChapterNum>3</ChapterNum>
+    <TermHtml>GUI</TermHtml>
+    <RhsHtml>
+      A Graphical User Interface.  This is the part of your application that the user
+      can interact with, by entering text, clicking buttons, setting sliders, etc.   In the
+      first programs we write, the GUI will always be a single window.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>interface</Term>
+    <Rhs>
+      How a system (like an application or a cellphone) presents its features and capabilities
+      to the outside world.  More generally, how one system presents its capabilities
+      to another.  So a printer presents an interface to a computer.
+    </Rhs>
+    <ChapterTitle>Chapter 3 Start with a Window</ChapterTitle>
+    <ChapterNum>3</ChapterNum>
+    <TermHtml>interface</TermHtml>
+    <RhsHtml>
+      How a system (like an application or a cellphone) presents its features and capabilities
+      to the outside world.  More generally, how one system presents its capabilities
+      to another.  So a printer presents an interface to a computer.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>window</Term>
+    <Rhs>
+      A rectangular area on the screen.  A window usually has a title bar at the
+      top giving some description.
+    </Rhs>
+    <ChapterTitle>Chapter 3 Start with a Window</ChapterTitle>
+    <ChapterNum>3</ChapterNum>
+    <TermHtml>window</TermHtml>
+    <RhsHtml>
+      A rectangular area on the screen.  A window usually has a title bar at the
+      top giving some description.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>code-behind</Term>
+    <Rhs>
+      Code that is &amp;#8220;attached&amp;#8221; to a GUI and provides the logic for the application.
+      See the slightly different definition in the previous chapter&amp;#8217;s glossary too.
+    </Rhs>
+    <ChapterTitle>Chapter 4 Code-behind: Events and Handlers</ChapterTitle>
+    <ChapterNum>4</ChapterNum>
+    <TermHtml>code-behind</TermHtml>
+    <RhsHtml>
+      Code that is &amp;#8220;attached&amp;#8221; to a GUI and provides the logic for the application.
+      See the slightly different definition in the previous chapter&amp;#8217;s glossary too.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>console-based program</Term>
+    <Rhs>
+      Opposite of GUI-based program.  A console-based program does its input and
+      outputs to a text-only console window.
+    </Rhs>
+    <ChapterTitle>Chapter 4 Code-behind: Events and Handlers</ChapterTitle>
+    <ChapterNum>4</ChapterNum>
+    <TermHtml>console-based program</TermHtml>
+    <RhsHtml>
+      Opposite of GUI-based program.  A console-based program does its input and
+      outputs to a text-only console window.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>GUI-based program</Term>
+    <Rhs>
+      An application that uses a GUI as its interface to the user. (See the previous
+      chapter glossary for GUI and interface.)
+    </Rhs>
+    <ChapterTitle>Chapter 4 Code-behind: Events and Handlers</ChapterTitle>
+    <ChapterNum>4</ChapterNum>
+    <TermHtml>GUI-based program</TermHtml>
+    <RhsHtml>
+      An application that uses a GUI as its interface to the user. (See the previous
+      chapter glossary for GUI and interface.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>handler</Term>
+    <Rhs>Code that we write to respond to an event.</Rhs>
+    <ChapterTitle>Chapter 4 Code-behind: Events and Handlers</ChapterTitle>
+    <ChapterNum>4</ChapterNum>
+    <TermHtml>handler</TermHtml>
+    <RhsHtml>Code that we write to respond to an event.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>response</Term>
+    <Rhs>
+      We get an event, and give a response.  The handler is the code that determines
+      what our response is.
+    </Rhs>
+    <ChapterTitle>Chapter 4 Code-behind: Events and Handlers</ChapterTitle>
+    <ChapterNum>4</ChapterNum>
+    <TermHtml>response</TermHtml>
+    <RhsHtml>
+      We get an event, and give a response.  The handler is the code that determines
+      what our response is.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>constructor</Term>
+    <Rhs>
+      A special method that has the same name as the class that contains it.  If it
+      exists, it is automatically executed when we create any new instance of the class.
+    </Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>constructor</TermHtml>
+    <RhsHtml>
+      A special method that has the same name as the class that contains it.  If it
+      exists, it is automatically executed when we create any new instance of the class.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>controlling expression</Term>
+    <Rhs>A test to control if the loop should be executed again or not.</Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>controlling expression</TermHtml>
+    <RhsHtml>A test to control if the loop should be executed again or not.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>instance</Term>
+    <Rhs>
+      An object of a certain type, or class.  Tess and Alex are different instances of
+      the class Turtle.
+    </Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>instance</TermHtml>
+    <RhsHtml>
+      An object of a certain type, or class.  Tess and Alex are different instances of
+      the class &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Turtle&lt;/span&gt;&lt;/tt&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>loop body</Term>
+    <Rhs>Any number of statements nested inside the curly braces of a loop.</Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>loop body</TermHtml>
+    <RhsHtml>Any number of statements nested inside the curly braces of a loop.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>method</Term>
+    <Rhs>
+      A method is a code block containing a series of statements.
+      In C#, every executed instruction is done so in the context of a method.
+      Methods are defined within a class.
+      Invoking or activating the method
+      causes the object to respond in some way, e.g. Forward is the method
+      when we say tess.Forward(100.0).
+    </Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>method</TermHtml>
+    <RhsHtml>
+      &lt;p class="first"&gt;A method is a code block containing a series of statements.
+      In C#, every executed instruction is done so in the context of a method.&lt;/p&gt;
+      &lt;p&gt;Methods are defined within a class.&lt;/p&gt;
+      &lt;p class="last"&gt;Invoking or activating the method
+      causes the object to respond in some way, e.g. &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Forward&lt;/span&gt;&lt;/tt&gt; is the method
+      when we say &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;tess.Forward(100.0)&lt;/span&gt;&lt;/tt&gt;.&lt;/p&gt;
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>invoke</Term>
+    <Rhs>
+      An object has methods.  We use the verb invoke to mean activate the
+      method.  Invoking a method is done by putting parentheses after the method
+      name, with some possible arguments.  So  tess.Forward(20.0) is an invocation
+      of the Forward method.
+    </Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>invoke</TermHtml>
+    <RhsHtml>
+      An object has methods.  We use the verb invoke to mean &lt;em&gt;activate the
+      method&lt;/em&gt;.  Invoking a method is done by putting parentheses after the method
+      name, with some possible arguments.  So  &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;tess.Forward(20.0)&lt;/span&gt;&lt;/tt&gt; is an invocation
+      of the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Forward&lt;/span&gt;&lt;/tt&gt; method.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>loop</Term>
+    <Rhs>A construct in the programming language that lets us repeatedly execute statements.</Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>loop</TermHtml>
+    <RhsHtml>A construct in the programming language that lets us repeatedly execute statements.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>object</Term>
+    <Rhs>
+      A &amp;#8220;thing&amp;#8221; to which a variable can refer.  This could be a canvas, a button,
+      or one of the turtles we have created.
+    </Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>object</TermHtml>
+    <RhsHtml>
+      A &amp;#8220;thing&amp;#8221; to which a variable can refer.  This could be a canvas, a button,
+      or one of the turtles we have created.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>property</Term>
+    <Rhs>
+      Some state or value that belongs to an object.  For example, Tess has
+      a brush that she uses from painting her trail.
+    </Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>property</TermHtml>
+    <RhsHtml>
+      Some state or value that belongs to an object.  For example, Tess has
+      a brush that she uses from painting her trail.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>while loop</Term>
+    <Rhs>A statement in C# for convenient repetition of statements in the body of the loop.</Rhs>
+    <ChapterTitle>Chapter 5 Hello, little turtles!</ChapterTitle>
+    <ChapterNum>5</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;while&lt;/span&gt;&lt;/tt&gt; loop</TermHtml>
+    <RhsHtml>A statement in C# for convenient repetition of statements in the &lt;em&gt;body&lt;/em&gt; of the loop.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>argument</Term>
+    <Rhs>
+      A value provided to a method when the method is called. This value
+      is assigned to the corresponding parameter in the method.  The argument
+      can be the result of an expression which may involve operators,
+      operands and calls to other value-returning methods.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>argument</TermHtml>
+    <RhsHtml>
+      A value provided to a method when the method is called. This value
+      is assigned to the corresponding parameter in the method.  The argument
+      can be the result of an expression which may involve operators,
+      operands and calls to other value-returning methods.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>call site</Term>
+    <Rhs>A place in our code where we call a method.</Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>call site</TermHtml>
+    <RhsHtml>A place in our code where we call a method.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>flow of execution</Term>
+    <Rhs>The order in which statements are executed.</Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>flow of execution</TermHtml>
+    <RhsHtml>The order in which statements are executed.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>method</Term>
+    <Rhs>
+      A named sequence of statements that performs some useful operation.
+      Methods may or may not take parameters.  In this chapter we&amp;#8217;ve seen void methods
+      (they don&amp;#8217;t return any result).  In a future chapter we&amp;#8217;ll see value-returning methods.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>method</TermHtml>
+    <RhsHtml>
+      A named sequence of statements that performs some useful operation.
+      Methods may or may not take parameters.  In this chapter we&amp;#8217;ve seen void methods
+      (they don&amp;#8217;t return any result).  In a future chapter we&amp;#8217;ll see value-returning methods.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>method body</Term>
+    <Rhs>
+      The block of statements that come after the method signature.  The body always
+      starts and ends with matching braces  {  }.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>method body</TermHtml>
+    <RhsHtml>
+      The block of statements that come after the method signature.  The body always
+      starts and ends with matching braces  {  }.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>method call</Term>
+    <Rhs>
+      A statement that causes a method to execute. It consists of the name of the
+      method followed by arguments enclosed in parentheses.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>method call</TermHtml>
+    <RhsHtml>
+      A statement that causes a method to execute. It consists of the name of the
+      method followed by arguments enclosed in parentheses.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>method signature, signature</Term>
+    <Rhs>
+      The initial part of a method which contains details about its name, it&amp;#8217;s return type (or
+      the special keyword void), and its parameters. (Some headers may use more advanced features
+      &amp;#8212; for example, the keyword private will be covered later.)  See method body.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>method signature, signature</TermHtml>
+    <RhsHtml>
+      The initial part of a method which contains details about its name, it&amp;#8217;s return type (or
+      the special keyword &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;void&lt;/span&gt;&lt;/tt&gt;), and its parameters. (Some headers may use more advanced features
+      &amp;#8212; for example, the keyword &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;private&lt;/span&gt;&lt;/tt&gt; will be covered later.)  See &lt;em&gt;method body&lt;/em&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>lifetime</Term>
+    <Rhs>
+      Variables and objects have lifetimes &amp;#8212; they are created at some point during
+      program execution, and are destroyed at some later time.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>lifetime</TermHtml>
+    <RhsHtml>
+      Variables and objects have lifetimes &amp;#8212; they are created at some point during
+      program execution, and are destroyed at some later time.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>local variable</Term>
+    <Rhs>
+      A variable defined inside a method. A local variable can only be used
+      inside its method.  Parameters of a method are also special kinds
+      of local variables.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>local variable</TermHtml>
+    <RhsHtml>
+      A variable defined inside a method. A local variable can only be used
+      inside its method.  Parameters of a method are also special kinds
+      of local variables.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>parameter</Term>
+    <Rhs>
+      A name used inside a method to refer to the argument which was passed
+      to it from the call site.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>parameter</TermHtml>
+    <RhsHtml>
+      A name used inside a method to refer to the argument which was passed
+      to it from the call site.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>refactor</Term>
+    <Rhs>
+      A fancy word to describe reorganizing our program code, usually to make
+      it more understandable.  Typically, we have a program that is already working,
+      then we go back to &amp;#8220;tidy it up&amp;#8221;.  This often involves writing good comments,
+      choosing better variable names, simplifying the code where we can, or spotting repeated patterns
+      and moving that code into a method.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>refactor</TermHtml>
+    <RhsHtml>
+      A fancy word to describe reorganizing our program code, usually to make
+      it more understandable.  Typically, we have a program that is already working,
+      then we go back to &amp;#8220;tidy it up&amp;#8221;.  This often involves writing good comments,
+      choosing better variable names, simplifying the code where we can, or spotting repeated patterns
+      and moving that code into a method.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>signature</Term>
+    <Rhs>See method signature.</Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>signature</TermHtml>
+    <RhsHtml>See &lt;em&gt;method signature&lt;/em&gt;.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>void method</Term>
+    <Rhs>
+      The opposite of a value-returning method: one that does not return a value.  It is
+      executed for the work it does, rather than for the value it returns.
+    </Rhs>
+    <ChapterTitle>Chapter 6 Void Methods</ChapterTitle>
+    <ChapterNum>6</ChapterNum>
+    <TermHtml>void method</TermHtml>
+    <RhsHtml>
+      The opposite of a value-returning method: one that does not return a value.  It is
+      executed for the work it does, rather than for the value it returns.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Boolean algebra</Term>
+    <Rhs>Some rules for rearranging and reasoning about Boolean expressions.</Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>Boolean algebra</TermHtml>
+    <RhsHtml>Some rules for rearranging and reasoning about Boolean expressions.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Boolean expression</Term>
+    <Rhs>An expression that is either true or false.</Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>Boolean expression</TermHtml>
+    <RhsHtml>An expression that is either true or false.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Boolean value</Term>
+    <Rhs>
+      There are only two possible Boolean values: false and true. Boolean
+      values result when a Boolean expression is evaluated by C#.  They have type bool.
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>Boolean value</TermHtml>
+    <RhsHtml>
+      There are only two possible Boolean values: &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;false&lt;/span&gt;&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;true&lt;/span&gt;&lt;/tt&gt;. Boolean
+      values result when a Boolean expression is evaluated by C#.  They have type &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;bool&lt;/span&gt;&lt;/tt&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>branch</Term>
+    <Rhs>
+      One of the possible paths of the flow of execution determined by
+      conditional execution.
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>branch</TermHtml>
+    <RhsHtml>
+      One of the possible paths of the flow of execution determined by
+      conditional execution.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>comparison operator</Term>
+    <Rhs>
+      One of the six operators that compares two values: ==, !=, &amp;gt;,
+      &amp;lt;, &amp;gt;=, and &amp;lt;=.
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>comparison operator</TermHtml>
+    <RhsHtml>
+      One of the six operators that compares two values: &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;==&lt;/span&gt;&lt;/tt&gt;, &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;!=&lt;/span&gt;&lt;/tt&gt;, &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;gt;&lt;/span&gt;&lt;/tt&gt;,
+      &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;&lt;/span&gt;&lt;/tt&gt;, &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;gt;=&lt;/span&gt;&lt;/tt&gt;, and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;lt;=&lt;/span&gt;&lt;/tt&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>condition</Term>
+    <Rhs>Another name for a Boolean expression.</Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>condition</TermHtml>
+    <RhsHtml>Another name for a Boolean expression.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>conditional expression</Term>
+    <Rhs>
+      An expression where the resulting value is a choice of one of two alternatives: a condition is evaluated
+      to determine which choice gets made.   The syntax is     condition ? e1 : e2
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>conditional expression</TermHtml>
+    <RhsHtml>
+      An expression where the resulting value is a choice of one of two alternatives: a condition is evaluated
+      to determine which choice gets made.   The syntax is     &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;condition&lt;/span&gt; &lt;span class="pre"&gt;?&lt;/span&gt; &lt;span class="pre"&gt;e1&lt;/span&gt; &lt;span class="pre"&gt;:&lt;/span&gt; &lt;span class="pre"&gt;e2&lt;/span&gt;&lt;/tt&gt;
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>conditional statement</Term>
+    <Rhs>
+      A statement that controls the flow of execution depending on some condition.
+      The if statement and the switch statements were covered here.
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>conditional statement</TermHtml>
+    <RhsHtml>
+      A statement that controls the flow of execution depending on some condition.
+      The &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;if&lt;/span&gt;&lt;/tt&gt; statement and the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;switch&lt;/span&gt;&lt;/tt&gt; statements were covered here.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>logical operator</Term>
+    <Rhs>
+      One of the operators that combines Boolean expressions: &amp;amp;&amp;amp;,
+      ||, and !.
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>logical operator</TermHtml>
+    <RhsHtml>
+      One of the operators that combines Boolean expressions: &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;/tt&gt;,
+      &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;||&lt;/span&gt;&lt;/tt&gt;, and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/tt&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>nesting</Term>
+    <Rhs>
+      Putting one program structure within another, such as a conditional statement
+      inside a branch of another conditional statement.
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>nesting</TermHtml>
+    <RhsHtml>
+      Putting one program structure within another, such as a conditional statement
+      inside a branch of another conditional statement.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>switch statement</Term>
+    <Rhs>
+      A statement that allows selection of one of many cases.  Each case can
+      contain a block of statements for execution.
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>switch statement</TermHtml>
+    <RhsHtml>
+      A statement that allows selection of one of many cases.  Each case can
+      contain a block of statements for execution.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>truth table</Term>
+    <Rhs>
+      A concise table of Boolean values that can describe the semantics (meaning)
+      of an operator.
+    </Rhs>
+    <ChapterTitle>Chapter 7 Working with Booleans and Conditional Statements</ChapterTitle>
+    <ChapterNum>7</ChapterNum>
+    <TermHtml>truth table</TermHtml>
+    <RhsHtml>
+      A concise table of Boolean values that can describe the semantics (meaning)
+      of an operator.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Boolean method</Term>
+    <Rhs>
+      A method that returns a Boolean value.  The only possible
+      values of the bool type are false and true.
+    </Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>Boolean method</TermHtml>
+    <RhsHtml>
+      A method that returns a Boolean value.  The only possible
+      values of the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;bool&lt;/span&gt;&lt;/tt&gt; type are &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;false&lt;/span&gt;&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;true&lt;/span&gt;&lt;/tt&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>composition (of methods)</Term>
+    <Rhs>
+      Calling one method from within the body of another, or using the
+      return value of one method as an argument to the call of another.
+    </Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>composition (of methods)</TermHtml>
+    <RhsHtml>
+      Calling one method from within the body of another, or using the
+      return value of one method as an argument to the call of another.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>value-returning method</Term>
+    <Rhs>
+      A method that yields a return value.  The other kind of method is a
+      void method, discussed in the previous chapter.
+    </Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>value-returning method</TermHtml>
+    <RhsHtml>
+      A method that yields a return value.  The other kind of method is a
+      void method, discussed in the previous chapter.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>incremental development</Term>
+    <Rhs>
+      A program development plan intended to simplify debugging by adding and
+      testing only a small amount of code at a time.
+    </Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>incremental development</TermHtml>
+    <RhsHtml>
+      A program development plan intended to simplify debugging by adding and
+      testing only a small amount of code at a time.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>return type</Term>
+    <Rhs>
+      A value-returning method returns a value of some specific type.  When the
+      method is defined, this type comes before the method name.  In the body
+      of the method there must be a return statement that returns some value matching
+      the return type of the method.
+    </Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>return type</TermHtml>
+    <RhsHtml>
+      A value-returning method returns a value of some specific type.  When the
+      method is defined, this type comes before the method name.  In the body
+      of the method there must be a return statement that returns some value matching
+      the return type of the method.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>return value</Term>
+    <Rhs>The value provided as the result of a value-returning method call.</Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>return value</TermHtml>
+    <RhsHtml>The value provided as the result of a value-returning method call.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>scaffolding</Term>
+    <Rhs>
+      Code that is used during program development to assist with development
+      and debugging. The unit test code that we added in this chapter are
+      examples of scaffolding.
+    </Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>scaffolding</TermHtml>
+    <RhsHtml>
+      Code that is used during program development to assist with development
+      and debugging. The unit test code that we added in this chapter are
+      examples of scaffolding.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>temporary variable</Term>
+    <Rhs>A variable used to store an intermediate value in a complex calculation.</Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>temporary variable</TermHtml>
+    <RhsHtml>A variable used to store an intermediate value in a complex calculation.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>test suite</Term>
+    <Rhs>A collection of tests for some code you have written.</Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>test suite</TermHtml>
+    <RhsHtml>A collection of tests for some code you have written.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>unit testing</Term>
+    <Rhs>
+      An automatic mechanism used to validate that individual units of code
+      are working properly.  Having a test suite is extremely useful when somebody
+      modifies or extends the code: it provides a safety net against
+      going backwards by putting new bugs into previously working code.
+      The term regression testing is often used to capture this idea that we
+      don&amp;#8217;t want to go backwards!
+    </Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>unit testing</TermHtml>
+    <RhsHtml>
+      An automatic mechanism used to validate that individual units of code
+      are working properly.  Having a test suite is extremely useful when somebody
+      modifies or extends the code: it provides a safety net against
+      going backwards by putting new bugs into previously working code.
+      The term &lt;em&gt;regression testing&lt;/em&gt; is often used to capture this idea that we
+      don&amp;#8217;t want to go backwards!
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>unreachable code</Term>
+    <Rhs>
+      Statements in a program that can never be executed, often because they appear
+      after a return statement.
+    </Rhs>
+    <ChapterTitle>Chapter 8 Value-returning Methods</ChapterTitle>
+    <ChapterNum>8</ChapterNum>
+    <TermHtml>unreachable code</TermHtml>
+    <RhsHtml>
+      Statements in a program that can never be executed, often because they appear
+      after a &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;return&lt;/span&gt;&lt;/tt&gt; statement.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>algorithm</Term>
+    <Rhs>A step-by-step process for solving a category of problems.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>algorithm</TermHtml>
+    <RhsHtml>A step-by-step process for solving a category of problems.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>block of statements</Term>
+    <Rhs>A block is a group of statements, usually enclosed in braces.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>block of statements</TermHtml>
+    <RhsHtml>A block is a group of statements, usually enclosed in braces.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>body</Term>
+    <Rhs>The statements inside a loop.   Usually a loop body is a block.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>body</TermHtml>
+    <RhsHtml>The statements inside a loop.   Usually a loop body is a block.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>breakpoint</Term>
+    <Rhs>
+      A place in your program code where program execution will pause (or break),
+      allowing you to inspect the state of the program&amp;#8217;s variables, or single-step
+      through individual statements, executing them one at a time.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>breakpoint</TermHtml>
+    <RhsHtml>
+      A place in your program code where program execution will pause (or break),
+      allowing you to inspect the state of the program&amp;#8217;s variables, or single-step
+      through individual statements, executing them one at a time.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>bump</Term>
+    <Rhs>Programmer slang that means increment.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>bump</TermHtml>
+    <RhsHtml>Programmer slang that means increment.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>compound statement</Term>
+    <Rhs>see block of statements.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>compound statement</TermHtml>
+    <RhsHtml>see block of statements.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>continue statement</Term>
+    <Rhs>
+      A statement that causes the remainder of the current iteration of a loop to be skipped.
+      The flow of execution goes back to the top of the loop, evaluates the condition,
+      and if this is true the next iteration of the loop will begin.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>continue statement</TermHtml>
+    <RhsHtml>
+      A statement that causes the remainder of the current iteration of a loop to be skipped.
+      The flow of execution goes back to the top of the loop, evaluates the condition,
+      and if this is true the next iteration of the loop will begin.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>counter</Term>
+    <Rhs>
+      A variable used to count something, usually initialized to zero and
+      incremented in the body of a loop.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>counter</TermHtml>
+    <RhsHtml>
+      A variable used to count something, usually initialized to zero and
+      incremented in the body of a loop.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>decrement</Term>
+    <Rhs>Decrease by 1.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>decrement</TermHtml>
+    <RhsHtml>Decrease by 1.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>definite iteration</Term>
+    <Rhs>
+      A loop where we have an upper bound on the number of times the
+      body will be executed.  Definite iteration is usually best coded
+      using a for loop.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>definite iteration</TermHtml>
+    <RhsHtml>
+      A loop where we have an upper bound on the number of times the
+      body will be executed.  Definite iteration is usually best coded
+      using a &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;for&lt;/span&gt;&lt;/tt&gt; loop.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>encapsulate</Term>
+    <Rhs>
+      To divide a large complex program into components (like methods) and
+      isolate the components from each other (by using local variables, for
+      example).
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>encapsulate</TermHtml>
+    <RhsHtml>
+      To divide a large complex program into components (like methods) and
+      isolate the components from each other (by using local variables, for
+      example).
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>generalize</Term>
+    <Rhs>
+      To replace something unnecessarily specific (like a constant value)
+      with something appropriately general (like a variable or parameter).
+      Generalization makes code more versatile, more likely to be reused, and
+      sometimes even easier to write.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>generalize</TermHtml>
+    <RhsHtml>
+      To replace something unnecessarily specific (like a constant value)
+      with something appropriately general (like a variable or parameter).
+      Generalization makes code more versatile, more likely to be reused, and
+      sometimes even easier to write.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>increment</Term>
+    <Rhs>Both as a noun and as a verb, increment means to increase by 1.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>increment</TermHtml>
+    <RhsHtml>Both as a noun and as a verb, increment means to increase by 1.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>indefinite iteration</Term>
+    <Rhs>
+      A loop where we just need to keep going until some condition is met.
+      A while statement is good to use in this situation.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>indefinite iteration</TermHtml>
+    <RhsHtml>
+      A loop where we just need to keep going until some condition is met.
+      A &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;while&lt;/span&gt;&lt;/tt&gt; statement is good to use in this situation.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>infinite loop</Term>
+    <Rhs>A loop in which the terminating condition is never satisfied.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>infinite loop</TermHtml>
+    <RhsHtml>A loop in which the terminating condition is never satisfied.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>initializer</Term>
+    <Rhs>
+      An expression that gives an initial value to a variable where the variable
+      is first defined.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>initializer</TermHtml>
+    <RhsHtml>
+      An expression that gives an initial value to a variable where the variable
+      is first defined.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>initialization (of a variable)</Term>
+    <Rhs>
+      To initialize a variable is to give it an initial value.
+      In C#, if you don&amp;#8217;t do this yourself, your variables will be
+      given default initial values.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>initialization (of a variable)</TermHtml>
+    <RhsHtml>
+      To initialize a variable is to give it an initial value.
+      In C#, if you don&amp;#8217;t do this yourself, your variables will be
+      given default initial values.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>iteration</Term>
+    <Rhs>Repeated execution of a set of programming statements.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>iteration</TermHtml>
+    <RhsHtml>Repeated execution of a set of programming statements.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>loop</Term>
+    <Rhs>
+      The construct that allows allows us to repeatedly execute a
+      statement or a group of statements (a block or a compound statement)
+      until a terminating condition is satisfied.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>loop</TermHtml>
+    <RhsHtml>
+      The construct that allows allows us to repeatedly execute a
+      statement or a group of statements (a block or a compound statement)
+      until a terminating condition is satisfied.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>loop variable</Term>
+    <Rhs>A variable used as part of the terminating condition of a loop.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>loop variable</TermHtml>
+    <RhsHtml>A variable used as part of the terminating condition of a loop.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>nested loop</Term>
+    <Rhs>A loop inside the body of another loop.</Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>nested loop</TermHtml>
+    <RhsHtml>A loop inside the body of another loop.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>pre-test loop</Term>
+    <Rhs>
+      A loop that tests before deciding whether the execute its body.  for and while
+      are both pre-test loops.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>pre-test loop</TermHtml>
+    <RhsHtml>
+      A loop that tests before deciding whether the execute its body.  &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;for&lt;/span&gt;&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;while&lt;/span&gt;&lt;/tt&gt;
+      are both pre-test loops.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>single-step</Term>
+    <Rhs>
+      A mode of interpreter execution where you are able to execute your
+      program one step at a time, and inspect the consequences of that step.
+      Useful for debugging and building your internal mental model of what is
+      going on.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>single-step</TermHtml>
+    <RhsHtml>
+      A mode of interpreter execution where you are able to execute your
+      program one step at a time, and inspect the consequences of that step.
+      Useful for debugging and building your internal mental model of what is
+      going on.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>trace</Term>
+    <Rhs>
+      To follow the flow of execution of a program by hand, recording the
+      change of state of the variables and any output produced.
+    </Rhs>
+    <ChapterTitle>Chapter 9 Iteration</ChapterTitle>
+    <ChapterNum>9</ChapterNum>
+    <TermHtml>trace</TermHtml>
+    <RhsHtml>
+      To follow the flow of execution of a program by hand, recording the
+      change of state of the variables and any output produced.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>index</Term>
+    <Rhs>
+      A variable or value used to select a member of an ordered collection, such as
+      a character from a string, or an element from an array.
+    </Rhs>
+    <ChapterTitle>Chapter 10 Strings</ChapterTitle>
+    <ChapterNum>10</ChapterNum>
+    <TermHtml>index</TermHtml>
+    <RhsHtml>
+      A variable or value used to select a member of an ordered collection, such as
+      a character from a string, or an element from an array.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>overloaded method</Term>
+    <Rhs>
+      There can be more than one method with the same name, in which case we say the method is overloaded.
+      Each overloading will have a different number of parameters, or different types of parameters.  The C# compiler
+      is clever enough to inspect the types and number of arguments at each call site, and work out which of the
+      identically-named methods should be invoked.
+    </Rhs>
+    <ChapterTitle>Chapter 10 Strings</ChapterTitle>
+    <ChapterNum>10</ChapterNum>
+    <TermHtml>overloaded method</TermHtml>
+    <RhsHtml>
+      There can be more than one method with the same name, in which case we say the method is overloaded.
+      Each overloading will have a different number of parameters, or different types of parameters.  The C# compiler
+      is clever enough to inspect the types and number of arguments at each call site, and work out which of the
+      identically-named methods should be invoked.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>read only objects</Term>
+    <Rhs>
+      A value or object which cannot be modified.  Assignments to a part of a string
+      elements causes a runtime error.
+    </Rhs>
+    <ChapterTitle>Chapter 10 Strings</ChapterTitle>
+    <ChapterNum>10</ChapterNum>
+    <TermHtml>read only objects</TermHtml>
+    <RhsHtml>
+      A value or object which cannot be modified.  Assignments to a part of a string
+      elements causes a runtime error.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>traverse</Term>
+    <Rhs>
+      To iterate through the elements of a collection (so far, a string or an array),
+      considering each element in turn.
+    </Rhs>
+    <ChapterTitle>Chapter 10 Strings</ChapterTitle>
+    <ChapterNum>10</ChapterNum>
+    <TermHtml>traverse</TermHtml>
+    <RhsHtml>
+      To iterate through the elements of a collection (so far, a string or an array),
+      considering each element in turn.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>aliases</Term>
+    <Rhs>Multiple references to the same object.</Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>aliases</TermHtml>
+    <RhsHtml>Multiple references to the same object.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>class</Term>
+    <Rhs>
+      A class is type.  It is a blueprint that determines how to create objects, or instances,
+      and how they can be used.
+    </Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>class</TermHtml>
+    <RhsHtml>
+      A class is type.  It is a blueprint that determines how to create objects, or instances,
+      and how they can be used.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>constructor method</Term>
+    <Rhs>
+      A special method in a class that is automatically called whenever a new instance is created.
+      Its job is to set up the internal state of the new object to its initial factory defaults.
+    </Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>constructor method</TermHtml>
+    <RhsHtml>
+      A special method in a class that is automatically called whenever a new instance is created.
+      Its job is to set up the internal state of the new object to its initial factory defaults.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>heap</Term>
+    <Rhs>
+      A region of memory that holds objects.  Objects are created with the new keyword.
+      They live in the heap until the system figures out that there are no references
+      left that can possibly reach them, at which time the available memory will be freed
+      up for other use.
+    </Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>heap</TermHtml>
+    <RhsHtml>
+      A region of memory that holds objects.  Objects are created with the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;new&lt;/span&gt;&lt;/tt&gt; keyword.
+      They live in the heap until the system figures out that there are no references
+      left that can possibly reach them, at which time the available memory will be freed
+      up for other use.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>is-a</Term>
+    <Rhs>
+      An abbreviation of &amp;#8220;is a&amp;#8221; as in &amp;#8220;A human is a mammal&amp;#8221;.  It describes a relationship that
+      shows that an object with a specific type, e.g. Button, can also be treated as an object
+      with a more general type, e.g. a UIElement.
+    </Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>is-a</TermHtml>
+    <RhsHtml>
+      An abbreviation of &amp;#8220;is a&amp;#8221; as in &amp;#8220;A human &lt;em&gt;is a&lt;/em&gt; mammal&amp;#8221;.  It describes a relationship that
+      shows that an object with a specific type, e.g. Button, can also be treated as an object
+      with a more general type, e.g. a UIElement.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>object</Term>
+    <Rhs>
+      A thing created in the heap.  Its type is the class (or blueprint) that it was created from.
+      It can be referenced, or pointed to.  Variables can hold references or pointers to an object.
+    </Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>object</TermHtml>
+    <RhsHtml>
+      A thing created in the heap.  Its type is the class (or blueprint) that it was created from.
+      It can be referenced, or pointed to.  Variables can hold references or pointers to an object.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>pointer</Term>
+    <Rhs>Another name for a reference.</Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>pointer</TermHtml>
+    <RhsHtml>Another name for a reference.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>reference</Term>
+    <Rhs>
+      A reference is an address of some memory location in the heap.
+      It allows us to locate an object in the heap.
+    </Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>reference</TermHtml>
+    <RhsHtml>
+      A reference is an address of some memory location in the heap.
+      It allows us to locate an object in the heap.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>reference type</Term>
+    <Rhs>
+      Opposite of a value type. A type (or class) from which instances are created in the heap.
+      The objects must always be accessed via a reference.  When an object is passed into a method
+      or assigned to another variable, only the reference is duplicated. This means the
+      object gets another alias.
+    </Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>reference type</TermHtml>
+    <RhsHtml>
+      Opposite of a value type. A type (or class) from which instances are created in the heap.
+      The objects must always be accessed via a reference.  When an object is passed into a method
+      or assigned to another variable, only the reference is duplicated. This means the
+      object gets another alias.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>value type</Term>
+    <Rhs>
+      Opposite of a reference type.  Anything that is stored directly.  When value types
+      are assigned or passed as arguments to methods, the value is copied and the two copies
+      become completely independent of each other.
+    </Rhs>
+    <ChapterTitle>Chapter 11 Classes and Objects - an Overview</ChapterTitle>
+    <ChapterNum>11</ChapterNum>
+    <TermHtml>value type</TermHtml>
+    <RhsHtml>
+      Opposite of a reference type.  Anything that is stored directly.  When value types
+      are assigned or passed as arguments to methods, the value is copied and the two copies
+      become completely independent of each other.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>controller</Term>
+    <Rhs>
+      Some device or mechanism like a keyboard, mouse, touch screen, timer, or game-pad that lets us
+      interact with objects in our program.
+    </Rhs>
+    <ChapterTitle>Chapter 12 More Event Handling</ChapterTitle>
+    <ChapterNum>12</ChapterNum>
+    <TermHtml>controller</TermHtml>
+    <RhsHtml>
+      Some device or mechanism like a keyboard, mouse, touch screen, timer, or game-pad that lets us
+      interact with objects in our program.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>embedded resource</Term>
+    <Rhs>A self-contained resource that is part of the executable program that you ship to your customer.</Rhs>
+    <ChapterTitle>Chapter 12 More Event Handling</ChapterTitle>
+    <ChapterNum>12</ChapterNum>
+    <TermHtml>embedded resource</TermHtml>
+    <RhsHtml>A self-contained resource that is part of the executable program that you ship to your customer.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>resource</Term>
+    <Rhs>
+      Something that your program uses for its logic when it runs &amp;#8212; sounds, pictures, video clips, background scenery,
+      text passages, fonts, etc.
+    </Rhs>
+    <ChapterTitle>Chapter 12 More Event Handling</ChapterTitle>
+    <ChapterNum>12</ChapterNum>
+    <TermHtml>resource</TermHtml>
+    <RhsHtml>
+      Something that your program uses for its logic when it runs &amp;#8212; sounds, pictures, video clips, background scenery,
+      text passages, fonts, etc.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>element</Term>
+    <Rhs>
+      One of the values in a array (or other sequence). The bracket operator
+      selects elements of an array. An element is also called an item.
+    </Rhs>
+    <ChapterTitle>Chapter 13 Arrays</ChapterTitle>
+    <ChapterNum>13</ChapterNum>
+    <TermHtml>element</TermHtml>
+    <RhsHtml>
+      One of the values in a array (or other sequence). The bracket operator
+      selects elements of an array. An element is also called an &lt;em&gt;item&lt;/em&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>index</Term>
+    <Rhs>
+      An integer value that indicates the position of an item in an array.
+      Indexes start from 0.
+    </Rhs>
+    <ChapterTitle>Chapter 13 Arrays</ChapterTitle>
+    <ChapterNum>13</ChapterNum>
+    <TermHtml>index</TermHtml>
+    <RhsHtml>
+      An integer value that indicates the position of an item in an array.
+      Indexes start from 0.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>item</Term>
+    <Rhs>See element.</Rhs>
+    <ChapterTitle>Chapter 13 Arrays</ChapterTitle>
+    <ChapterNum>13</ChapterNum>
+    <TermHtml>item</TermHtml>
+    <RhsHtml>See &lt;em&gt;element&lt;/em&gt;.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Console</Term>
+    <Rhs>A window that allows text-based interaction (reading or writing) with your program.</Rhs>
+    <ChapterTitle>Chapter 14 Odds and Ends</ChapterTitle>
+    <ChapterNum>14</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Console&lt;/span&gt;&lt;/tt&gt;</TermHtml>
+    <RhsHtml>A window that allows text-based interaction (reading or writing) with your program.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Debug</Term>
+    <Rhs>
+      An object in the System.Diagnostics module. It is only for output.  It
+      has a useful Print method, and many useful methods and features for
+      dealing with more advanced debugging and diagnostic scenarios.
+    </Rhs>
+    <ChapterTitle>Chapter 14 Odds and Ends</ChapterTitle>
+    <ChapterNum>14</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Debug&lt;/span&gt;&lt;/tt&gt;</TermHtml>
+    <RhsHtml>
+      An object in the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;System.Diagnostics&lt;/span&gt;&lt;/tt&gt; module. It is only for output.  It
+      has a useful &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Print&lt;/span&gt;&lt;/tt&gt; method, and many useful methods and features for
+      dealing with more advanced debugging and diagnostic scenarios.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>default value</Term>
+    <Rhs>A value that is used if the programmer does not explicitly choose another value.</Rhs>
+    <ChapterTitle>Chapter 14 Odds and Ends</ChapterTitle>
+    <ChapterNum>14</ChapterNum>
+    <TermHtml>default value</TermHtml>
+    <RhsHtml>A value that is used if the programmer does not explicitly choose another value.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>escape sequence</Term>
+    <Rhs>
+      In a literal string, the backslash \ is treated as an escape character.  This mechanism allows us to
+      write special escape sequences that can put non-printable or special characters into our strings.
+    </Rhs>
+    <ChapterTitle>Chapter 14 Odds and Ends</ChapterTitle>
+    <ChapterNum>14</ChapterNum>
+    <TermHtml>escape sequence</TermHtml>
+    <RhsHtml>
+      In a literal string, the backslash &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;\&lt;/span&gt;&lt;/tt&gt; is treated as an escape character.  This mechanism allows us to
+      write special escape sequences that can put non-printable or special characters into our strings.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>optional parameters</Term>
+    <Rhs>
+      Parameters in a method for which the call site may provide arguments.  If the call site chooses not
+      to provide an argument, the parameter will be given a default value.
+    </Rhs>
+    <ChapterTitle>Chapter 14 Odds and Ends</ChapterTitle>
+    <ChapterNum>14</ChapterNum>
+    <TermHtml>optional parameters</TermHtml>
+    <RhsHtml>
+      Parameters in a method for which the call site &lt;em&gt;may&lt;/em&gt; provide arguments.  If the call site chooses not
+      to provide an argument, the parameter will be given a default value.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>params</Term>
+    <Rhs>
+      A keyword in C# that is used before an array of parameters.  It allows us to write methods that can
+      pass a variable number of arguments (perhaps zero) which are all assigned to a single parameter.
+    </Rhs>
+    <ChapterTitle>Chapter 14 Odds and Ends</ChapterTitle>
+    <ChapterNum>14</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;params&lt;/span&gt;&lt;/tt&gt;</TermHtml>
+    <RhsHtml>
+      A keyword in C# that is used before an array of parameters.  It allows us to write methods that can
+      pass a variable number of arguments (perhaps zero) which are all assigned to a single parameter.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>verbatim literal strings</Term>
+    <Rhs>
+      A string that starts with &amp;#64;&amp;quot;.  It can span multiple lines, and does not process escape characters.
+      What we see is what we get!
+    </Rhs>
+    <ChapterTitle>Chapter 14 Odds and Ends</ChapterTitle>
+    <ChapterNum>14</ChapterNum>
+    <TermHtml>verbatim literal strings</TermHtml>
+    <RhsHtml>
+      A string that starts with &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;&amp;#64;&amp;quot;&lt;/span&gt;&lt;/tt&gt;.  It can span multiple lines, and does not process escape characters.
+      What we see is what we get!
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>delimited file</Term>
+    <Rhs>
+      Often comma-delimited file or semicolon-delimited file: the fields in each record (line)
+      are separate from one another by a delimiter.
+      Our technique for processing a file like this will be to use
+      the string&amp;#8217;s Split method to split the record into its fields.
+      (Compare fixed-format file.)
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>delimited file</TermHtml>
+    <RhsHtml>
+      Often comma-delimited file or semicolon-delimited file: the fields in each record (line)
+      are separate from one another by a delimiter.
+      Our technique for processing a file like this will be to use
+      the string&amp;#8217;s &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Split&lt;/span&gt;&lt;/tt&gt; method to split the record into its fields.
+      (Compare fixed-format file.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>delimiter</Term>
+    <Rhs>
+      Something that shows boundaries. In files, fields in a record are often
+      delimited by commas or semicolons.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>delimiter</TermHtml>
+    <RhsHtml>
+      Something that shows boundaries. In files, fields in a record are often
+      delimited by commas or semicolons.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>field</Term>
+    <Rhs>
+      A single unit of information, usually as part of a bigger record.  In a
+      student record, the student name would be one field, their birth date another
+      field, etc.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>field</TermHtml>
+    <RhsHtml>
+      A single unit of information, usually as part of a bigger record.  In a
+      student record, the student name would be one field, their birth date another
+      field, etc.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>file</Term>
+    <Rhs>
+      A named entity, usually stored on a disk drive or network.
+      It contains data. (See text file.)
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>file</TermHtml>
+    <RhsHtml>
+      A named entity, usually stored on a disk drive or network.
+      It contains data. (See text file.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>file system</Term>
+    <Rhs>
+      A method for naming, accessing, and organizing files and the data they
+      contain.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>file system</TermHtml>
+    <RhsHtml>
+      A method for naming, accessing, and organizing files and the data they
+      contain.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>filter</Term>
+    <Rhs>
+      A program that reads an input file and produces an output file, generally with
+      some transformation or selection of the data.  It might only output lines
+      that are not empty, or it might number the lines in the output file.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>filter</TermHtml>
+    <RhsHtml>
+      A program that reads an input file and produces an output file, generally with
+      some transformation or selection of the data.  It might only output lines
+      that are not empty, or it might number the lines in the output file.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>fixed-format file</Term>
+    <Rhs>
+      A file in which every record, or line, has a fixed layout in specific columns.
+      Our technique for processing a file like this will be to extract the fields
+      we need by using the string&amp;#8217;s Substring method.  (Compare delimited file.)
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>fixed-format file</TermHtml>
+    <RhsHtml>
+      A file in which every record, or line, has a fixed layout in specific columns.
+      Our technique for processing a file like this will be to extract the fields
+      we need by using the string&amp;#8217;s &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Substring&lt;/span&gt;&lt;/tt&gt; method.  (Compare delimited file.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>I/O</Term>
+    <Rhs>
+      An acronym for Input/Output.  The mechanisms by which your program
+      reads and writes data to other devices or other programs.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>I/O</TermHtml>
+    <RhsHtml>
+      An acronym for Input/Output.  The mechanisms by which your program
+      reads and writes data to other devices or other programs.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>non-volatile memory</Term>
+    <Rhs>
+      Memory that can maintain its state without power. Hard drives, flash
+      drives, and compact disks (CDs) are examples of non-volatile memory.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>non-volatile memory</TermHtml>
+    <RhsHtml>
+      Memory that can maintain its state without power. Hard drives, flash
+      drives, and compact disks (CDs) are examples of non-volatile memory.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>path</Term>
+    <Rhs>
+      A sequence of directory names that specifies the exact location of a
+      file.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>path</TermHtml>
+    <RhsHtml>
+      A sequence of directory names that specifies the exact location of a
+      file.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>record</Term>
+    <Rhs>
+      A sequence of fields that make up a single entity.
+      Each student would have a record in a school&amp;#8217;s mark system.  If a file
+      is used to hold records, a record would usually be a single line in the file.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>record</TermHtml>
+    <RhsHtml>
+      A sequence of fields that make up a single entity.
+      Each student would have a record in a school&amp;#8217;s mark system.  If a file
+      is used to hold records, a record would usually be a single line in the file.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Stream</Term>
+    <Rhs>
+      A type in the C# libraries that provides a very flexible source or
+      destination for doing I/O. Streams can be used to read or write to
+      files, to or from memory, or to or from the web.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Stream&lt;/span&gt;&lt;/tt&gt;</TermHtml>
+    <RhsHtml>
+      A type in the C# libraries that provides a very flexible source or
+      destination for doing I/O. Streams can be used to read or write to
+      files, to or from memory, or to or from the web.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>text file</Term>
+    <Rhs>
+      A file that contains characters organized into lines
+      separated by newline characters.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>text file</TermHtml>
+    <RhsHtml>
+      A file that contains characters organized into lines
+      separated by newline characters.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>volatile memory</Term>
+    <Rhs>
+      Memory which requires an electrical current to maintain state. The
+      main memory or RAM of a computer is volatile.  Information stored in
+      RAM is lost when the computer is turned off.
+    </Rhs>
+    <ChapterTitle>Chapter 15 I/O and Files</ChapterTitle>
+    <ChapterNum>15</ChapterNum>
+    <TermHtml>volatile memory</TermHtml>
+    <RhsHtml>
+      Memory which requires an electrical current to maintain state. The
+      &lt;em&gt;main memory&lt;/em&gt; or RAM of a computer is volatile.  Information stored in
+      RAM is lost when the computer is turned off.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>alias</Term>
+    <Rhs>Multiple variables that contain references to the same object.</Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>alias</TermHtml>
+    <RhsHtml>Multiple variables that contain references to the same object.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>clone</Term>
+    <Rhs>
+      To create a new object that has the same value as an existing object.
+      Copying a reference to an object creates an alias but doesn&amp;#8217;t clone the
+      object.
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>clone</TermHtml>
+    <RhsHtml>
+      To create a new object that has the same value as an existing object.
+      Copying a reference to an object creates an alias but doesn&amp;#8217;t clone the
+      object.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>collection</Term>
+    <Rhs>
+      A collection of elements is stored in a single structure.  So far we&amp;#8217;ve seen
+      arrays and lists, both of which are kinds of collection.
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>collection</TermHtml>
+    <RhsHtml>
+      A collection of elements is stored in a single structure.  So far we&amp;#8217;ve seen
+      arrays and lists, both of which are kinds of collection.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>enumerate</Term>
+    <Rhs>
+      To visit each element of a collection in turn.  The foreach loop allows
+      us to enumerate a collection.
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>enumerate</TermHtml>
+    <RhsHtml>
+      To visit each element of a collection in turn.  The &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;foreach&lt;/span&gt;&lt;/tt&gt; loop allows
+      us to enumerate a collection.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>element</Term>
+    <Rhs>
+      One of the values in a list (or other sequence, like an array). The bracket operator
+      selects elements of a list.  Also called item.
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>element</TermHtml>
+    <RhsHtml>
+      One of the values in a list (or other sequence, like an array). The bracket operator
+      selects elements of a list.  Also called &lt;em&gt;item&lt;/em&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>generic</Term>
+    <Rhs>
+      General, or able to work with many different types.  The type List&amp;lt;T&amp;gt;  means
+      we can have a list of any type T &amp;#8212; you can substitute your own type for T.
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>generic</TermHtml>
+    <RhsHtml>
+      General, or able to work with many different types.  The type &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;List&amp;lt;T&amp;gt;&lt;/span&gt;&lt;/tt&gt;  means
+      we can have a list of any type T &amp;#8212; you can substitute your own type for T.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>index</Term>
+    <Rhs>
+      An integer value that indicates the position of an item in a list.
+      Indexes start from 0.
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>index</TermHtml>
+    <RhsHtml>
+      An integer value that indicates the position of an item in a list.
+      Indexes start from 0.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>in-place</Term>
+    <Rhs>
+      (or in-place update)  A change that is done to the original list (or collection).
+      The opposite idea is that we create a new collection while leaving the original unchanged.
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>in-place</TermHtml>
+    <RhsHtml>
+      (or in-place update)  A change that is done to the original list (or collection).
+      The opposite idea is that we create a new collection while leaving the original unchanged.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>item</Term>
+    <Rhs>See element.</Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>item</TermHtml>
+    <RhsHtml>See &lt;em&gt;element&lt;/em&gt;.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>list</Term>
+    <Rhs>A collection of values, each in a fixed position within the list.</Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>list</TermHtml>
+    <RhsHtml>A collection of values, each in a fixed position within the list.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>list traversal</Term>
+    <Rhs>The sequential accessing of each element in a list.</Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>list traversal</TermHtml>
+    <RhsHtml>The sequential accessing of each element in a list.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>sequence</Term>
+    <Rhs>
+      Any of the data types that consist of an ordered collection of elements, with
+      each element identified by an index.
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>sequence</TermHtml>
+    <RhsHtml>
+      Any of the data types that consist of an ordered collection of elements, with
+      each element identified by an index.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>type parameter</Term>
+    <Rhs>
+      A type parameter is a place-holder for an actual type in a generic type definition.
+      In C#, the type parameters occur in angle brackets, e.g. List&amp;lt;T&amp;gt;.  When we specialize
+      a generic type we have to provide an actual type (e.g. int, string, Turtle),
+      in our definition, e.g.  List&amp;lt;string&amp;gt; myFriends;
+    </Rhs>
+    <ChapterTitle>Chapter 16 Lists</ChapterTitle>
+    <ChapterNum>16</ChapterNum>
+    <TermHtml>type parameter</TermHtml>
+    <RhsHtml>
+      A type parameter is a place-holder for an actual type in a &lt;em&gt;generic&lt;/em&gt; type definition.
+      In C#, the type parameters occur in angle brackets, e.g. &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;List&amp;lt;T&amp;gt;&lt;/span&gt;&lt;/tt&gt;.  When we specialize
+      a generic type we have to provide an actual type (e.g. &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;int&lt;/span&gt;&lt;/tt&gt;, &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;string&lt;/span&gt;&lt;/tt&gt;, &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Turtle&lt;/span&gt;&lt;/tt&gt;),
+      in our definition, e.g.  &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;List&amp;lt;string&amp;gt;&lt;/span&gt; &lt;span class="pre"&gt;myFriends;&lt;/span&gt;&lt;/tt&gt;
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>linear</Term>
+    <Rhs>
+      Relating to a straight line.  Here, we talk about graphing how the time taken by an
+      algorithm depends on the size of the data it is processing.  Linear algorithms have
+      straight-line graphs that can describe this relationship.
+    </Rhs>
+    <ChapterTitle>Chapter 17 List Algorithms</ChapterTitle>
+    <ChapterNum>17</ChapterNum>
+    <TermHtml>linear</TermHtml>
+    <RhsHtml>
+      Relating to a straight line.  Here, we talk about graphing how the time taken by an
+      algorithm depends on the size of the data it is processing.  Linear algorithms have
+      straight-line graphs that can describe this relationship.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>merge algorithm</Term>
+    <Rhs>
+      An efficient algorithm that merges two already sorted lists, to produce a sorted list result.
+      The merge algorithm is really a pattern of computation that can be adapted and reused for
+      various other scenarios, such as finding words that are in one array but not in another.
+    </Rhs>
+    <ChapterTitle>Chapter 17 List Algorithms</ChapterTitle>
+    <ChapterNum>17</ChapterNum>
+    <TermHtml>merge algorithm</TermHtml>
+    <RhsHtml>
+      An efficient algorithm that merges two already sorted lists, to produce a sorted list result.
+      The merge algorithm is really a pattern of computation that can be adapted and reused for
+      various other scenarios, such as finding words that are in one array but not in another.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>probe</Term>
+    <Rhs>While searching for an item, each time we take a look we call it a probe.</Rhs>
+    <ChapterTitle>Chapter 17 List Algorithms</ChapterTitle>
+    <ChapterNum>17</ChapterNum>
+    <TermHtml>probe</TermHtml>
+    <RhsHtml>While searching for an item, each time we take a look we call it a probe.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>scalable</Term>
+    <Rhs>
+      An algorithm or technique which remains viable or practical when applied to large
+      problems.
+    </Rhs>
+    <ChapterTitle>Chapter 17 List Algorithms</ChapterTitle>
+    <ChapterNum>17</ChapterNum>
+    <TermHtml>scalable</TermHtml>
+    <RhsHtml>
+      An algorithm or technique which remains viable or practical when applied to large
+      problems.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>search; binary</Term>
+    <Rhs>
+      A famous algorithm that searches for a target in a sorted list.  Each probe in the
+      list allows us to discard half the remaining items, so the algorithm is very efficient.
+    </Rhs>
+    <ChapterTitle>Chapter 17 List Algorithms</ChapterTitle>
+    <ChapterNum>17</ChapterNum>
+    <TermHtml>search; binary</TermHtml>
+    <RhsHtml>
+      A famous algorithm that searches for a target in a sorted list.  Each probe in the
+      list allows us to discard half the remaining items, so the algorithm is very efficient.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>search; linear</Term>
+    <Rhs>
+      A search that probes each item in a list or sequence, from first, until it finds
+      what it is looking for.  It is used for searching for a target in unordered lists of items.
+    </Rhs>
+    <ChapterTitle>Chapter 17 List Algorithms</ChapterTitle>
+    <ChapterNum>17</ChapterNum>
+    <TermHtml>search; linear</TermHtml>
+    <RhsHtml>
+      A search that probes each item in a list or sequence, from first, until it finds
+      what it is looking for.  It is used for searching for a target in unordered lists of items.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>test-driven development</Term>
+    <Rhs>
+      A software development practice which arrives at a desired feature
+      through a series of small, iterative steps motivated by automated tests
+      which are written first that express increasing refinements of the
+      desired feature.  (see the Wikipedia article on Test-driven
+      development
+      for more information.)
+    </Rhs>
+    <ChapterTitle>Chapter 17 List Algorithms</ChapterTitle>
+    <ChapterNum>17</ChapterNum>
+    <TermHtml>test-driven development</TermHtml>
+    <RhsHtml>
+      A software development practice which arrives at a desired feature
+      through a series of small, iterative steps motivated by automated tests
+      which are &lt;em&gt;written first&lt;/em&gt; that express increasing refinements of the
+      desired feature.  (see the Wikipedia article on &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Test_driven_development"&gt;Test-driven
+      development&lt;/a&gt;
+      for more information.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>base case</Term>
+    <Rhs>
+      A branch of the conditional statement in a recursive method that does
+      not give rise to further recursive calls.
+    </Rhs>
+    <ChapterTitle>Chapter 19 Recursion</ChapterTitle>
+    <ChapterNum>19</ChapterNum>
+    <TermHtml>base case</TermHtml>
+    <RhsHtml>
+      A branch of the conditional statement in a recursive method that does
+      not give rise to further recursive calls.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>infinite recursion</Term>
+    <Rhs>
+      A method that calls itself recursively without ever reaching any base
+      case. Eventually, infinite recursion causes a runtime error.
+    </Rhs>
+    <ChapterTitle>Chapter 19 Recursion</ChapterTitle>
+    <ChapterNum>19</ChapterNum>
+    <TermHtml>infinite recursion</TermHtml>
+    <RhsHtml>
+      A method that calls itself recursively without ever reaching any base
+      case. Eventually, infinite recursion causes a runtime error.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>recursion</Term>
+    <Rhs>The process of calling a method that is already executing.</Rhs>
+    <ChapterTitle>Chapter 19 Recursion</ChapterTitle>
+    <ChapterNum>19</ChapterNum>
+    <TermHtml>recursion</TermHtml>
+    <RhsHtml>The process of calling a method that is already executing.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>recursive call</Term>
+    <Rhs>
+      The statement that calls an already executing method.  Recursion can
+      also be indirect &amp;#8212; method f can call g which calls h,
+      and h could make a call back to f.
+    </Rhs>
+    <ChapterTitle>Chapter 19 Recursion</ChapterTitle>
+    <ChapterNum>19</ChapterNum>
+    <TermHtml>recursive call</TermHtml>
+    <RhsHtml>
+      The statement that calls an already executing method.  Recursion can
+      also be indirect &amp;#8212; method &lt;cite&gt;f&lt;/cite&gt; can call &lt;cite&gt;g&lt;/cite&gt; which calls &lt;cite&gt;h&lt;/cite&gt;,
+      and &lt;cite&gt;h&lt;/cite&gt; could make a call back to &lt;cite&gt;f&lt;/cite&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>recursive definition</Term>
+    <Rhs>
+      A definition which defines something in terms of itself. To be useful
+      it must include base cases which are not recursive. In this way it
+      differs from a circular definition.  Recursive definitions often
+      provide an elegant way to express complex data structures, like a directory
+      that can contain other directories, or a menu that can contain other menus.
+    </Rhs>
+    <ChapterTitle>Chapter 19 Recursion</ChapterTitle>
+    <ChapterNum>19</ChapterNum>
+    <TermHtml>recursive definition</TermHtml>
+    <RhsHtml>
+      A definition which defines something in terms of itself. To be useful
+      it must include &lt;em&gt;base cases&lt;/em&gt; which are not recursive. In this way it
+      differs from a &lt;em&gt;circular definition&lt;/em&gt;.  Recursive definitions often
+      provide an elegant way to express complex data structures, like a directory
+      that can contain other directories, or a menu that can contain other menus.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>catch an exception</Term>
+    <Rhs>
+      Instead of the default behaviour of having our program crash, we can
+      catch and recover from exceptions by wrapping regions of code
+      in a try ... catch statement.
+    </Rhs>
+    <ChapterTitle>Chapter 20 Exceptions</ChapterTitle>
+    <ChapterNum>20</ChapterNum>
+    <TermHtml>catch an exception</TermHtml>
+    <RhsHtml>
+      Instead of the default behaviour of having our program crash, we can
+      catch and recover from exceptions by wrapping regions of code
+      in a &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;try&lt;/span&gt;&lt;/tt&gt; ... &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;catch&lt;/span&gt;&lt;/tt&gt; statement.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>exception</Term>
+    <Rhs>An error that occurs at runtime.   We say the exception is thrown.</Rhs>
+    <ChapterTitle>Chapter 20 Exceptions</ChapterTitle>
+    <ChapterNum>20</ChapterNum>
+    <TermHtml>exception</TermHtml>
+    <RhsHtml>An error that occurs at runtime.   We say the exception is &lt;em&gt;thrown&lt;/em&gt;.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>exception hierarchy</Term>
+    <Rhs>
+      Different types of exceptions are already defined in C#.
+      The types of exceptions are organized into a hierarchical (tree-like) type structure,
+      so, for example, an FileNotFoundException is-a kind of IOException
+      which is-a kind of SystemException, which is-a kind of Exception.
+    </Rhs>
+    <ChapterTitle>Chapter 20 Exceptions</ChapterTitle>
+    <ChapterNum>20</ChapterNum>
+    <TermHtml>exception hierarchy</TermHtml>
+    <RhsHtml>
+      Different types of exceptions are already defined in C#.
+      The types of exceptions are organized into a hierarchical (tree-like) type structure,
+      so, for example, an &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;FileNotFoundException&lt;/span&gt;&lt;/tt&gt; is-a kind of &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;IOException&lt;/span&gt;&lt;/tt&gt;
+      which is-a kind of &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;SystemException&lt;/span&gt;&lt;/tt&gt;, which is-a kind of &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Exception&lt;/span&gt;&lt;/tt&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>is-a</Term>
+    <Rhs>
+      A made-up word, shorthand for &amp;#8220;is a&amp;#8221;, that Computer Scientists use to describe
+      a relationship between a more specific type and a more general type.
+    </Rhs>
+    <ChapterTitle>Chapter 20 Exceptions</ChapterTitle>
+    <ChapterNum>20</ChapterNum>
+    <TermHtml>is-a</TermHtml>
+    <RhsHtml>
+      A made-up word, shorthand for &amp;#8220;is a&amp;#8221;, that Computer Scientists use to describe
+      a relationship between a more specific type and a more general type.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>throw statement</Term>
+    <Rhs>A C# statement that allows us to programmatically throw exceptions.</Rhs>
+    <ChapterTitle>Chapter 20 Exceptions</ChapterTitle>
+    <ChapterNum>20</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;throw&lt;/span&gt;&lt;/tt&gt; statement</TermHtml>
+    <RhsHtml>A C# statement that allows us to programmatically throw exceptions.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>access modifier</Term>
+    <Rhs>
+      In C#, one of four keywords: public, private, internal
+      and protected that determine how other parts of the software
+      may access (or may be restricted from accessing) a member.
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>access modifier</TermHtml>
+    <RhsHtml>
+      In C#, one of four keywords: &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;public&lt;/span&gt;&lt;/tt&gt;, &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;private&lt;/span&gt;&lt;/tt&gt;, &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;internal&lt;/span&gt;&lt;/tt&gt;
+      and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;protected&lt;/span&gt;&lt;/tt&gt; that determine how other parts of the software
+      may access (or may be restricted from accessing) a member.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>deterministic</Term>
+    <Rhs>
+      Something that is repeatable, and will always produce the same
+      results for the same inputs.  See also non-deterministic.
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>deterministic</TermHtml>
+    <RhsHtml>
+      Something that is repeatable, and will always produce the same
+      results for the same inputs.  See also non-deterministic.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>member</Term>
+    <Rhs>
+      A member of a class is something that belongs to the class:
+      e.g. variables, methods, properties, constructors, constants, and more.
+      (See http://msdn.microsoft.com/en-us/library/vstudio/ms173113.aspx
+      if you&amp;#8217;re inquisitive about other kinds of members.)
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>member</TermHtml>
+    <RhsHtml>
+      A member of a class is something that belongs to the class:
+      e.g. variables, methods, properties, constructors, constants, and more.
+      (See &lt;a class="reference external" href="http://msdn.microsoft.com/en-us/library/vstudio/ms173113.aspx"&gt;http://msdn.microsoft.com/en-us/library/vstudio/ms173113.aspx&lt;/a&gt;
+      if you&amp;#8217;re inquisitive about other kinds of members.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>namespace</Term>
+    <Rhs>
+      A grouping for names that helps organize software.  Namespaces
+      mean that that the same common names
+      can be used in different namespaces without ambiguity.
+      (We probably have plenty of different
+      classes called MainWindow if we&amp;#8217;re doing all these textbook exercises.)
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>namespace</TermHtml>
+    <RhsHtml>
+      A grouping for names that helps organize software.  Namespaces
+      mean that that the same common names
+      can be used in different namespaces without ambiguity.
+      (We probably have plenty of different
+      classes called &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;MainWindow&lt;/span&gt;&lt;/tt&gt; if we&amp;#8217;re doing all these textbook exercises.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>non-deterministic</Term>
+    <Rhs>
+      Something that has an element of chance built into in. One is
+      not sure when we flip a coin whether it will land on heads or tails.
+      We use random number generators in programs to provide (fake) non-determinism.
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>non-deterministic</TermHtml>
+    <RhsHtml>
+      Something that has an element of chance built into in. One is
+      not sure when we flip a coin whether it will land on heads or tails.
+      We use random number generators in programs to provide (fake) non-determinism.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>pseudo-random</Term>
+    <Rhs>
+      Something that appears to be random, but isn&amp;#8217;t really random.  Our
+      random number generators are based on a deterministic algorithm and
+      some seed value. If you know the seed, you know what the next random
+      number will be.  For those who enjoy physics, our universe is
+      random &amp;#8212; no matter what we know about the state of things, we
+      cannot predict with certainty what happens next.
+      Quantum theory is all about the &amp;#8220;genuinely non-deterministic&amp;#8221;
+      universe.
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>pseudo-random</TermHtml>
+    <RhsHtml>
+      Something that appears to be random, but isn&amp;#8217;t really random.  Our
+      random number generators are based on a deterministic algorithm and
+      some seed value. If you know the seed, you know what the next random
+      number will be.  For those who enjoy physics, our universe is
+      random &amp;#8212; no matter what we know about the state of things, we
+      cannot predict with certainty what happens next.
+      Quantum theory is all about the &amp;#8220;genuinely non-deterministic&amp;#8221;
+      universe.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>qualified name</Term>
+    <Rhs>
+      A name that is prefixed by some contextual information, e.g.
+      System.Random, Math.Sqrt, or tess.Forward(10).
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>qualified name</TermHtml>
+    <RhsHtml>
+      A name that is prefixed by some contextual information, e.g.
+      &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;System.Random&lt;/span&gt;&lt;/tt&gt;, &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Math.Sqrt&lt;/span&gt;&lt;/tt&gt;, or &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;tess.Forward(10)&lt;/span&gt;&lt;/tt&gt;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>seed</Term>
+    <Rhs>A value which a pseudo-random number generator uses to initialize its algorithm.</Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>seed</TermHtml>
+    <RhsHtml>A value which a pseudo-random number generator uses to initialize its algorithm.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>syntactic sugar</Term>
+    <Rhs>
+      Something that makes it sweeter or easier to express our intentions,
+      but it doesn&amp;#8217;t allow us to do anything fundamentally new.  For example,
+      a switch statement in C# is really just syntactic sugar, because we
+      could do the same thing with if statements.
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>syntactic sugar</TermHtml>
+    <RhsHtml>
+      Something that makes it sweeter or easier to express our intentions,
+      but it doesn&amp;#8217;t allow us to do anything fundamentally new.  For example,
+      a &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;switch&lt;/span&gt;&lt;/tt&gt; statement in C# is really just syntactic sugar, because we
+      could do the same thing with &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;if&lt;/span&gt;&lt;/tt&gt; statements.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>using directive</Term>
+    <Rhs>
+      A line at the top of a file that makes all the names in that namespace
+      available without the need to qualify them.
+    </Rhs>
+    <ChapterTitle>Chapter 21 The .NET Framework</ChapterTitle>
+    <ChapterNum>21</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;using&lt;/span&gt;&lt;/tt&gt; directive</TermHtml>
+    <RhsHtml>
+      A line at the top of a file that makes all the names in that namespace
+      available without the need to qualify them.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>scope</Term>
+    <Rhs>
+      The region of program code in which a name can be used without the need
+      for extra qualification.
+    </Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>scope</TermHtml>
+    <RhsHtml>
+      The region of program code in which a name can be used without the need
+      for extra qualification.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>class-level scope</Term>
+    <Rhs>Any name defined directly within a class, and visible to methods within the class.</Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>class-level scope</TermHtml>
+    <RhsHtml>Any name defined directly within a class, and visible to methods within the class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>garbage</Term>
+    <Rhs>Any object that has become inaccessible.</Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>garbage</TermHtml>
+    <RhsHtml>Any object that has become inaccessible.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>garbage collection</Term>
+    <Rhs>
+      A periodic process that reclaims and recycles the memory
+      use by inaccessible objects.
+    </Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>garbage collection</TermHtml>
+    <RhsHtml>
+      A periodic process that reclaims and recycles the memory
+      use by inaccessible objects.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>heap</Term>
+    <Rhs>An area of memory in which objects are created and live.</Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>heap</TermHtml>
+    <RhsHtml>An area of memory in which objects are created and live.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>inaccessible object</Term>
+    <Rhs>
+      An object which has no references from the program pointing to it.
+      This happens because a variable can be reassigned, and made to point
+      to a different object, or because a variable gets destroyed when
+      control leaves the scope in which it is defined.
+    </Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>inaccessible object</TermHtml>
+    <RhsHtml>
+      An object which has no references from the program pointing to it.
+      This happens because a variable can be reassigned, and made to point
+      to a different object, or because a variable gets destroyed when
+      control leaves the scope in which it is defined.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>lifetime</Term>
+    <Rhs>
+      The time from when a variable or an object is created (e.g. from control
+      entering a new scope or from object instantiation) until it is
+      destroyed (from control exiting the scope, or the garbage collector
+      reclaiming the memory associated with the object.)
+    </Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>lifetime</TermHtml>
+    <RhsHtml>
+      The time from when a variable or an object is created (e.g. from control
+      entering a new scope or from object instantiation) until it is
+      destroyed (from control exiting the scope, or the garbage collector
+      reclaiming the memory associated with the object.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>local scope</Term>
+    <Rhs>The closest enclosing block or method in which names are defined.</Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>local scope</TermHtml>
+    <RhsHtml>The closest enclosing block or method in which names are defined.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>static class</Term>
+    <Rhs>A class that cannot be instantiated.  Math is a static class.</Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>static class</TermHtml>
+    <RhsHtml>A class that cannot be instantiated.  &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Math&lt;/span&gt;&lt;/tt&gt; is a static class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>static member</Term>
+    <Rhs>
+      A member that is accessible via the class name, not via an instance object.
+      Canvas.GetLeft in our More Event Handling chapter is one example.
+    </Rhs>
+    <ChapterTitle>Chapter 22 Scope and Lifetime</ChapterTitle>
+    <ChapterNum>22</ChapterNum>
+    <TermHtml>static member</TermHtml>
+    <RhsHtml>
+      A member that is accessible via the class name, not via an instance object.
+      &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Canvas.GetLeft&lt;/span&gt;&lt;/tt&gt; in our &lt;em&gt;More Event Handling&lt;/em&gt; chapter is one example.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>class</Term>
+    <Rhs>
+      A class defines a new type of object.  A class can also be thought of as a
+      template or a blueprint for the objects that are created according to its
+      specifications.
+    </Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>class</TermHtml>
+    <RhsHtml>
+      A class defines a new type of object.  A class can also be thought of as a
+      template or a blueprint for the objects that are created according to its
+      specifications.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>constructor</Term>
+    <Rhs>
+      Every class may have special method that is invoked automatically to
+      initialize a new object to its factory-default state.
+    </Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>constructor</TermHtml>
+    <RhsHtml>
+      Every class may have special method that is invoked automatically to
+      initialize a new object to its factory-default state.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>instance</Term>
+    <Rhs>
+      An object whose type is of some class.  Instance and object are used
+      interchangeably.
+    </Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>instance</TermHtml>
+    <RhsHtml>
+      An object whose type is of some class.  Instance and object are used
+      interchangeably.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>instantiate</Term>
+    <Rhs>To create an instance of a class, and to run its constructor, if one exists.</Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>instantiate</TermHtml>
+    <RhsHtml>To create an instance of a class, and to run its constructor, if one exists.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>method</Term>
+    <Rhs>
+      A method is defined inside a class definition and is invoked on
+      objects of that class. Methods give objects their behaviour.
+    </Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>method</TermHtml>
+    <RhsHtml>
+      A method is defined inside a class definition and is invoked on
+      objects of that class. Methods give objects their behaviour.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>Model-View-Controller (MVC)</Term>
+    <Rhs>A popular way of breaking software systems into three cooperating components.</Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>Model-View-Controller (MVC)</TermHtml>
+    <RhsHtml>A popular way of breaking software systems into three cooperating components.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>object</Term>
+    <Rhs>
+      The run-time entity that is often used to represent a real-world thing.
+      It bundles together the state (data) and the behaviour appropriate
+      for that kind of thing.  Instance and object are used interchangeably.
+    </Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>object</TermHtml>
+    <RhsHtml>
+      The run-time entity that is often used to represent a real-world thing.
+      It bundles together the state (data) and the behaviour appropriate
+      for that kind of thing.  Instance and object are used interchangeably.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>software architecture</Term>
+    <Rhs>The overall design of a large software system.</Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>software architecture</TermHtml>
+    <RhsHtml>The overall design of a large software system.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>this</Term>
+    <Rhs>A C# keyword that refers to the current instance of the class.</Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;this&lt;/span&gt;&lt;/tt&gt;</TermHtml>
+    <RhsHtml>A C# keyword that refers to the current instance of the class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>object-oriented programming</Term>
+    <Rhs>
+      A powerful style of programming in which data and the operations
+      that manipulate it are organized into objects.
+    </Rhs>
+    <ChapterTitle>Chapter 24 Writing our own Classes</ChapterTitle>
+    <ChapterNum>24</ChapterNum>
+    <TermHtml>object-oriented programming</TermHtml>
+    <RhsHtml>
+      A powerful style of programming in which data and the operations
+      that manipulate it are organized into objects.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>ancestor class</Term>
+    <Rhs>Same as base class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>ancestor class</TermHtml>
+    <RhsHtml>Same as base class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>base class</Term>
+    <Rhs>A class which is used as a basis for another more specialized derived class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>base class</TermHtml>
+    <RhsHtml>A class which is used as a basis for another more specialized derived class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>child class</Term>
+    <Rhs>Same as derived class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>child class</TermHtml>
+    <RhsHtml>Same as derived class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>derived class</Term>
+    <Rhs>
+      A class which defined in terms of another class by inheriting the functionality of the
+      base base.
+    </Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>derived class</TermHtml>
+    <RhsHtml>
+      A class which defined in terms of another class by inheriting the functionality of the
+      base base.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>descendant class</Term>
+    <Rhs>Same as derived class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>descendant class</TermHtml>
+    <RhsHtml>Same as derived class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>hierarchy</Term>
+    <Rhs>
+      A tree-like structure.  In this chapter, we&amp;#8217;ve been interested in how classes are
+      related to each other, so the hierarchy is the &amp;#8220;family tree&amp;#8221; of classes.
+    </Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>hierarchy</TermHtml>
+    <RhsHtml>
+      A tree-like structure.  In this chapter, we&amp;#8217;ve been interested in how classes are
+      related to each other, so the hierarchy is the &amp;#8220;family tree&amp;#8221; of classes.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>inherit</Term>
+    <Rhs>To receive capability and behaviour from a base class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>inherit</TermHtml>
+    <RhsHtml>To receive capability and behaviour from a base class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>instance</Term>
+    <Rhs>An object whose type is of some class.  Instance and object are used interchangeably.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>instance</TermHtml>
+    <RhsHtml>An object whose type is of some class.  Instance and object are used interchangeably.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>object</Term>
+    <Rhs>
+      This is the ultimate base class of all other classes in the .NET framework, and in C#.
+      It is the root of the class hierarchy from which every other class is derived.  (In
+      the framework, its name is spelled with a capital &amp;#8216;O&amp;#8217;, in C#, with a lower-case &amp;#8216;o&amp;#8217;.)
+    </Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;object&lt;/span&gt;&lt;/tt&gt;</TermHtml>
+    <RhsHtml>
+      This is the ultimate base class of all other classes in the .NET framework, and in C#.
+      It is the root of the class hierarchy from which every other class is derived.  (In
+      the framework, its name is spelled with a capital &amp;#8216;O&amp;#8217;, in C#, with a lower-case &amp;#8216;o&amp;#8217;.)
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>override</Term>
+    <Rhs>
+      A C# keyword that indicates that a method definition is modifying the
+      behaviour that it inherited from its base class.
+    </Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;override&lt;/span&gt;&lt;/tt&gt;</TermHtml>
+    <RhsHtml>
+      A C# keyword that indicates that a method definition is modifying the
+      behaviour that it inherited from its base class.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>parent class</Term>
+    <Rhs>Same as base class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>parent class</TermHtml>
+    <RhsHtml>Same as base class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>polymorphism</Term>
+    <Rhs>
+      Able to work with many types.
+      The origin of the word is from &amp;#8220;poly) (many) and &amp;#8220;morph&amp;#8221; (forms).
+    </Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>polymorphism</TermHtml>
+    <RhsHtml>
+      Able to work with many types.
+      The origin of the word is from &amp;#8220;poly) (many) and &amp;#8220;morph&amp;#8221; (forms).
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>sealed class</Term>
+    <Rhs>A class that cannot be derived or used as a base for a new class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>sealed class</TermHtml>
+    <RhsHtml>A class that cannot be derived or used as a base for a new class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>subtype</Term>
+    <Rhs>Same as derived class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>subtype</TermHtml>
+    <RhsHtml>Same as derived class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>subtype polymorphism</Term>
+    <Rhs>
+      Polymorphism that is possible because anything that works for type T will
+      automatically also work for any subtypes of T.
+      There are other mechanisms for polymorphism too.
+      Contrast this idea to the &amp;#8220;parametric polymorphism&amp;#8221;
+      we get with generic types, e.g. List&amp;lt;Turtle&amp;gt; or List&amp;lt;Button&amp;gt;.
+      There is no subtype relationship between Turtle and Button,
+      yet List can handle the different types.
+    </Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>subtype polymorphism</TermHtml>
+    <RhsHtml>
+      &lt;p class="first"&gt;Polymorphism that is possible because anything that works for type T will
+      automatically also work for any subtypes of T.&lt;/p&gt;
+      &lt;p class="last"&gt;There are other mechanisms for polymorphism too.
+      Contrast this idea to the &amp;#8220;parametric polymorphism&amp;#8221;
+      we get with generic types, e.g. &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;List&amp;lt;Turtle&amp;gt;&lt;/span&gt;&lt;/tt&gt; or &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;List&amp;lt;Button&amp;gt;&lt;/span&gt;&lt;/tt&gt;.
+      There is no subtype relationship between &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Turtle&lt;/span&gt;&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;Button&lt;/span&gt;&lt;/tt&gt;,
+      yet &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;List&lt;/span&gt;&lt;/tt&gt; can handle the different types.&lt;/p&gt;
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>supertype</Term>
+    <Rhs>Same as base class.</Rhs>
+    <ChapterTitle>Chapter 26 Inheritance</ChapterTitle>
+    <ChapterNum>26</ChapterNum>
+    <TermHtml>supertype</TermHtml>
+    <RhsHtml>Same as base class.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>dictionary</Term>
+    <Rhs>A collection of key-value pairs that maps from keys to values.</Rhs>
+    <ChapterTitle>Chapter 27 Dictionaries</ChapterTitle>
+    <ChapterNum>27</ChapterNum>
+    <TermHtml>dictionary</TermHtml>
+    <RhsHtml>A collection of key-value pairs that maps from keys to values.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>key</Term>
+    <Rhs>
+      A data item that is mapped to a value in a dictionary. Keys are used
+      to look up values in a dictionary. Each key must be unique
+      across the dictionary.
+    </Rhs>
+    <ChapterTitle>Chapter 27 Dictionaries</ChapterTitle>
+    <ChapterNum>27</ChapterNum>
+    <TermHtml>key</TermHtml>
+    <RhsHtml>
+      A data item that is &lt;em&gt;mapped to&lt;/em&gt; a value in a dictionary. Keys are used
+      to look up values in a dictionary. Each key must be unique
+      across the dictionary.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>key-value pair</Term>
+    <Rhs>
+      One of the pairs of items in a dictionary. Values are looked up in a
+      dictionary by their key.
+    </Rhs>
+    <ChapterTitle>Chapter 27 Dictionaries</ChapterTitle>
+    <ChapterNum>27</ChapterNum>
+    <TermHtml>key-value pair</TermHtml>
+    <RhsHtml>
+      One of the pairs of items in a dictionary. Values are looked up in a
+      dictionary by their key.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>implement an interface</Term>
+    <Rhs>
+      A class that agrees to an interface contract is agreeing to provide certain functionality.
+      It does so by providing properties and methods (and even other kinds of members)
+      that fulfil its obligations.
+    </Rhs>
+    <ChapterTitle>Chapter 28 Interfaces</ChapterTitle>
+    <ChapterNum>28</ChapterNum>
+    <TermHtml>implement an interface</TermHtml>
+    <RhsHtml>
+      A class that agrees to an interface contract is agreeing to provide certain functionality.
+      It does so by providing properties and methods (and even other kinds of members)
+      that fulfil its obligations.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>interface (the informal usage)</Term>
+    <Rhs>
+      The way something interacts with other components outside of itself.  A gear lever
+      in a motor car is an interface to the gearbox.  In programming we use the
+      word loosely to mean &amp;#8220;the public members of a class&amp;#8221;.
+    </Rhs>
+    <ChapterTitle>Chapter 28 Interfaces</ChapterTitle>
+    <ChapterNum>28</ChapterNum>
+    <TermHtml>interface (the informal usage)</TermHtml>
+    <RhsHtml>
+      The way something interacts with other components outside of itself.  A gear lever
+      in a motor car is an interface to the gearbox.  In programming we use the
+      word loosely to mean &amp;#8220;the public members of a class&amp;#8221;.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>interface (a formal programming interface)</Term>
+    <Rhs>
+      A specification of what methods and members an implementing class promises to the consumer of
+      the functionality. Classes can implement many different interfaces.
+    </Rhs>
+    <ChapterTitle>Chapter 28 Interfaces</ChapterTitle>
+    <ChapterNum>28</ChapterNum>
+    <TermHtml>interface (a formal programming interface)</TermHtml>
+    <RhsHtml>
+      A specification of what methods and members an implementing class promises to the consumer of
+      the functionality. Classes can implement many different interfaces.
+    </RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>role</Term>
+    <Rhs>Something that an object can do, as opposed to what it fundamentally is.</Rhs>
+    <ChapterTitle>Chapter 28 Interfaces</ChapterTitle>
+    <ChapterNum>28</ChapterNum>
+    <TermHtml>role</TermHtml>
+    <RhsHtml>Something that an object can &lt;em&gt;do&lt;/em&gt;, as opposed to what it fundamentally &lt;em&gt;is&lt;/em&gt;.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>type cast</Term>
+    <Rhs>A conversion from one type to another.</Rhs>
+    <ChapterTitle>Chapter 28 Interfaces</ChapterTitle>
+    <ChapterNum>28</ChapterNum>
+    <TermHtml>type cast</TermHtml>
+    <RhsHtml>A conversion from one type to another.</RhsHtml>
+  </Definition>
+  <Definition>
+    <Term>type test</Term>
+    <Rhs>A test that lets us determine if an object is convertible to a specific type.</Rhs>
+    <ChapterTitle>Chapter 28 Interfaces</ChapterTitle>
+    <ChapterNum>28</ChapterNum>
+    <TermHtml>type test</TermHtml>
+    <RhsHtml>A test that lets us determine if an object is convertible to a specific type.</RhsHtml>
+  </Definition>
+</ArrayOfDefinition>

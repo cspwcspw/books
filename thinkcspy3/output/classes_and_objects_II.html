@@ -1,0 +1,412 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>16. Classes and Objects — Digging a little deeper &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="17. PyGame" href="pygame.html" />
+    <link rel="prev" title="15. Classes and Objects — the Basics" href="classes_and_objects_I.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="pygame.html" title="17. PyGame"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="classes_and_objects_I.html" title="15. Classes and Objects — the Basics"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="classes-and-objects-digging-a-little-deeper">
+<h1>16. Classes and Objects — Digging a little deeper<a class="headerlink" href="#classes-and-objects-digging-a-little-deeper" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="rectangles">
+<span id="index-0"></span><h2>16.1. Rectangles<a class="headerlink" href="#rectangles" title="Permalink to this headline">¶</a></h2>
+<p>Let’s say that we want a class to represent a rectangle which is located
+somewhere in the XY plane. The question is, what information do we have
+to provide in order to specify such a rectangle? To keep things simple,
+assume that the rectangle is oriented either vertically or
+horizontally, never at an angle.</p>
+<p>There are a few possibilities: we could specify the center of the rectangle
+(two coordinates) and its size (width and height); or we could specify one of
+the corners and the size; or we could specify two opposing corners. A
+conventional choice is to specify the upper-left corner of the rectangle, and
+the size.</p>
+<p>Again, we’ll define a new class, and provide it with an initializer and
+a string converter method:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; A class to manufacture rectangle objects &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">posn</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize rectangle at posn, with width w, height h &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corner</span> <span class="o">=</span> <span class="n">posn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">h</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>  <span class="s2">&quot;(</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">, </span><span class="si">{2}</span><span class="s2">)&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corner</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+<span class="n">box</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">bomb</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>    <span class="c1"># In my video game</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;box: &quot;</span><span class="p">,</span> <span class="n">box</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;bomb: &quot;</span><span class="p">,</span> <span class="n">bomb</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>To specify the upper-left corner, we have embedded a <code class="docutils literal notranslate"><span class="pre">Point</span></code> object (as we used
+it in the previous chapter) within our new <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> object!
+We create two new <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> objects, and then print them producing:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">box</span><span class="p">:</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">bomb</span><span class="p">:</span> <span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The dot operator composes. The expression <code class="docutils literal notranslate"><span class="pre">box.corner.x</span></code> means, “Go to the
+object that <code class="docutils literal notranslate"><span class="pre">box</span></code> refers to and select its attribute named <code class="docutils literal notranslate"><span class="pre">corner</span></code>, then go to
+that object and select its attribute named <code class="docutils literal notranslate"><span class="pre">x</span></code>”.</p>
+<p>The figure shows the state of this object:</p>
+<blockquote>
+<div><img alt="_images/rectangle.png" src="_images/rectangle.png" />
+</div></blockquote>
+</div>
+<div class="section" id="objects-are-mutable">
+<h2>16.2. Objects are mutable<a class="headerlink" href="#objects-are-mutable" title="Permalink to this headline">¶</a></h2>
+<p>We can change the state of an object by making an assignment to one of
+its attributes. For example, to grow the size of a rectangle without
+changing its position, we could modify the values of <code class="docutils literal notranslate"><span class="pre">width</span></code> and
+<code class="docutils literal notranslate"><span class="pre">height</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">+=</span> <span class="mi">50</span>
+<span class="n">box</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Of course, we’d probably like to provide a method to encapsulate this
+inside the class.  We will also provide another method to move the
+position of the rectangle elsewhere:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">:</span>
+    <span class="c1"># ...</span>
+
+    <span class="k">def</span> <span class="nf">grow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta_width</span><span class="p">,</span> <span class="n">delta_height</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Grow (or shrink) this object by the deltas &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">+=</span> <span class="n">delta_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="n">delta_height</span>
+
+    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Move this object by the deltas &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corner</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corner</span><span class="o">.</span><span class="n">y</span> <span class="o">+=</span> <span class="n">dy</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Let us try this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="go">((10, 5), 100, 50)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">grow</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="go">((10, 5), 125, 40)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">print(r)</span>
+<span class="go">((0, 15), 125, 40)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="sameness">
+<span id="index-1"></span><h2>16.3. Sameness<a class="headerlink" href="#sameness" title="Permalink to this headline">¶</a></h2>
+<p>The meaning of the word “same” seems perfectly clear until we give it some
+thought, and then we realize there is more to it than we initially expected.</p>
+<p>For example, if we say, “Alice and Bob have the same car”, we mean that her car
+and his are the same make and model, but that they are two different cars. If
+we say, “Alice and Bob have the same mother”, we mean that her mother and his
+are the same person.</p>
+<p>When we talk about objects, there is a similar ambiguity. For example, if two
+<code class="docutils literal notranslate"><span class="pre">Point</span></code>s are the same, does that mean they contain the same data
+(coordinates) or that they are actually the same object?</p>
+<p>We’ve already seen the <code class="docutils literal notranslate"><span class="pre">is</span></code> operator in the chapter on lists, where we
+talked about aliases:
+it allows us to find out if two references refer to the same object:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="ow">is</span> <span class="n">p2</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Even though <code class="docutils literal notranslate"><span class="pre">p1</span></code> and <code class="docutils literal notranslate"><span class="pre">p2</span></code> contain the same coordinates, they are not the
+same object. If we assign <code class="docutils literal notranslate"><span class="pre">p1</span></code> to <code class="docutils literal notranslate"><span class="pre">p3</span></code>, then the two variables are aliases
+of the same object:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="n">p1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="ow">is</span> <span class="n">p3</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This type of equality is called <strong>shallow equality</strong> because it
+compares only the references, not the contents of the objects.</p>
+<p>To compare the contents of the objects — <strong>deep equality</strong> —
+we can write a function called <code class="docutils literal notranslate"><span class="pre">same_coordinates</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">same_coordinates</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">p2</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">p2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Now if we create two different objects that contain the same data, we can use
+<code class="docutils literal notranslate"><span class="pre">same_point</span></code> to find out if they represent points with the same coordinates.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">same_coordinates</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Of course, if the two variables refer to the same object, they have both
+shallow and deep equality.</p>
+<div class="admonition-beware-of admonition">
+<p class="first admonition-title">Beware of  ==</p>
+<p>“When I use a word,” Humpty Dumpty said, in a rather scornful tone, “it means just what I choose it to mean — neither more nor less.”   <em>Alice in Wonderland</em></p>
+<p>Python has a powerful feature that allows a designer of a class to decide what an operation
+like <code class="docutils literal notranslate"><span class="pre">==</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> should mean.  (We’ve just shown how we can control how our own objects
+are converted to strings, so we’ve already made a start!)  We’ll cover more detail later.
+But sometimes the implementors will attach shallow equality semantics, and
+sometimes deep equality, as shown in this little experiment:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;== on Points returns&quot;</span><span class="p">,</span> <span class="n">p</span> <span class="o">==</span> <span class="n">s</span><span class="p">)</span>
+<span class="c1"># By default, == on Point objects does a shallow equality test</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;== on lists returns&quot;</span><span class="p">,</span>  <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span>
+<span class="c1"># But by default, == does a deep equality test on lists</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This outputs:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="o">==</span> <span class="n">on</span> <span class="n">Points</span> <span class="n">returns</span> <span class="kc">False</span>
+<span class="o">==</span> <span class="n">on</span> <span class="n">lists</span> <span class="n">returns</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="last">So we conclude that even though the two lists (or tuples, etc.) are distinct objects
+with different memory addresses, for lists the <code class="docutils literal notranslate"><span class="pre">==</span></code> operator tests for deep equality,
+while in the case of points it makes a shallow test.</p>
+</div>
+</div>
+<div class="section" id="copying">
+<span id="index-2"></span><h2>16.4. Copying<a class="headerlink" href="#copying" title="Permalink to this headline">¶</a></h2>
+<p>Aliasing can make a program difficult to read because changes made in
+one place might have unexpected effects in another place. It is hard
+to keep track of all the variables that might refer to a given object.</p>
+<p>Copying an object is often an alternative to aliasing. The <code class="docutils literal notranslate"><span class="pre">copy</span></code>
+module contains a function called <code class="docutils literal notranslate"><span class="pre">copy</span></code> that can duplicate any
+object:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="ow">is</span> <span class="n">p2</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">same_coordinates</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Once we import the <code class="docutils literal notranslate"><span class="pre">copy</span></code> module, we can use the <code class="docutils literal notranslate"><span class="pre">copy</span></code> function to make
+a new <code class="docutils literal notranslate"><span class="pre">Point</span></code>. <code class="docutils literal notranslate"><span class="pre">p1</span></code> and <code class="docutils literal notranslate"><span class="pre">p2</span></code> are not the same point, but they contain
+the same data.</p>
+<p>To copy a simple object like a <code class="docutils literal notranslate"><span class="pre">Point</span></code>, which doesn’t contain any
+embedded objects, <code class="docutils literal notranslate"><span class="pre">copy</span></code> is sufficient. This is called <strong>shallow
+copying</strong>.</p>
+<p>For something like a <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code>, which contains a reference to a
+<code class="docutils literal notranslate"><span class="pre">Point</span></code>, <code class="docutils literal notranslate"><span class="pre">copy</span></code> doesn’t do quite the right thing. It copies the
+reference to the <code class="docutils literal notranslate"><span class="pre">Point</span></code> object, so both the old <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> and the
+new one refer to a single <code class="docutils literal notranslate"><span class="pre">Point</span></code>.</p>
+<p>If we create a box, <code class="docutils literal notranslate"><span class="pre">b1</span></code>, in the usual way and then make a copy, <code class="docutils literal notranslate"><span class="pre">b2</span></code>,
+using <code class="docutils literal notranslate"><span class="pre">copy</span></code>, the resulting state diagram looks like this:</p>
+<blockquote>
+<div><img alt="_images/rectangle2.png" src="_images/rectangle2.png" />
+</div></blockquote>
+<p>This is almost certainly not what we want. In this case, invoking
+<code class="docutils literal notranslate"><span class="pre">grow</span></code> on one of the <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> objects would not affect the other, but
+invoking <code class="docutils literal notranslate"><span class="pre">move</span></code> on either would affect both! This behavior is
+confusing and error-prone. The shallow copy has created an alias to the
+<code class="docutils literal notranslate"><span class="pre">Point</span></code> that represents the corner.</p>
+<p>Fortunately, the <code class="docutils literal notranslate"><span class="pre">copy</span></code> module contains a function named <code class="docutils literal notranslate"><span class="pre">deepcopy</span></code> that
+copies not only the object but also any embedded objects. It won’t be
+surprising to learn that this operation is called a <strong>deep copy</strong>.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b2</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Now <code class="docutils literal notranslate"><span class="pre">b1</span></code> and <code class="docutils literal notranslate"><span class="pre">b2</span></code> are completely separate objects.</p>
+</div>
+<div class="section" id="glossary">
+<h2>16.5. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-deep-copy">deep copy</dt>
+<dd>To copy the contents of an object as well as any embedded objects, and
+any objects embedded in them, and so on; implemented by the
+<code class="docutils literal notranslate"><span class="pre">deepcopy</span></code> function in the <code class="docutils literal notranslate"><span class="pre">copy</span></code> module.</dd>
+<dt id="term-deep-equality">deep equality</dt>
+<dd>Equality of values, or two references that point to objects that have
+the same value.</dd>
+<dt id="term-shallow-copy">shallow copy</dt>
+<dd>To copy the contents of an object, including any references to embedded
+objects; implemented by the <code class="docutils literal notranslate"><span class="pre">copy</span></code> function in the <code class="docutils literal notranslate"><span class="pre">copy</span></code> module.</dd>
+<dt id="term-shallow-equality">shallow equality</dt>
+<dd>Equality of references, or two references that point to the same object.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>16.6. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Add a method <code class="docutils literal notranslate"><span class="pre">area</span></code> to the <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> class that returns the area of any instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">area</span><span class="p">()</span> <span class="o">==</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a <code class="docutils literal notranslate"><span class="pre">perimeter</span></code> method in the <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> class so that we can find
+the perimeter of any rectangle instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">perimeter</span><span class="p">()</span> <span class="o">==</span> <span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a <code class="docutils literal notranslate"><span class="pre">flip</span></code> method in the <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> class that swaps the width
+and the height of any rectangle instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">width</span> <span class="o">==</span> <span class="mi">10</span> <span class="ow">and</span> <span class="n">r</span><span class="o">.</span><span class="n">height</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">width</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">r</span><span class="o">.</span><span class="n">height</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a new method in the <code class="docutils literal notranslate"><span class="pre">Rectangle</span></code> class to test if a <code class="docutils literal notranslate"><span class="pre">Point</span></code> falls within
+the rectangle.  For this exercise, assume that a rectangle at (0,0) with
+width 10 and height 5 has <em>open</em> upper bounds on the width and height,
+i.e. it stretches in the x direction from [0 to 10), where 0 is included
+but 10 is excluded, and from [0 to 5) in the y direction.  So
+it does not contain the point (10, 2).  These tests should pass:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="n">test</span><span class="p">(</span><span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">)))</span>
+<span class="n">test</span><span class="p">(</span><span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">4.99999</span><span class="p">)))</span>
+<span class="n">test</span><span class="p">(</span><span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">In games, we often put a rectangular “bounding box” around our sprites.
+(A sprite is an object that can move about in the game, as we will see
+shortly.)  We can then do <em>collision detection</em> between, say,
+bombs and spaceships, by comparing whether their rectangles overlap anywhere.</p>
+<p>Write a function to determine whether two rectangles collide. <em>Hint:
+this might be quite a tough exercise!  Think carefully about all the
+cases before you code.</em></p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="pygame.html" title="17. PyGame"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="classes_and_objects_I.html" title="15. Classes and Objects — the Basics"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

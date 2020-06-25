@@ -1,0 +1,991 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12. Strings &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="13. Classes and Objects — an Overview" href="classes_and_objects_0.html" />
+    <link rel="prev" title="11. Iteration" href="iteration.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="classes_and_objects_0.html" title="13. Classes and Objects — an Overview"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="iteration.html" title="11. Iteration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="strings">
+<h1>12. Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">So far we have seen built-in types like <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">double</span></code>, <code class="docutils literal"><span class="pre">char</span></code>,
+<code class="docutils literal"><span class="pre">bool</span></code>, <code class="docutils literal"><span class="pre">string</span></code> and we&#8217;ve also had some brief exposure to arrays.</p>
+<p>Strings and arrays are different from the others because they
+are made up of smaller pieces.  In the case of strings, they&#8217;re made up of <em>characters</em>.</p>
+<p>Depending on what we are doing, we may want to work with the string as a whole,
+or we may want to access its characters. This ambiguity is useful.</p>
+<div class="section" id="working-with-strings-as-single-things">
+<h2>12.1. Working with strings as single things<a class="headerlink" href="#working-with-strings-as-single-things" title="Permalink to this headline">¶</a></h2>
+<p>We previously saw that each button or turtle instance (object) has its own properties, and
+some methods that can be applied to the instance.  For example,
+we could set the button&#8217;s colour or size, and we wrote <code class="docutils literal"><span class="pre">tess.Right(90)</span></code> to get Tess to turn.</p>
+<p>Just like a turtle, or a button, a string is also an object.  So each string instance
+has its own properties and methods.  For example:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">ss</span> <span class="p">=</span> <span class="s">&quot;Hello, World!&quot;</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">tt</span> <span class="p">=</span> <span class="n">ss</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">();</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">tt</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>This code pops up this message box:</p>
+<blockquote>
+<div><img alt="_images/hello_world.png" src="_images/hello_world.png" />
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">ToUpper</span></code> is a method that can be invoked on any string object.
+It creates a new string, in which all the
+characters are in upper-case.  (The original string <code class="docutils literal"><span class="pre">ss</span></code> remains unchanged.)</p>
+<p>There are also methods such as <code class="docutils literal"><span class="pre">ToLower</span></code>, <code class="docutils literal"><span class="pre">Trim</span></code>, and
+<code class="docutils literal"><span class="pre">Split</span></code> that do other interesting things.</p>
+<p>To learn what methods are available, you can consult the Help documentation, look for
+string methods, and read the documentation.  Or, if you&#8217;re a bit lazier,
+simply type your string name followed by a period. Visual Studio will pop up a
+selection box (Microsoft call this feature <em>IntelliSense</em>) showing all the methods
+(there are around 40 of them &#8212; thank goodness we&#8217;ll only
+use a few of those!) that could be used on your string.</p>
+<img alt="_images/string_methods.png" src="_images/string_methods.png" />
+</div>
+<div class="section" id="working-with-the-individual-characters-of-a-string">
+<h2>12.2. Working with the individual characters of a string<a class="headerlink" href="#working-with-the-individual-characters-of-a-string" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>indexing operator</strong> (C# uses square brackets to enclose the index)
+selects a single character from a string:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">fruit</span> <span class="p">=</span> <span class="s">&quot;banana&quot;</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">m</span> <span class="p">=</span> <span class="n">fruit</span><span class="p">[</span><span class="m">1</span><span class="p">];</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;The character is {0}&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The expression <code class="docutils literal"><span class="pre">fruit[1]</span></code> selects character number 1 from whatever
+string the variable <code class="docutils literal"><span class="pre">fruit</span></code> refers to.  This is assigned
+to variable <code class="docutils literal"><span class="pre">m</span></code>.  When we display <code class="docutils literal"><span class="pre">m</span></code>, we could get a surprise: It displays an &#8216;a&#8217;!</p>
+<p>Computer scientists usually start counting from zero!
+The character at subscript position zero of <code class="docutils literal"><span class="pre">&quot;banana&quot;</span></code> is <code class="docutils literal"><span class="pre">b</span></code>.  At
+position <code class="docutils literal"><span class="pre">[1]</span></code> we have the character <code class="docutils literal"><span class="pre">a</span></code>.</p>
+<p>If we want to access the zero&#8217;th character of a string, we just place 0,
+or any expression that evaluates to 0, in the indexing brackets:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">fruit</span> <span class="p">=</span> <span class="s">&quot;banana&quot;</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">m</span> <span class="p">=</span> <span class="n">fruit</span><span class="p">[</span><span class="m">25</span> <span class="p">/</span> <span class="m">5</span> <span class="p">-</span> <span class="m">5</span><span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<p>The expression in brackets is called an <strong>index</strong>, or a <strong>subscript</strong>.
+We&#8217;ll use either word to mean the same thing.</p>
+<p id="index-1">If we attempt to access a character from an index position that does not exist, we&#8217;ll
+get a runtime error...</p>
+<blockquote>
+<div><img alt="_images/indexOutOfRangeException.png" src="_images/indexOutOfRangeException.png" />
+</div></blockquote>
+<p>Indexing works on strings, and can also be used on arrays, lists and other ordered collections of data.
+(Er ... we haven&#8217;t done lists and collections yet, so our current take-away message is
+that indexing is general, if we understand it here and we&#8217;ll be able to use it in other situations too.)</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">dayNames</span> <span class="p">=</span> <span class="p">{</span><span class="s">&quot;Sunday&quot;</span><span class="p">,</span> <span class="s">&quot;Monday&quot;</span><span class="p">,</span> <span class="s">&quot;Tuesday&quot;</span><span class="p">,</span> <span class="s">&quot;Wednesday&quot;</span><span class="p">,</span>
+                               <span class="s">&quot;Thursday&quot;</span><span class="p">,</span> <span class="s">&quot;Friday&quot;</span><span class="p">,</span> <span class="s">&quot;Saturday&quot;</span><span class="p">};</span>
+<span class="kt">string</span> <span class="n">x</span> <span class="p">=</span> <span class="n">dayNames</span><span class="p">[</span><span class="m">3</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">c</span> <span class="p">=</span> <span class="n">dayNames</span><span class="p">[</span><span class="m">3</span><span class="p">][</span><span class="m">2</span><span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<p>This makes variable <code class="docutils literal"><span class="pre">x</span></code> point to the string &#8220;Wednesday&#8221;, and it puts a &#8216;d&#8217; into the variable <code class="docutils literal"><span class="pre">c</span></code>.</p>
+</div>
+<div class="section" id="substrings">
+<span id="index-2"></span><h2>12.3. Substrings<a class="headerlink" href="#substrings" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Substring</span></code> method let&#8217;s us create a new string from a section of the another string:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">s</span> <span class="p">=</span> <span class="s">&quot;Pirates of the Caribbean&quot;</span><span class="p">;</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">7</span><span class="p">));</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">11</span><span class="p">,</span><span class="m">3</span><span class="p">));</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">15</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+<p>This will show &#8220;Pirates&#8221;, &#8220;the&#8221;, and &#8220;Caribbean&#8221; in three successive message boxes.</p>
+<p>The <code class="docutils literal"><span class="pre">Substring</span></code> method is used here in two different ways. (A method that can
+take various combination of arguments is called <strong>overloaded</strong>.)  On line 2 we build a new
+string from the original, by taking the characters starting at index position 0, and taking
+exactly 7 characters. Line 3 above takes exactly 3 characters, starting from index position 11.
+But if you leave out the second argument to <code class="docutils literal"><span class="pre">Substring</span></code>, it takes all the rest of the string.  So line
+4 here takes a substring starting at index position 15, all the way up to the end of the string.</p>
+</div>
+<div class="section" id="the-length-property">
+<h2>12.4. The <code class="docutils literal"><span class="pre">Length</span></code> property<a class="headerlink" href="#the-length-property" title="Permalink to this headline">¶</a></h2>
+<p id="index-3">The <code class="docutils literal"><span class="pre">Length</span></code> property of a string gives the number of characters in a string:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">fruit</span> <span class="p">=</span> <span class="s">&quot;banana&quot;</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="n">fruit</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span>      <span class="c1">// The value 6 is assigned to n</span>
+</pre></div>
+</td></tr></table></div>
+<p>To get the last character of a string, you might be tempted to try something like
+this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">char</span> <span class="n">last</span> <span class="p">=</span> <span class="n">fruit</span><span class="p">[</span><span class="n">fruit</span><span class="p">.</span><span class="n">Length</span><span class="p">];</span>       <span class="c1">// Oops!</span>
+</pre></div>
+</td></tr></table></div>
+<p>That won&#8217;t work. You&#8217;ll get an <code class="docutils literal"><span class="pre">IndexOutOfRange</span></code> exception.
+The reason is that there is no
+character at index position 6 in <code class="docutils literal"><span class="pre">&quot;banana&quot;</span></code>.
+Because indexing is <em>zero-based</em> (i.e. we start counting at zero), the six indexes are
+numbered 0 to 5. To get the last character, we have to subtract 1 from
+the length of <code class="docutils literal"><span class="pre">fruit</span></code>:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">char</span> <span class="n">last</span> <span class="p">=</span> <span class="n">fruit</span><span class="p">[</span><span class="n">fruit</span><span class="p">.</span><span class="n">Length</span><span class="p">-</span><span class="m">1</span><span class="p">];</span>     <span class="c1">// Yay!</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="strings-are-read-only">
+<span id="index-4"></span><h2>12.5. Strings are <em>read only</em><a class="headerlink" href="#strings-are-read-only" title="Permalink to this headline">¶</a></h2>
+<p>It is tempting to use the <code class="docutils literal"><span class="pre">[]</span></code> operator on the left side of an assignment,
+with the intention of changing a character in a string.  For example:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">myName</span> <span class="p">=</span> <span class="s">&quot;Pexer&quot;</span><span class="p">;</span>
+<span class="n">myName</span><span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="p">=</span> <span class="sc">&#39;t&#39;</span><span class="p">;</span>            <span class="c1">// ERROR!</span>
+</pre></div>
+</td></tr></table></div>
+<p>Strings are <strong>read only</strong>, which means you can&#8217;t change an existing string once it has been
+created.  The best you can do is create a new string that is a variation of the original:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">bookName</span> <span class="p">=</span> <span class="s">&quot;Thank Sharply!&quot;</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">correctedName</span> <span class="p">=</span> <span class="n">bookName</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span> <span class="p">+</span> <span class="s">&quot;i&quot;</span> <span class="p">+</span> <span class="n">bookName</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">3</span><span class="p">);</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">correctedName</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Remember that the <code class="docutils literal"><span class="pre">+</span></code> operator means <em>concatenation</em> when we apply it to
+strings: so the strings are joined together to create a bigger string.</p>
+<div class="admonition-understand-this-subtle-point admonition">
+<p class="first admonition-title">Understand this subtle point</p>
+<p>The variable <code class="docutils literal"><span class="pre">bookName</span></code> in line 1 above &#8216;points to&#8217; the string &#8220;Thank Sharply!&#8221;.
+The <em>pointee</em> (the thing being pointed to) is read-only, and cannot be modified after it is created.
+But we can assign some other string to <code class="docutils literal"><span class="pre">bookName</span></code> (so it will then point to a new pointee).
+So the variable <em>can</em> be changed, but the thing it points to <em>cannot</em> be changed.</p>
+<p>This code is therefore perfectly legal:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">bookName</span> <span class="p">=</span> <span class="s">&quot;Thank Sharply!&quot;</span><span class="p">;</span>
+<span class="n">bookName</span> <span class="p">=</span> <span class="n">bookName</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span> <span class="p">+</span> <span class="s">&quot;i&quot;</span> <span class="p">+</span> <span class="n">bookName</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">3</span><span class="p">);</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">bookName</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p class="last">Remember how assignment works: we first evaluate the expression on the right hand side, (in this
+case that evaluation creates a new string &#8220;Think Sharply!&#8221;.  Then we update the variable on the
+left to point to the new expression.</p>
+</div>
+</div>
+<div class="section" id="traversal-with-while-for-and-foreach-loops">
+<span id="index-5"></span><h2>12.6. Traversal with <code class="docutils literal"><span class="pre">while</span></code>, <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">foreach</span></code> loops<a class="headerlink" href="#traversal-with-while-for-and-foreach-loops" title="Permalink to this headline">¶</a></h2>
+<p>Computations often involve processing a string one character at a time.
+Usually they start at the beginning, select each character in turn, do something
+with it, and continue until the end. This pattern of processing is called a
+<strong>traversal</strong>. One way to encode a traversal is with a <code class="docutils literal"><span class="pre">while</span></code> loop:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">ix</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">ix</span> <span class="p">&lt;</span> <span class="n">fruit</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="p">=</span> <span class="n">fruit</span><span class="p">[</span><span class="n">ix</span><span class="p">];</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="n">ix</span><span class="p">++;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>This loop traverses the string and displays each character on a line by itself.
+The loop condition is <code class="docutils literal"><span class="pre">ix</span> <span class="pre">&lt;</span> <span class="pre">fruit.Length</span></code>, so when <code class="docutils literal"><span class="pre">ix</span></code> is equal to the
+length of the string, the condition is false, and the body of the loop is not
+executed. The last character accessed is the one with the index
+<code class="docutils literal"><span class="pre">fruit.Length-1</span></code>, which is the last character in the string.</p>
+<p>Our advice in the previous chapter is that <code class="docutils literal"><span class="pre">for</span></code> loops ire easier when definite
+iteration is involved.  So here is a better example that does the same thing:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">ix</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ix</span> <span class="p">&lt;</span> <span class="n">fruit</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">ix</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">fruit</span><span class="p">[</span><span class="n">ix</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Both examples above force us to think about the indexes, and we then use
+the index to extract the character we want.  But we&#8217;ve previously seen how the
+<code class="docutils literal"><span class="pre">foreach</span></code> loop can easily iterate over the elements in a array without us
+needing to think about the indexes.  It works for the characters in a string too
+(and it works for elements in other kinds of collections that we will cover later):</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="kt">char</span> <span class="n">c</span> <span class="k">in</span> <span class="n">fruit</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Each time through the loop, the next character in the string is assigned to the
+variable <code class="docutils literal"><span class="pre">c</span></code>. The loop continues until no characters are left. Here we
+can see the expressive power the <code class="docutils literal"><span class="pre">foreach</span></code> loop gives us compared to the
+<code class="docutils literal"><span class="pre">while</span></code> or <code class="docutils literal"><span class="pre">for</span></code> loops when traversing a string.</p>
+<p>Let&#8217;s look at a bigger example now:  we&#8217;re going
+to read a book from a file on our disk into a string in the program.
+That will give us a longer string to work with.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">book</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">File</span><span class="p">.</span><span class="n">ReadAllText</span><span class="p">(</span><span class="s">&quot;C:\\temp\\alice_in_wonderland.txt&quot;</span><span class="p">);</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">book</span><span class="p">;</span>
+    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;The book contains {0} characters.&quot;</span><span class="p">,</span> <span class="n">book</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 3 we&#8217;ll cover in more detail later in the course.  But for now, it tells our program to find
+<code class="docutils literal"><span class="pre">File.ReadAllText</span></code> in a specific library called <code class="docutils literal"><span class="pre">System.IO</span></code>.
+The argument to the method is a fully qualified pathname to the file.
+Line 4 makes our GUI text box show the contents of the book (and in the screen snapshot below, the vertical
+scroll bar has also been turned on for the text box).   Line 5 pops up a message box telling us how many
+characters are in the string.</p>
+<img alt="_images/alice_gui.png" src="_images/alice_gui.png" />
+<p>Now let&#8217;s do a string traversal.  Let&#8217;s say we want to convert all the text to lower-case, and
+then count how many times &#8216;e&#8217; occurs in the book:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">countEs</span><span class="p">(</span><span class="kt">string</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">slc</span> <span class="p">=</span> <span class="n">s</span><span class="p">.</span><span class="n">ToLower</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">char</span> <span class="n">c</span> <span class="k">in</span> <span class="n">slc</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">==</span> <span class="sc">&#39;e&#39;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">count</span><span class="p">++;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">book</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">File</span><span class="p">.</span><span class="n">ReadAllText</span><span class="p">(</span><span class="s">&quot;c:\\temp\\alice_in_wonderland.txt&quot;</span><span class="p">);</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">book</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">c</span> <span class="p">=</span> <span class="n">countEs</span><span class="p">(</span><span class="n">book</span><span class="p">);</span>
+    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;The book contains {0} &#39;e&#39;s.&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>A message box pops up to let us know that there are 13572 occurrences of the letter &#8216;e&#8217; in the book.</p>
+<p>Notice something important and interesting here:  when we executed line 1 above, to create a lower-case
+version of the string, the original string remains unchanged.  So the string displayed in the text box on
+our GUI does not change to lower-case.   Remember that once they&#8217;ve been initially created, strings are read only.</p>
+<p>We didn&#8217;t need to make a separate method, but it seems like the kind of logic that we might
+want to adapt and reuse later.  Also, making it a separate method allows us to add test cases with
+small examples:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">countEs</span><span class="p">(</span><span class="s">&quot;only one&quot;</span><span class="p">),</span> <span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">countEs</span><span class="p">(</span><span class="s">&quot;morE than one&quot;</span><span class="p">),</span> <span class="m">2</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">countEs</span><span class="p">(</span><span class="s">&quot;good day&quot;</span><span class="p">),</span> <span class="m">0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">countEs</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span> <span class="m">0</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="string-comparisons">
+<span id="index-6"></span><h2>12.7. String comparisons<a class="headerlink" href="#string-comparisons" title="Permalink to this headline">¶</a></h2>
+<p>Not all the comparison operators work on strings. We can directly check strings for equal or not equal, but
+the less than and greater than comparisons work a little differently:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">fruit</span> <span class="p">==</span> <span class="s">&quot;banana&quot;</span><span class="p">)</span> <span class="p">...</span>  <span class="c1">// this works</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">word</span> <span class="p">!=</span> <span class="s">&quot;hello&quot;</span><span class="p">)</span> <span class="p">...</span>    <span class="c1">// this works</span>
+<span class="hll"><span class="k">if</span> <span class="p">(</span><span class="n">fruit</span> <span class="p">&lt;=</span> <span class="s">&quot;banana&quot;</span><span class="p">)</span> <span class="p">...</span>  <span class="c1">// OOPS, ERROR!</span>
+</span></pre></div>
+</td></tr></table></div>
+<p>Comparison are useful for ordering our strings, or putting words in <cite>lexicographical</cite> order.
+(This is similar to the alphabetical order we would use with a dictionary,
+except that in our computer representations, all the upper-case letters come before all the lower-case letters.)</p>
+<p>In C#, every string has a very general <code class="docutils literal"><span class="pre">CompareTo</span></code> method that compares itself to some
+other string.  (<code class="docutils literal"><span class="pre">CompareTo</span></code> works like this for other types of objects too, so we&#8217;ll see
+it later in our course.)</p>
+<p>The <code class="docutils literal"><span class="pre">CompareTo</span></code> method returns one of 3 outcomes &#8212; an integer which can be less than zero, exactly zero,
+or greater than zero.   So  <code class="docutils literal"><span class="pre">&quot;apple&quot;.CompareTo(&quot;plum&quot;)</span></code> will return a negative integer, because
+&#8220;apple&#8221; comes before &#8220;plum&#8221; in the ordering.  <code class="docutils literal"><span class="pre">&quot;apple&quot;.CompareTo(&quot;apple&quot;)</span></code> will return
+zero, because the strings are identical.    <code class="docutils literal"><span class="pre">&quot;apple&quot;.CompareTo(&quot;a&quot;)</span></code> returns a positive
+value because &#8220;apple&#8221; comes after &#8220;a&#8221;.</p>
+<p>Of course we&#8217;ll seldom see literal strings compared to each other: it is much more common
+to use string variables, and we&#8217;ll often see the tests written like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">word1</span> <span class="p">=</span> <span class="p">...;</span>
+<span class="kt">string</span> <span class="n">word2</span> <span class="p">=</span> <span class="p">...;</span>
+
+<span class="kt">string</span> <span class="n">smaller</span> <span class="p">=</span> <span class="n">word2</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">word1</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">word2</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="n">smaller</span> <span class="p">=</span> <span class="n">word1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;The word that comes first is &quot;</span> <span class="p">+</span> <span class="n">smaller</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 5 asks <em>&#8220;Is word1 less than word2?&#8221;</em>  If it is, the variable smaller is changed to reference <code class="docutils literal"><span class="pre">word1</span></code>.
+The way this code is written shows a typical programming <em>idiom</em> for setting a variable to the smaller
+of two values.  At line 4 we make a tentative assignment into <code class="docutils literal"><span class="pre">smaller</span></code> &#8212; we guess that <code class="docutils literal"><span class="pre">word2</span></code> could be the
+smaller.  Then we do the test, and if we find we guessed wrong, we fix it up.</p>
+<p>Why do it this way?  Because it is shorter and more convenient.  Here is an alternative to lines 4-8 above that also works,
+but it feels rather more clunky!</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">smaller</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">word1</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">word2</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">smaller</span> <span class="p">=</span> <span class="n">word1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">smaller</span> <span class="p">=</span> <span class="n">word2</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>If we are fluent with the conditional expressions we saw earlier, it gets even easier:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">smaller</span> <span class="p">=</span> <span class="p">(</span><span class="n">word1</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">word2</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">?</span> <span class="n">word1</span> <span class="p">:</span> <span class="n">word2</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Of course, it is important that we understand what we mean by &#8220;smaller than&#8221; for strings:
+we&#8217;re not testing if one string is shorter than the other, we&#8217;re asking if it comes before.
+So we need to be sure what we expect in a case like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">b</span>  <span class="p">=</span> <span class="s">&quot;kite&quot;</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="s">&quot;donkey&quot;</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="finding-the-index-of-a-character-in-a-string">
+<span id="index-7"></span><h2>12.8. Finding the index of a character in a string<a class="headerlink" href="#finding-the-index-of-a-character-in-a-string" title="Permalink to this headline">¶</a></h2>
+<p>What does the following method do?</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="kt">string</span> <span class="n">strng</span><span class="p">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="c1">// Find the first ch in strng, and return its index position.</span>
+   <span class="c1">// Return -1 if ch does not occur in strng.</span>
+
+  <span class="kt">int</span> <span class="n">ix</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">ix</span> <span class="p">&lt;</span> <span class="n">strng</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="p">==</span> <span class="n">ch</span><span class="p">)</span>
+      <span class="p">{</span>
+          <span class="k">return</span> <span class="n">ix</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">ix</span><span class="p">++;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>In a sense, <code class="docutils literal"><span class="pre">IndexOf</span></code> is the opposite of the indexing operator. Instead of taking
+an index and extracting the corresponding character, it takes a character and
+finds the index where that character first appears. If the character we seek
+is not found, the method returns <code class="docutils literal"><span class="pre">-1</span></code>.</p>
+<p>This is another example where we see a <code class="docutils literal"><span class="pre">return</span></code> statement inside a loop.
+At line 11, if <code class="docutils literal"><span class="pre">strng[ix]</span> <span class="pre">==</span> <span class="pre">ch</span></code>, the method returns immediately, breaking out of
+the loop prematurely, and leaving the method.</p>
+<p>If the character we seek doesn&#8217;t appear in the string, then the program exits the loop
+normally, gets to line 15, and returns <code class="docutils literal"><span class="pre">-1</span></code>.</p>
+<p>This pattern is common in searching algorithms: as soon we find what we are looking for,
+we can immediately stop looking.</p>
+<p>Here is a version of the same logic, done with a <code class="docutils literal"><span class="pre">for</span></code> loop instead.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="kt">int</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="kt">string</span> <span class="n">strng</span><span class="p">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">)</span>
+ <span class="p">{</span>
+   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">ix</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ix</span> <span class="p">&lt;</span> <span class="n">strng</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">ix</span><span class="p">++)</span>
+       <span class="k">if</span> <span class="p">(</span><span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="p">==</span> <span class="n">ch</span><span class="p">)</span> <span class="k">return</span> <span class="n">ix</span><span class="p">;</span>
+
+   <span class="k">return</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>For conditional and looping statements, we may omit
+the braces that make a block (or compound statement) if we only have one statement
+in the block.  We&#8217;ve done that here, making the code a bit shorter.</p>
+</div>
+<div class="section" id="overloaded-methods">
+<span id="optional-parameters"></span><span id="index-8"></span><h2>12.9. Overloaded methods<a class="headerlink" href="#overloaded-methods" title="Permalink to this headline">¶</a></h2>
+<p>To find the locations of the second or third occurrence of a character in a
+string, we &#8216;d like to be able to tell our <code class="docutils literal"><span class="pre">IndexOf</span></code> method where to start looking  &#8212; so
+instead of always starting at position 0, it could start searching from some other position.
+This requires a new parameter, and one small change to the code.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="kt">string</span> <span class="n">strng</span><span class="p">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">,</span> <span class="kt">int</span> <span class="n">startPos</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="hll">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">ix</span> <span class="p">=</span> <span class="n">startPos</span><span class="p">;</span> <span class="n">ix</span> <span class="p">&lt;</span> <span class="n">strng</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">ix</span><span class="p">++)</span>
+</span>        <span class="k">if</span> <span class="p">(</span><span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="p">==</span> <span class="n">ch</span><span class="p">)</span> <span class="k">return</span> <span class="n">ix</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span>  <span class="m">3</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>The call <code class="docutils literal"><span class="pre">IndexOf(&quot;banana&quot;,</span> <span class="pre">'a',</span> <span class="pre">2)</span></code> now returns <code class="docutils literal"><span class="pre">3</span></code>, the index of the first
+occurrence of &#8220;a&#8221; in &#8220;banana&#8221; starting the search at index 2.   Similarly,
+<code class="docutils literal"><span class="pre">IndexOf(&quot;banana&quot;,</span> <span class="pre">'n',</span> <span class="pre">3)</span></code> returns 4.</p>
+<div class="sidebar">
+<p class="first sidebar-title"><em>Hey, shouldn&#8217;t this be in one of the chapters about methods?</em></p>
+<p class="last"><em>&#8220;Perhaps. But if felt nicer to postpone it until we needed it.&#8221;</em></p>
+</div>
+<p>But the interesting idea here is that we can have have more than one method with
+the same name, provided the different methods have different numbers or types of
+parameters.   In this case we say the method is <strong>overloaded</strong>.   C# will
+analyse the arguments used at each call site, and will arrange to call the
+method with parameters that match the arguments.</p>
+<p>Let&#8217;s provide a third overloading for <code class="docutils literal"><span class="pre">IndexOf</span></code>:  in addition to providing
+a starting position for the search, we want to provide a count that determines
+the maximum number of characters that can be inspected.  This code could
+look like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="kt">string</span> <span class="n">strng</span><span class="p">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">,</span> <span class="kt">int</span> <span class="n">startPos</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">ix</span> <span class="p">=</span> <span class="n">startPos</span><span class="p">;</span> <span class="n">ix</span> <span class="p">&lt;</span> <span class="n">startPos</span><span class="p">+</span><span class="n">count</span><span class="p">;</span> <span class="n">ix</span><span class="p">++)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="p">==</span> <span class="n">ch</span><span class="p">)</span> <span class="k">return</span> <span class="n">ix</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="s">&quot;C# is powerful&quot;</span><span class="p">,</span> <span class="sc">&#39;w&#39;</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">),</span>  <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="s">&quot;C# is powerful&quot;</span><span class="p">,</span> <span class="sc">&#39;w&#39;</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span>  <span class="m">8</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>We now have three overloadings of <code class="docutils literal"><span class="pre">IndexOf</span></code> &#8212; one that takes 2 arguments,
+one that takes 3, and one that takes 4.  Here is another observation, and
+we&#8217;ll redo the code.  The one written last here is the most general &#8212; we can
+control both the count and the starting position.  The less general one is
+the one with three arguments, and the least general one, (or the most specific) is
+the original one we wrote.   We could rewrite all three like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="kt">string</span> <span class="n">strng</span><span class="p">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">,</span> <span class="kt">int</span> <span class="n">startPos</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">ix</span> <span class="p">=</span> <span class="n">startPos</span><span class="p">;</span> <span class="n">ix</span> <span class="p">&lt;</span> <span class="n">startPos</span><span class="p">+</span><span class="n">count</span><span class="p">;</span> <span class="n">ix</span><span class="p">++)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="p">==</span> <span class="n">ch</span><span class="p">)</span> <span class="k">return</span> <span class="n">ix</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="kt">int</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="kt">string</span> <span class="n">strng</span><span class="p">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">,</span> <span class="kt">int</span> <span class="n">startPos</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="n">strng</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">startPos</span><span class="p">,</span> <span class="n">strng</span><span class="p">.</span><span class="n">Length</span><span class="p">-</span><span class="n">startPos</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="kt">int</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="kt">string</span> <span class="n">strng</span><span class="p">,</span> <span class="kt">char</span> <span class="n">ch</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nf">IndexOf</span><span class="p">(</span><span class="n">strng</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">strng</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>So now the loop traversal only happens in one place rather than three separate places.  We code
+the more specific versions of <code class="docutils literal"><span class="pre">IndexOf</span></code> by calling the general one that already works.</p>
+<p>Here are some test cases that should pass:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">ss</span> <span class="p">=</span> <span class="s">&quot;C# strings have some interesting methods.&quot;</span><span class="p">;</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">),</span> <span class="m">3</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="m">7</span><span class="p">),</span> <span class="m">9</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">5</span><span class="p">),</span> <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="m">16</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">IndexOf</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="sc">&#39;.&#39;</span><span class="p">),</span> <span class="n">ss</span><span class="p">.</span><span class="n">Length</span> <span class="p">-</span> <span class="m">1</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition-this-code-could-crash admonition">
+<p class="first admonition-title">This code could crash!</p>
+<p>There are a number of situations in which our <code class="docutils literal"><span class="pre">IndexOf</span></code> method could fail.
+As one example, if we provide a negative starting index for the search it will crash.
+There are some other problems too.</p>
+<p>Write some unit tests to &#8220;stress-test&#8221; all the edge cases or weird situations you
+can imagine.</p>
+<p class="last">Do you think the method should handle all those cases and make itself
+bullet-proof, or is it acceptable just to say &#8220;This method only works for well-behaved
+inputs, and is designed to crash in other situations&#8221;?</p>
+</div>
+</div>
+<div class="section" id="the-built-in-indexof-method-on-strings">
+<span id="index-9"></span><h2>12.10. The built-in <code class="docutils literal"><span class="pre">IndexOf</span></code> method on strings<a class="headerlink" href="#the-built-in-indexof-method-on-strings" title="Permalink to this headline">¶</a></h2>
+<p>Now that we&#8217;ve done all this work to write our own overloadings of <code class="docutils literal"><span class="pre">IndexOf</span></code>, we can reveal that
+strings already have their own built-in <code class="docutils literal"><span class="pre">IndexOf</span></code> method (with overloadings).  They can do everything
+that our code can do, and more!</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">ss</span> <span class="p">=</span> <span class="s">&quot;C# strings have some interesting methods.&quot;</span><span class="p">;</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;s&#39;</span><span class="p">),</span> <span class="m">3</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="m">7</span><span class="p">),</span> <span class="m">9</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">5</span><span class="p">),</span> <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="m">16</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;.&#39;</span><span class="p">),</span> <span class="n">ss</span><span class="p">.</span><span class="n">Length</span> <span class="p">-</span> <span class="m">1</span><span class="p">);</span>
+<span class="hll"><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="s">&quot;some&quot;</span><span class="p">),</span> <span class="m">16</span><span class="p">);</span>
+</span><span class="hll"><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ss</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="s">&quot;C#&quot;</span><span class="p">),</span> <span class="m">0</span><span class="p">);</span>
+</span></pre></div>
+</td></tr></table></div>
+<p>The built-in <code class="docutils literal"><span class="pre">IndexOf</span></code> method has more overloaded options than our version (9 overloadings, in fact).
+Most usefully, as shown on lines 7 and 8 above, it can find substrings, not just single characters.</p>
+<p>Usually we&#8217;d prefer to use the methods that C# provides rather than reinvent
+our own equivalents. But many of the built-in methods are good
+teaching exercises, and the underlying techniques you learn are your building blocks
+to becoming a proficient programmer.</p>
+<p>You might want to also try some edge cases for the built-in version, and see how Microsoft
+handles these tricky cases.</p>
+</div>
+<div class="section" id="the-split-method">
+<h2>12.11. The <code class="docutils literal"><span class="pre">Split</span></code> method<a class="headerlink" href="#the-split-method" title="Permalink to this headline">¶</a></h2>
+<p>One of the most useful methods on strings is the <code class="docutils literal"><span class="pre">Split</span></code> method:
+it splits a single string into an array of individual substrings, removing
+all the white space between them.  (White space means any tabs, newlines, or spaces.)
+This allows us to read input as a single string,
+and split it into words.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">ss</span> <span class="p">=</span> <span class="s">&quot;Well I never did said Alice&quot;</span><span class="p">;</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">words</span> <span class="p">=</span> <span class="n">ss</span><span class="p">.</span><span class="n">Split</span><span class="p">();</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">wd</span> <span class="k">in</span> <span class="n">words</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">wd</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 2 initializes a new array of 6 strings, each one a word.  These are then output underneath each other on the Console.</p>
+<p><code class="docutils literal"><span class="pre">Split</span></code> can also take arguments to make it break the original string on any set of characters.  A popular usage would
+be to break the string at every newline character:  you could break the Alice in Wonderland book into lines, for example,
+like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">lines</span> <span class="p">=</span> <span class="n">book</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">);</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} lines in the book.&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+<p>It is pleasing to know that this program says there are 3337 lines in the file, and that exactly
+matches what my text editor tells me!</p>
+</div>
+<div class="section" id="cleaning-up-your-strings">
+<h2>12.12. Cleaning up your strings<a class="headerlink" href="#cleaning-up-your-strings" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ll often work with strings that contain punctuation, or tab and newline characters,
+especially, as we&#8217;ll see in a future chapter, when we read our text from a file (like
+the Alice in Wonderland book) or from the Internet. But if we&#8217;re writing a program, say,
+to count word frequencies or check the spelling of each word, we&#8217;d prefer to strip off these
+unwanted characters.</p>
+<p>We&#8217;ll show just one example of how to strip punctuation from a string.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span> <span class="nf">remove_punctuation</span><span class="p">(</span><span class="kt">string</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">char</span> <span class="n">c</span> <span class="k">in</span> <span class="n">s</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(!</span> <span class="kt">char</span><span class="p">.</span><span class="n">IsPunctuation</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">result</span> <span class="p">+=</span> <span class="n">c</span><span class="p">;</span>                 <span class="c1">// This step is inefficient!</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">...</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_punctuation</span><span class="p">(</span><span class="s">&quot;&#39;Well, I never did!&#39;, said Alice.&quot;</span><span class="p">),</span>
+                                             <span class="s">&quot;Well I never did said Alice&quot;</span><span class="p">);</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_punctuation</span><span class="p">(</span><span class="s">&quot;Are you very, very, sure?&quot;</span><span class="p">),</span>
+                                                  <span class="s">&quot;Are you very very sure&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Composing together this method and the <code class="docutils literal"><span class="pre">Split</span></code> method from the previous section
+makes a useful combination &#8212; we&#8217;ll clean out the punctuation, and
+<code class="docutils literal"><span class="pre">Split</span></code> will break the string into an array of words:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">book</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">File</span><span class="p">.</span><span class="n">ReadAllText</span><span class="p">(</span><span class="s">&quot;c:\\temp\\alice_in_wonderland.txt&quot;</span><span class="p">);</span>
+    <span class="kt">string</span> <span class="n">cleanedString</span> <span class="p">=</span> <span class="n">remove_punctuation</span><span class="p">(</span><span class="n">book</span><span class="p">);</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">cleanedString</span><span class="p">;</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">words</span> <span class="p">=</span> <span class="n">cleanedString</span><span class="p">.</span><span class="n">Split</span><span class="p">();</span>
+    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} words in the book.&quot;</span><span class="p">,</span> <span class="n">words</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The output:</p>
+<blockquote>
+<div><img alt="_images/alice_words.png" src="_images/alice_words.png" />
+</div></blockquote>
+<p>This runs quite slowly. The reason is at line 7 of <code class="docutils literal"><span class="pre">remove_punctuation</span></code>.  Because strings are read only,
+we cannot add a new character onto the end of an existing string: we have to build a new copy of the string from scratch.
+Since there were more than 147 000 characters in the book, our program is building a new string for each one!
+C# provides a mechanism called a <code class="docutils literal"><span class="pre">StringBuilder</span></code> to cater for this exact situation: so if you&#8217;re looking for
+a challenge, see if you can speed up this code by using a more advanced feature.</p>
+</div>
+<div class="section" id="glossary">
+<h2>12.13. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-index">index</dt>
+<dd>A variable or value used to select a member of an ordered collection, such as
+a character from a string, or an element from an array.</dd>
+<dt id="term-overloaded-method">overloaded method</dt>
+<dd>There can be more than one method with the same name, in which case we say the method is overloaded.
+Each overloading will have a different number of parameters, or different types of parameters.  The C# compiler
+is clever enough to inspect the types and number of arguments at each call site, and work out which of the
+identically-named methods should be invoked.</dd>
+<dt id="term-read-only-objects">read only objects</dt>
+<dd>A value or object which cannot be modified.  Assignments to a part of a string
+elements causes a runtime error.</dd>
+<dt id="term-traverse">traverse</dt>
+<dd>To iterate through the elements of a collection (so far, a string or an array),
+considering each element in turn.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>12.14. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">What is the value of each of the following expressions:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="s">&quot;C#&quot;</span><span class="p">[</span><span class="m">1</span><span class="p">]</span>
+<span class="s">&quot;C#&quot;</span><span class="p">[</span><span class="m">2</span><span class="p">]</span>
+<span class="s">&quot;Strings are sequences of characters.&quot;</span><span class="p">[</span><span class="m">5</span><span class="p">]</span>
+<span class="s">&quot;wonderful&quot;</span><span class="p">.</span><span class="n">Length</span>
+<span class="s">&quot;app&quot;</span> <span class="p">+</span> <span class="s">&quot;le&quot;</span>
+<span class="s">&quot;appl&quot;</span> <span class="p">+</span> <span class="sc">&#39;e&#39;</span>
+<span class="s">&quot;Mystery&quot;</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">4</span><span class="p">)</span>
+<span class="s">&quot;Mystery&quot;</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span>
+<span class="s">&quot;Mystery&quot;</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;y&#39;</span><span class="p">)</span>
+<span class="s">&quot;Mystery&quot;</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;z&#39;</span><span class="p">)</span>
+<span class="s">&quot;Mystery&quot;</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;y&#39;</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
+<span class="s">&quot;Mystery&quot;</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="sc">&#39;y&#39;</span><span class="p">,</span><span class="m">3</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span>
+<span class="s">&quot;apple&quot;</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="s">&quot;pineapple&quot;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">0</span>
+<span class="s">&quot;pineapple&quot;</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="s">&quot;Peach&quot;</span><span class="p">)</span> <span class="p">==</span> <span class="m">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Encapsulate</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">fruit</span> <span class="p">=</span> <span class="s">&quot;banana&quot;</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">count</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="kt">char</span> <span class="n">c</span> <span class="k">in</span> <span class="n">fruit</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">c</span>  <span class="p">==</span> <span class="sc">&#39;a&#39;</span><span class="p">)</span>
+        <span class="n">count</span> <span class="p">+=</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">count</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>in a method named <code class="docutils literal"><span class="pre">count_letters</span></code>, and generalize it so that it accepts
+the string and the letter as arguments.  Make the method return the number
+of characters, rather than show the answer.</p>
+</li>
+<li><p class="first">Now rewrite the <code class="docutils literal"><span class="pre">count_letters</span></code> method so that instead of traversing the
+string, it repeatedly calls the <code class="docutils literal"><span class="pre">IndexOf</span></code> method, with the optional third parameter
+to locate new occurrences of the letter being counted.</p>
+</li>
+<li><p class="first">How many times does the word &#8220;queen&#8221; occur in the Alice in Wonderland book?
+Write some code to count them.</p>
+</li>
+<li><p class="first">Use string formatting to produce a neat looking multiplication table like this:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="go">        1   2   3   4   5   6   7   8   9  10  11  12</span>
+<span class="go">  :--------------------------------------------------</span>
+<span class="go"> 1:     1   2   3   4   5   6   7   8   9  10  11  12</span>
+<span class="go"> 2:     2   4   6   8  10  12  14  16  18  20  22  24</span>
+<span class="go"> 3:     3   6   9  12  15  18  21  24  27  30  33  36</span>
+<span class="go"> 4:     4   8  12  16  20  24  28  32  36  40  44  48</span>
+<span class="go"> 5:     5  10  15  20  25  30  35  40  45  50  55  60</span>
+<span class="go"> 6:     6  12  18  24  30  36  42  48  54  60  66  72</span>
+<span class="go"> 7:     7  14  21  28  35  42  49  56  63  70  77  84</span>
+<span class="go"> 8:     8  16  24  32  40  48  56  64  72  80  88  96</span>
+<span class="go"> 9:     9  18  27  36  45  54  63  72  81  90  99 108</span>
+<span class="go">10:    10  20  30  40  50  60  70  80  90 100 110 120</span>
+<span class="go">11:    11  22  33  44  55  66  77  88  99 110 121 132</span>
+<span class="go">12:    12  24  36  48  60  72  84  96 108 120 132 144</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method that reverses its string argument, and satisfies these tests:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;happy&quot;</span><span class="p">),</span> <span class="s">&quot;yppah&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;C#&quot;</span><span class="p">),</span> <span class="s">&quot;#C&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">),</span> <span class="s">&quot;a&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method that mirrors its argument:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">mirror</span><span class="p">(</span><span class="s">&quot;good&quot;</span><span class="p">),</span> <span class="s">&quot;gooddoog&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">mirror</span><span class="p">(</span><span class="s">&quot;C#&quot;</span><span class="p">),</span> <span class="s">&quot;C##C&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">mirror</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">mirror</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">),</span> <span class="s">&quot;aa&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method that removes all occurrences of a given letter from a string:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="s">&quot;apple&quot;</span><span class="p">),</span> <span class="s">&quot;pple&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="s">&quot;bnn&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="sc">&#39;z&#39;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="s">&quot;banana&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="sc">&#39;i&#39;</span><span class="p">,</span> <span class="s">&quot;Mississippi&quot;</span><span class="p">),</span> <span class="s">&quot;Msssspp&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="sc">&#39;b&#39;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="sc">&#39;b&#39;</span><span class="p">,</span> <span class="s">&quot;c&quot;</span><span class="p">),</span> <span class="s">&quot;c&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method that recognizes palindromes. (Hint: use your <code class="docutils literal"><span class="pre">reverse</span></code> method to make this easy!):</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s">&quot;abba&quot;</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s">&quot;abab&quot;</span><span class="p">),</span> <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s">&quot;tenet&quot;</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s">&quot;straw warts&quot;</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>  <span class="p">??);</span>    <span class="c1">// Is an empty string a palindrome?  You decide.</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method that counts how many times a substring occurs in a string:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;is&quot;</span><span class="p">,</span> <span class="s">&quot;Mississippi&quot;</span><span class="p">),</span> <span class="m">2</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;an&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="m">2</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;ana&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="m">2</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;nana&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;nanan&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="m">0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;aaa&quot;</span><span class="p">,</span> <span class="s">&quot;aaaaaa&quot;</span><span class="p">),</span> <span class="m">4</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method that removes the first occurrence of a string from another string:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="k">remove</span><span class="p">(</span><span class="s">&quot;an&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="s">&quot;bana&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="k">remove</span><span class="p">(</span><span class="s">&quot;cyc&quot;</span><span class="p">,</span> <span class="s">&quot;bicycle&quot;</span><span class="p">),</span> <span class="s">&quot;bile&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="k">remove</span><span class="p">(</span><span class="s">&quot;iss&quot;</span><span class="p">,</span> <span class="s">&quot;Mississippi&quot;</span><span class="p">),</span> <span class="s">&quot;Missippi&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="k">remove</span><span class="p">(</span><span class="s">&quot;eggs&quot;</span><span class="p">,</span> <span class="s">&quot;bicycle&quot;</span><span class="p">),</span> <span class="s">&quot;bicycle&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method that removes all occurrences of a string from another string:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_all</span><span class="p">(</span><span class="s">&quot;an&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="s">&quot;ba&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_all</span><span class="p">(</span><span class="s">&quot;cyc&quot;</span><span class="p">,</span> <span class="s">&quot;bicycle&quot;</span><span class="p">),</span> <span class="s">&quot;bile&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_all</span><span class="p">(</span><span class="s">&quot;iss&quot;</span><span class="p">,</span> <span class="s">&quot;Mississippi&quot;</span><span class="p">),</span> <span class="s">&quot;Mippi&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">remove_all</span><span class="p">(</span><span class="s">&quot;eggs&quot;</span><span class="p">,</span> <span class="s">&quot;bicycle&quot;</span><span class="p">),</span> <span class="s">&quot;bicycle&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="classes_and_objects_0.html" title="13. Classes and Objects — an Overview"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="iteration.html" title="11. Iteration"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

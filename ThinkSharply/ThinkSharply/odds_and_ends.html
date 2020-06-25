@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>17. Odds and Ends &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="18. I/O, Files, and Networks" href="files.html" />
+    <link rel="prev" title="16. More Event Handling" href="events.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="files.html" title="18. I/O, Files, and Networks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="events.html" title="16. More Event Handling"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="odds-and-ends">
+<h1>17. Odds and Ends<a class="headerlink" href="#odds-and-ends" title="Permalink to this headline">¶</a></h1>
+<p>In this chapter we cover a couple of useful things about
+C# that we omitted for simplicity in earlier sections of the book.</p>
+<div class="section" id="escape-sequences-in-strings">
+<span id="index-0"></span><h2>17.1. Escape sequences in strings<a class="headerlink" href="#escape-sequences-in-strings" title="Permalink to this headline">¶</a></h2>
+<p>Some characters (like a newline) are not printable (or directly typeable on the keyboard),
+but we&#8217;d like a way to make them part of our strings.  So here is the workaround.</p>
+<p>Executing this fragment of code</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">s</span> <span class="p">=</span> <span class="s">&quot;Hello, world.\nThis is fun.\nLots of fun!&quot;</span><span class="p">;</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>gives us this:</p>
+<blockquote>
+<div><img alt="_images/messagebox_fun.png" src="_images/messagebox_fun.png" />
+</div></blockquote>
+<p>When we code up an &#8220;ordinary&#8221; literal string,</p>
+<ul class="simple">
+<li>The string may not extend over more than one line of code in our program.</li>
+<li>We can put escape sequences with special meaning into the strings. In this case the <code class="docutils literal"><span class="pre">\n</span></code>
+escape sequence stands for just one character, called &#8220;newline&#8221;. The backslash character is
+called the escape character, and means &#8220;I&#8217;m not really a backslash, but here comes a something special&#8221;.
+There are a few other escape sequences used sometimes. But the important thing is that
+when we see a backslash in a string, it doesn&#8217;t mean backslash!</li>
+</ul>
+<p>So what do we do if we need a real backslash in a string, as in <code class="docutils literal"><span class="pre">C:\temp\myfile.txt</span></code>?
+We have to escape our backslash with its own backslash &#8212; so we code up two backslashes
+to end up with just one in our string.  So the usual way to code
+a file path like the above in C# is <code class="docutils literal"><span class="pre">&quot;C:\\temp\\myfile.txt&quot;</span></code>.  Note that the length
+of this string is 18, not 20!  Each escaped sequence <code class="docutils literal"><span class="pre">\n</span></code> or <code class="docutils literal"><span class="pre">\\</span></code> is just a one
+character in the string.
+For a list of common character escapes see <a class="reference external" href="https://msdn.microsoft.com/en-us/library/4edbef7e(v=vs.110).aspx">https://msdn.microsoft.com/en-us/library/4edbef7e(v=vs.110).aspx</a></p>
+</div>
+<div class="section" id="verbatim-literal-strings">
+<span id="index-1"></span><h2>17.2. Verbatim literal strings<a class="headerlink" href="#verbatim-literal-strings" title="Permalink to this headline">¶</a></h2>
+<p>The escape mechanism described above was introduced in C, the grandparent language of C#,
+so we still use it.  But over time we thought &#8220;Wouldn&#8217;t it be better to sometimes be able
+to turn off the string escape mechanism?&#8221;</p>
+<p>So there is another newer way to code up literal strings:  if the string starts with <code class="docutils literal"><span class="pre">&#64;&quot;</span></code>
+it is called a <strong>verbatim string</strong>.  Two things happen: none of the characters are
+treated as escapes, and the string can flow over more than a single line of source code.  Any
+newline characters in the source string become newline characters in the string, and any single
+backslash characters are backslashes!</p>
+<p>So here is a simple fragment of code:</p>
+<blockquote>
+<div><img alt="_images/the_dog_source.png" src="_images/the_dog_source.png" />
+</div></blockquote>
+<p>which pops up this message box:</p>
+<blockquote>
+<div><img alt="_images/the_dog.png" src="_images/the_dog.png" />
+</div></blockquote>
+<p>You&#8217;ll quite often find verbatim strings used with file paths: <code class="docutils literal"><span class="pre">&#64;&quot;C:\temp\myfile.txt&quot;</span></code>.</p>
+<p>With hindsight, it now seems a bit weird to have a special-case escape mechanism and then
+a second layer of special syntax to turn off the first lot of special cases, but that
+is what history has left us with!   And even as C# keeps evolving, in C# 6.0 they are
+introducing even more mechanisms into strings!
+<a class="reference external" href="http://www.codeproject.com/Articles/846566/What-s-new-in-Csharp-String-Interpolation">http://www.codeproject.com/Articles/846566/What-s-new-in-Csharp-String-Interpolation</a></p>
+</div>
+<div class="section" id="the-params-keyword">
+<span id="index-2"></span><h2>17.3. The <code class="docutils literal"><span class="pre">params</span></code> keyword<a class="headerlink" href="#the-params-keyword" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s use <a class="reference external" href="http://msdn.microsoft.com/query/dev10.query?appId=Dev10IDEF1&amp;l=EN-US&amp;k=k(PARAMS_CSHARPKEYWORD);k(SOLUTIONITEMSPROJECT);k(TargetFrameworkMoniker-%22.NETFRAMEWORK%2cVERSION%3dV4.0%22);k(DevLang-CSHARP)&amp;rd=true">Microsoft&#8217;s explanation</a>   for this one:</p>
+<img alt="_images/params_keyword.png" src="_images/params_keyword.png" />
+<p>When is this used?  One example we&#8217;ve seen is the <code class="docutils literal"><span class="pre">string.Format</span></code> method,
+where we can pass in a formatting string and a variable number
+of arguments that should be plugged into the string, as shown in this fragment:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre> <span class="kt">int</span> <span class="n">yearOfBirth</span> <span class="p">=</span> <span class="m">1995</span><span class="p">;</span>
+ <span class="kt">int</span> <span class="n">yearNow</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">Year</span><span class="p">;</span>
+ <span class="kt">int</span> <span class="n">age</span> <span class="p">=</span> <span class="n">yearNow</span> <span class="p">-</span> <span class="n">yearOfBirth</span><span class="p">;</span>
+<span class="hll"> <span class="kt">string</span> <span class="n">s1</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0}, born in {1}, turns {2} years old in {3}.&quot;</span><span class="p">,</span>
+</span><span class="hll">       <span class="s">&quot;Joe&quot;</span><span class="p">,</span> <span class="n">yearOfBirth</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">yearNow</span><span class="p">);</span>
+</span> <span class="p">...</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>As we&#8217;re typing this in, Visual Studio pops up some <em>intellisense</em> help:</p>
+<blockquote>
+<div><img alt="_images/params_intellisense.png" src="_images/params_intellisense.png" />
+</div></blockquote>
+<p>But wait!  The big deal here, different from what we&#8217;ve seen before, is that this <code class="docutils literal"><span class="pre">string.Format</span></code>
+signature only defines <em>two</em> parameters, but our call site in line 4 above supplies <em>five</em> arguments.
+How do we pass 5 arguments to just 2 parameters?  The first
+argument is assigned to the first parameter, and because of the <code class="docutils literal"><span class="pre">params</span></code> keyword,
+all the remaining arguments are bundled up into
+an array, and (a reference to) the array is assigned to the second parameter. The IntelliSense
+above shows the signature of the <code class="docutils literal"><span class="pre">Format</span></code> method, with some highlighted cues that we should learn to notice:</p>
+<p>We can write our own methods that use the <code class="docutils literal"><span class="pre">params</span></code> keyword.
+See the Microsoft reference at <a class="reference external" href="http://msdn.microsoft.com/en-us/library/w5zay9db.aspx">http://msdn.microsoft.com/en-us/library/w5zay9db.aspx</a>
+if you want an example of how to do that.</p>
+</div>
+<div class="section" id="string-split-revisited">
+<span id="index-3"></span><h2>17.4. <code class="docutils literal"><span class="pre">string.Split</span></code> revisited<a class="headerlink" href="#string-split-revisited" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Split</span></code> method on strings cuts (a copy of) a string into pieces.  The cuts are made on
+the delimiters we pass to the method.  For example,</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">s1</span> <span class="p">=</span> <span class="s">&quot;Joe,19,BSc,CompSci&quot;</span><span class="p">;</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">parts</span> <span class="p">=</span> <span class="n">s1</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="sc">&#39;,&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>will chop <code class="docutils literal"><span class="pre">s1</span></code> into parts by removing each comma.  So we&#8217;ll end up with an
+array of four strings in <code class="docutils literal"><span class="pre">parts</span></code>.  (Notice that <code class="docutils literal"><span class="pre">s1</span></code> still has its original
+value: recall that strings are read-only and can never by modified.)</p>
+<p>When we&#8217;re typing the above code into Visual Studio we get some interesting
+IntelliSense:</p>
+<img alt="_images/split_intellisense.png" src="_images/split_intellisense.png" />
+<p>Notice two important things:</p>
+<ul class="simple">
+<li>There are six different overloadings of this method, and we&#8217;re currently
+looking at the hint for the first one.  Clicking the triangles allows us to
+see all the other overloadings.  (Or pressing F1 for help while your cursor
+is over the word <cite>Split</cite> should invoke help, where you can
+read about the different overloadings.)</li>
+<li>The first overloading has a <code class="docutils literal"><span class="pre">params</span></code> keyword.  We can pass in any number of
+delimiters (even zero).</li>
+</ul>
+<p>So the semantics (meaning) of <code class="docutils literal"><span class="pre">Split</span></code> is quite tricky:</p>
+<ul class="simple">
+<li>If you pass no arguments at all to <code class="docutils literal"><span class="pre">Split</span></code>, e.g. <code class="docutils literal"><span class="pre">string[]</span> <span class="pre">xs</span> <span class="pre">=</span> <span class="pre">poem.Split();</span></code>
+the delimiters are taken to be any white space characters (spaces, newlines, tabs, etc.)</li>
+<li>If you pass just a space, it becomes the only delimiter.  Other white space characters
+like tab or newline will not be used to separate parts of the string.</li>
+<li>If you pass in multiple delimiters, any one of them causes a cut whenever it is found.</li>
+</ul>
+<p>Let&#8217;s consider this example:</p>
+<blockquote>
+<div><img alt="_images/split_result.png" src="_images/split_result.png" />
+</div></blockquote>
+<p>At line 95 we split the string on any of four delimiters &#8212; spaces; commas; semicolons; or hyphens.
+We&#8217;ve put a breakpoint at line 97, and are inspecting the <code class="docutils literal"><span class="pre">parts</span></code> array to see
+what we got.  Notice that none of the delimiters occur in any of the parts, and the string has
+been split where we asked for splits.</p>
+<p>But we also notice that there are some empty strings in the <code class="docutils literal"><span class="pre">parts</span></code> array: whenever two of
+our delimiters occur next to one another or at the end/start of the string, the section between them becomes an empty string.
+So the multiple spaces, and the space next to a comma or a semicolon all generate extra
+(perhaps unwanted) empty strings.</p>
+<p>Let&#8217;s fix this common problem.  Overloading 3 of the <code class="docutils literal"><span class="pre">Split</span></code> method
+allows us to provide some extra options to control how <code class="docutils literal"><span class="pre">Split</span></code> works &#8212; in particular,
+it allows us to tell <code class="docutils literal"><span class="pre">Split</span></code> to remove all empty entries from the result.  The
+signature is</p>
+<blockquote>
+<div><img alt="_images/split_overloading3.png" src="_images/split_overloading3.png" />
+</div></blockquote>
+<p>It is a bit trickier to use this version of <code class="docutils literal"><span class="pre">Split</span></code> because it wants us to pass in
+an array of delimiters (separators) now.  That array can even be the value <code class="docutils literal"><span class="pre">null</span></code> &#8212;
+in which case <code class="docutils literal"><span class="pre">Split</span></code> assumes we want to split on white space.</p>
+<p>So here is the new code, with more satisfying results &#8212; no empty strings in the resulting array:</p>
+<blockquote>
+<div><img alt="_images/split_removeEmptyEntries.png" src="_images/split_removeEmptyEntries.png" />
+</div></blockquote>
+</div>
+<div class="section" id="optional-parameters">
+<span id="index-4"></span><h2>17.5. Optional Parameters<a class="headerlink" href="#optional-parameters" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ve created quite a few turtles so far: have you ever noticed this?</p>
+<blockquote>
+<div><img alt="_images/optional_arguments.png" src="_images/optional_arguments.png" />
+</div></blockquote>
+<p>What the square bracket notation means in this IntelliSense pop-up
+is that <code class="docutils literal"><span class="pre">homeX</span></code> and <code class="docutils literal"><span class="pre">homeY</span></code> are <strong>optional parameters</strong> &#8212; at the
+call site we may optionally provide arguments to pass into the parameters,
+but if we don&#8217;t tell the turtle what its home position is, it will use
+some <strong>default values</strong> instead.  In this case the default <code class="docutils literal"><span class="pre">homeX</span></code> value is
+20.0, and the default <code class="docutils literal"><span class="pre">homeY</span></code> value is 200.0.</p>
+<p>Note that the square brackets used here are not part of the C# syntax &#8212; they
+are what we call <em>meta-notation</em>.  They they tell us that supplying these
+arguments is optional.</p>
+<p>So in our first chapter about turtles we saw both ways of using this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="p">...</span>
+<span class="c1">// Use the default home position for tess</span>
+<span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">);</span>
+
+<span class="c1">// Start alex at a specific position in the playground</span>
+<span class="n">alex</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="m">300.0</span><span class="p">,</span> <span class="m">100.0</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="glossary">
+<h2>17.6. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-default-value">default value</dt>
+<dd>A value that is used if the programmer does not explicitly choose another value.</dd>
+<dt id="term-escape-sequence">escape sequence</dt>
+<dd>In a literal string, the backslash <code class="docutils literal"><span class="pre">\</span></code> is treated as an escape character.  This mechanism allows us to
+write special escape sequences that can put non-printable or special characters into our strings.</dd>
+<dt id="term-optional-parameters">optional parameters</dt>
+<dd>Parameters in a method for which the call site <em>may</em> provide arguments.  If the call site chooses not
+to provide an argument, the parameter will be given a default value.</dd>
+<dt id="term-params"><code class="docutils literal"><span class="pre">params</span></code></dt>
+<dd>A keyword in C# that is used before an array of parameters.  It allows us to write methods that can
+pass a variable number of arguments (perhaps zero) which are all assigned to a single parameter.</dd>
+<dt id="term-verbatim-literal-strings">verbatim literal strings</dt>
+<dd>A string that starts with <code class="docutils literal"><span class="pre">&#64;&quot;</span></code>.  It can span multiple lines, and does not process escape characters.
+What we see is what we get!</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>17.7. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">This string contains some escape characters (of a form that we never covered in this chapter).</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre> <span class="kt">string</span> <span class="n">s</span> <span class="p">=</span> <span class="s">&quot;\u2659  \u265A \u2669  \u266A  \u266B  \u266C  \u263a&quot;</span><span class="p">;</span>
+ <span class="n">textBox1</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">s</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Assign the string to the text of a text box, where we can make the font big.
+Or output the string as a MessageBox, set your Window title to this string.
+What do we get?  See <a class="reference external" href="http://en.wikipedia.org/wiki/Miscellaneous_Symbols">http://en.wikipedia.org/wiki/Miscellaneous_Symbols</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="files.html" title="18. I/O, Files, and Networks"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="events.html" title="16. More Event Handling"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

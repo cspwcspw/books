@@ -1,0 +1,377 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>26. Stacks &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="27. Queues" href="queues.html" />
+    <link rel="prev" title="25. Linked lists" href="linked_lists.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="queues.html" title="27. Queues"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="linked_lists.html" title="25. Linked lists"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="stacks">
+<h1>26. Stacks<a class="headerlink" href="#stacks" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="abstract-data-types">
+<h2>26.1. Abstract data types<a class="headerlink" href="#abstract-data-types" title="Permalink to this headline">¶</a></h2>
+<p>The data types you have seen so far are all concrete, in the sense that we have
+completely specified how they are implemented. For example, the <code class="docutils literal notranslate"><span class="pre">Card</span></code> class
+represents a card using two integers. As we discussed at the time, that is not
+the only way to represent a card; there are many alternative implementations.</p>
+<p>An <strong>abstract data type</strong>, or ADT, specifies a set of operations (or methods)
+and the semantics of the operations (what they do), but it does not not specify
+the implementation of the operations. That’s what makes it abstract.</p>
+<p>Why is that useful?</p>
+<ol class="arabic simple">
+<li>It simplifies the task of specifying an algorithm if you can denote the
+operations you need without having to think at the same time about how the
+operations are performed.</li>
+<li>Since there are usually many ways to implement an ADT, it might be useful to
+write an algorithm that can be used with any of the possible
+implementations.</li>
+<li>Well-known ADTs, such as the Stack ADT in this chapter, are often
+implemented in standard libraries so they can be written once and used by
+many programmers.</li>
+<li>The operations on ADTs provide a common high-level language for specifying
+and talking about algorithms.</li>
+</ol>
+<p>When we talk about ADTs, we often distinguish between the code that uses the
+ADT, called the <strong>client</strong> code, from the code that implements the ADT,
+called the <strong>provider/implementor</strong> code.</p>
+</div>
+<div class="section" id="the-stack-adt">
+<h2>26.2. The Stack ADT<a class="headerlink" href="#the-stack-adt" title="Permalink to this headline">¶</a></h2>
+<p>In this chapter, we will look at one common ADT, the <strong>stack</strong>. A stack is a
+collection, meaning that it is a data structure that contains multiple
+elements. Other collections we have seen include dictionaries and lists.</p>
+<p>An ADT is defined by the operations that can be performed on it, which is
+called an <strong>interface</strong>. The interface for a stack consists of these
+operations:</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">__init__</span></code></dt>
+<dd>Initialize a new empty stack.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">push</span></code></dt>
+<dd>Add a new item to the stack.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">pop</span></code></dt>
+<dd>Remove and return an item from the stack. The item that is returned is
+always the last one that was added.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">is_empty</span></code></dt>
+<dd>Check whether the stack is empty.</dd>
+</dl>
+<p>A stack is sometimes called a “Last in, First out” or <strong>LIFO</strong> data
+structure, because the last item added is the first to be removed.</p>
+</div>
+<div class="section" id="implementing-stacks-with-python-lists">
+<h2>26.3. Implementing stacks with Python lists<a class="headerlink" href="#implementing-stacks-with-python-lists" title="Permalink to this headline">¶</a></h2>
+<p>The list operations that Python provides are similar to the operations that
+define a stack. The interface isn’t exactly what it is supposed to be, but we
+can write code to translate from the Stack ADT to the built-in operations.</p>
+<p>This code is called an <strong>implementation</strong> of the Stack ADT. In general, an
+implementation is a set of methods that satisfy the syntactic and semantic
+requirements of an interface.</p>
+<p>Here is an implementation of the Stack ADT that uses a Python list:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Stack</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">==</span> <span class="p">[])</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>A <code class="docutils literal notranslate"><span class="pre">Stack</span></code> object contains an attribute named <code class="docutils literal notranslate"><span class="pre">items</span></code> that is a list of
+items in the stack. The initialization method sets <code class="docutils literal notranslate"><span class="pre">items</span></code> to the empty list.</p>
+<p>To push a new item onto the stack, <code class="docutils literal notranslate"><span class="pre">push</span></code> appends it onto <code class="docutils literal notranslate"><span class="pre">items</span></code>. To pop
+an item off the stack, <code class="docutils literal notranslate"><span class="pre">pop</span></code> uses the homonymous (<em>same-named</em>) list method
+to remove and return the last item on the list.</p>
+<p>Finally, to check if the stack is empty, <code class="docutils literal notranslate"><span class="pre">is_empty</span></code> compares <code class="docutils literal notranslate"><span class="pre">items</span></code> to the
+empty list.</p>
+<p>An implementation like this, in which the methods consist of simple invocations
+of existing methods, is called a <strong>veneer</strong>. In real life, veneer is a thin
+coating of good quality wood used in furniture-making to hide lower quality
+wood underneath. Computer scientists use this metaphor to describe a small
+piece of code that hides the details of an implementation and provides a
+simpler, or more standard, interface.</p>
+</div>
+<div class="section" id="pushing-and-popping">
+<h2>26.4. Pushing and popping<a class="headerlink" href="#pushing-and-popping" title="Permalink to this headline">¶</a></h2>
+<p>A stack is a <strong>generic data structure</strong>, which means that we can add any type
+of item to it. The following example pushes two integers and a string onto the
+stack:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">54</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">is_empty</span></code> and <code class="docutils literal notranslate"><span class="pre">pop</span></code> to remove and print all of the items on
+the stack:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The output is <code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">45</span> <span class="pre">54</span></code>. In other words, we just used a stack to print the
+items backward! Granted, it’s not the standard format for printing a list, but
+by using a stack, it was remarkably easy to do.</p>
+<p>You should compare this bit of code to the implementation of <code class="docutils literal notranslate"><span class="pre">print_backward</span></code>
+in the last chapter. There is a natural parallel between the recursive version
+of <code class="docutils literal notranslate"><span class="pre">print_backward</span></code> and the stack algorithm here. The difference is that
+<code class="docutils literal notranslate"><span class="pre">print_backward</span></code> uses the runtime stack to keep track of the nodes while it
+traverses the list, and then prints them on the way back from the recursion.
+The stack algorithm does the same thing, except that it uses a <code class="docutils literal notranslate"><span class="pre">Stack</span></code> object
+instead of the runtime stack.</p>
+</div>
+<div class="section" id="using-a-stack-to-evaluate-postfix">
+<h2>26.5. Using a stack to evaluate postfix<a class="headerlink" href="#using-a-stack-to-evaluate-postfix" title="Permalink to this headline">¶</a></h2>
+<p>In most programming languages, mathematical expressions are written with the
+operator between the two operands, as in <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2</span></code>. This format is called
+<strong>infix</strong>. An alternative used by some calculators is called <strong>postfix</strong>. In
+postfix, the operator follows the operands, as in <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">2</span> <span class="pre">+</span></code>.</p>
+<p>The reason postfix is sometimes useful is that there is a natural way to
+evaluate a postfix expression using a stack:</p>
+<ol class="arabic simple">
+<li>Starting at the beginning of the expression, get one term (operator or
+operand) at a time.<ul>
+<li>If the term is an operand, push it on the stack.</li>
+<li>If the term is an operator, pop two operands off the stack, perform the
+operation on them, and push the result back on the stack.</li>
+</ul>
+</li>
+<li>When you get to the end of the expression, there should be exactly one
+operand left on the stack. That operand is the result.</li>
+</ol>
+</div>
+<div class="section" id="parsing">
+<h2>26.6. Parsing<a class="headerlink" href="#parsing" title="Permalink to this headline">¶</a></h2>
+<p>To implement the previous algorithm, we need to be able to traverse a string
+and break it into operands and operators. This process is an example of
+<strong>parsing</strong>, and the results — the individual chunks of the string — are
+called <strong>tokens</strong>. You might remember these words from Chapter 1.</p>
+<p>Python provides a <code class="docutils literal notranslate"><span class="pre">split</span></code> method in both string objects and the <code class="docutils literal notranslate"><span class="pre">re</span></code> (regular
+expression) module. A string’s <code class="docutils literal notranslate"><span class="pre">split</span></code> method splits it into a list
+using a single character as a <strong>delimiter</strong>. For example:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Now is the time&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="go">[&#39;Now&#39;, &#39;is&#39;, &#39;the&#39;, &#39;time&#39;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In this case, the delimiter is the space character, so the string is split at
+each space.</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">re.split</span></code> is more powerful, allowing us to provide a regular
+expression instead of a delimiter. A regular expression is a way of specifying
+a set of strings. For example, <code class="docutils literal notranslate"><span class="pre">[A-z]</span></code> is the set of all letters and
+<code class="docutils literal notranslate"><span class="pre">[0-9]</span></code> is the set of all numbers. The <code class="docutils literal notranslate"><span class="pre">^</span></code> operator negates a set, so
+<code class="docutils literal notranslate"><span class="pre">[^0-9]</span></code> is the set of everything that is not a number, which is exactly the
+set we want to use to split up postfix expressions:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;([^0-9])&quot;</span><span class="p">,</span> <span class="s2">&quot;123+456*/&quot;</span><span class="p">)</span>
+<span class="go">[&#39;123&#39;, &#39;+&#39;, &#39;456&#39;, &#39;*&#39;, &#39;&#39;, &#39;/&#39;, &#39;&#39;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The resulting list includes the operands <code class="docutils literal notranslate"><span class="pre">123</span></code> and <code class="docutils literal notranslate"><span class="pre">456</span></code> and the operators
+<code class="docutils literal notranslate"><span class="pre">*</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code>. It also includes two empty strings that are inserted after the
+operands.</p>
+</div>
+<div class="section" id="evaluating-postfix">
+<h2>26.7. Evaluating postfix<a class="headerlink" href="#evaluating-postfix" title="Permalink to this headline">¶</a></h2>
+<p>To evaluate a postfix expression, we will use the parser from the previous
+section and the algorithm from the section before that. To keep things simple,
+we’ll start with an evaluator that only implements the operators <code class="docutils literal notranslate"><span class="pre">+</span></code> and
+<code class="docutils literal notranslate"><span class="pre">*</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eval_postfix</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">re</span>
+    <span class="n">token_list</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;([^0-9])&quot;</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>
+    <span class="n">stack</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">token_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">&quot;+&quot;</span><span class="p">:</span>
+            <span class="nb">sum</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span> <span class="o">+</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">&quot;*&quot;</span><span class="p">:</span>
+            <span class="n">product</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span> <span class="o">*</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The first condition takes care of spaces and empty strings. The next two
+conditions handle operators. We assume, for now, that anything else must be an
+operand. Of course, it would be better to check for erroneous input and report
+an error message, but we’ll get to that later.</p>
+<p>Let’s test it by evaluating the postfix form of <code class="docutils literal notranslate"><span class="pre">(56</span> <span class="pre">+</span> <span class="pre">47)</span> <span class="pre">*</span> <span class="pre">2</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">eval_postfix</span><span class="p">(</span><span class="s2">&quot;56 47 + 2 *&quot;</span><span class="p">)</span>
+<span class="mi">206</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>That’s close enough.</p>
+</div>
+<div class="section" id="clients-and-providers">
+<h2>26.8. Clients and providers<a class="headerlink" href="#clients-and-providers" title="Permalink to this headline">¶</a></h2>
+<p>One of the fundamental goals of an ADT is to separate the interests of the
+provider, who writes the code that implements the ADT, and the client, who uses
+the ADT. The provider only has to worry about whether the implementation is
+correct — in accord with the specification of the ADT — and not how it will
+be used.</p>
+<p>Conversely, the client <em>assumes</em> that the implementation of the ADT is correct
+and doesn’t worry about the details. When you are using one of Python’s
+built-in types, you have the luxury of thinking exclusively as a client.</p>
+<p>Of course, when you implement an ADT, you also have to write client code to
+test it. In that case, you play both roles, which can be confusing. You should
+make some effort to keep track of which role you are playing at any moment.</p>
+</div>
+<div class="section" id="glossary">
+<h2>26.9. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-abstract-data-type-adt">abstract data type (ADT)</dt>
+<dd>A data type (usually a collection of objects) that is defined by a set
+of operations but that can be implemented in a variety of ways.</dd>
+<dt id="term-client">client</dt>
+<dd>A program (or the person who wrote it) that uses an ADT.</dd>
+<dt id="term-delimiter">delimiter</dt>
+<dd>A character that is used to separate tokens, such as punctuation in a
+natural language.</dd>
+<dt id="term-generic-data-structure">generic data structure</dt>
+<dd>A kind of data structure that can contain data of any type.</dd>
+<dt id="term-implementation">implementation</dt>
+<dd>Code that satisfies the syntactic and semantic requirements of an
+interface.</dd>
+<dt id="term-interface">interface</dt>
+<dd>The set of operations that define an ADT.</dd>
+<dt id="term-infix">infix</dt>
+<dd>A way of writing mathematical expressions with the operators between
+the operands.</dd>
+<dt id="term-parse">parse</dt>
+<dd>To read a string of characters or tokens and analyze its grammatical
+structure.</dd>
+<dt id="term-postfix">postfix</dt>
+<dd>A way of writing mathematical expressions with the operators after the
+operands.</dd>
+<dt id="term-provider">provider</dt>
+<dd>The code (or the person who wrote it) that implements an ADT.</dd>
+<dt id="term-token">token</dt>
+<dd>A set of characters that are treated as a unit for purposes of parsing,
+such as the words in a natural language.</dd>
+<dt id="term-veneer">veneer</dt>
+<dd>A class definition that implements an ADT with method definitions that
+are invocations of other methods, sometimes with simple
+transformations. The veneer does no significant work, but it improves
+or standardizes the interface seen by the client.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>26.10. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Apply the postfix algorithm to the expression <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">2</span> <span class="pre">+</span> <span class="pre">3</span> <span class="pre">*</span></code>.This example
+demonstrates one of the advantages of postfix—there is no need to use
+parentheses to control the order of operations. To get the same result in
+infix, we would have to write <code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">2)</span> <span class="pre">*</span> <span class="pre">3</span></code>.</li>
+<li>Write a postfix expression that is equivalent to <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">3</span></code>.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="queues.html" title="27. Queues"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="linked_lists.html" title="25. Linked lists"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

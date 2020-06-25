@@ -1,0 +1,20 @@
+﻿<Window x:Class="AreaApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Calculate the Area of a pane of glass" Height="333" Width="525">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                <GradientStop Color="#FFB2D9C4" Offset="0.402" />
+                <GradientStop Color="#FFFFCDA2" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="23,63,0,0" Name="txtWidth" VerticalAlignment="Top" Width="76" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="23,146,0,0" Name="txtHeight" VerticalAlignment="Top" Width="76" />
+        <Label Content="Width" Height="28" HorizontalAlignment="Left" Margin="23,34,0,0" Name="lbl3" VerticalAlignment="Top" />
+        <Label Content="Height" Height="28" HorizontalAlignment="Left" Margin="24,119,0,0" Name="label2" VerticalAlignment="Top" />
+        <TextBox Height="225" HorizontalAlignment="Left" Margin="143,48,0,0" Name="txtResults" VerticalAlignment="Top" Width="337" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" IsReadOnly="True" Background="#FFE9E8EC" />
+        <Button Content="Calculate!" Height="23" HorizontalAlignment="Left" Margin="24,223,0,0" Name="btnCalculate" VerticalAlignment="Top" Width="75" Click="btnCalculate_Click" />
+        <Label Content="Results" Height="28" HorizontalAlignment="Left" Margin="145,23,0,0" Name="label1" VerticalAlignment="Top" />
+    </Grid>
+</Window>

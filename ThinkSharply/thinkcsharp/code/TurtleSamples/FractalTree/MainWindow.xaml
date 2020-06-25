@@ -1,0 +1,8 @@
+﻿<Window x:Class="FractalTree.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Fractal tree sample" Height="469" Width="390">
+    <Grid>
+        <Canvas HorizontalAlignment="Stretch" Margin="23,0,0,0" Name="playground" VerticalAlignment="Stretch" Background="Yellow" />
+    </Grid>
+</Window>

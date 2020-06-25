@@ -1,0 +1,545 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>13. Files &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="14. List Algorithms" href="list_algorithms.html" />
+    <link rel="prev" title="12. Modules" href="modules.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="list_algorithms.html" title="14. List Algorithms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="12. Modules"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="files">
+<h1>13. Files<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="about-files">
+<span id="index-0"></span><h2>13.1. About files<a class="headerlink" href="#about-files" title="Permalink to this headline">¶</a></h2>
+<p>While a program is running, its data is stored in <em>random access memory</em> (RAM).
+RAM is fast and inexpensive, but it is also <strong>volatile</strong>, which means that when
+the program ends, or the computer shuts down, data in RAM disappears. To make
+data available the next time the computer is turned on and the program
+is started, it has to be written to a <strong>non-volatile</strong> storage medium,
+such a hard drive, usb drive, or CD-RW.</p>
+<p>Data on non-volatile storage media is stored in named locations on the media
+called <strong>files</strong>. By reading and writing files, programs can save information
+between program runs.</p>
+<p>Working with files is a lot like working with a notebook. To use a notebook,
+it has to be opened. When done, it has to be closed.  While the
+notebook is open, it can either be read from or written to. In either case,
+the notebook holder knows where they are. They can read the whole notebook in its
+natural order or they can skip around.</p>
+<p>All of this applies to files as well. To open a file, we specify its name and
+indicate whether we want to read or write.</p>
+</div>
+<div class="section" id="writing-our-first-file">
+<h2>13.2. Writing our first file<a class="headerlink" href="#writing-our-first-file" title="Permalink to this headline">¶</a></h2>
+<p>Let’s begin with a simple program that writes three lines of text into a file:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">myfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;My first file written from Python</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;---------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">myfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Hello, world!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">myfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Opening a file creates what we call a file <strong>handle</strong>. In this example, the variable <code class="docutils literal notranslate"><span class="pre">myfile</span></code>
+refers to the new handle object.  Our program calls methods on the handle, and this makes
+changes to the actual file which is usually located on our disk.</p>
+<p>On line 1, the open function takes two arguments. The first is the name of the file, and
+the second is the <strong>mode</strong>. Mode <code class="docutils literal notranslate"><span class="pre">&quot;w&quot;</span></code> means that we are opening the file for
+writing.</p>
+<p>With mode <code class="docutils literal notranslate"><span class="pre">&quot;w&quot;</span></code>, if there is no file named <code class="docutils literal notranslate"><span class="pre">test.txt</span></code> on the disk,
+it will be created. If there already is one, it will be replaced by the
+file we are writing.</p>
+<p>To put data in the file we invoke the <code class="docutils literal notranslate"><span class="pre">write</span></code> method on the handle, shown
+in lines 2, 3 and 4 above.  In bigger programs, lines 2–4 will usually be
+replaced by a loop that writes many more lines into the file.</p>
+<p>Closing the file handle (line 5) tells the system that we are done writing and makes
+the disk file available for reading by other programs (or by our own program).</p>
+<blockquote>
+<div><div class="admonition-a-handle-is-somewhat-like-a-tv-remote-control admonition">
+<p class="first admonition-title">A handle is somewhat like a TV remote control</p>
+<p>We’re all familiar with a remote control for a TV.  We perform operations on
+the remote control — switch channels, change the volume, etc.  But the real action
+happens on the TV.  So, by simple analogy, we’d call the remote control our <cite>handle</cite>
+to the underlying TV.</p>
+<p class="last">Sometimes we want to emphasize the difference — the file handle is not the same
+as the file, and the remote control is not the same as the TV.
+But at other times we prefer to treat them as a single mental chunk, or abstraction,
+and we’ll just say “close the file”, or “flip the TV channel”.</p>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="reading-a-file-line-at-a-time">
+<h2>13.3. Reading a file line-at-a-time<a class="headerlink" href="#reading-a-file-line-at-a-time" title="Permalink to this headline">¶</a></h2>
+<p>Now that the file exists on our disk, we can open it, this time for reading, and read all
+the lines in the file, one at a time. This time, the mode argument is <code class="docutils literal notranslate"><span class="pre">&quot;r&quot;</span></code> for reading:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">mynewhandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>                            <span class="c1"># Keep reading forever</span>
+    <span class="n">theline</span> <span class="o">=</span> <span class="n">mynewhandle</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>   <span class="c1"># Try to read next line</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">theline</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>              <span class="c1"># If there are no more lines</span>
+        <span class="k">break</span>                          <span class="c1">#     leave the loop</span>
+
+    <span class="c1"># Now process the line we&#39;ve just read</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">theline</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">mynewhandle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This is a handy pattern for our toolbox. In bigger programs, we’d
+squeeze more extensive logic into the body of the loop at line 8 —
+for example, if each line of the file contained the name and email address
+of one of our friends, perhaps we’d split the line into some pieces and
+call a function to send the friend a party invitation.</p>
+<p>On line 8 we suppress the newline character that <code class="docutils literal notranslate"><span class="pre">print</span></code>
+usually appends to our strings.  Why?  This is because the string already
+has its own newline:  the <code class="docutils literal notranslate"><span class="pre">readline</span></code> method in line 3 returns everything
+up to <em>and including</em> the newline character.  This also explains the
+end-of-file detection logic: when there are no more lines to be
+read from the file, <code class="docutils literal notranslate"><span class="pre">readline</span></code> returns an empty string — one that does not
+even have a newline at the end, hence its length is 0.</p>
+<blockquote>
+<div><div class="admonition-fail-first admonition">
+<p class="first admonition-title">Fail first …</p>
+<p>In our sample case here, we have three lines in the file, yet
+we enter the loop <em>four</em> times.  In Python, you only learn that
+the file has no more lines by failure to read another line.
+In some other programming languages
+(e.g. Pascal), things are different: there you read three lines,
+but you have what is called <em>look ahead</em> — after reading the third
+line you already know that there are no more lines in the file.
+You’re not even allowed to try to read the fourth line.</p>
+<p>So the templates for working line-at-a-time in Pascal and Python are
+subtly different!</p>
+<p class="last">When you transfer your Python skills to your next computer language,
+be sure to ask how you’ll know when the file has ended: is the style
+in the language “try, and after you fail you’ll know”, or is
+it “look ahead”?</p>
+</div>
+</div></blockquote>
+<p>If we try to open a file that doesn’t exist, we get an error:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mynewhandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;wharrah.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="go">IOError: [Errno 2] No such file or directory: &quot;wharrah.txt&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="turning-a-file-into-a-list-of-lines">
+<h2>13.4. Turning a file into a list of lines<a class="headerlink" href="#turning-a-file-into-a-list-of-lines" title="Permalink to this headline">¶</a></h2>
+<p>It is often useful to fetch data from
+a disk file and turn it into a list of lines.  Suppose we have a
+file containing our friends and their email addresses, one per line
+in the file.  But we’d like the lines sorted into
+alphabetical order.  A good plan is to read everything into a
+list of lines, then sort the list, and then write the sorted list
+back to another file:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;friends.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">xs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;sortedfriends.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">readlines</span></code> method in line 2 reads all the lines and
+returns a list of the strings.</p>
+<p>We could have used the template from the previous section to read each line
+one-at-a-time, and to build up the list ourselves, but it is a lot easier
+to use the method that the Python implementors gave us!</p>
+</div>
+<div class="section" id="reading-the-whole-file-at-once">
+<h2>13.5. Reading the whole file at once<a class="headerlink" href="#reading-the-whole-file-at-once" title="Permalink to this headline">¶</a></h2>
+<p>Another way of working with text files is to read the complete
+contents of the file into a string, and then to use our string-processing
+skills to work with the contents.</p>
+<p>We’d normally use this method of processing files if we were not
+interested in the line structure of the file.   For example, we’ve
+seen the <code class="docutils literal notranslate"><span class="pre">split</span></code> method on strings which can break a string into
+words.  So here is how we might count the number of words in a
+file:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;somefile.txt&quot;</span><span class="p">)</span>
+<span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are </span><span class="si">{0}</span><span class="s2"> words in the file.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Notice here that we left out the <code class="docutils literal notranslate"><span class="pre">&quot;r&quot;</span></code> mode in line 1.
+By default, if we don’t supply the mode, Python opens the file for reading.</p>
+<div class="admonition-your-file-paths-may-need-to-be-explicitly-named admonition">
+<p class="first admonition-title">Your file paths may need to be explicitly named.</p>
+<p>In the above example, we’re assuming that the file <code class="docutils literal notranslate"><span class="pre">somefile.txt</span></code> is
+in the same directory as your Python source code.  If this is
+not the case, you may need to provide a full or a relative path to the file.  On Windows, a full
+path could look like <code class="docutils literal notranslate"><span class="pre">&quot;C:\\temp\\somefile.txt&quot;</span></code>, while on a Unix system the full path could be
+<code class="docutils literal notranslate"><span class="pre">&quot;/home/jimmy/somefile.txt&quot;</span></code>.</p>
+<p class="last">We’ll return to this later in this chapter.</p>
+</div>
+</div>
+<div class="section" id="working-with-binary-files">
+<h2>13.6. Working with binary files<a class="headerlink" href="#working-with-binary-files" title="Permalink to this headline">¶</a></h2>
+<p>Files that hold photographs, videos, zip files, executable programs, etc. are called
+<strong>binary</strong> files: they’re not organized into lines, and cannot be opened with a
+normal text editor.  Python works just as easily with binary files, but
+when we read from the file we’re going to get bytes back rather than
+a string.  Here we’ll copy one binary file to another:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;somefile.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;thecopy.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">buf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+         <span class="k">break</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>There are a few new things here.  In lines 1 and 2 we added a <code class="docutils literal notranslate"><span class="pre">&quot;b&quot;</span></code>
+to the mode to tell Python that the files are binary rather than
+text files.  In line 5, we see <code class="docutils literal notranslate"><span class="pre">read</span></code> can take an argument which
+tells it how many bytes to attempt to read from the file.  Here we
+chose to read and write up to 1024 bytes on each iteration of the loop.  When
+we get back an empty buffer from our attempt to read, we know we can
+break out of the loop and close both the files.</p>
+<p>If we set a breakpoint at line 6, (or print  <code class="docutils literal notranslate"><span class="pre">type(buf)</span></code> there) we’ll
+see that the type of <code class="docutils literal notranslate"><span class="pre">buf</span></code> is <code class="docutils literal notranslate"><span class="pre">bytes</span></code>.  We don’t do any detailed
+work with <code class="docutils literal notranslate"><span class="pre">bytes</span></code> objects in this textbook.</p>
+</div>
+<div class="section" id="an-example">
+<span id="index-1"></span><h2>13.7. An example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h2>
+<p>Many useful line-processing programs will read a text file line-at-a-time and do some minor
+processing as they write the lines to an output file.  They might number the
+lines in the output file, or insert extra blank lines after every 60 lines to
+make it convenient for printing on sheets of paper, or extract some specific
+columns only from each line in the source file, or only print lines that
+contain a specific substring.  We call this kind of program a <strong>filter</strong>.</p>
+<p>Here is a filter that copies one file to another,
+omitting any lines that begin with <code class="docutils literal notranslate"><span class="pre">#</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="n">oldfile</span><span class="p">,</span> <span class="n">newfile</span><span class="p">):</span>
+     <span class="n">infile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">oldfile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+     <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">newfile</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+         <span class="n">text</span> <span class="o">=</span> <span class="n">infile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+         <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+         <span class="c1"># Put any more processing logic here</span>
+         <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+     <span class="n">infile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+     <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">continue</span></code> statement at line 9 skips over the remaining lines in
+the current iteration of the loop, but the loop will still iterate.  This
+style looks a bit contrived here, but it is often useful to say <em>“get the
+lines we’re not concerned with out of the way early, so that we have
+cleaner more focused logic in the meaty part of the loop that might be
+written around line 11.”</em></p>
+<p>Thus, if <code class="docutils literal notranslate"><span class="pre">text</span></code> is the empty string, the loop exits. If the first character
+of <code class="docutils literal notranslate"><span class="pre">text</span></code> is a hash mark, the flow of execution goes to the top of the loop, ready
+to start processing the next line.
+Only if both conditions fail do we fall through to do the processing at line 11, in this
+example, writing the line into the new file.</p>
+<p>Let’s consider one more case: suppose our original file contained empty
+lines.  At line 6 above, would this program find the first empty line in the
+file, and terminate immediately?   No!  Recall that <code class="docutils literal notranslate"><span class="pre">readline</span></code> always
+includes the newline character in the string it returns.  It is only when we
+try to read <em>beyond</em> the end of the file that we get back the empty string of length 0.</p>
+</div>
+<div class="section" id="directories">
+<span id="index-2"></span><h2>13.8. Directories<a class="headerlink" href="#directories" title="Permalink to this headline">¶</a></h2>
+<p>Files on non-volatile storage media are organized by a set of rules known as a
+<strong>file system</strong>. File systems are made up of files and <strong>directories</strong>, which
+are containers for both files and other directories.</p>
+<p>When we create a new file by opening it and writing, the new file goes in the
+current directory (wherever we were when we ran the program). Similarly, when
+we open a file for reading, Python looks for it in the current directory.</p>
+<p>If we want to open a file somewhere else, we have to specify the <strong>path</strong> to
+the file, which is the name of the directory (or folder) where the file is
+located:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wordsfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/usr/share/dict/words&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wordlist</span> <span class="o">=</span> <span class="n">wordsfile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">wordlist</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+<span class="go">[&#39;\n&#39;, &#39;A\n&#39;, &quot;A&#39;s\n&quot;, &#39;AOL\n&#39;, &quot;AOL&#39;s\n&quot;, &#39;Aachen\n&#39;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This (Unix) example opens a file named <code class="docutils literal notranslate"><span class="pre">words</span></code> that resides in a directory named
+<code class="docutils literal notranslate"><span class="pre">dict</span></code>, which resides in <code class="docutils literal notranslate"><span class="pre">share</span></code>, which resides in <code class="docutils literal notranslate"><span class="pre">usr</span></code>, which resides
+in the top-level directory of the system, called <code class="docutils literal notranslate"><span class="pre">/</span></code>. It then reads in each
+line into a list using <code class="docutils literal notranslate"><span class="pre">readlines</span></code>, and prints out the first 5 elements from
+that list.</p>
+<p>A Windows path might be <code class="docutils literal notranslate"><span class="pre">&quot;c:/temp/words.txt&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;c:\\temp\\words.txt&quot;</span></code>.
+Because backslashes are used to escape things like newlines and tabs, we need
+to write two backslashes in a literal string to get one!  So the length of these two
+strings is the same!</p>
+<p>We cannot use <code class="docutils literal notranslate"><span class="pre">/</span></code> or <code class="docutils literal notranslate"><span class="pre">\</span></code> as part of a filename; they are reserved as a <strong>delimiter</strong>
+between directory and filenames.</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">/usr/share/dict/words</span></code> should exist on Unix-based systems, and
+contains a list of words in alphabetical order.</p>
+</div>
+<div class="section" id="what-about-fetching-something-from-the-web">
+<h2>13.9. What about fetching something from the web?<a class="headerlink" href="#what-about-fetching-something-from-the-web" title="Permalink to this headline">¶</a></h2>
+<p>The Python libraries are pretty messy in places.  But here is a very
+simple example that copies the contents at some web URL to a local file.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://xml.resource.org/public/rfc/txt/rfc793.txt&quot;</span>
+<span class="n">destination_filename</span> <span class="o">=</span> <span class="s2">&quot;rfc793.txt&quot;</span>
+
+<span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">destination_filename</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">urlretrieve</span></code> function — just one call — could be used
+to download any kind of content from the Internet.</p>
+<dl class="docutils">
+<dt>We’ll need to get a few things right before this works:</dt>
+<dd><ul class="first last simple">
+<li>The resource we’re trying to fetch must exist!  Check this using a browser.</li>
+<li>We’ll need permission to write to the destination filename, and the file will
+be created in the “current directory” - i.e. the same folder that the Python program is saved in.</li>
+<li>If we are behind a proxy server that requires authentication,
+(as some students are), this may require some more special handling to work around our proxy.
+Use a local resource for the purpose of this demonstration!</li>
+</ul>
+</dd>
+</dl>
+<p>Here is a slightly different example.  Rather than save the web resource to
+our local disk, we read it directly into a string, and return it:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="k">def</span> <span class="nf">retrieve_page</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Retrieve the contents of a web page.</span>
+<span class="sd">        The contents is converted to a string before returning it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">my_socket</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">dta</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">my_socket</span><span class="o">.</span><span class="n">readall</span><span class="p">())</span>
+    <span class="n">my_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">dta</span>
+
+<span class="n">the_text</span> <span class="o">=</span> <span class="n">retrieve_page</span><span class="p">(</span><span class="s2">&quot;http://xml.resource.org/public/rfc/txt/rfc793.txt&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">the_text</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Opening the remote url returns what we call a <strong>socket</strong>.  This is a handle to
+our end of the connection between
+our program and the remote web server.  We can call read, write, and close methods on
+the socket object in much the same way as we can work with a file handle.</p>
+</div>
+<div class="section" id="glossary">
+<h2>13.10. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-delimiter">delimiter</dt>
+<dd>A sequence of one or more characters used to specify the boundary
+between separate parts of text.</dd>
+<dt id="term-directory">directory</dt>
+<dd>A named collection of files, also called a folder.  Directories can
+contain files and other directories, which are referred to as
+<em>subdirectories</em> of the directory that contains them.</dd>
+<dt id="term-file">file</dt>
+<dd>A named entity, usually stored on a hard drive, floppy disk, or CD-ROM,
+that contains a stream of characters.</dd>
+<dt id="term-file-system">file system</dt>
+<dd>A method for naming, accessing, and organizing files and the data they
+contain.</dd>
+<dt id="term-handle">handle</dt>
+<dd>An object in our program that is connected to an underlying resource (e.g. a file).
+The file handle lets our program manipulate/read/write/close the actual
+file that is on our disk.</dd>
+<dt id="term-mode">mode</dt>
+<dd>A distinct method of operation within a computer program.  Files in
+Python can be opened in one of four modes: read (<code class="docutils literal notranslate"><span class="pre">&quot;r&quot;</span></code>), write
+(<code class="docutils literal notranslate"><span class="pre">&quot;w&quot;</span></code>), append (<code class="docutils literal notranslate"><span class="pre">&quot;a&quot;</span></code>), and read and write (<code class="docutils literal notranslate"><span class="pre">&quot;+&quot;</span></code>).</dd>
+<dt id="term-non-volatile-memory">non-volatile memory</dt>
+<dd>Memory that can maintain its state without power. Hard drives, flash
+drives, and rewritable compact disks (CD-RW) are each examples of
+non-volatile memory.</dd>
+<dt id="term-path">path</dt>
+<dd>A sequence of directory names that specifies the exact location of a
+file.</dd>
+<dt id="term-text-file">text file</dt>
+<dd>A file that contains printable characters organized into lines
+separated by newline characters.</dd>
+<dt id="term-socket">socket</dt>
+<dd>One end of a connection allowing one to read and write
+information to or from another computer.</dd>
+<dt id="term-volatile-memory">volatile memory</dt>
+<dd>Memory which requires an electrical current to maintain state. The
+<em>main memory</em> or RAM of a computer is volatile.  Information stored in
+RAM is lost when the computer is turned off.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>13.11. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Write a program that reads a file and writes out a new file
+with the lines in reversed order
+(i.e. the first line in the old file becomes the last one in the new file.)</li>
+<li>Write a program that reads a file and prints only those lines that contain the
+substring <code class="docutils literal notranslate"><span class="pre">snake</span></code>.</li>
+<li>Write a program that reads a text file and produces an output file which is a
+copy of the file, except the first five columns of each line contain a four
+digit line number, followed by a space.
+Start numbering the first line in the output file at 1.  Ensure that
+every line number is formatted to the same width in the output file.  Use one
+of your Python programs as test data for this exercise: your output should be
+a printed and numbered listing of the Python program.</li>
+<li>Write a program that undoes the numbering of the previous exercise: it should
+read a file with numbered lines and produce another file without line numbers.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="list_algorithms.html" title="14. List Algorithms"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="12. Modules"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

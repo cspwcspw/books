@@ -1,0 +1,604 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>14. Arrays &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="15. Lists" href="lists.html" />
+    <link rel="prev" title="13. Classes and Objects — an Overview" href="classes_and_objects_0.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lists.html" title="15. Lists"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="classes_and_objects_0.html" title="13. Classes and Objects — an Overview"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="arrays">
+<span id="index-0"></span><h1>14. Arrays<a class="headerlink" href="#arrays" title="Permalink to this headline">¶</a></h1>
+<p>An array is a structure that can hold a number of individual values at the same time.</p>
+<p>The individual values that make up an array are called its <strong>elements</strong>, or its <strong>items</strong>.
+(We will use either term to mean the same thing.)  All the elements in an array
+must be of the same type: so we can have an array of students, an array of integers,
+an array of strings, or an array of turtles.</p>
+<p>Like strings, individual elements in the array can be accessed by <em>indexing</em>.  The first
+element is always at position 0, the next at position 1, and so on.  Unlike strings, though,
+each element of the array is a variable, so an element can by changed by assigning another
+value to it as the program runs. (Recall that strings are read-only &#8212; we cannot assign to
+individual elements.)</p>
+<div class="section" id="defining-and-initializing-arrays">
+<span id="index-1"></span><h2>14.1. Defining and initializing arrays<a class="headerlink" href="#defining-and-initializing-arrays" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ve already seen the easiest way to define and initialize small arrays:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">daysOfWeek</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;Sun&quot;</span><span class="p">,</span> <span class="s">&quot;Mon&quot;</span><span class="p">,</span> <span class="s">&quot;Tue&quot;</span><span class="p">,</span> <span class="s">&quot;Wed&quot;</span><span class="p">,</span>
+                               <span class="s">&quot;Thur&quot;</span><span class="p">,</span> <span class="s">&quot;Fri&quot;</span><span class="p">,</span> <span class="s">&quot;Sat&quot;</span> <span class="p">};</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">daysInMonth</span> <span class="p">=</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span>
+                      <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+<p>The first example defines and initializes an array of seven strings. (The
+initializer is the bit in braces.)
+The second defines and initializes an array of 12
+integers.</p>
+<p>We read <code class="docutils literal"><span class="pre">string[]</span> <span class="pre">daysOfWeek</span></code>  as <em>string array</em> called <em>daysOfWeek</em>.
+Do learn to mentally group the array definition brackets with the type &#8212; the new type is &#8220;int array&#8221; or &#8220;string array&#8221;.</p>
+<p>An array is an object.  One needs to define a variable that can
+hold a reference to the object.  And, as a separate step, we need to create the object and make
+the variable reference it.</p>
+<p>So let&#8217;s imagine that we want to count how many students will have a birthday on each day this year.
+(We will assume it is not a leap year).
+We&#8217;d need 365 counters to keep track of how many birthdays we&#8217;ve seen so far on each day of the year.
+Each student calculates their &#8220;day index number&#8221; corresponding to their birthday (1 Jan would be
+index 0, 31 Jan would be index 30, 1 Feb would be index 31, 31 December would be index 364, etc.)
+If the student&#8217;s birthday is on day 42, then we&#8217;d increment element 42 in the array.</p>
+<p>We start like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span><span class="p">[]</span> <span class="n">birthdayCounts</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="n">birthdayCounts</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">365</span><span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 1 defines a variable that can reference an array of int.  It gives it an initial value <code class="docutils literal"><span class="pre">null</span></code>.
+Line 3 (always evaluate the right-hand side of an assignment first)
+creates a new object &#8212; an array of 365 integers &#8212; in
+the heap.  It then assigns the reference to that object to the variable.  Recall that if we don&#8217;t give an integer an
+initial value, C# will set it to 0 for us.  So all 365 ints in the array are now zero.   So memory looks like this now:</p>
+<blockquote>
+<div><img alt="_images/memlayout3.png" src="_images/memlayout3.png" />
+</div></blockquote>
+<p>So defining an array doesn&#8217;t give us an array.  It gives us a variable that can
+reference an array.
+We strongly encourage to using the single-stepping debugger and inspector to watch the variable <code class="docutils literal"><span class="pre">birthdayCounts</span></code>
+as we execute the lines above.  The idea that these variables do not hold their values directly, but they hold a reference
+to the value that is created separately was covered in the previous chapter.</p>
+<p>C# tries to make our lives easier, so they allow little short cuts.   For example, we can combine lines
+1 and 3 above into a single line:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span><span class="p">[]</span> <span class="n">birthdayCounts</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">365</span><span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<p>Even though there is only one line of code,
+there are still three distinct things going on here. The right hand side creates the array,
+and initializes its elements.  The left hand side creates a variable that can hold a reference to an array of int.
+Then the assignment makes the variable point to the array.</p>
+<p>So the easy syntax we&#8217;ve used to create small arrays with an initializer is also just shorthand:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">daysOfWeek</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;Sun&quot;</span><span class="p">,</span> <span class="s">&quot;Mon&quot;</span><span class="p">,</span> <span class="s">&quot;Tue&quot;</span><span class="p">,</span> <span class="s">&quot;Wed&quot;</span><span class="p">,</span>
+                               <span class="s">&quot;Thur&quot;</span><span class="p">,</span> <span class="s">&quot;Fri&quot;</span><span class="p">,</span> <span class="s">&quot;Sat&quot;</span> <span class="p">};</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">daysInMonth</span> <span class="p">=</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span>
+                      <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+<p>This short syntax is entirely equivalent to the more verbose:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">daysOfWeek</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[</span><span class="m">7</span><span class="p">]</span> <span class="p">{</span> <span class="s">&quot;Sun&quot;</span><span class="p">,</span> <span class="s">&quot;Mon&quot;</span><span class="p">,</span> <span class="s">&quot;Tue&quot;</span><span class="p">,</span> <span class="s">&quot;Wed&quot;</span><span class="p">,</span>
+                                             <span class="s">&quot;Thur&quot;</span><span class="p">,</span> <span class="s">&quot;Fri&quot;</span><span class="p">,</span> <span class="s">&quot;Sat&quot;</span> <span class="p">};</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">daysInMonth</span> <span class="p">=</span>  <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">12</span><span class="p">]</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span>
+                                   <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+<p>Here the explicit <code class="docutils literal"><span class="pre">new</span></code> step reminds us that we have to instantiate the array.
+If we use this syntax, the C# compiler will double-check that the length of the initializer matches the
+number of elements we allocated for the array.  So the information is actually redundant &#8212; it can
+tell how big the array needs to be by looking at the initializer first.  So if we provide an initializer
+we can leave out the explicit size too:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">daysOfWeek</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;Sun&quot;</span><span class="p">,</span> <span class="s">&quot;Mon&quot;</span><span class="p">,</span> <span class="s">&quot;Tue&quot;</span><span class="p">,</span> <span class="s">&quot;Wed&quot;</span><span class="p">,</span>
+                                            <span class="s">&quot;Thur&quot;</span><span class="p">,</span> <span class="s">&quot;Fri&quot;</span><span class="p">,</span> <span class="s">&quot;Sat&quot;</span> <span class="p">};</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">daysInMonth</span> <span class="p">=</span>  <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span>
+                                 <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+<p>Sometimes having the programmer supply the number of elements in the array explicitly
+can be a good thing.  For example, if we left out one of the initializer values when
+typing in the <code class="docutils literal"><span class="pre">daysInMonth</span></code> initializer, we&#8217;d either end up with only 11 months in our year,
+or we&#8217;d get a compilation error if we explicitly said &#8220;expect 12 elements&#8221;.</p>
+<p>There are other ways to create arrays also.
+In the chapter on strings we also saw the <code class="docutils literal"><span class="pre">Split</span></code> method which takes a string
+and splits it into pieces, returning an array of strings.  We were able to break <em>Alice in Wonderland</em> into
+an array of strings. We did this twice.  The first time, each string was just one word from the book.
+In the other case, each string was a whole line from the book.
+So there are some methods like this that we&#8217;ll encounter that can create and initialize an
+array of values for us.</p>
+<p>Once an array is created its number of elements stays fixed.  (This is not entirely true, but trying to
+resize arrays is beyond our scope, and is probably a bad idea anyway.)</p>
+<span class="target" id="accessing-elements"></span></div>
+<div class="section" id="index-2">
+<span id="id1"></span><h2>14.2. Accessing elements<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<p>The syntax for accessing the elements of an array is the same as the syntax for
+accessing the characters of a string &#8212; the index operator: <code class="docutils literal"><span class="pre">[]</span></code>.   The expression inside the brackets specifies
+the index. Remember that the indices start at 0.  So <code class="docutils literal"><span class="pre">daysOfWeek[2]</span></code> has the value <code class="docutils literal"><span class="pre">&quot;Tue&quot;</span></code>.</p>
+<p>Any expression that evaluates to an integer can be used as an index:</p>
+<p>If we try to access or assign to an element at a position that is outside the bounds of the array, we&#8217;ll get
+an exception (error) saying &#8220;Index was outside the bounds of the array&#8221;.</p>
+<p>It is common to use a loop variable as an index for traversing all the elements of an array.
+Like strings, every array has a <code class="docutils literal"><span class="pre">Length</span></code> property that determines the number of elements in the array.
+So let&#8217;s consider this method that sums up an array of ints:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">sumElems</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">total</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+       <span class="n">total</span> <span class="p">+=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">total</span><span class="p">;</span>
+<span class="p">}</span>
+
+ <span class="p">...</span>
+   <span class="kt">int</span><span class="p">[]</span> <span class="n">daysInMonth</span> <span class="p">=</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+   <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">sumElems</span><span class="p">(</span><span class="n">daysInMonth</span><span class="p">),</span> <span class="m">365</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Each time through the loop, the variable <code class="docutils literal"><span class="pre">i</span></code> is used as an index into the
+array, accessing the <code class="docutils literal"><span class="pre">i</span></code>&#8216;th element. This pattern of computation is called an
+<strong>array traversal</strong>.</p>
+<p>The example shows how to define a parameter that is an array (line 1), and shows that
+arrays can be passed as arguments (line 13)</p>
+<p>The above sample doesn&#8217;t need or use the index <code class="docutils literal"><span class="pre">i</span></code> for anything besides getting
+the items from the array, so this more direct version &#8212; where the <code class="docutils literal"><span class="pre">foreach</span></code> loop gets
+the items for us &#8212; might be preferred:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">sumElems</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">total</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">val</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">total</span> <span class="p">+=</span> <span class="n">val</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">total</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The test on line 13 still passes.</p>
+</div>
+<div class="section" id="modifying-elements-of-an-array">
+<span id="index-3"></span><h2>14.3. Modifying elements of an array<a class="headerlink" href="#modifying-elements-of-an-array" title="Permalink to this headline">¶</a></h2>
+<p>Unlike read-only strings, we can assign new values to elements of an array.
+So let&#8217;s start with our <code class="docutils literal"><span class="pre">daysInMonth</span></code> array above, and we&#8217;ll traverse
+all the elements, doubling any element that is odd.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">doubleSome</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+       <span class="k">if</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">1</span><span class="p">)</span>              <span class="c1">// is it odd?</span>
+       <span class="p">{</span>
+          <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">*=</span> <span class="m">2</span><span class="p">;</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+ <span class="p">...</span>
+   <span class="kt">int</span><span class="p">[]</span> <span class="n">daysInMonth</span> <span class="p">=</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+   <span class="n">doubleSome</span><span class="p">(</span><span class="n">daysInMonth</span><span class="p">);</span>
+   <span class="p">...</span>
+</pre></div>
+</td></tr></table></div>
+<p>After this operation (say at line 15) we could inspect the array (using the debugger), or output the
+elements (one at a time), and we&#8217;d confirm that the <code class="docutils literal"><span class="pre">daysInMonth</span></code> array now contains
+the values  { 62, 28, 62, 30, 62, 30, 62, 62, 30, 62, 30, 62 }.</p>
+<p>We previously saw that when we pass a reference-type argument (<code class="docutils literal"><span class="pre">daysInMonth</span></code>, in this case) to
+a parameter (<code class="docutils literal"><span class="pre">xs</span></code> in this case) we make a copy of what is in <code class="docutils literal"><span class="pre">daysInMonth</span></code>.
+But what gets copied is the <em>reference</em> to the array, not the array itself.
+So if we inspect the state of memory when we get to line 3 in the code above, we&#8217;d have this situation:</p>
+<blockquote>
+<div><img alt="_images/memlayout4.png" src="_images/memlayout4.png" />
+</div></blockquote>
+<p>This shows that while we are executing <code class="docutils literal"><span class="pre">doubleSome</span></code>, the two variables <code class="docutils literal"><span class="pre">xs</span></code> and <code class="docutils literal"><span class="pre">daysInMonth</span></code> are aliases.
+So if we make changes to elements of <code class="docutils literal"><span class="pre">xs</span></code>, we&#8217;re actually changing the same array as is referenced by <code class="docutils literal"><span class="pre">daysInMonth</span></code>.</p>
+</div>
+<div class="section" id="methods-that-return-arrays">
+<h2>14.4. Methods that return arrays<a class="headerlink" href="#methods-that-return-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Methods can return objects.  So they can return arrays.  A method that needs to return an array
+should a) find out how many elements are required,  b) create the array of the correct size  c) fill
+the array with the values to be returned,  d) return the array to the caller.</p>
+<p>Let us generate and return an array containing the first 100 prime numbers.  (We&#8217;ll assume we
+did the exercise to write <code class="docutils literal"><span class="pre">isPrime</span></code> in the chapter about iteration.)</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span><span class="p">[]</span> <span class="nf">generateArrayOf100Primes</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">ps</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">100</span><span class="p">];</span>  <span class="c1">// Create an array of 100 items</span>
+
+    <span class="kt">int</span> <span class="n">numFound</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">candidate</span> <span class="p">=</span> <span class="m">2</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">numFound</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isPrime</span><span class="p">(</span><span class="n">candidate</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="n">ps</span><span class="p">[</span><span class="n">numFound</span><span class="p">]</span> <span class="p">=</span> <span class="n">candidate</span><span class="p">;</span>
+            <span class="n">numFound</span><span class="p">++;</span>
+        <span class="p">}</span>
+        <span class="n">candidate</span><span class="p">++;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ps</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>We should be able to inspect (or print) our data, and confirm that the 100th prime
+number is indeed 541.</p>
+</div>
+<div class="section" id="arrays-of-arrays">
+<span id="index-4"></span><h2>14.5. Arrays of Arrays<a class="headerlink" href="#arrays-of-arrays" title="Permalink to this headline">¶</a></h2>
+<p>We often want arrays of arrays, to represent two-dimensional data, or
+sometimes even more dimensions.
+For example, suppose we have rainfall data from three different sites,
+for each of the four quarters of the year.  We might end up with a table like this:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="23%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Quarter</th>
+<th class="head">site1</th>
+<th class="head">site2</th>
+<th class="head">site3</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Q1</td>
+<td>165.3</td>
+<td>170.5</td>
+<td>172.1</td>
+</tr>
+<tr class="row-odd"><td>Q2</td>
+<td>149.6</td>
+<td>140.3</td>
+<td>152.3</td>
+</tr>
+<tr class="row-even"><td>Q3</td>
+<td>44.3</td>
+<td>42.4</td>
+<td>45.0</td>
+</tr>
+<tr class="row-odd"><td>Q4</td>
+<td>95.3</td>
+<td>89.8</td>
+<td>92.4</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>How could we represent this data in a C# program?  By creating an array where each
+element was another array representing one of the quarters.  (Arrays of arrays
+are often called <em>jagged arrays</em>.)</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">double</span><span class="p">[][]</span> <span class="n">rainfall</span> <span class="p">=</span>
+     <span class="p">{</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span> <span class="m">165.3</span><span class="p">,</span>  <span class="m">170.5</span><span class="p">,</span>  <span class="m">172.1</span> <span class="p">},</span>  <span class="c1">// Q1</span>
+       <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span> <span class="m">149.6</span><span class="p">,</span>  <span class="m">140.3</span><span class="p">,</span>  <span class="m">152.3</span> <span class="p">},</span>  <span class="c1">// Q2</span>
+       <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span>  <span class="m">44.3</span><span class="p">,</span>   <span class="m">42.4</span><span class="p">,</span>   <span class="m">45.0</span> <span class="p">},</span>  <span class="c1">// Q3</span>
+       <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span>  <span class="m">95.3</span><span class="p">,</span>   <span class="m">89.8</span><span class="p">,</span>   <span class="m">92.4</span> <span class="p">}</span>   <span class="c1">// Q4</span>
+     <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+<p>With an array of arrays, a traversal of all the elements will need
+two loops, one nested in the other.
+So let us find the average rainfall for each quarter.  This
+means we&#8217;ll need to sum up across each row, divide by 3, and we&#8217;ll get four
+averages &#8212; one for each quarter.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// Create an average reading for each quarter</span>
+<span class="kt">double</span><span class="p">[]</span> <span class="n">avgs</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[</span><span class="m">4</span><span class="p">];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">q</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">q</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">;</span> <span class="n">q</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">currQuarter</span> <span class="p">=</span> <span class="n">rainfall</span><span class="p">[</span><span class="n">q</span><span class="p">];</span>
+    <span class="kt">double</span> <span class="n">sum</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">col</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">;</span> <span class="n">col</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">sum</span> <span class="p">+=</span> <span class="n">currQuarter</span><span class="p">[</span><span class="n">col</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">avgs</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="p">=</span> <span class="n">sum</span> <span class="p">/</span> <span class="m">3.0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">avgs</span><span class="p">,</span>  <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">169.3</span><span class="p">,</span> <span class="m">147.4</span><span class="p">,</span>  <span class="m">43.9</span><span class="p">,</span> <span class="m">92.5</span><span class="p">},</span> <span class="m">0.1</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>At this point we can inspect the <code class="docutils literal"><span class="pre">avgs</span></code> array, or display the values
+and confirm that they match.  We&#8217;ve used a unit test here, with an extra third argument
+that provides for some tolerance for possible errors because we&#8217;re working with floating
+point values.   So this test says &#8220;call the numbers equal if they&#8217;re within 0.1 of each other&#8221;.</p>
+<p>Here is a jagged example: Each student in a university is registered for some subjects:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[][]</span> <span class="n">registrations</span> <span class="p">=</span>
+  <span class="p">{</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;Maths&quot;</span><span class="p">,</span>  <span class="s">&quot;CompSci&quot;</span><span class="p">,</span>  <span class="s">&quot;Music&quot;</span><span class="p">,</span> <span class="s">&quot;Physics&quot;</span> <span class="p">},</span>
+    <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;Maths&quot;</span><span class="p">,</span>  <span class="s">&quot;CompSci&quot;</span><span class="p">,</span> <span class="s">&quot;Economics&quot;</span> <span class="p">},</span>
+    <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;CompSci&quot;</span><span class="p">,</span> <span class="s">&quot;Economics&quot;</span><span class="p">,</span> <span class="s">&quot;Accounting&quot;</span><span class="p">,</span> <span class="s">&quot;Law&quot;</span> <span class="p">},</span>
+    <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;Philosophy&quot;</span> <span class="p">}</span>
+  <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="glossary">
+<h2>14.6. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-element">element</dt>
+<dd>One of the values in a array (or other sequence). The bracket operator
+selects elements of an array. An element is also called an <em>item</em>.</dd>
+<dt id="term-index">index</dt>
+<dd>An integer value that indicates the position of an item in an array.
+Indexes start from 0.</dd>
+<dt id="term-item">item</dt>
+<dd>See <em>element</em>.</dd>
+<dt id="term-jagged-array">jagged array</dt>
+<dd>An array of arrays.  Not all &#8220;rows&#8221; of data need to have the same number
+of elements (so it could look jagged!)</dd>
+</dl>
+</div>
+<div class="section" id="further-reading">
+<h2>14.7. Further Reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h2>
+<p>Microsoft&#8217;s Arrays Tutorial, at <a class="reference external" href="http://msdn.microsoft.com/en-us/library/aa288453(v=vs.71).aspx">http://msdn.microsoft.com/en-us/library/aa288453(v=vs.71).aspx</a></p>
+</div>
+<div class="section" id="exercises">
+<h2>14.8. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Write a method to return the biggest item from a non-empty array of int.
+Provide some test cases to test your method.</p>
+</li>
+<li><p class="first">Write a method to return the sum of all the odd numbers in an array of int.
+Provide some test cases to test your method.</p>
+</li>
+<li><p class="first">Write a method to search for a given target string in an array of strings.  The method
+should return the index at which the target is found.  If the target is not found,
+it should return -1.  Provide test cases to test all the important cases: the target could match
+the first element or the last element in the array, or some element in the middle,
+or it may not exist in the array at all.</p>
+</li>
+<li><p class="first">Use the method above to write a method that turns a month name into a corresponding
+month number, so that these tests pass:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">monthName</span><span class="p">(</span><span class="s">&quot;January&quot;</span><span class="p">),</span> <span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">monthName</span><span class="p">(</span><span class="s">&quot;June&quot;</span><span class="p">,</span> <span class="m">6</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">monthName</span><span class="p">(</span><span class="s">&quot;November&quot;</span><span class="p">),</span> <span class="m">11</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Assume we have this definition in our code:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span><span class="p">[]</span> <span class="n">daysInMonth</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span>
+                             <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+<p>Write a method that takes a day number and a month name, and returns the day number
+within the (non-leap) year.  Assume days are numbered starting from 0.  For example,
+<code class="docutils literal"><span class="pre">dayMonthToDay(&quot;March&quot;,</span> <span class="pre">12)</span></code> should give the result 70.</p>
+</li>
+<li><p class="first">Arrays can be used to represent mathematical <em>vectors</em>.  In the next few exercises
+we will write methods to perform standard
+operations on vectors.  Write C# code to pass the tests in each case.</p>
+<p>Write a method <code class="docutils literal"><span class="pre">dotProduct(u,</span> <span class="pre">v)</span></code> that takes two arrays of numbers of
+the same length, and returns the sum of the products of the corresponding
+elements of each (the <a class="reference external" href="http://en.wikipedia.org/wiki/Dot_product">dot product</a>).</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">dotProduct</span><span class="p">(</span><span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">},</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">]},</span>  <span class="m">2</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">dotProduct</span><span class="p">(</span><span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">},</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">4.5</span><span class="p">]},</span> <span class="m">10</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">dotProduct</span><span class="p">(</span><span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">1</span><span class="p">},</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">3</span><span class="p">}),</span> <span class="m">12</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">addVectors(u,</span> <span class="pre">v)</span></code> that takes two arrays of doubles of
+the same length, and returns a new array containing the sums of the
+corresponding elements of each:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">double</span><span class="p">[]</span> <span class="n">v1</span> <span class="p">=</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">};</span>
+<span class="kt">double</span><span class="p">[]</span> <span class="n">v2</span> <span class="p">=</span> <span class="p">{</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">};</span>
+<span class="kt">double</span><span class="p">[]</span> <span class="n">v3</span> <span class="p">=</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">};</span>
+<span class="kt">double</span><span class="p">[]</span> <span class="n">v4</span> <span class="p">=</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">4</span><span class="p">};</span>
+<span class="kt">double</span><span class="p">[]</span> <span class="n">v5</span> <span class="p">=</span> <span class="p">{</span><span class="m">2</span><span class="p">,</span> <span class="m">6</span><span class="p">};</span>
+<span class="kt">double</span><span class="p">[]</span> <span class="n">v6</span> <span class="p">=</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">1</span><span class="p">};</span>
+<span class="kt">double</span><span class="p">[]</span> <span class="n">v7</span> <span class="p">=</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">3</span><span class="p">};</span>
+<span class="kt">double</span><span class="p">[]</span> <span class="n">v8</span> <span class="p">=</span> <span class="p">{</span><span class="m">2</span><span class="p">,</span> <span class="m">6</span><span class="p">,</span> <span class="m">4</span><span class="p">};</span>
+
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">addVectors</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v1</span><span class="p">),</span> <span class="n">v2</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">addVectors</span><span class="p">(</span><span class="n">v3</span><span class="p">,</span> <span class="n">v4</span><span class="p">),</span> <span class="n">v5</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">addVectors</span><span class="p">(</span><span class="n">v6</span><span class="p">,</span> <span class="n">v7</span><span class="p">),</span> <span class="n">v8</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">scalarMult(s,</span> <span class="pre">v)</span></code> that takes a number, <code class="docutils literal"><span class="pre">s</span></code>, and a
+array, <code class="docutils literal"><span class="pre">v</span></code> and returns the <a class="reference external" href="http://en.wikipedia.org/wiki/Scalar_multiple">scalar multiple</a> of <code class="docutils literal"><span class="pre">v</span></code> by <code class="docutils literal"><span class="pre">s</span></code>:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">scalarMult</span><span class="p">(</span><span class="m">5.5</span><span class="p">,</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">}),</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">5.5</span><span class="p">,</span> <span class="m">11.0</span><span class="p">});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">scalarMult</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">}),</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span><span class="m">3</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="p">-</span><span class="m">3</span><span class="p">});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">scalarMult</span><span class="p">(</span><span class="m">7</span><span class="p">,</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span> <span class="m">3</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">11</span><span class="p">,</span> <span class="m">2</span> <span class="p">}),</span>
+                            <span class="k">new</span> <span class="kt">double</span><span class="p">[]</span> <span class="p">{</span> <span class="m">21</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">35</span><span class="p">,</span> <span class="m">77</span><span class="p">,</span> <span class="m">14</span> <span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first"><em>Extra challenge for the mathematically inclined</em>: Write a method
+<code class="docutils literal"><span class="pre">crossProduct(u,</span> <span class="pre">v)</span></code> that takes two arrays of doubles of length 3 and
+returns their <a class="reference external" href="http://en.wikipedia.org/wiki/Cross_product">cross product</a>.
+Write your own tests.</p>
+</li>
+<li><p class="first">In the chapter on Iteration we had two problems (the Drunk Pirate, and Tess draws a House)
+that used &#8220;parallel arrays&#8221;: we had an array of <code class="docutils literal"><span class="pre">turns</span></code> for the angle to turn the turtle,
+and an array <code class="docutils literal"><span class="pre">steps</span></code> for the distance to move the turtle.  The i&#8217;th element of the one array was
+(implicitly) associated with the i&#8217;th element of the other array.</p>
+<p>Re-solve those problems using a jagged array instead.  Each row in the outer array contains
+an inner array with two elements &#8212; a step and a turn.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="lists.html" title="15. Lists"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="classes_and_objects_0.html" title="13. Classes and Objects — an Overview"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

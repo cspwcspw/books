@@ -1,0 +1,446 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Some Tips, Tricks, and Common Errors &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="GNU Free Documentation License" href="fdl-1.3.html" />
+    <link rel="prev" title="Customizing and Contributing to the Book" href="app_d.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="fdl-1.3.html" title="GNU Free Documentation License"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="app_d.html" title="Customizing and Contributing to the Book"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="some-tips-tricks-and-common-errors">
+<h1>Some Tips, Tricks, and Common Errors<a class="headerlink" href="#some-tips-tricks-and-common-errors" title="Permalink to this headline">¶</a></h1>
+<p>These are small summaries of ideas, tips, and commonly seen errors that might be
+helpful to those beginning Python.</p>
+<div class="section" id="functions">
+<span id="index-0"></span><h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>Functions help us with our mental chunking: they allow us to group together statements
+for a high-level purpose, e.g. a function to sort a list of items, a function to make
+the turtle draw a spiral, or a function to compute the mean and standard deviation of some
+measurements.</p>
+<p>There are two kinds of functions: fruitful, or value-returning functions, which <em>calculate and return a value</em>, and we use them
+because we’re primarily interested in the value they’ll return.  Void (non-fruitful) functions
+are used because they <em>perform actions</em> that we want done — e.g. make a turtle draw a rectangle, or
+print the first thousand prime numbers.  They always return <code class="docutils literal notranslate"><span class="pre">None</span></code> — a special dummy value.</p>
+<div class="admonition-tip-none-is-not-a-string admonition">
+<p class="first admonition-title">Tip: <code class="docutils literal notranslate"><span class="pre">None</span></code> is not a string</p>
+<p class="last">Values like <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">False</span></code> are not strings: they are special values
+in Python, and are in the list of keywords we gave in chapter 2 (Variables, expressions, and statements).  Keywords are special
+in the language: they are part of the syntax. So we cannot create our own
+variable or function with a name <code class="docutils literal notranslate"><span class="pre">True</span></code> — we’ll get a syntax error.
+(Built-in functions are not privileged like keywords: we can define our own
+variable or function called <code class="docutils literal notranslate"><span class="pre">len</span></code>, but we’d be silly to do so!)</p>
+</div>
+<p>Along with the fruitful/void families of functions, there are two flavors of the
+<code class="docutils literal notranslate"><span class="pre">return</span></code> statement in Python: one that returns
+a useful value, and the other that returns nothing, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.   And if we get to the end of
+any function and we have not explicitly executed any <code class="docutils literal notranslate"><span class="pre">return</span></code> statement, Python automatically
+returns the value <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<div class="admonition-tip-understand-what-the-function-needs-to-return admonition">
+<p class="first admonition-title">Tip: Understand what the function needs to return</p>
+<p class="last">Perhaps nothing — some functions exists purely to perform actions rather than to
+calculate and return a result.  But if the function should return a value, make sure
+all execution paths do return the value.</p>
+</div>
+<p>To make functions more useful, they are given <em>parameters</em>.  So a function to make a turtle draw
+a square might have two parameters — one for the turtle that needs to do the drawing, and another
+for the size of the square.  See the first example in Chapter 4 (Functions) — that function can be used with any turtle,
+and for any size square.  So it is much more general than a function that always uses a specific turtle,
+say <code class="docutils literal notranslate"><span class="pre">tess</span></code> to draw a square of a specific size, say 30.</p>
+<div class="admonition-tip-use-parameters-to-generalize-functions admonition">
+<p class="first admonition-title">Tip: Use parameters to generalize functions</p>
+<p class="last">Understand which parts of the function will be hard-coded and unchangeable, and which parts
+should become parameters so that they can be customized by the caller of the function.</p>
+</div>
+<div class="admonition-tip-try-to-relate-python-functions-to-ideas-we-already-know admonition">
+<p class="first admonition-title">Tip: Try to relate Python functions to ideas we already know</p>
+<p class="last">In math, we’re familiar with functions like  <code class="docutils literal notranslate"><span class="pre">f(x)</span> <span class="pre">=</span> <span class="pre">3x</span> <span class="pre">+</span> <span class="pre">5</span></code>.  We already understand
+that when we call the function <code class="docutils literal notranslate"><span class="pre">f(3)</span></code> we make some association between the parameter x
+and the argument 3. Try to draw parallels to argument passing in Python.</p>
+</div>
+<p>Quiz:  Is the function <code class="docutils literal notranslate"><span class="pre">f(z)</span> <span class="pre">=</span> <span class="pre">3z</span> <span class="pre">+</span> <span class="pre">5</span></code> the same as function <code class="docutils literal notranslate"><span class="pre">f</span></code> above?</p>
+<div class="section" id="problems-with-logic-and-flow-of-control">
+<span id="index-1"></span><h3>Problems with logic and flow of control<a class="headerlink" href="#problems-with-logic-and-flow-of-control" title="Permalink to this headline">¶</a></h3>
+<p>We often want to know if some condition holds for any item in a list, e.g. “does the list have any odd numbers?”
+This is a common mistake:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">any_odd</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>  <span class="c1"># Buggy version</span>
+    <span class="sd">&quot;&quot;&quot; Return True if there is an odd number in xs, a list of integers. &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
+       <span class="k">if</span> <span class="n">v</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+           <span class="k">return</span> <span class="kc">True</span>
+       <span class="k">else</span><span class="p">:</span>
+           <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Can we spot two problems here?  As soon as we execute a <code class="docutils literal notranslate"><span class="pre">return</span></code>, we’ll leave the function.
+So the logic of saying “If I find an odd number I can return <code class="docutils literal notranslate"><span class="pre">True</span></code>” is fine.  However, we cannot
+return <code class="docutils literal notranslate"><span class="pre">False</span></code> after only looking at one item — we can only return <code class="docutils literal notranslate"><span class="pre">False</span></code> if we’ve been through
+all the items, and none of them are odd.  So line 6 should not be there, and line 7 has to be
+outside the loop.  To find the second problem above, consider what happens if you call this function
+with an argument that is an empty list.  Here is a corrected version:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">any_odd</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return True if there is an odd number in xs, a list of integers. &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
+       <span class="k">if</span> <span class="n">v</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+           <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This “eureka”, or “short-circuit” style of returning from a function as
+soon as we are certain what the outcome will be
+was first seen in Section 8.10, in the chapter on strings.</p>
+<p>It is preferred over this one, which also works correctly:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">any_odd</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return True if there is an odd number in xs, a list of integers. &quot;&quot;&quot;</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
+       <span class="k">if</span> <span class="n">v</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+          <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>    <span class="c1"># Count the odd numbers</span>
+    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+       <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The performance disadvantage of this one is that it traverses the whole list,
+even if it knows the outcome very early on.</p>
+<div class="admonition-tip-think-about-the-return-conditions-of-the-function admonition">
+<p class="first admonition-title">Tip: Think about the return conditions of the function</p>
+<p class="last">Do I need to look at all elements in all cases?  Can I shortcut and take an
+early exit?  Under what conditions?  When will I have to examine all the items
+in the list?</p>
+</div>
+<p>The code in lines 7-10 can also be tightened up.  The expression <code class="docutils literal notranslate"><span class="pre">count</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>
+evaluates to a Boolean value, either <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>.  The value can be used
+directly in the <code class="docutils literal notranslate"><span class="pre">return</span></code> statement.   So we could cut out that code and simply
+have the following:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">any_odd</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return True if there is an odd number in xs, a list of integers. &quot;&quot;&quot;</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
+       <span class="k">if</span> <span class="n">v</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+          <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>   <span class="c1"># Count the odd numbers</span>
+    <span class="k">return</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>   <span class="c1"># Aha! a programmer who understands that Boolean</span>
+                       <span class="c1">#   expressions are not just used in if statements!</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Although this code is tighter, it is not as nice as the one that did the short-circuit
+return as soon as the first odd number was found.</p>
+<div class="admonition-tip-generalize-your-use-of-booleans admonition">
+<p class="first admonition-title">Tip: Generalize your use of Booleans</p>
+<p class="last">Mature programmers won’t write <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">is_prime(n)</span> <span class="pre">==</span> <span class="pre">True:</span></code> when they could
+say instead   <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">is_prime(n):</span></code>    Think more generally about Boolean values,
+not just in the context of <code class="docutils literal notranslate"><span class="pre">if</span></code> or <code class="docutils literal notranslate"><span class="pre">while</span></code> statements.  Like arithmetic
+expressions, they have their own set of operators (<code class="docutils literal notranslate"><span class="pre">and</span></code>, <code class="docutils literal notranslate"><span class="pre">or</span></code>, <code class="docutils literal notranslate"><span class="pre">not</span></code>) and
+values (<code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code>) and can be assigned to variables, put into lists, etc.
+A good resource for improving your use of Booleans is
+<a class="reference external" href="http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Boolean_Expressions">http://en.wikibooks.org/wiki/Non-Programmer%27s_Tutorial_for_Python_3/Boolean_Expressions</a></p>
+</div>
+<p>Exercise time:</p>
+<ul class="simple">
+<li>How would we adapt this to make another function which returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if <em>all</em> the numbers are odd?
+Can you still use a short-circuit style?</li>
+<li>How would we adapt it to return <code class="docutils literal notranslate"><span class="pre">True</span></code> if at least three of the numbers are odd?  Short-circuit the traversal
+when the third odd number is found — don’t traverse the whole list unless we have to.</li>
+</ul>
+</div>
+<div class="section" id="local-variables">
+<span id="index-2"></span><h3>Local variables<a class="headerlink" href="#local-variables" title="Permalink to this headline">¶</a></h3>
+<p>Functions are called, or activated, and while they’re busy they create their own stack frame which holds local
+variables.  A local variable is one that belongs to the current activation.  As soon as the function returns
+(whether from an explicit return statement or because Python reached the last statement), the stack frame
+and its local variables are all destroyed.  The important consequence of this is that a function cannot use
+its own variables to remember any kind of state between different activations.  It cannot count how many
+times it has been called, or remember to switch colors between red and blue UNLESS it makes use of variables
+that are global.  Global variables will survive even after our function has exited, so they are the
+correct way to maintain information between calls.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">sz</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">def</span> <span class="nf">h2</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Draw the next step of a spiral on each call. &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">sz</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">turn</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">sz</span><span class="p">)</span>
+    <span class="n">sz</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This fragment assumes our turtle is <code class="docutils literal notranslate"><span class="pre">tess</span></code>.  Each time we call <code class="docutils literal notranslate"><span class="pre">h2()</span></code> it turns, draws, and increases
+the global variable <code class="docutils literal notranslate"><span class="pre">sz</span></code>.  Python always assumes that an assignment to a variable (as in line 7) means
+that we want a new local variable, unless we’ve provided a <code class="docutils literal notranslate"><span class="pre">global</span></code> declaration (on line 4).  So
+leaving out the global declaration means this does not work.</p>
+<div class="admonition-tip-local-variables-do-not-survive-when-you-exit-the-function admonition">
+<p class="first admonition-title">Tip: Local variables do not survive when you exit the function</p>
+<p class="last">Use a Python visualizer like the one at <a class="reference external" href="http://pythontutor.com/">http://pythontutor.com/</a> to build a
+strong understanding of function calls, stack frames, local variables, and function returns.</p>
+</div>
+<div class="admonition-tip-assignment-in-a-function-creates-a-local-variable admonition">
+<p class="first admonition-title">Tip: Assignment in a function creates a local variable</p>
+<p class="last">Any assignment to a variable within a function means Python will make a local variable,
+unless we override with <code class="docutils literal notranslate"><span class="pre">global</span></code>.</p>
+</div>
+</div>
+<div class="section" id="event-handler-functions">
+<span id="index-3"></span><h3>Event handler functions<a class="headerlink" href="#event-handler-functions" title="Permalink to this headline">¶</a></h3>
+<p>Our chapter on event handling showed three different kinds of events that we could handle.
+They each have their own subtle points that can trip us up.</p>
+<ul class="simple">
+<li>Event handlers are void functions — they don’t return any values.</li>
+<li>They’re automatically called by the Python interpreter in response to an event,
+so we don’t get to see the code that calls them.</li>
+<li>A mouse-click event passes two coordinate arguments to its handler, so when we write this handler
+we have to provide for two parameters (usually named <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>).
+This is how the handler knows where the mouse click occurred.</li>
+<li>A keypress event handler has to be bound to the key it responds to.  There is a messy extra step
+when using keypresses: we have to remember to issue a <code class="docutils literal notranslate"><span class="pre">wn.listen()</span></code> before our program will
+receive any keypresses.  But if the user presses the key 10 times, the handler will be called ten times.</li>
+<li>Using a timer to create a future-dated event only causes one call to the handler.  If we want
+repeated periodic handler activations, then from within the handler we
+call <code class="docutils literal notranslate"><span class="pre">wn.ontimer(....)</span></code> to set up the next event.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="string-handling">
+<span id="index-4"></span><h2>String handling<a class="headerlink" href="#string-handling" title="Permalink to this headline">¶</a></h2>
+<p>There are only four <em>really</em> important operations on strings, and we’ll be able to do
+just about anything.  There are many more nice-to-have methods
+(we’ll call them sugar coating)
+that can make life easier, but if we can work with the basic four operations
+smoothly, we’ll have a great grounding.</p>
+<ul class="simple">
+<li>len(str)  finds the length of a string.</li>
+<li>str[i]    the subscript operation extracts the i’th character of the string, as a new string.</li>
+<li>str[i:j]  the slice operation extracts a substring out of a string.</li>
+<li>str.find(target) returns the index where target occurs within the string, or -1 if it is not found.</li>
+</ul>
+<p>So if we need to know if “snake” occurs as a substring within <code class="docutils literal notranslate"><span class="pre">s</span></code>, we could write</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;snake&quot;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>  <span class="o">...</span>
+<span class="k">if</span> <span class="s2">&quot;snake&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span> <span class="o">...</span>           <span class="c1"># Also works, nice-to-know sugar coating!</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>It would be wrong to split the string into words unless we were asked whether the <em>word</em> “snake”
+occurred in the string.</p>
+<p>Suppose we’re asked to read some lines of data and find function definitions, e.g.: <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">some_function_name(x,</span> <span class="pre">y):</span></code>,
+and we are further asked to isolate and work with the name of the function. (Let’s say, print it.)</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;...&quot;</span>                         <span class="c1"># Get the next line from somewhere</span>
+<span class="n">def_pos</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;def &quot;</span><span class="p">)</span>          <span class="c1"># Look for &quot;def &quot; in the line</span>
+<span class="k">if</span> <span class="n">def_pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>                  <span class="c1"># If it occurs at the left margin</span>
+  <span class="n">op_index</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)</span>          <span class="c1"># Find the index of the open parenthesis</span>
+  <span class="n">fnname</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="n">op_index</span><span class="p">]</span>          <span class="c1"># Slice out the function name</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">fnname</span><span class="p">)</span>                   <span class="c1"># ... and work with it.</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>One can extend these ideas:</p>
+<ul class="simple">
+<li>What if the function def was indented, and didn’t start at column 0?
+The code would need a bit of adjustment, and we’d probably want to be sure that
+all the characters in front of the <code class="docutils literal notranslate"><span class="pre">def_pos</span></code> position were spaces. We would not want to
+do the wrong thing on data like this:  <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">I</span> <span class="pre">def</span> <span class="pre">initely</span> <span class="pre">like</span> <span class="pre">Python!</span></code></li>
+<li>We’ve assumed on line 3 that we will find an open parenthesis.  It may need to
+be checked that we did!</li>
+<li>We have also assumed that there was exactly one space between the keyword <code class="docutils literal notranslate"><span class="pre">def</span></code> and
+the start of the function name.  It will not work nicely for <code class="docutils literal notranslate"><span class="pre">def</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">f(x)</span></code></li>
+</ul>
+<p>As we’ve already mentioned, there are many more “sugar-coated” methods that let us
+work more easily with strings.  There is an <code class="docutils literal notranslate"><span class="pre">rfind</span></code> method, like <code class="docutils literal notranslate"><span class="pre">find</span></code>, that searches from the
+end of the string backwards.  It is useful if we want to find the last occurrence of something.
+The <code class="docutils literal notranslate"><span class="pre">lower</span></code> and <code class="docutils literal notranslate"><span class="pre">upper</span></code> methods can do case conversion.  And the <code class="docutils literal notranslate"><span class="pre">split</span></code> method is great for
+breaking a string into a list of words, or into a list of lines.  We’ve also made extensive use
+in this book of the <code class="docutils literal notranslate"><span class="pre">format</span></code> method. In fact, if we want to
+practice reading the Python documentation and learning some new methods on our own, the
+string methods are an excellent resource.</p>
+<p>Exercises:</p>
+<ul class="simple">
+<li>Suppose any line of text can contain at most one url that starts with “<a class="reference external" href="http://">http://</a>”
+and ends at the next space in the line.  Write a fragment of code to
+extract and print the full url if it is present.  (Hint: read the documentation
+for <code class="docutils literal notranslate"><span class="pre">find</span></code>.  It takes some extra arguments, so you can set a starting point
+from which it will search.)</li>
+<li>Suppose a string contains at most one substring “&lt; … &gt;”.  Write a fragment of code to
+extract and print the portion of the string between the angle brackets.</li>
+</ul>
+</div>
+<div class="section" id="looping-and-lists">
+<h2>Looping and lists<a class="headerlink" href="#looping-and-lists" title="Permalink to this headline">¶</a></h2>
+<p>Computers are useful because they can repeat computation, accurately and fast.
+So loops are going to be a central feature of almost all programs you encounter.</p>
+<div class="admonition-tip-don-t-create-unnecessary-lists admonition">
+<p class="first admonition-title">Tip: Don’t create unnecessary lists</p>
+<p class="last">Lists are useful if you need to keep data for later computation.  But if you
+don’t need lists, it is probably better not to generate them.</p>
+</div>
+<p>Here are two functions that both generate ten million random numbers, and return
+the sum of the numbers.  They both work.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="n">joe</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">sum1</span><span class="p">():</span>
+   <span class="sd">&quot;&quot;&quot; Build a list of random numbers, then sum them &quot;&quot;&quot;</span>
+   <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000000</span><span class="p">):</span>
+       <span class="n">num</span> <span class="o">=</span> <span class="n">joe</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>  <span class="c1"># Generate one random number</span>
+       <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>             <span class="c1"># Save it in our list</span>
+
+   <span class="n">tot</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">tot</span>
+
+<span class="k">def</span> <span class="nf">sum2</span><span class="p">():</span>
+   <span class="sd">&quot;&quot;&quot; Sum the random numbers as we generate them &quot;&quot;&quot;</span>
+   <span class="n">tot</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000000</span><span class="p">):</span>
+       <span class="n">num</span> <span class="o">=</span> <span class="n">joe</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+       <span class="n">tot</span> <span class="o">+=</span> <span class="n">num</span>
+   <span class="k">return</span> <span class="n">tot</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">sum1</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sum2</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>What reasons are there for preferring the second version here?
+(Hint: open a tool like the Performance Monitor on your computer, and watch the memory
+usage. How big can you make the list before you get a fatal memory error in <code class="docutils literal notranslate"><span class="pre">sum1</span></code>?)</p>
+<p>In a similar way, when working with files, we often have an option to read the whole file
+contents into a single string, or we can read one line at a time and process
+each line as we read it. Line-at-a-time is the more traditional and perhaps
+safer way to do things — you’ll be able to work comfortably no matter how
+large the file is. (And, of course, this mode of processing the files was
+essential in the old days when computer memories were much smaller.)
+But you may find whole-file-at-once is sometimes more convenient!</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="fdl-1.3.html" title="GNU Free Documentation License"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="app_d.html" title="Customizing and Contributing to the Book"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+﻿<Application x:Class="Fragments.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Fragments_main.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

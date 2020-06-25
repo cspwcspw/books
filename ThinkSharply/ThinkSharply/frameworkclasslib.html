@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>23. The .NET Framework &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="24. Scope and Lifetime" href="scope_and_lifetime.html" />
+    <link rel="prev" title="22. Exceptions" href="exceptions.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="scope_and_lifetime.html" title="24. Scope and Lifetime"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="22. Exceptions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-net-framework">
+<h1>23. The .NET Framework<a class="headerlink" href="#the-net-framework" title="Permalink to this headline">¶</a></h1>
+<p>The .NET framework is a software framework developed by Microsoft.
+It has two main parts:</p>
+<div class="sidebar">
+<p class="first sidebar-title">Just how big is this library?</p>
+<p class="last">If we believe some of the claims on the
+Internet, more than 10000 classes which provide more than
+300000 methods that we can call!</p>
+</div>
+<ul>
+<li><p class="first">A large collection of pre-written classes called the <em>.NET Framework
+Class Library</em> (see <a class="reference external" href="http://msdn.microsoft.com/en-us/library/gg145045.aspx">http://msdn.microsoft.com/en-us/library/gg145045.aspx</a>)
+that we can use when we write our programs.</p>
+</li>
+<li><p class="first">A component called the Common Language Runtime (CLR).  This is a software
+environment (as opposed to a hardware environment) that runs our programs
+for us.  It provides services like debugging, exception handling,
+security, and management of memory for our programs.</p>
+<p>As the &#8220;common&#8221; part of the name suggests, the CLR can run many different languages,
+not just C#. So we could write our programs in languages like Visual Basic,
+C#, F#, C++, Haskell, Ruby (or about 50 others).  We can even write programs
+that mix components from different languages.</p>
+<p>They all share the same Framework Class Library, so learning a bit about this
+library here will be useful when we move to another .NET programming language in future.</p>
+</li>
+</ul>
+<p>Other mainstream languages like Java and Python also have huge libraries.
+These libraries help for all kinds of scenarios &#8212; accessing the network,
+working with files, doing mathematical calculations, organizing collections,
+encryption, writing web servers, and so on.</p>
+<p>When we see adverts that want to hire &#8220;experienced C# programmers&#8221; or
+&#8220;experienced Java programmers&#8221;, it really means &#8220;knows the language,
+and also knows their way around some of the important libraries&#8221;.</p>
+<p>We&#8217;ve used many of the libraries already in this book: every time we
+have a <code class="docutils literal"><span class="pre">using</span></code> directive we&#8217;re telling the compiler that we want
+to use some or other functionality from a library.</p>
+<p>So for the rest of this chapter we&#8217;ll just pick a few small samples,
+we&#8217;ll show how to use them, and we&#8217;ll discuss a couple of new C#
+language features that are related.</p>
+<span class="target" id="random-numbers"></span><div class="section" id="index-0">
+<span id="id1"></span><h2>23.1. Random numbers<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
+<p>Although we&#8217;ve seen them before in the book, we&#8217;ll cover the Random class again.
+Here are a few typical uses of random numbers:</p>
+<ul class="simple">
+<li>To play a game of chance where the computer needs to throw some dice, pick a number,
+or flip a coin,</li>
+<li>To shuffle a deck of playing cards randomly,</li>
+<li>To allow/make an enemy spaceship appear at a random location and start
+shooting at the player,</li>
+<li>To simulate possible rainfall when we make a computerized model for
+estimating the environmental impact of building a dam,</li>
+<li>For encrypting banking sessions on the Internet.</li>
+</ul>
+<p>C# provides a class <code class="docutils literal"><span class="pre">Random</span></code> that helps with tasks like this.  We can
+look it up using help, but here are the key things we&#8217;ll do with it:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Windows</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">Fragments</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">RandomDemoGUI</span> <span class="p">:</span> <span class="n">Window</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="n">Random</span> <span class="n">myRandomSource</span><span class="p">;</span>
+</span>
+        <span class="k">public</span> <span class="nf">RandomDemoGUI</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">InitializeComponent</span><span class="p">();</span>
+<span class="hll">            <span class="n">myRandomSource</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+</span>        <span class="p">}</span>
+
+        <span class="k">private</span> <span class="k">void</span> <span class="nf">btnRandom_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// Pick two (different) random cards from a deck of cards numbered 0 to 51.</span>
+
+<span class="hll">            <span class="kt">int</span> <span class="n">card1</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">52</span><span class="p">);</span>
+</span><span class="hll">            <span class="kt">int</span> <span class="n">card2</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">52</span><span class="p">);</span>
+</span>            <span class="k">while</span> <span class="p">(</span><span class="n">card2</span> <span class="p">==</span> <span class="n">card1</span><span class="p">)</span>  <span class="c1">// oops. try again till we get a different second card.</span>
+            <span class="p">{</span>
+<span class="hll">                <span class="n">card2</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">52</span><span class="p">);</span>
+</span>            <span class="p">}</span>
+            <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;The two cards are {0} and {1}\n&quot;</span><span class="p">,</span> <span class="n">card1</span><span class="p">,</span> <span class="n">card2</span><span class="p">));</span>
+            <span class="n">txtResult</span><span class="p">.</span><span class="n">ScrollToEnd</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 8 defines a variable that can reference a Random number generator object.
+Line 13 instantiates the object, and makes our variable reference it.  Then
+in lines 20, 21 and 24 we call a method of the object.</p>
+<p>The <code class="docutils literal"><span class="pre">Next</span></code> call randomly picks an integer less than the upper bound argument.
+All the values have an equal probability of occurring
+(i.e. the results are <em>uniformly</em> distributed).</p>
+<p>The <code class="docutils literal"><span class="pre">Next</span></code> method has another overloading that allows us to specify both a lower bound
+and an upper bound. The lower bound is inclusive (the generator might pick it),
+while the upper bound is exclusive.  Of we don&#8217;t supply a lower bound, 0 is used.
+So if we want to throw two dice, and the outcome for each
+needs to be an integer between 1 and 6 (inclusive), we could do it in either of
+two ways:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="kt">int</span> <span class="n">d1</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">7</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">d2</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">6</span><span class="p">)</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal"><span class="pre">NextDouble</span></code> method returns a floating point number in the interval [0.0, 1.0) &#8212; the
+square bracket means &#8220;closed interval on the left&#8221; and the round parenthesis means
+&#8220;open interval on the right&#8221;.  In other words, 0.0 is possible, but all returned
+numbers will be strictly less than 1.0.  It is usual to <em>scale</em> the results after
+calling this method, to get them into an interval suitable for our application.  In the
+case shown below, we generate a uniformly distributed double random number in the range [20, 27.5):
+(Hey, that&#8217;s quite a mouthful of dense terminology &#8212; <em>&#8220;uniformly distributed double random number&#8221;</em>.
+So it says a lot!)</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">double</span> <span class="n">num</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">NextDouble</span><span class="p">()</span> <span class="p">*</span> <span class="m">7.5</span> <span class="p">+</span> <span class="m">20</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Where did the 7.5 and the 20 come from?  Well the size of the range is 27.5-20, or 7.5.  So
+once we&#8217;ve generated the random number in the range [0.0, 1.0) we scale it by multiplication.
+(We might like to think of scaling as stretching the number line like a rubber band.)
+That will leave us with a random number in the range [0.0, 7.5).   Then we&#8217;ll add 20
+to give us a number in the range we want.</p>
+</div>
+<div class="section" id="repeatability-and-testing">
+<span id="index-1"></span><h2>23.2. Repeatability and Testing<a class="headerlink" href="#repeatability-and-testing" title="Permalink to this headline">¶</a></h2>
+<p>Random number generators are based on a <strong>deterministic</strong> algorithm &#8212; repeatable and predictable.
+So they&#8217;re called <strong>pseudo-random</strong> generators &#8212; they are not genuinely random, like flipping
+a coin or throwing some dice.
+They start with a <em>seed</em> value. Each time we ask for another random number, we&#8217;ll get
+one based on the current seed, and the seed itself will be updated for next time.</p>
+<p>If we&#8217;re interested, we can put a breakpoint in our code and inspect the internal state of
+the generator.  It uses an array of 56 integers &#8212; or 1792 bits &#8212; as its seed.</p>
+<img alt="_images/randomGeneratorInspection.png" src="_images/randomGeneratorInspection.png" />
+<p>For debugging and for writing unit tests, it is convenient
+to have repeatability &#8212; programs that do the same thing every time they are run.
+We can arrange this by forcing the random number generator to be initialized with
+a known seed every time.  (Often this is only wanted during testing &#8212; playing a game
+of cards where the shuffled deck was always in the same order as last time we played
+would quickly become boring!)</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">myRandomSource</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>  <span class="c1">// Create a generator with known starting seed</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This alternative way of instantiating a random number generator provides an explicit
+starting seed.   Without this argument, the system probably uses something based
+on the time.  So with a fixed starting seed, grabbing some random numbers from
+<code class="docutils literal"><span class="pre">myRandomSource</span></code> today will give us precisely the same random sequence as it
+will tomorrow!  Try it!</p>
+</div>
+<div class="section" id="access-modifiers-public-private-internal-and-protected">
+<h2>23.3. Access Modifiers &#8212; <code class="docutils literal"><span class="pre">public</span></code>, <code class="docutils literal"><span class="pre">private</span></code>, <code class="docutils literal"><span class="pre">internal</span></code> and <code class="docutils literal"><span class="pre">protected</span></code><a class="headerlink" href="#access-modifiers-public-private-internal-and-protected" title="Permalink to this headline">¶</a></h2>
+<p>As we start combining libraries and building bigger programs we require
+some control over &#8220;which parts of the program can use which methods or
+properties&#8221;.  For example, look above at where we inspected the state of
+<code class="docutils literal"><span class="pre">myRandomSource</span></code>.  It holds some state in an array called <code class="docutils literal"><span class="pre">SeedArray</span></code>.</p>
+<p>Even though this array exists in the object, there is no way for our program
+to either read or alter the elements of the array.  This is because the
+array is defined with an <strong>access modifier</strong> <code class="docutils literal"><span class="pre">private</span></code>.</p>
+<p>Any <strong>member</strong> of a class (a member could be a variable, a method, a type, or some other things)
+in a class that is tagged as <code class="docutils literal"><span class="pre">private</span></code> means &#8220;cannot be used from outside this class&#8221;.
+Methods within the class can use other private methods, or private variables and types.</p>
+<p>The opposite of <code class="docutils literal"><span class="pre">private</span></code> access is <code class="docutils literal"><span class="pre">public</span></code> access.  A member that is tagged
+as public can be called and used from other code in other classes.</p>
+<p>When our programs get bigger we find that the &#8220;all-or-nothing&#8221; distinction
+that  <code class="docutils literal"><span class="pre">public</span></code> and <code class="docutils literal"><span class="pre">private</span></code> gives us sometimes needs to be more refined.
+<code class="docutils literal"><span class="pre">internal</span></code> and <code class="docutils literal"><span class="pre">protected</span></code> access modifiers give us these in-between capabilities.</p>
+<p><code class="docutils literal"><span class="pre">internal</span></code> access means accessible to the class and any other
+class that is part of the same project, but not accessible to
+code in other projects.</p>
+<p><code class="docutils literal"><span class="pre">protected</span></code> access means accessible to the class and any children of the class,
+but otherwise private.  We&#8217;ve seen some hierarchical organization of GUI
+types and Exception types, and we&#8217;ve talked about the <code class="docutils literal"><span class="pre">is-a</span></code> relationship
+that denotes a child-parent relationship between types.  So protected access
+means &#8220;available to my descendants&#8221;.</p>
+<p>What happens if we are lazy and don&#8217;t put any access modifier on our
+methods or variable definitions within a class?
+The default assumption in that case is the &#8220;safest&#8221; one &#8212; they&#8217;ll be private.
+(The rule is modified when something is declared in a namespace: if we don&#8217;t
+put an access modifier on our class definition, it becomes internal rather
+than public.)</p>
+<p>Keep an eye on IntelliSense when it pops up: if a member is not public, it puts an
+extra little icon into the IntelliSense: a padlock for private, a heart (why a heart?,
+I hear you ask)  and a star for protected.
+So here is a simple experiment that defines four variables
+with four different access modifiers, and seeing what we get from IntelliSense:</p>
+<img alt="_images/access_IntelliSense.png" src="_images/access_IntelliSense.png" />
+<p>Let us now revisit the sample program at the top of this chapter.
+Lines 6 and 10 are the only public modifiers. Line 6 defines a new
+kind of Window called <code class="docutils literal"><span class="pre">RandomDemoGUI</span></code>.  It is the name I chose
+for my GUI.  Our GUI window is-a Window, and it is
+public.  So any other piece of code can see this new class.  Line 10
+has the code for the <em>constructor</em> &#8212; the code that gets executed whenever
+we instantiate a new instance of this type of window.  It is also public,
+so what that means is &#8220;outsiders can create new instances of RandomDemoGUI windows.&#8221;</p>
+<p>But everything else in the class is private (including the variable <code class="docutils literal"><span class="pre">myRandomSource</span></code>,
+because we never gave it any access modifier).</p>
+</div>
+<div class="section" id="namespaces">
+<h2>23.4. Namespaces<a class="headerlink" href="#namespaces" title="Permalink to this headline">¶</a></h2>
+<p>To help organize the many classes and names in the <em>.NET Framework Class Library</em>,
+and in our own software, they are
+grouped into <strong>namespaces</strong>.  For example, the <code class="docutils literal"><span class="pre">System</span></code> namespace contains
+a number of classes: we&#8217;ve seen the <code class="docutils literal"><span class="pre">System.Math</span></code> class, the <code class="docutils literal"><span class="pre">System.Random</span></code> class
+and there are also others, like <code class="docutils literal"><span class="pre">System.GC</span></code>.    When we use a dot like this it means
+&#8220;the <code class="docutils literal"><span class="pre">Random</span></code> class in the <code class="docutils literal"><span class="pre">System</span></code> namespace.  We say the name <code class="docutils literal"><span class="pre">Random</span></code> is <em>qualified</em>.</p>
+<p>Namespaces can probably be thought of somewhat like a folder system on a disk.  If files
+are in different directories, we can have many different files called <code class="docutils literal"><span class="pre">ReadMe.txt</span></code>.
+Similarly, in C#, we can have many different classes with the same name, as long
+as we keep them in separate namespaces.</p>
+<p>When we put <code class="docutils literal"><span class="pre">using</span></code> directives in our code (line 1 of the sample program at the top
+of this chapter), it tells the compiler to automatically search those namespaces.
+So when we use a &#8220;shorthand&#8221; type name like <code class="docutils literal"><span class="pre">Random</span></code> or <code class="docutils literal"><span class="pre">Turtle</span></code>,
+or <code class="docutils literal"><span class="pre">File</span></code>, the compiler will search in the namespaces and know that
+we mean <code class="docutils literal"><span class="pre">System.Random</span></code>, <code class="docutils literal"><span class="pre">ThinkLib.Turtle</span></code>, or <code class="docutils literal"><span class="pre">System.IO.File</span></code>.</p>
+<p>Line 4 of our program (the one at the start of this chapter) says that our new class,
+<code class="docutils literal"><span class="pre">RandomDemoGUI</span></code>, is defined
+in a namespace called <code class="docutils literal"><span class="pre">Fragments</span></code>.  The namespace is often set to be the
+same as the name of the project we choose.  So in my case, I asked Visual Studio
+to create a new WPF project called <code class="docutils literal"><span class="pre">Fragments</span></code>.  It then chose the namespace <code class="docutils literal"><span class="pre">Fragments</span></code> for me.</p>
+<p>We can comment out the <code class="docutils literal"><span class="pre">using</span></code> directives in our program, one at a time, and then
+fix any errors we get by fully qualifying the places where we use names from
+the namespace.  It should convince us that the <code class="docutils literal"><span class="pre">using</span></code> directive is not
+an essential feature of C# &#8212; it is just a convenient mechanism.  We sometimes
+call features that provide convenience (but no new functionality) <strong>syntactic sugar</strong>.</p>
+<p>Namespaces can contain other namespaces, (just as directories can contain
+other directories).  So on line 2 of our program we use the <code class="docutils literal"><span class="pre">System.Windows</span></code> namespace.
+This means that <code class="docutils literal"><span class="pre">Windows</span></code> is a namespace within the <code class="docutils literal"><span class="pre">System</span></code> namespace.
+There are also more deeply nested namespaces, like <code class="docutils literal"><span class="pre">System.Net.Security</span></code>,
+<code class="docutils literal"><span class="pre">System.Windows.Media.Imaging</span></code> and <code class="docutils literal"><span class="pre">System.Windows.Shapes</span></code>.</p>
+</div>
+<div class="section" id="the-partial-keyword">
+<h2>23.5. The <code class="docutils literal"><span class="pre">partial</span></code> keyword<a class="headerlink" href="#the-partial-keyword" title="Permalink to this headline">¶</a></h2>
+<p>There is one other special keyword in our program that deserves an explanation:
+On line 6 we have the word <code class="docutils literal"><span class="pre">partial</span></code> attached to our class.  It means that
+there can be other code elsewhere (that we don&#8217;t necessarily get to see) that
+is also part of this same class.
+In WPF programs, some of the code is generated from our window&#8217;s XAML
+which describes our GUI.  It is
+ugly, but if we want to take a peek and see the &#8220;helper code&#8221; that
+the compiler wrote for us behind our back, we can start at our project folder and
+look for any <code class="docutils literal"><span class="pre">.cs</span></code> files in the sub-folder <code class="docutils literal"><span class="pre">obj\x86\Debug</span></code>.</p>
+</div>
+<div class="section" id="you-call-it-int32-but-we-call-it-int">
+<h2>23.6. You call it &#8220;Int32&#8221;, but we call it &#8220;int&#8221;<a class="headerlink" href="#you-call-it-int32-but-we-call-it-int" title="Permalink to this headline">¶</a></h2>
+<p>Because the .Net Framework Class Library serves many languages, not
+only C#, its classes and values have names that may not always be the same as
+the names we prefer to use in C#, or in Visual Basic, or F#.  We&#8217;ve seen a few examples already:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="n">TxtSize</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+<span class="kt">string</span> <span class="n">y</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0}&quot;</span><span class="p">,</span> <span class="n">isPrime</span><span class="p">(</span><span class="m">17</span><span class="p">));</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+<span class="n">Int32</span> <span class="n">k</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<ul class="simple">
+<li>The framework has a type called <code class="docutils literal"><span class="pre">System.Int32</span></code>.  In C#, we call that same type <code class="docutils literal"><span class="pre">int</span></code>.
+If we have  a <code class="docutils literal"><span class="pre">using</span> <span class="pre">System;</span></code> directive at the top of our
+code, we can use <code class="docutils literal"><span class="pre">Int32</span></code> without having to fully qualify it, as shown on line 4 above.</li>
+<li>The framework type <code class="docutils literal"><span class="pre">System.String</span></code> with a capital letter corresponds to the C# type
+<code class="docutils literal"><span class="pre">string</span></code>.  So <code class="docutils literal"><span class="pre">String</span></code> works in our C# programs too.</li>
+<li>The framework type <code class="docutils literal"><span class="pre">System.Boolean</span></code> is an alias for the C# type <code class="docutils literal"><span class="pre">bool</span></code>.  In line 2,
+the framework also formats its Boolean values as &#8220;False&#8221; and &#8220;True&#8221; with capital letters,
+whereas in C# we prefer the values <code class="docutils literal"><span class="pre">false</span></code> and <code class="docutils literal"><span class="pre">true</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">System.Object</span></code> and the C# <code class="docutils literal"><span class="pre">object</span></code> are aliases.</li>
+</ul>
+<p>So be aware that occasionally we might see the framework spelling of a type name, or the framework
+representation of a value, rather than the preferred C# spelling.  In line 4 above, if we set a breakpoint
+and inspect <code class="docutils literal"><span class="pre">k</span></code>, we&#8217;ll notice that we&#8217;re told that it is an ordinary <code class="docutils literal"><span class="pre">int</span></code>, the same as <code class="docutils literal"><span class="pre">x</span></code>.
+This is further confirmation that the framework names and the C# names are often aliases of each other.</p>
+</div>
+<div class="section" id="glossary">
+<h2>23.7. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-access-modifier">access modifier</dt>
+<dd>In C#, one of four keywords: <code class="docutils literal"><span class="pre">public</span></code>, <code class="docutils literal"><span class="pre">private</span></code>, <code class="docutils literal"><span class="pre">internal</span></code>
+and <code class="docutils literal"><span class="pre">protected</span></code> that determine how other parts of the software
+may access (or may be restricted from accessing) a member.</dd>
+<dt id="term-deterministic">deterministic</dt>
+<dd>Something that is repeatable, and will always produce the same
+results for the same inputs.  See also non-deterministic.</dd>
+<dt id="term-member">member</dt>
+<dd>A member of a class is something that belongs to the class:
+e.g. variables, methods, properties, constructors, constants, and more.
+(See <a class="reference external" href="http://msdn.microsoft.com/en-us/library/vstudio/ms173113.aspx">http://msdn.microsoft.com/en-us/library/vstudio/ms173113.aspx</a>
+if you&#8217;re inquisitive about other kinds of members.)</dd>
+<dt id="term-namespace">namespace</dt>
+<dd>A grouping for names that helps organize software.  Namespaces
+mean that that the same common names
+can be used in different namespaces without ambiguity.
+(We probably have plenty of different
+classes called <code class="docutils literal"><span class="pre">MainWindow</span></code> if we&#8217;re doing all these textbook exercises.)</dd>
+<dt id="term-non-deterministic">non-deterministic</dt>
+<dd>Something that has an element of chance built into in. One is
+not sure when we flip a coin whether it will land on heads or tails.
+We use random number generators in programs to provide (fake) non-determinism.</dd>
+</dl>
+<div class="sidebar">
+<p class="first sidebar-title">Can real randomness ever exist?</p>
+<p>For those who enjoy physics, our universe is really
+random &#8212; no matter what we know about the state of things, we
+cannot predict with certainty what happens next.</p>
+<p>About 120 years
+ago (with Newton&#8217;s laws) we thought that if we knew what every atom
+was doing, we could (in theory) figure out exactly what the final
+state of everything would be.</p>
+<p class="last">But Quantum Theory messed up that nice fairy-tale idea.
+Quantum theory is all about our &#8220;genuinely non-deterministic&#8221;
+universe.</p>
+</div>
+<dl class="glossary docutils">
+<dt id="term-pseudo-random">pseudo-random</dt>
+<dd>Something that appears to be random, but isn&#8217;t really random.  Our
+random number generators are based on a deterministic algorithm and
+some seed value. If you know the seed, you know what the next random
+number will be. Since random numbers are used for setting up secure banking
+sessions and for encryption, one popular attack to try to break security is
+to see if one can guess what values the random number generator is going to
+produce next.</dd>
+<dt id="term-qualified-name">qualified name</dt>
+<dd>A name that is prefixed by some contextual information, e.g.
+<code class="docutils literal"><span class="pre">System.Random</span></code>, <code class="docutils literal"><span class="pre">Math.Sqrt</span></code>, or <code class="docutils literal"><span class="pre">System.IO.File</span></code>.</dd>
+<dt id="term-seed">seed</dt>
+<dd>A value which a pseudo-random number generator uses to initialize its algorithm.</dd>
+<dt id="term-syntactic-sugar">syntactic sugar</dt>
+<dd>Something that makes it sweeter or easier to express our intentions,
+but it doesn&#8217;t allow us to do anything fundamentally new.  For example,
+a <code class="docutils literal"><span class="pre">switch</span></code> statement in C# is really just syntactic sugar, because we
+could do the same thing with <code class="docutils literal"><span class="pre">if</span></code> statements.</dd>
+<dt id="term-using-directive"><code class="docutils literal"><span class="pre">using</span></code> directive</dt>
+<dd>A line at the top of a file that makes all the names in that namespace
+available without the need to qualify them.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>23.8. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>The <code class="docutils literal"><span class="pre">Random</span></code> class has a nasty surprise if you instantiate two instances
+in quick succession.  Read the &#8220;Remarks&#8221; section of the help documentation
+for <code class="docutils literal"><span class="pre">Random</span></code>, understand why there is a problem, and see if you can
+replicate their evidence.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="scope_and_lifetime.html" title="24. Scope and Lifetime"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="22. Exceptions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

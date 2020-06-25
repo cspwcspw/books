@@ -1,0 +1,377 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>19. Exceptions &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="20. Dictionaries" href="dictionaries.html" />
+    <link rel="prev" title="18. Recursion" href="recursion.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="dictionaries.html" title="20. Dictionaries"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="recursion.html" title="18. Recursion"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="exceptions">
+<h1>19. Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="catching-exceptions">
+<span id="index-0"></span><h2>19.1. Catching exceptions<a class="headerlink" href="#catching-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Whenever a runtime error occurs, it creates an <strong>exception</strong> object. The program stops
+running at this point and Python prints out the traceback, which ends with a message
+describing the exception that occurred.</p>
+<p>For example, dividing by zero creates an exception:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="mi">55</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;interactive input&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ZeroDivisionError</span>: <span class="n">integer division or modulo by zero</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>So does accessing a non-existent list item:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;interactive input&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">IndexError</span>: <span class="n">list index out of range</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Or trying to make an item assignment on a tuple:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tup</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;c&quot;</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;interactive input&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">&#39;tuple&#39; object does not support item assignment</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In each case, the error message on the last line has two parts: the type of
+error before the colon, and specifics about the error after the colon.</p>
+<p>Sometimes we want to execute an operation that might cause an exception, but we
+don’t want the program to stop. We can <strong>handle the exception</strong> using the
+<code class="docutils literal notranslate"><span class="pre">try</span></code> statement to “wrap” a region of code.</p>
+<p>For example, we might prompt the user for the name of a file and then try to
+open it. If the file doesn’t exist, we don’t want the program to crash; we want
+to handle the exception:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter a file name: &quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There is no file named&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">try</span></code> statement has three separate clauses, or parts, introduced
+by the keywords <code class="docutils literal notranslate"><span class="pre">try</span></code> … <code class="docutils literal notranslate"><span class="pre">except</span></code> … <code class="docutils literal notranslate"><span class="pre">finally</span></code>.
+Either the <code class="docutils literal notranslate"><span class="pre">except</span></code> or the <code class="docutils literal notranslate"><span class="pre">finally</span></code> clauses can be omitted, so the above code considers
+the most common version of the <code class="docutils literal notranslate"><span class="pre">try</span></code> statement first.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">try</span></code> statement executes and monitors the statements in the first block. If no
+exceptions occur, it skips the block under the <code class="docutils literal notranslate"><span class="pre">except</span></code> clause. If any exception occurs,
+it executes the statements in the <code class="docutils literal notranslate"><span class="pre">except</span></code> clause and then continues.</p>
+<p>We could encapsulate this capability in a function: <code class="docutils literal notranslate"><span class="pre">exists</span></code> which takes a filename
+and returns true if the file exists, false if it doesn’t:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition-a-template-to-test-if-a-file-exists-without-using-exceptions admonition">
+<p class="first admonition-title">A template to test if a file exists, without using exceptions</p>
+<p>The function we’ve just shown is not one we’d recommend. It opens
+and closes the file, which is semantically different from asking “does
+it exist?”. How?  Firstly, it might update some timestamps on the file.
+Secondly, it might tell us that there is no such file if some other
+program already happens to have the file open, or if our permission
+settings don’t allow us to open the file.</p>
+<p>Python provides a module called <code class="docutils literal notranslate"><span class="pre">os.path</span></code> within the <code class="docutils literal notranslate"><span class="pre">os</span></code> module. It
+provides a number of useful functions to work with paths, files and directories,
+so you should check out the help.</p>
+<blockquote class="last">
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># This is the preferred way to check if a file exists.</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s2">&quot;c:/temp/testdata.txt&quot;</span><span class="p">):</span>
+   <span class="o">...</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+</div></blockquote>
+<p>We can use multiple <code class="docutils literal notranslate"><span class="pre">except</span></code> clauses to handle different kinds of
+exceptions (see the
+<a class="reference external" href="http://docs.python.org/py3k/tutorial/errors.html">Errors and Exceptions</a>
+lesson from Python creator Guido van Rossum’s
+<a class="reference external" href="http://docs.python.org/py3k/tutorial/index.html">Python Tutorial</a>
+for a more complete discussion of exceptions).  So the program could do
+one thing if the file does not exist, but do something else if the file
+was in use by another program.</p>
+</div>
+<div class="section" id="raising-our-own-exceptions">
+<h2>19.2. Raising our own exceptions<a class="headerlink" href="#raising-our-own-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Can our program deliberately cause its own exceptions?
+If our program detects an error condition, we can <strong>raise</strong> an
+exception. Here is an example that gets input from the user and checks that the
+number is non-negative:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_age</span><span class="p">():</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter your age: &quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Create a new instance of an exception</span>
+        <span class="n">my_error</span> <span class="o">=</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> is not a valid age&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">age</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">my_error</span>
+    <span class="k">return</span> <span class="n">age</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 5 creates an exception object, in this case, a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>
+object, which encapsulates specific information about the error.
+Assume that in this case function <code class="docutils literal notranslate"><span class="pre">A</span></code> called <code class="docutils literal notranslate"><span class="pre">B</span></code> which called <code class="docutils literal notranslate"><span class="pre">C</span></code>
+which called <code class="docutils literal notranslate"><span class="pre">D</span></code> which called <code class="docutils literal notranslate"><span class="pre">get_age</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">raise</span></code> statement on line 6 carries this object out as a kind of “return value”, and
+immediately exits from <code class="docutils literal notranslate"><span class="pre">get_age()</span></code> to its caller <code class="docutils literal notranslate"><span class="pre">D</span></code>.
+Then <code class="docutils literal notranslate"><span class="pre">D</span></code> again exits to its caller <code class="docutils literal notranslate"><span class="pre">C</span></code>, and  <code class="docutils literal notranslate"><span class="pre">C</span></code> exits to <code class="docutils literal notranslate"><span class="pre">B</span></code> and so on, each
+returning the exception object to their caller, until it
+encounters a <code class="docutils literal notranslate"><span class="pre">try</span> <span class="pre">...</span> <span class="pre">except</span></code> that can handle the exception.   We call this
+“unwinding the call stack”.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is one of the built-in exception types which most closely
+matches the kind of error we want to raise. The complete listing of
+built-in exceptions can be found at the
+<a class="reference external" href="http://docs.python.org/py3k/library/exceptions.html">Built-in Exceptions</a>
+section of the
+<a class="reference external" href="http://docs.python.org/py3k/library/index.html">Python Library Reference</a>
+, again by Python’s creator, Guido van Rossum.</p>
+<p>If the function that called <code class="docutils literal notranslate"><span class="pre">get_age</span></code> (or its caller, or their caller, …)
+handles the error, then the program can
+carry on running; otherwise, Python prints the traceback and exits:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_age</span><span class="p">()</span>
+<span class="go">Please enter your age: 42</span>
+<span class="go">42</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_age</span><span class="p">()</span>
+<span class="go">Please enter your age: -2</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;interactive input&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+  File <span class="nb">&quot;learn_exceptions.py&quot;</span>, line <span class="m">4</span>, in <span class="n">get_age</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> is not a valid age&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">age</span><span class="p">))</span>
+<span class="gr">ValueError</span>: <span class="n">-2 is not a valid age</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The error message includes the exception type and the additional information
+that was provided when the exception object was first created.</p>
+<p>It is often the case that lines 5 and 6 (creating the exception object, then raising
+the exception) are combined into a single statement, but there are really two different
+and independent things happening, so perhaps it makes sense to keep the two
+steps separate when we first learn to work with exceptions.
+Here we show it all in a single statement:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> is not a valid age&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">age</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="revisiting-an-earlier-example">
+<h2>19.3. Revisiting an earlier example<a class="headerlink" href="#revisiting-an-earlier-example" title="Permalink to this headline">¶</a></h2>
+<p>Using exception handling, we can now modify our <code class="docutils literal notranslate"><span class="pre">recursion_depth</span></code> example
+from the previous chapter so that it stops when it reaches the
+maximum recursion depth allowed:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">recursion_depth</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recursion depth number&quot;</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">recursion_depth</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I cannot go any deeper into this wormhole.&quot;</span><span class="p">)</span>
+
+<span class="n">recursion_depth</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Run this version and observe the results.</p>
+</div>
+<div class="section" id="the-finally-clause-of-the-try-statement">
+<span id="index-1"></span><h2>19.4. The <code class="docutils literal notranslate"><span class="pre">finally</span></code> clause of the <code class="docutils literal notranslate"><span class="pre">try</span></code> statement<a class="headerlink" href="#the-finally-clause-of-the-try-statement" title="Permalink to this headline">¶</a></h2>
+<p>A common programming pattern is to grab a resource of some kind — e.g.
+we create a window for turtles to draw on, or we dial up a connection to our
+internet service provider, or we may open a file for writing.
+Then we perform some computation which may raise an exception,
+or may work without any problems.</p>
+<p>Whatever happens, we want to “clean up” the resources we grabbed — e.g. close
+the window, disconnect our dial-up connection, or close the file.  The <code class="docutils literal notranslate"><span class="pre">finally</span></code>
+clause of the <code class="docutils literal notranslate"><span class="pre">try</span></code> statement is the way to do just this.  Consider
+this (somewhat contrived) example:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">turtle</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">show_poly</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Screen</span><span class="p">()</span>   <span class="c1"># Grab/create a resource, e.g. a window</span>
+        <span class="n">tess</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>
+
+        <span class="c1"># This dialog could be cancelled,</span>
+        <span class="c1">#   or the conversion to int might fail, or n might be zero.</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;How many sides do you want in your polygon?&quot;</span><span class="p">))</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>      <span class="c1"># Draw the polygon</span>
+            <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">tess</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>           <span class="c1"># Make program wait a few seconds</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">win</span><span class="o">.</span><span class="n">bye</span><span class="p">()</span>               <span class="c1"># Close the turtle&#39;s window</span>
+
+<span class="n">show_poly</span><span class="p">()</span>
+<span class="n">show_poly</span><span class="p">()</span>
+<span class="n">show_poly</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>In lines 20–22, <code class="docutils literal notranslate"><span class="pre">show_poly</span></code> is called three times.  Each one creates a new
+window for its turtle, and draws a polygon with the number of sides
+input by the user.  But what if the user enters a string that cannot be
+converted to an <code class="docutils literal notranslate"><span class="pre">int</span></code>?  What if they close the dialog?  We’ll get an exception,
+<em>but even though we’ve had an exception, we still want to close the turtle’s window</em>.
+Lines 17–18 does this for us.  Whether we complete the statements in the <code class="docutils literal notranslate"><span class="pre">try</span></code>
+clause successfully or not, the <code class="docutils literal notranslate"><span class="pre">finally</span></code> block will always be executed.</p>
+<p>Notice that the exception is still unhandled — only an <code class="docutils literal notranslate"><span class="pre">except</span></code> clause can
+handle an exception, so our program will still crash.  But at least its turtle
+window will be closed before it crashes!</p>
+</div>
+<div class="section" id="glossary">
+<h2>19.5. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-exception">exception</dt>
+<dd>An error that occurs at runtime.</dd>
+<dt id="term-handle-an-exception">handle an exception</dt>
+<dd>To prevent an exception from causing our program to crash, by wrapping
+the block of code in a <code class="docutils literal notranslate"><span class="pre">try</span></code> … <code class="docutils literal notranslate"><span class="pre">except</span></code> construct.</dd>
+<dt id="term-raise">raise</dt>
+<dd>To create a deliberate exception by using the <code class="docutils literal notranslate"><span class="pre">raise</span></code> statement.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>19.6. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Write a function named <code class="docutils literal notranslate"><span class="pre">readposint</span></code> that uses the <code class="docutils literal notranslate"><span class="pre">input</span></code> dialog to
+prompt the user for a positive
+integer and then checks the input to confirm that it meets the requirements.
+It should be able to handle inputs that cannot be converted to <code class="docutils literal notranslate"><span class="pre">int</span></code>, as well
+as negative <code class="docutils literal notranslate"><span class="pre">int</span></code>s, and edge cases (e.g. when the user closes the dialog, or
+does not enter anything at all.)</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="dictionaries.html" title="20. Dictionaries"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="recursion.html" title="18. Recursion"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

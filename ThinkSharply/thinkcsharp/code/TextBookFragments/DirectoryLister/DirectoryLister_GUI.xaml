@@ -1,0 +1,14 @@
+﻿<Window x:Class="DirectoryLister.DirectoryLister_GUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Directory Lister" Height="350" Width="648">
+    <Grid Background="#FFD6F4F5">
+        <TextBox HorizontalAlignment="Stretch" Margin="172,33,12,23" Name="txtResult" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" FontFamily="Consolas" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="12,33,0,0" Name="txtPath" VerticalAlignment="Top" Width="152" Text="F:\Muzik" />
+        <Button Content="Go!" Height="31" HorizontalAlignment="Left" Margin="12,132,0,0" Name="btnGo" VerticalAlignment="Top" Width="57" Click="btnGo_Click" />
+        <Label Content="Path:" Height="33" HorizontalAlignment="Left" Margin="12,9,0,0" Name="label1" VerticalAlignment="Top" Width="39" />
+        <Label Content="Listing of" Height="32" HorizontalAlignment="Left" Margin="174,1,0,0" Name="lblHeading" VerticalAlignment="Top" FontSize="16" FontFamily="Comic Sans MS" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="12,94,0,0" Name="txtPattern" VerticalAlignment="Top" Width="94" Text="*.lnk" FontFamily="Consolas"  />
+        <Label Content="Pattern" Height="33" HorizontalAlignment="Left" Margin="10,71,0,0" Name="label2" VerticalAlignment="Top" Width="56"  />
+    </Grid>
+</Window>

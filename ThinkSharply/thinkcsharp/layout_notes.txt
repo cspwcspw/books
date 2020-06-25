@@ -1,0 +1,83 @@
+This is the Think Sharply in C# 
+
+These are some personal notes, not necessarily useful in your situation.
+ 
+Setting up git for Windows:
+
+Jan 2016
+
+All I had to do was install Git and copy my rsa private key to the c:\Users\<user>\.ssh folder
+
+How to get Python(I used 2.7, 32-bit) and Sphinx installed:
+http://sphinx-doc.org/latest/install.html 
+(Notice you need to add some path locations to the windows environment variable PATH)
+
+Er..., now perhaps we need a Make utility if we want to play like Unix folk.  
+I abandoned that after GnuWin32 make failed to find some DLLs it needed on Windows 10.
+
+So instead, you can just run build.bat (in the bookSource folder) by double-clicking on it.
+It needs one line of concrete code to do just the one option - the html - that the 88 lines
+of abstracted make file accomplishes. 
+
+
+
+HOW TO GET A COPY FOR PRINTING
+------------------------------
+
+December 2015
+
+The format we preferred is a square content section on each page with wide left and right margins
+for making notes.  Text is reduced in size a bit, but young people have great eyesight.
+We ring-bound the book on the left edge with a colour cover page (maybe on colour paper), 
+and perhaps a blank colour sheet or thicker card at the back. 
+Then we added a transparent plastic sheet on front.  Typical semester handout was 165 pages
+printed back-to-back, so maybe 85 sheets of paper.
+
+I have doctored the default CSS margins in book sources to be narrower on the html page.
+This makes it easier to get the printed version in about the sizes I want.
+ 
+Get the web version ready.
+
+Use Adobe Acrobat Pro to Create a PDF from a web page.
+Settings: Click Capture Multiple Levels, get only 2 levels, 
+stay on same path and the same server.
+
+Sort out settings for Page Layout:
+Unchecked the option to Scale Wide Contents to Fit Page.
+Set up for landscaped page of 10x10 inches, with zero 
+margins left/right and 0.125" top bottom.  
+
+Now create the PDF file.
+
+From the PDF file, use Adobe Acrobat Pro to remove pages of the file that we don't want 
+(and the front cover page).  Last time it was pages 1-9, and a few
+orphan pages that contained only the HTML footers, and the very last search page.
+
+Remove existing headers and footers.
+
+Use Acrobat Pro to add a new footer with page numbering.  Set the margins
+very tight so that the "page 123" text tends to mostly avoid overwriting the
+textbook text.  You will get a few mishaps which I have previously ignored.
+I used Page <<1>> as the right footer text with
+bottom = 0.3 and right = 0.4
+Apply the page numbering. 
+
+After numbering the pages, send them to the printer  
+for greyscale / monochrome printing, back to back.   
+Make this landscape A4, scale to fit, flip pages on short edge.
+
+Suggestion: just print the pages you need for the semester.  In 2015 this 
+meant "up to the end of Chapter 15 in first semester", and "rest of the book
+for second semester".   I did include the appendices for printing in both 
+semesters' print-run.
+
+Now start again from the HTML version and copy/paste the front cover pages to
+the word document Cover.docx page.  Manually add page numbers for each chapter, 
+and apply whatever other prettiness you want on the front cover.
+
+Print Cover Page in colour, rest of the book in monochrome.  
+
+
+
+
+

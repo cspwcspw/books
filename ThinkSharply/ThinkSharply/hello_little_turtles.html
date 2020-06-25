@@ -1,0 +1,642 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7. Hello, Little Turtles! &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="8. Void Methods" href="methods_void.html" />
+    <link rel="prev" title="6. Nesting Things in Other Things" href="nesting.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="methods_void.html" title="8. Void Methods"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nesting.html" title="6. Nesting Things in Other Things"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="hello-little-turtles">
+<h1>7. Hello, Little Turtles!<a class="headerlink" href="#hello-little-turtles" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">There are many <em>modules</em> written for C# that provide very powerful features that we
+can use in our own programs.  Some of these are can send email, or fetch web pages.
+Some come with C#, others are add-ons or modules that
+we write ourselves, or perhaps download from the Internet.</p>
+<p>We&#8217;ve written our own module called <strong>ThinkLib</strong> to go with this book.  One of the things it does
+is it allows us to create turtles and we can get them to draw shapes and patterns.</p>
+<p>See the appendix <a class="reference external" href="thinklib_getting_started.html">Getting Started with ThinkLib</a>
+for details (and a video) about how to set it up for your C#.</p>
+<p>The turtles are fun, but the real purpose of the chapter is to teach ourselves
+a little more C#, and to develop our theme of <em>computational thinking</em>,
+or <em>thinking like a computer scientist</em>.  Most of the C# covered here
+will be explored in more depth later.</p>
+<div class="section" id="our-first-turtle-program">
+<span id="index-1"></span><h2>7.1. Our first turtle program<a class="headerlink" href="#our-first-turtle-program" title="Permalink to this headline">¶</a></h2>
+<p>Our turtles will live and play in a <em>playground</em>.</p>
+<p>We&#8217;ll create a WPF application.  In WPF, the playground will be a Canvas control.  So we&#8217;ll drag a Canvas
+onto our application.  I like to name my canvas &#8220;playground&#8221;.  I also like to set the Width and Height properties to Auto,
+and to set the HorizontalAlignment and VerticalAlignment properties to Stretch.
+This means the playground will also resize when you change the size of the application&#8217;s main window.</p>
+<p>We can also set some canvas properties to give it a nice background colour,
+(or perhaps even a background image).  So let&#8217;s assume we have our application
+with a canvas and a button.  Here is our first turtle example
+which draws a square:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">using</span> <span class="nn">System.Windows.Documents</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Windows.Input</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Windows.Media</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Windows.Media.Imaging</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Windows.Navigation</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Windows.Shapes</span><span class="p">;</span>
+<span class="hll"><span class="k">using</span> <span class="nn">ThinkLib</span><span class="p">;</span>
+</span>
+<span class="k">namespace</span> <span class="nn">Part1</span>
+<span class="p">{</span>
+    <span class="c1">/// &lt;summary&gt;</span>
+    <span class="c1">/// Interaction logic for MainWindow.xaml</span>
+    <span class="c1">/// &lt;/summary&gt;</span>
+    <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">MainWindow</span> <span class="p">:</span> <span class="n">Window</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="n">Turtle</span> <span class="n">tess</span><span class="p">;</span>              <span class="c1">// Define a variable to refer to our turtle</span>
+</span>
+        <span class="k">public</span> <span class="nf">MainWindow</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">InitializeComponent</span><span class="p">();</span>
+<span class="hll">            <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">);</span> <span class="c1">// Give birth to a turtle in the playground.</span>
+</span>        <span class="p">}</span>                                  <span class="c1">// Let variable tess refer to the new turtle.</span>
+
+        <span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+        <span class="p">{</span>
+<span class="hll">            <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">80.0</span><span class="p">);</span>
+</span><span class="hll">            <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+</span><span class="hll">            <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">30.0</span><span class="p">);</span>
+</span><span class="hll">            <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+</span>        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>When we run this program, after clicking the button, our window looks like this:</p>
+<blockquote>
+<div><img alt="_images/turtle01.png" src="_images/turtle01.png" />
+</div></blockquote>
+<p>There are a number of new things in this code:</p>
+<p>Line 7 is new: it tells the compiler to use our library ThinkLib.
+Line 16 defines a variable for referencing a turtle.</p>
+<p>When the MainWindow is first instantiated (created), it has a special
+<strong>constructor</strong> method at lines 18-22 which is automatically executed.  (C# knows
+this method is the constructor because it has the same name as the class name on line 14.)
+The skeleton of the constructor is usually written for us by Visual Studio, and it is
+responsible for any &#8220;factory settings&#8221; that we want our new window to have.</p>
+<p>We added line 21 as part of our factory settings.  (When we add our own statements into
+the constructor, they should always come <em>after</em> the one that Visual Studio
+already put there &#8212; i.e. after the one at line 20).</p>
+<p>Line 21 creates our first turtle in the playground.  The turtle always starts
+its life at a fixed home position. If you don&#8217;t like where your turtle is &#8220;born&#8221; <a class="footnote-reference" href="#id2" id="id1">[1]</a> into
+the playground, you can provide some extra arguments when you create the
+turtle to say exactly where it must be placed).  It always starts off facing East (to the right of the screen). The newly created turtle is assigned to the variable <code class="docutils literal"><span class="pre">tess</span></code> defined in line 16.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Turtles come out of eggs. So it might be more fun (and more accurate)
+to say &#8220;they&#8217;re <em>hatched</em> into the playground&#8221;.</td></tr>
+</tbody>
+</table>
+<p>Notice that <code class="docutils literal"><span class="pre">tess</span></code> is defined as a class-level variable.  What that means
+is that the turtle will stay alive as long as our GUI window stays alive.</p>
+<p>When the user clicks the button, the <em>click</em> event occurs, and the handler code at
+lines 25-28 is executed.  It instructs the <strong>object</strong>  referred to by tess to
+move, and to turn. We
+do this by <strong>invoking</strong>, or calling, <strong>methods</strong> &#8212; these are
+the instructions that all turtles know how to respond to.   The four statements are
+executed in lines 26,27,28,29, and the picture above shows what you&#8217;ll see after
+the button has been clicked.</p>
+<p>As it stands now, the handler code only draws only half a rectangle.
+Another click of the button will complete the rectangle.
+(Or better yet, we could modify the code
+so that it draws a complete rectangle on a single click &#8212; we&#8217;ll need a total
+of 8 statements in the handler.)</p>
+<p>The coordinate system for the playground is the same as it is for all the
+controls we&#8217;ve seen so far: A position is referred to as (x,y). (0,0) is at
+the top left corner of the canvas, and increasing x moves to the right, increasing
+y moves down.  (The y axis is opposite to what most school geometry teaches.)</p>
+<p>An object can have various methods &#8212; things it can do &#8212; and it can also have
+<strong>properties</strong> (like we&#8217;ve already seen with the window and the controls).
+For example, each turtle draws with a <em>brush</em>.  The brush can be a solid
+colour or it can be textured.  We can set the width of the brush, and
+we can pick it up or put it down. (If a turtle moves while its brush is up,
+it doesn&#8217;t draw a line in the playground.)</p>
+<p>The brush associated with the turtle, the width of its brush, the position of the
+turtle within the playground, which way it is facing, and so on are all part of its
+current <strong>state</strong>.</p>
+</div>
+<div class="section" id="instances-a-herd-of-turtles">
+<span id="index-2"></span><h2>7.2. Instances &#8212; a herd of turtles<a class="headerlink" href="#instances-a-herd-of-turtles" title="Permalink to this headline">¶</a></h2>
+<p>Just as we can have many different buttons or menu items in a program, we can have many
+playgrounds and many turtles. Each of them is called an <strong>instance</strong>.</p>
+<p>Each instance has its own properties and
+methods &#8212; so Alex might paint with a thin black brush and be at some position,
+while Tess might be going in her own direction with a fatter brush.   So let&#8217;s add a
+few lines to our constructor method to create a second turtle in the same playground,
+and we&#8217;ll set some properties for each of them:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">MainWindow</span> <span class="p">:</span> <span class="n">Window</span>
+<span class="p">{</span>
+    <span class="n">Turtle</span> <span class="n">tess</span><span class="p">,</span> <span class="n">alex</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">MainWindow</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">InitializeComponent</span><span class="p">();</span>
+<span class="hll">        <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="m">100.0</span><span class="p">,</span> <span class="m">30.0</span><span class="p">);</span>  <span class="c1">// Create a turtle in the playground.</span>
+</span><span class="hll">        <span class="n">tess</span><span class="p">.</span><span class="n">BrushWidth</span> <span class="p">=</span> <span class="m">5.1</span><span class="p">;</span>                       <span class="c1">// Set some properties.</span>
+</span><span class="hll">
+</span><span class="hll">        <span class="n">alex</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="m">300.0</span><span class="p">,</span> <span class="m">100.0</span><span class="p">);</span> <span class="c1">// Create another turtle</span>
+</span><span class="hll">        <span class="n">alex</span><span class="p">.</span><span class="n">LineBrush</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Blue</span><span class="p">;</span>               <span class="c1">// Make its lines blue</span>
+</span><span class="hll">        <span class="n">alex</span><span class="p">.</span><span class="n">BodyBrush</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Blue</span><span class="p">;</span>               <span class="c1">// and make its body blue too</span>
+</span><span class="hll">        <span class="n">alex</span><span class="p">.</span><span class="n">BrushWidth</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span>    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">80.0</span><span class="p">);</span>   <span class="c1">// Make Tess draw a square</span>
+        <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+        <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">80.0</span><span class="p">);</span>
+        <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+        <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">80.0</span><span class="p">);</span>
+        <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+        <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">80.0</span><span class="p">);</span>
+        <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo2_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Draw a broken line by picking up the brush in the middle</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">40.0</span><span class="p">);</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">BrushDown</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">40.0</span><span class="p">);</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">BrushDown</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">40.0</span><span class="p">);</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">95</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Here is what we get after clicking the buttons a few times:</p>
+<blockquote>
+<div><img alt="_images/turtle02.png" src="_images/turtle02.png" />
+</div></blockquote>
+<div class="admonition-find-a-video-demonstration-of-building-this-application-at admonition">
+<p class="first admonition-title">Find a video demonstration of building this application at</p>
+<p class="last"><a class="reference external" href="http://www.ict.ru.ac.za/resources/thinksharply/videos/TessAndAlex.avi">http://www.ict.ru.ac.za/resources/thinksharply/videos/TessAndAlex.avi</a></p>
+</div>
+<p>Here are some <em>Think Sharply</em> observations:</p>
+<ul class="simple">
+<li>There are 360 degrees in a full circle.  If we add up all the turns that a turtle makes,
+<em>no matter what steps occurred between the turns</em>, we can easily figure out if they
+add up to some multiple of 360.  This should convince us that Tess is facing in
+exactly the same direction as she was when she was first created. (Geometry
+conventions have 0 degrees facing East, and that is the case here too!)</li>
+<li>We could have left out the last turn for Tess, but that would not have been
+as satisfying.  If we&#8217;re asked to draw a closed shape like a
+square or a rectangle, it is a good idea to
+complete all the turns and to leave the turtle back where it started, facing the
+same direction as it started in.
+This makes reasoning about the program and composing chunks of code into bigger programs
+easier for us humans!</li>
+<li>Alex turns 95 degrees on each click of the button.  <em>How many clicks are required before
+he is back facing East, and we have a pleasant complete pattern on the screen?  How many
+corner points will the complete pattern have?</em></li>
+<li>Comments (at lines 8,9,11,18,30)
+help record our mental chunking, and big ideas.   These ideas are not always clear when all we
+have is the bare code.</li>
+<li>Notice that Alex drew some lines and is partially off the playground. If we don&#8217;t like that, we can
+set the ClipToBounds property of our canvas.  Turtles will still be able to go outside the playground, but
+their lines and the turtle itself won&#8217;t be rendered.  (<em>Render</em> is our fancy computer-speak
+for drawing something.)</li>
+<li>And, uh-huh, two turtles may not be enough for a herd. But the important idea we want to
+emphasize is that the ThinkLib module gives us a kind of <em>factory</em> that lets us create as
+many turtles as we need.  Each instance has its own state and behaviour.</li>
+</ul>
+</div>
+<div class="section" id="the-while-loop">
+<span id="index-3"></span><h2>7.3. The <strong>while</strong> loop<a class="headerlink" href="#the-while-loop" title="Permalink to this headline">¶</a></h2>
+<p>It should have taken you 72 clicks to complete Alex&#8217;s pattern.
+That is a tedious amount of clicking.</p>
+<p>A basic building block of all programs is to be able to repeat some code,
+over and over again &#8212; in programming we call this <em>looping</em>.</p>
+<p>C#&#8217;s <strong>while</strong> loop solves this for us.   Let&#8217;s say we want to repeat
+some code 72 times.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+<span class="hll"><span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="p">&lt;</span> <span class="m">72</span><span class="p">)</span> <span class="p">{</span>
+</span>    <span class="c1">// the code you want repeated goes here ...</span>
+    <span class="n">i</span> <span class="p">=</span> <span class="n">i</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<ul>
+<li><p class="first">In this loop, the variable <code class="docutils literal"><span class="pre">i</span></code> is used to control what happens.  We call it the
+<strong>loop control variable</strong>.  We could have chosen any other variable name instead.</p>
+</li>
+<li><p class="first">Between the curly braces is the <strong>loop body</strong>.  This is the section of code that will
+be repeatedly executed.</p>
+</li>
+<li><p class="first">Before each <em>iteration</em> or <em>pass</em> of the loop, a check is done to see whether the
+<strong>controlling expression</strong> <code class="docutils literal"><span class="pre">(i</span> <span class="pre">&lt;</span> <span class="pre">72)</span></code> is true or false.  If it is true, the loop body is
+executed again.  At the end of the loop body the assignment <code class="docutils literal"><span class="pre">i</span> <span class="pre">=</span> <span class="pre">i</span> <span class="pre">+</span> <span class="pre">1</span></code> is executed.  This
+adds one onto the variable <code class="docutils literal"><span class="pre">i</span></code>.</p>
+</li>
+<li><p class="first">So the full sequence of actions here is</p>
+<ul class="simple">
+<li>Define a new variable i and give it an initial value of 0.</li>
+<li>Test the loop controlling expression.</li>
+<li>If it true, execute all the statements in the body of the loop.  If
+it is false leave the loop.</li>
+<li>Repeat everything from the second step in this sequence.</li>
+</ul>
+<p>Once the controlling expression is tested and found to be false,
+program execution continues at the next
+statement after the loop body (line 6).</p>
+</li>
+</ul>
+<p>Let&#8217;s modify our handler for Demo2: on a button click we&#8217;ll do the same thing 72 times:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo2_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="p">&lt;</span> <span class="m">72</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">120.0</span><span class="p">);</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">95</span><span class="p">);</span>
+        <span class="n">i</span> <span class="p">=</span> <span class="n">i</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>A single click on the button now produces this pattern:</p>
+<blockquote>
+<div><img alt="_images/turtle03.png" src="_images/turtle03.png" />
+</div></blockquote>
+<p>Some observations:</p>
+<ul class="simple">
+<li>What is important here is that we&#8217;ve found a &#8220;repeating pattern&#8221; of statements,
+and used a loop to repeat the pattern. Finding the chunks and getting our programs
+arranged to repeat useful chunks is a vital skill in computational thinking.</li>
+<li>Computer scientists like to count from 0! Observe carefully that the body of the loop
+executes exactly 72 times: the first time <code class="docutils literal"><span class="pre">i</span></code> has the value 0, then 1, then 2, and the
+last iteration of the loop occurs when <code class="docutils literal"><span class="pre">i</span></code> has the value 71!  When the program is about to
+execute line 10, the value of <code class="docutils literal"><span class="pre">i</span></code> will be 72.</li>
+<li>Notice that after 72 turns of 95 degrees each, you end up with an exact multiple of 360, so
+Alex is facing the same way as he started &#8212; East.</li>
+</ul>
+</div>
+<div class="section" id="a-few-more-turtle-methods-and-tricks">
+<h2>7.4. A few more turtle methods and tricks<a class="headerlink" href="#a-few-more-turtle-methods-and-tricks" title="Permalink to this headline">¶</a></h2>
+<p>Turtle methods can use negative angles or distances.  So <code class="docutils literal"><span class="pre">tess.Forward(-100.0)</span></code>
+will move Tess backwards, and <code class="docutils literal"><span class="pre">tess.Left(-30.0)</span></code> turns her to the right.  Additionally,
+because there are 360 degrees in a circle, turning 30 to the left will get Tess facing
+in the same heading as turning 330 to the right!</p>
+<p>This suggests that we don&#8217;t need both a left and a right turn method &#8212; we could be
+minimalists, and just have one turn method.</p>
+<p>One aspect of <em>thinking like a scientist</em> is to understand more of the structure and rich
+relationships in whatever field we are working in.  So revising a few basic facts about
+geometry and number lines, and spotting the relationships between left, right,
+backward, forward, negative and positive distances or angles values is a good start
+if we&#8217;re going to play with turtles.</p>
+<p>Every turtle has a Boolean property <code class="docutils literal"><span class="pre">Visible</span></code>.  If you set this false, the turtle
+becomes invisible.  It&#8217;s brush can still draw in the playground, though.</p>
+<p>Turtle methods are executed as fast as possible.  There is a property that can force
+the turtle to delay between each operation. This appears to slow the turtle down, and
+might be more fun if you prefer watching the pattern build up rather than just want to see
+the finished product.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">alex</span><span class="p">.</span><span class="n">DelayMillisecs</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>A turtle can also &#8220;stamp&#8221; its footprint onto the playground (it can also
+stamp some other things, like text, into the playground).
+This will remain after the turtle has moved somewhere else.
+Stamping works, even when the brush is up or the turtle is invisible.</p>
+<p>Methods like <code class="docutils literal"><span class="pre">Forward</span></code> and <code class="docutils literal"><span class="pre">Left</span></code> use <em>relative</em> geometry: they move forward from the current position, or turn relative to
+the current heading.   But there are also some &#8220;absolute&#8221; methods.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">alex.Goto(x,y)</span></code> will go to absolute position (x,y).  If the brush is down, the turtle will leave a trail.</li>
+<li><code class="docutils literal"><span class="pre">alex.WarpTo(x,y)</span></code> moves the turtle to position (x,y) without drawing.  The brush remains in the state it was in.</li>
+<li><code class="docutils literal"><span class="pre">alex.Heading</span></code> is a property that gets or sets the turtle&#8217;s heading.</li>
+<li><code class="docutils literal"><span class="pre">alex.Position</span></code> is a property that gets or sets the turtle&#8217;s position.  Setting this is like calling <code class="docutils literal"><span class="pre">WarpTo</span></code>.</li>
+</ul>
+</div></blockquote>
+<p>Let&#8217;s put a new button on our GUI and get Alex to show off some of these new features:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo3_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">alex</span><span class="p">.</span><span class="n">WarpTo</span><span class="p">(</span><span class="m">200.0</span><span class="p">,</span> <span class="m">200.0</span><span class="p">);</span>    <span class="c1">// Warp without drawing</span>
+    <span class="n">alex</span><span class="p">.</span><span class="n">BrushDown</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>       <span class="c1">// Pick up the brush</span>
+    <span class="kt">double</span> <span class="n">size</span> <span class="p">=</span> <span class="m">10.0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="p">&lt;</span> <span class="m">30</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Stamp</span><span class="p">();</span>             <span class="c1">// Stamp a footprint</span>
+        <span class="n">size</span> <span class="p">=</span> <span class="n">size</span> <span class="p">+</span> <span class="m">2.0</span><span class="p">;</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+        <span class="n">alex</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">24.0</span><span class="p">);</span>
+        <span class="n">i</span> <span class="p">=</span> <span class="n">i</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Here&#8217;s what this gives:</p>
+<blockquote>
+<div><img alt="_images/turtle04.png" src="_images/turtle04.png" />
+</div></blockquote>
+<p>How many times was the body of the loop executed?   How many turtle
+images do we see on the playground?  All except one of the shapes are footprints (and footprints look a bit different from the turtle itself).
+But the program still only has <em>one</em> turtle instance.</p>
+<div class="admonition-read-the-code-to-extract-meaning admonition">
+<p class="first admonition-title">Read the Code to Extract Meaning</p>
+<p>Beginners sometimes make the mistake of &#8220;skip-reading&#8221; or glossing over fragments of code.
+If you can&#8217;t explain <em>why</em> the turtle drew that spiral, you need to go back and study every
+line of code. Did the angle of turn keep on changing as the loop ran? Why would changing the
+step size that the turtle takes give us a spiral?</p>
+<p class="last">Reading code requires that you make sense of it in your mind, and can imagine how the
+statements work together to achieve the outcome.  Practice &#8220;deep-reading&#8221; all code: what would
+happen if this statement was left out, or changed?  If you&#8217;re not sure, you can always
+just type the code in and check whether you have grasped the ideas well.</p>
+</div>
+</div>
+<div class="section" id="readings">
+<h2>7.5. Readings<a class="headerlink" href="#readings" title="Permalink to this headline">¶</a></h2>
+<p>C# loops come in four different flavours.  We&#8217;ve only seen the <code class="docutils literal"><span class="pre">while</span></code> loop here:
+you&#8217;ll meet <code class="docutils literal"><span class="pre">for</span></code>, <code class="docutils literal"><span class="pre">foreach</span></code> and <code class="docutils literal"><span class="pre">do</span> <span class="pre">while</span></code> shortly.</p>
+<p>Learn more about C# loops:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://en.wikibooks.org/wiki/C_Sharp_Programming/Control">http://en.wikibooks.org/wiki/C_Sharp_Programming/Control</a></li>
+<li><a class="reference external" href="http://msdn.microsoft.com/en-us/library/2aeyhxcd(v=vs.100).aspx">http://msdn.microsoft.com/en-us/library/2aeyhxcd(v=vs.100).aspx</a></li>
+</ul>
+</div>
+<div class="section" id="glossary">
+<h2>7.6. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-constructor">constructor</dt>
+<dd>A special method that has the same name as the class that contains it.  If it
+exists, it is automatically executed when we create any new instance of the class.</dd>
+<dt id="term-controlling-expression">controlling expression</dt>
+<dd>A test to control if the loop should be executed again or not.</dd>
+<dt id="term-instance">instance</dt>
+<dd>An object of a certain type, or class.  Tess and Alex are different instances of
+the class <code class="docutils literal"><span class="pre">Turtle</span></code>.</dd>
+<dt id="term-loop-body">loop body</dt>
+<dd>Any number of statements nested inside the curly braces of a loop.</dd>
+<dt id="term-method">method</dt>
+<dd><p class="first">A method is a code block containing a series of statements.</p>
+<p>Methods are defined within a class.</p>
+<p class="last">Invoking or activating the method
+causes the object to respond in some way, e.g. <code class="docutils literal"><span class="pre">Forward</span></code> is the method
+when we say <code class="docutils literal"><span class="pre">tess.Forward(100.0)</span></code>.</p>
+</dd>
+<dt id="term-invoke">invoke</dt>
+<dd>An object has methods.  We use the verb invoke to mean <em>activate the
+method</em>.  Invoking a method is done by putting parentheses after the method
+name, with some possible arguments.  So  <code class="docutils literal"><span class="pre">tess.Forward(20.0)</span></code> is an invocation
+of the <code class="docutils literal"><span class="pre">Forward</span></code> method.</dd>
+<dt id="term-loop">loop</dt>
+<dd>A construct in the programming language that lets us repeatedly execute statements.</dd>
+<dt id="term-object">object</dt>
+<dd>A &#8220;thing&#8221; to which a variable can refer.  This could be a canvas, a button,
+or one of the turtles we have created.</dd>
+<dt id="term-property">property</dt>
+<dd>Some state or value that belongs to an object.  For example, Tess has
+a brush that she uses for painting her trail.</dd>
+<dt id="term-while-loop"><code class="docutils literal"><span class="pre">while</span></code> loop</dt>
+<dd>A statement in C# for convenient repetition of statements in the <em>body</em> of the loop.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>7.7. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Give three properties of your cellphone object.  Give three methods of your cellphone.</p>
+</li>
+<li><p class="first">In the last spiral drawing it looks like Alex ended up facing the same direction as
+he started in.  Prove that this is indeed the case.</p>
+</li>
+<li><p class="first">Suppose our turtle Tess is at heading 0 &#8212; facing East.  We execute the statement
+<code class="docutils literal"><span class="pre">tess.Left(3645);</span></code>   What does Tess do, and what is her final heading?</p>
+</li>
+<li><p class="first">Provide four buttons on you GUI to allow the user to get Tess to draw any any of
+these regular polygons (regular means all sides the same length, all angles the same.)</p>
+<ul class="simple">
+<li>An equilateral triangle</li>
+<li>A square</li>
+<li>A hexagon (six sides)</li>
+<li>An octagon (eight sides)</li>
+</ul>
+</li>
+<li><p class="first">If you were going to draw a regular polygon with 18 sides, what angle would you need to
+turn the turtle at each corner?</p>
+</li>
+<li><p class="first">Add buttons to your GUI to allow allow the user to clear the drawings of all turtles.</p>
+</li>
+<li><p class="first">Add a slider control to your GUI that enables the user to set Tess&#8217; brush width
+to any value between 1 and 20.</p>
+</li>
+<li><p class="first">Add a sub-menu with items that will allow the user to choose one of three brushes for Tess.</p>
+</li>
+<li><p class="first">Use a loop to make a turtle draw a shape like this:</p>
+<blockquote>
+<div><img alt="_images/star.png" src="_images/star.png" />
+</div></blockquote>
+<p>Hints:</p>
+<ul class="simple">
+<li>Try this on a piece of paper, moving and turning your cellphone as if it was a
+turtle.  Watch how many complete rotations your cellphone makes before you complete the
+star.  Since each full rotation is 360 degrees, you can figure out the total
+number of degrees that your phone was rotated through.  If you divide that by 5, because
+there are five points to the star, you&#8217;ll know how many degrees to turn the turtle at each point.</li>
+</ul>
+</li>
+<li><p class="first">In this chapter we introduced the <code class="docutils literal"><span class="pre">while</span></code> loop, which repeated statements in the loop body.
+Do you think one of the statements in the loop body could be another loop? Or, asked another way,
+can we nest our loops?  Experiment by adapting the code from the previous exercise to draw this:</p>
+<blockquote>
+<div><img alt="_images/starsmulti.png" src="_images/starsmulti.png" />
+</div></blockquote>
+</li>
+<li><p class="first">Make a turtle draw a face of a clock that looks something like this:</p>
+<blockquote>
+<div><img alt="_images/tess_clock1.png" src="_images/tess_clock1.png" />
+</div></blockquote>
+</li>
+<li><p class="first">Do you think it should be possible to have more than one playground in a program?
+Write an application that puts Alex and Tess each in their own playgrounds.</p>
+</li>
+<li><p class="first">What is the collective noun for turtles? (Hint: they don&#8217;t come in <em>herds</em>, like this chapter suggested.)</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="methods_void.html" title="8. Void Methods"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nesting.html" title="6. Nesting Things in Other Things"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

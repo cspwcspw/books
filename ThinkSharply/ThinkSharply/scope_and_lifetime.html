@@ -1,0 +1,545 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>24. Scope and Lifetime &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="25. GUIs for our Queens" href="n_queens_II.html" />
+    <link rel="prev" title="23. The .NET Framework" href="frameworkclasslib.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="n_queens_II.html" title="25. GUIs for our Queens"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="frameworkclasslib.html" title="23. The .NET Framework"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scope-and-lifetime">
+<h1>24. Scope and Lifetime<a class="headerlink" href="#scope-and-lifetime" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="scope">
+<span id="index-0"></span><h2>24.1. Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>scope</strong> of a name is the region of program code in which a
+name can be used without the need for extra qualification.</p>
+<p>There are two important scopes in C#:</p>
+<ul class="simple">
+<li><strong>Local scope</strong> refers to names defined within a method or a within a block within a method.</li>
+<li><strong>Class-level scope</strong> refers to all the names defined within the current class (but this
+excludes any local names that are defined inside methods of the class.)</li>
+</ul>
+<p>Let&#8217;s look at the <code class="docutils literal"><span class="pre">RandomDemoGUI</span></code> program of the previous chapter again.
+The class <code class="docutils literal"><span class="pre">RandomDemoGUI</span></code> extends from line 6 to line 29.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Windows</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">Fragments</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">RandomDemoGUI</span> <span class="p">:</span> <span class="n">Window</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="n">Random</span> <span class="n">myRandomSource</span><span class="p">;</span>
+</span>
+        <span class="k">public</span> <span class="nf">RandomDemoGUI</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">InitializeComponent</span><span class="p">();</span>
+<span class="hll">            <span class="n">myRandomSource</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+</span>        <span class="p">}</span>
+
+        <span class="k">private</span> <span class="k">void</span> <span class="nf">btnRandom_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// Pick two (different) random cards from a deck of cards numbered 0 to 51.</span>
+
+<span class="hll">            <span class="kt">int</span> <span class="n">card1</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">52</span><span class="p">);</span>
+</span><span class="hll">            <span class="kt">int</span> <span class="n">card2</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">52</span><span class="p">);</span>
+</span>            <span class="k">while</span> <span class="p">(</span><span class="n">card2</span> <span class="p">==</span> <span class="n">card1</span><span class="p">)</span>  <span class="c1">// oops. try again till we get a different second card.</span>
+            <span class="p">{</span>
+<span class="hll">                <span class="n">card2</span> <span class="p">=</span> <span class="n">myRandomSource</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">52</span><span class="p">);</span>
+</span>            <span class="p">}</span>
+            <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;The two cards are {0} and {1}\n&quot;</span><span class="p">,</span> <span class="n">card1</span><span class="p">,</span> <span class="n">card2</span><span class="p">));</span>
+            <span class="n">txtResult</span><span class="p">.</span><span class="n">ScrollToEnd</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Within the class
+there are 3 class-level definitions: one variable called
+<code class="docutils literal"><span class="pre">myRandomSource</span></code> is defined on line 8, and two methods are defined on lines
+10 and 16 (one of these methods is the constructor).  These are the class-level scope names.</p>
+<p>In addition, we have two local variables defined on lines 20 and 21.  They are
+local to the <code class="docutils literal"><span class="pre">btnRandom_Click</span></code> method.  On line 16, that method also takes
+two parameters with names <code class="docutils literal"><span class="pre">sender</span></code> and <code class="docutils literal"><span class="pre">e</span></code>.   Parameters of a method are
+in the local scope of the method in which they are defined.</p>
+<p>What this means is that the four names defined in the <code class="docutils literal"><span class="pre">btnRandom_Click</span></code> method
+(i.e. <code class="docutils literal"><span class="pre">sender</span></code>, <code class="docutils literal"><span class="pre">e</span></code>, <code class="docutils literal"><span class="pre">card1</span></code>, <code class="docutils literal"><span class="pre">card2</span></code>) can only be used within the
+method where they&#8217;re defined.  They&#8217;re local.
+You would get an error if you attempted to assign
+something to <code class="docutils literal"><span class="pre">card1</span></code> at line 13, for example.</p>
+<p>But class-level names can be accessed from anywhere in the class, including
+from inside methods of the class.  So at lines 13, 20, 21 and 24 we can
+use <code class="docutils literal"><span class="pre">myRandomSource</span></code>.</p>
+<p>Now what would happen if we moved the definition at line 8 into the constructor
+method at line 10?   It would become a local definition within the constructor, rather
+than a class-level definition. So within the constructor we&#8217;d still be able to access it,
+but lines 20, 21 and 24 would give errors:
+<em>The name &#8216;myRandomSource&#8217; does not exist in the current context.</em></p>
+</div>
+<div class="section" id="scopes-can-nest-inside-each-other">
+<h2>24.2. Scopes can nest inside each other<a class="headerlink" href="#scopes-can-nest-inside-each-other" title="Permalink to this headline">¶</a></h2>
+<p>When we said &#8220;local scope&#8221; or &#8220;class-level scope&#8221; we made a bit of a simplification.
+It is slightly more complicated that that.  Although we&#8217;ve not seen
+examples yet, one can define one class inside another class, so we could nest classes
+very deeply. (We do not have any use for so-called <em>inner-classes</em>, or nested classes,
+in this book, but we should know that such things can exist!)</p>
+<p>Additionally, C# allows us to define variables inside a block of code (recall that a
+block is a group of statements enclosed in braces).  The scope rule is then that the
+name is only visible within the block where it has been defined.</p>
+<p>In another twist of convenience, C# also allows us to define variables as part of
+a <code class="docutils literal"><span class="pre">for</span></code> or <code class="docutils literal"><span class="pre">foreach</span></code> statement. In this case the scope of the defined variable
+is the statement and its loop body.</p>
+<p>With classes or scopes that are nested within each other, there is a potential
+ambiguity: if we have a class-level variable called <code class="docutils literal"><span class="pre">num</span></code>, and we also call one
+of our parameters to a method <code class="docutils literal"><span class="pre">num</span></code>, then we need to be clear about
+which <code class="docutils literal"><span class="pre">num</span></code> we&#8217;re referring to when we use it!</p>
+<p>The scope lookup rules are that the most closely nested scope where <code class="docutils literal"><span class="pre">num</span></code> is defined
+is the one that will be used.  Let&#8217;s look at this very contrived example:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">double</span> <span class="n">v1</span> <span class="p">=</span> <span class="m">10.5</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">v2</span> <span class="p">=</span> <span class="m">2</span><span class="p">;</span>
+
+<span class="k">private</span> <span class="kt">int</span> <span class="nf">f1</span><span class="p">(</span><span class="kt">int</span> <span class="n">v1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">v1</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">result</span> <span class="p">+=</span> <span class="n">v2</span> <span class="p">*</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">{</span>
+        <span class="n">Random</span> <span class="n">rng</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">(</span><span class="m">2013</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">d1</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">7</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">d2</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">7</span><span class="p">);</span>
+        <span class="n">result</span> <span class="p">+=</span> <span class="n">d1</span> <span class="p">+</span> <span class="n">d2</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">d1</span> <span class="p">=</span> <span class="m">15</span><span class="p">;</span>
+        <span class="n">result</span> <span class="p">+=</span> <span class="n">d1</span> <span class="p">+</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">btnScopes_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">v2</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="n">f1</span><span class="p">(</span><span class="n">v2</span><span class="p">);</span>
+    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;The result is {0}&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Lines 1 and 2 define two class-level variables with initializers. But method <code class="docutils literal"><span class="pre">f1</span></code> names
+its parameter <code class="docutils literal"><span class="pre">v1</span></code>.  This means that within the method body, any reference to <code class="docutils literal"><span class="pre">v1</span></code>
+uses the local name, not the class-level <code class="docutils literal"><span class="pre">v1</span></code>.  So on line 8 (where we use <code class="docutils literal"><span class="pre">v1</span></code>), the
+number of times the loop body is executed depends on the argument passed to it from
+the call site. (At line 32 we have a call site that passes the value 5 to the method.)</p>
+<p>At line 31 we define a new local variable <code class="docutils literal"><span class="pre">v2</span></code>.  This definition <em>hides</em> the class-level
+variable defined at line 2, and when <code class="docutils literal"><span class="pre">v2</span></code> is used on line 32, it uses the local <code class="docutils literal"><span class="pre">v2</span></code>.</p>
+<p>There are a number of local variables defined inside method <code class="docutils literal"><span class="pre">f1</span></code>.  We have the definition
+of <code class="docutils literal"><span class="pre">result</span></code> on line 6 (and its uses on lines 10, 17, 23 and 26). We also have a definition
+of variable <code class="docutils literal"><span class="pre">i</span></code> as part of the for loop at line 8.  It&#8217;s scope is lines 8 - 11, and cannot
+be used outside that scope.  There are two blocks at lines 13-18, and 20-24.  Each block
+has some definitions of new variables that are local to the blocks.  We&#8217;ve deliberately
+defined variables <code class="docutils literal"><span class="pre">i</span></code> and <code class="docutils literal"><span class="pre">d1</span></code> at lines 21 and 22 to make the point that these are
+different variables (in different scopes) from the earlier <code class="docutils literal"><span class="pre">i</span></code> defined in the loop,
+and the <code class="docutils literal"><span class="pre">d1</span></code> variable defined at line 15.</p>
+<p>On line 10 we use variable <code class="docutils literal"><span class="pre">v2</span></code>.  It is not locally defined, so the scope lookup
+rule says &#8220;use the variable at the closest enclosing scope&#8221;.  In this case, the
+class-level variable at line 2 is used. Note that although line 31 also defines
+a variable called <code class="docutils literal"><span class="pre">v2</span></code>, that variable is not the one referred to at line 10!</p>
+<p>You should ensure that you can trace through the code and determine what value the
+method will return.   (Check yourself by copying the code and running it.)</p>
+<p>If you want some more advanced information about scopes, take a look at
+<a class="reference external" href="http://msdn.microsoft.com/en-us/library/aa691132(v=vs.10).aspx">http://msdn.microsoft.com/en-us/library/aa691132(v=vs.10).aspx</a></p>
+</div>
+<div class="section" id="lifetimes-of-objects-and-variables">
+<h2>24.3. Lifetimes of objects and variables<a class="headerlink" href="#lifetimes-of-objects-and-variables" title="Permalink to this headline">¶</a></h2>
+<p>Each time you click the button in the sample above, you&#8217;ll get a message box showing
+the value 42.  But wait!  We&#8217;re using a random number generator at lines 15 and 16 to
+throw two dice which we add to the result.  Why are we not getting random results?</p>
+<p>Every object and variable in a program has a <strong>lifetime</strong>.  It gets created (or instantiated)
+at some particular moment in time, and then at some later time it dies.</p>
+<p>Variables that are defined within a method or a block only live <em>while the method or
+block is being executed</em>.  So calling method <code class="docutils literal"><span class="pre">f1</span></code> creates local parameter <code class="docutils literal"><span class="pre">v1</span></code>
+and local variable <code class="docutils literal"><span class="pre">result</span></code>.  When <code class="docutils literal"><span class="pre">f1</span></code> returns, those variables are destroyed.</p>
+<p>Similarly, in the loop, the variable <code class="docutils literal"><span class="pre">i</span></code> is created when the loop starts running, and
+it is destroyed when the loop exits.  And the same is true for the blocks of code at lines
+14-18, and 20-24.</p>
+<p>What this means is that we&#8217;re not creating a single random number generator here: we&#8217;re creating
+a brand new one each time we execute line 14.  And because we&#8217;ve given it a seed value as an argument in line 14, we
+will always get the same throws for the two dice.</p>
+<p>If we moved line 14 out of the method <code class="docutils literal"><span class="pre">f1</span></code> and put its definition and instantiation
+at line 3, say, it would become a class-level variable instead of a local variable.
+Now the behaviour of our program would change.  The random number generator would be created
+when the class was created (i.e. just before our window first appears, if this code is part
+of a WPF window), and its lifetime would only end when the window&#8217;s lifetime ended.</p>
+<p>Class-level instance variables (i.e. not variables that are static)
+have a lifetime that is the same as the lifetime of the object they belong to.</p>
+<p>For writing the kinds of event-based GUI programs that we work with in this book,
+what this means is that if we want something to persist across multiple events, we should
+define it as a class-level variable.  So if we need to count how many times a particular
+button is clicked, we need that counter to keep its value between clicks: it needs to be
+a class-level variable.</p>
+</div>
+<div class="section" id="objects-can-take-some-time-to-die">
+<h2>24.4. Objects can take some time to die<a class="headerlink" href="#objects-can-take-some-time-to-die" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ve mentioned earlier that we have two kinds of types in C# &#8212; value types and reference types.
+A value type (like <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">double</span></code> or <code class="docutils literal"><span class="pre">Point</span></code>) is stored directly in a variable. Variables
+are instantly destroyed when control exits the scope in which they are defined.</p>
+<p>But a reference type creates a reference, or a pointer, to the object it refers to.  Our
+<code class="docutils literal"><span class="pre">Turtle</span></code> is a reference type,  <code class="docutils literal"><span class="pre">Window</span></code> is a reference type, and <code class="docutils literal"><span class="pre">Random</span></code> is a reference type.</p>
+<p>With reference types, the object is stored elsewhere in a region of memory called the <em>heap</em>.
+We&#8217;ve also seen that when we pass a reference type as an argument to a method, or when we
+assign one Turtle to another, we can create <em>aliases</em> &#8212; we can have more than one reference
+referring to the same object.</p>
+<p>Objects become <em>inaccessible</em> when there are no longer any references pointing to them.  So
+looking at our program above, on line 14, the variable <code class="docutils literal"><span class="pre">rng</span></code> is created, a new Random object
+is created in the heap, and <code class="docutils literal"><span class="pre">rng</span></code> is made to reference it.  After passing line 18 in the
+program, the <code class="docutils literal"><span class="pre">rng</span></code> variable is destroyed. So at this point the object in the heap becomes
+inaccessible &#8212; no references point to it.  We call inaccessible objects <strong>garbage</strong>. The
+object is still &#8220;alive&#8221;, however.</p>
+<p>Periodically, C# runs a <strong>garbage collector</strong>.  It&#8217;s job is to kill any garbage objects in
+the heap, and to recycle the memory so that the memory can be used again for new objects.</p>
+<div class="admonition-this-is-a-little-like-some-file-or-email-systems admonition">
+<p class="first admonition-title">This is a little like some file or email systems</p>
+<p class="last">Often when we delete a file or email it gets moved to a <em>recycle bin</em> or a <em>deleted folder</em>.
+So it is not dead yet &#8212; just inaccessible from our &#8220;normal&#8221; filing system or inbox.
+When we do get around to emptying the recycle bin or our deleted folder, it is finally gone forever.</p>
+</div>
+<p>So for reference types, lifetimes are a bit more complicated than they are for value types.</p>
+<p>Normally we need not concern ourselves with lifetimes: C# will handle most situations very
+nicely in the background.  But we can have some fun exploring the mechanism, and we can
+build a really good understanding of the inner workings by doing this.</p>
+<p>Let&#8217;s go back and play with another Turtle program.  When we create a Turtle,
+we create an object on the heap, but we also create some graphical lines and
+shapes on our playground canvas.   When our turtle becomes inaccessible it won&#8217;t
+die immediately &#8212; it hangs around until the garbage collector decides it is time
+to clean up and kill off all inaccessible objects.  Just before a turtle dies, it gets an
+event from the garbage collector that allows it to do its &#8220;final actions&#8221;.  (Technically,
+we call the handler a <em>destructor</em>, the lifetime opposite of the <em>constructor</em>.)
+As its final action, a turtle will removes its shapes (lines, footprints, etc.) from the
+playground. This gives us a nice visual way for us to &#8220;see when the turtle actually dies&#8221;.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Brush</span><span class="p">[]</span> <span class="n">myFaves</span> <span class="p">=</span> <span class="p">{</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Aqua</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Red</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Plum</span><span class="p">,</span>
+                    <span class="n">Brushes</span><span class="p">.</span><span class="n">Yellow</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Blue</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">SpringGreen</span> <span class="p">};</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">btnNewTurtle_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Random</span> <span class="n">rng</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+    <span class="n">Turtle</span> <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">400</span><span class="p">),</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">400</span><span class="p">));</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Heading</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">360</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">BrushWidth</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">LineBrush</span> <span class="p">=</span> <span class="n">myFaves</span><span class="p">[</span><span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="n">myFaves</span><span class="p">.</span><span class="n">Length</span><span class="p">)];</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">100</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<img alt="_images/inaccessible_turtles.png" src="_images/inaccessible_turtles.png" />
+<p>Each time the button is clicked we create a new turtle.  We start it off at a
+random position in the playground, on a random heading, with a random brush width,
+and a random brush colour.  Then we draw a single line.</p>
+<p>Each time we click the button we get a new turtle on the heap, and will soon have
+something looking this screen-shot.  But each time we exit the
+handler, we destroy variable <code class="docutils literal"><span class="pre">tess</span></code> &#8212; so we lose the reference to the turtle,
+and it becomes inaccessible, or garbage. (But not dead yet, so we can still see its shapes
+on the playground.)  After a while the garbage collector springs
+into action, and all the shapes suddenly disappear from the
+playground as the inaccessible turtles die.</p>
+<p>The garbage collector kicks in at unpredictable times &#8212;
+sometimes when we resize our window, sometimes when we click the button, sometimes
+when we just move the mouse over the window, occasionally when we&#8217;re just sitting
+back watching our screen.</p>
+<p>C# provides a <code class="docutils literal"><span class="pre">GC</span></code> class (in the <code class="docutils literal"><span class="pre">System</span></code> namespace) that provides a method
+for the programmer to explicitly ask for garbage collection.  So we can add an
+extra button to our GUI, and give it a handler like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">btnForceGC_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">GC</span><span class="p">.</span><span class="n">Collect</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This lets us explicitly force a garbage collection whenever we want one.</p>
+<p>Let us summarize the main idea of this section again: variables and objects have lifetimes.
+In the case of reference types, the objects in the heap become inaccessible, often because
+the variables that reference them are destroyed.  But the object itself might live on a while
+longer in the heap, until the garbage collector gets around to cleaning it up and
+reclaiming its memory.</p>
+</div>
+<div class="section" id="static-members-static-classes">
+<h2>24.5. Static members, static classes<a class="headerlink" href="#static-members-static-classes" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ve talked about instances of a type: <code class="docutils literal"><span class="pre">tess</span></code> and <code class="docutils literal"><span class="pre">alex</span></code> are instances of type Turtle.
+<code class="docutils literal"><span class="pre">button1</span></code> and <code class="docutils literal"><span class="pre">button2</span></code> could be instances of type <code class="docutils literal"><span class="pre">Button</span></code>.  And every instance
+has its own members (fields, variables, or methods),</p>
+<p>But sometimes we want to have members that don&#8217;t apply to the object, but they apply
+to the <em>type</em>.   Let us suppose we have 10 instances of Samsung S5 phones. They&#8217;ll
+each have their own settings: phone numbers, address books, and so on.
+But there can be other information that applies to the <em>type</em> of phone, not just to
+individual instances.  For example, the screen and camera resolutions,
+and the size and weight of the phone apply to all Samsung S5 phones.</p>
+<p>A member (property, method, variable) can be defined to be <strong>static</strong> in a class.
+This means that it will be associated with the class, not with the objects that
+are instantiated from the class.</p>
+<p>Let&#8217;s see some examples that we know well already:</p>
+<p><code class="docutils literal"><span class="pre">Math</span></code> is a class in namespace <code class="docutils literal"><span class="pre">System</span></code>.  It provides static methods like
+<code class="docutils literal"><span class="pre">Math.Sqrt</span></code> and <code class="docutils literal"><span class="pre">Math.Cos</span></code> that we can call.  It also has a few static
+fields (<code class="docutils literal"><span class="pre">Math.E</span></code> and <code class="docutils literal"><span class="pre">Math.PI</span></code>) that hold some useful constants.</p>
+<p>The important point is that we don&#8217;t have to instantiate an object of type <code class="docutils literal"><span class="pre">Math</span></code>
+and then call methods of the instance: we use the methods directly from the class.</p>
+<p><strong>Static classes</strong> are classes that <em>cannot</em> be instantiated.
+They exist only for their static members.  <code class="docutils literal"><span class="pre">Math</span></code> is
+a static class.  You cannot create an instance of a Math object.
+We&#8217;ve also used methods from the static class <code class="docutils literal"><span class="pre">System.Convert</span></code>, e.g.
+<code class="docutils literal"><span class="pre">Convert.Int32(&quot;1234&quot;)</span></code>.</p>
+<p>Some other classes we&#8217;ve seen have static members, but they can also
+be instantiated.  (So they have static members, but they&#8217;re not static classes.)
+For example, <code class="docutils literal"><span class="pre">Color</span></code> (from the namespace <code class="docutils literal"><span class="pre">System.Windows.Media</span></code>)
+is a class like this:</p>
+<img alt="_images/static_vs_instance.png" src="_images/static_vs_instance.png" />
+<p>In the upper part of the image we see the IntelliSense showing us
+members that are static: the class name is <code class="docutils literal"><span class="pre">Color</span></code>, and IntelliSense
+pops up the static members.</p>
+<p>In the lower part of the image we&#8217;ve instantiated a colour instance
+called <code class="docutils literal"><span class="pre">c1</span></code>.  Now IntelliSense shows us the members that belong to
+the instance.  They&#8217;re not the same as the static members.</p>
+<p>The help files for C# also use little icons to signal whether
+members are static or whether they belong to an instance.
+In the fragment of the help page from
+<a class="reference external" href="http://msdn.microsoft.com/en-us/library/system.windows.media.color.aspx">http://msdn.microsoft.com/en-us/library/system.windows.media.color.aspx</a>
+notice the big red static markers that tell us that the first two
+methods belong the the class, the others belong to instances.</p>
+<img alt="_images/color_help.png" src="_images/color_help.png" />
+</div>
+<div class="section" id="glossary">
+<h2>24.6. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-scope">scope</dt>
+<dd>The region of program code in which a name can be used without the need
+for extra qualification.</dd>
+<dt id="term-class-level-scope">class-level scope</dt>
+<dd>Any name defined directly within a class, and visible to methods within the class.</dd>
+<dt id="term-garbage">garbage</dt>
+<dd>Any object that has become inaccessible.</dd>
+<dt id="term-garbage-collection">garbage collection</dt>
+<dd>A periodic process that reclaims and recycles the memory
+used by inaccessible objects.</dd>
+<dt id="term-heap">heap</dt>
+<dd>An area of memory where objects are created and where they live.</dd>
+<dt id="term-inaccessible-object">inaccessible object</dt>
+<dd>An object which has no references from the program pointing to it.
+This happens because a variable can be reassigned, and made to point
+to a different object, or because a variable gets destroyed when
+control leaves the scope in which it is defined.</dd>
+<dt id="term-lifetime">lifetime</dt>
+<dd>The time from when a variable or an object is created (e.g. from control
+entering a new scope or from object instantiation) until it is
+destroyed (from control exiting the scope, or the garbage collector
+reclaiming the memory associated with the object.)</dd>
+<dt id="term-local-scope">local scope</dt>
+<dd>The closest enclosing block or method in which names are defined.</dd>
+<dt id="term-static-class">static class</dt>
+<dd>A class that cannot be instantiated.  <code class="docutils literal"><span class="pre">Math</span></code> is a static class.</dd>
+<dt id="term-static-member">static member</dt>
+<dd>A member that is accessible via the class name, not via an instance object.
+<code class="docutils literal"><span class="pre">Canvas.GetLeft</span></code> in our <em>More Event Handling</em> chapter is one example.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>24.7. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">The <code class="docutils literal"><span class="pre">GC</span></code> class can tell us how much heap memory our program is using.  Create
+a button on your GUI, and bind it to a handler like this so that the memory usage
+gets shown in the title bar of the window:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre>  <span class="k">private</span> <span class="k">void</span> <span class="nf">btnMemUsage_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+  <span class="p">{</span>
+     <span class="k">this</span><span class="p">.</span><span class="n">Title</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Memory in use = {0}&quot;</span><span class="p">,</span> <span class="n">GC</span><span class="p">.</span><span class="n">GetTotalMemory</span><span class="p">(</span><span class="k">false</span><span class="p">));</span>
+  <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>What is interesting is that each click of the button consumes quite a large number
+of bytes of memory (for processing the event, passing the arguments to the handler,
+redrawing the window, and so on.)  Notice that if
+you click enough times the garbage collector will recover the memory.</p>
+</li>
+<li><p class="first">Do an experiment to measure how much memory gets used each time we create
+a new array of int.  Because there is a lot of system overhead on every click and
+redraw of the window, we need to find some sensible way of controlling our
+experiment.  Here is a suggestion:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre>  <span class="kt">long</span> <span class="n">m1</span> <span class="p">=</span> <span class="n">GC</span><span class="p">.</span><span class="n">GetTotalMemory</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+  <span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="m">10000</span><span class="p">];</span>
+  <span class="kt">long</span> <span class="n">m2</span> <span class="p">=</span> <span class="n">GC</span><span class="p">.</span><span class="n">GetTotalMemory</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">Title</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Memory for the array = {0}&quot;</span><span class="p">,</span> <span class="n">m2</span><span class="p">-</span><span class="n">m1</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Repeat the above experiment, but this time allocate an array of double.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="n_queens_II.html" title="25. GUIs for our Queens"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="frameworkclasslib.html" title="23. The .NET Framework"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

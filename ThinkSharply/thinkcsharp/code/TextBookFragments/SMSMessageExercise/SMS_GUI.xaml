@@ -1,0 +1,22 @@
+﻿<Window x:Class="SMSMessageExercise.SMS_GUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SMS GUI" Height="350" Width="700">
+    <Grid>
+        <Canvas Height="263" HorizontalAlignment="Left" Margin="12,25,0,0" Name="canvas1" VerticalAlignment="Top" Width="208" Background="#FFE5CACA">
+            <Label Content="Message" Height="26" Name="label1" Width="102" Canvas.Left="6" Canvas.Top="80" />
+            <TextBox Height="102" Name="ttxMessage1" Width="196" Canvas.Left="6" Canvas.Top="106" Text="Party on Saturday: Please come to my party on Saturday at 8pm.   KB" TextWrapping="Wrap" />
+            <Button Content="Send SMS" Height="30" Name="btnSend" Width="73" Canvas.Left="129" Canvas.Top="219" Click="btnSend_Click" />
+            <Label Canvas.Left="8" Canvas.Top="14" Content="From" Height="28" Name="label2" />
+            <TextBox Canvas.Left="14" Canvas.Top="41" Height="24" Name="txtSender" Width="128" Text="072 123 4962" AcceptsReturn="True" />
+        </Canvas>
+        <Canvas HorizontalAlignment="Stretch" Margin="250,27,24,23" Name="canvas2" VerticalAlignment="Stretch" Background="#FF79DAEB">
+            <Button Canvas.Left="271" Canvas.Top="16" Content="Refresh Status
+                    " Height="25" Name="btnGetStatus" Width="96" Click="btnGetStatus_Click" />
+            <TextBox Canvas.Left="28" Canvas.Top="56" Height="191" Name="txtResult" Width="360" VerticalScrollBarVisibility="Auto" FontSize="14" FontFamily="Consolas" />
+            <Button Canvas.Left="112" Canvas.Top="16" Content="Read Message
+                    " Height="24" Name="btnReadMsg" Width="97" Click="btnReadMsg_Click" />
+            <TextBox Canvas.Left="48" Canvas.Top="16" Height="24" Name="txtMessageNum" Width="50" />
+        </Canvas>
+    </Grid>
+</Window>

@@ -1,0 +1,456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>29. Dictionaries &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="30. Interfaces" href="interfaces.html" />
+    <link rel="prev" title="28. Inheritance" href="inheritance.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="interfaces.html" title="30. Interfaces"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="inheritance.html" title="28. Inheritance"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dictionaries">
+<h1>29. Dictionaries<a class="headerlink" href="#dictionaries" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><p>Arrays, strings and lists all have one thing in common: the elements
+can be accessed by their index position.</p>
+<p><strong>Dictionaries</strong> are different.  They associate <strong>values</strong> with <strong>keys</strong>.
+The keys can be one type, the values can be another (possibly different) type.
+Every entry in the dictionary is a <em>pair</em> with two parts: the key, and its
+associated value.  We&#8217;ll refer to the pair as a key-value pair.</p>
+<p>Let&#8217;s begin with a simple dictionary that keeps track of how many emails
+we have have sent to others.  The key will be the email address that we&#8217;ve
+sent email to, the value associated with each key will be the number of
+emails we&#8217;ve sent to that address since we began counting.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">emailCounter</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;();</span>
+
+     <span class="n">emailCounter</span><span class="p">[</span><span class="s">&quot;a.n.other@ru.ac.za&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+     <span class="n">emailCounter</span><span class="p">[</span><span class="s">&quot;joe123@google.com&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="m">12</span><span class="p">;</span>
+     <span class="n">emailCounter</span><span class="p">[</span><span class="s">&quot;president@gov.za&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="m">2</span><span class="p">;</span>
+     <span class="n">emailCounter</span><span class="p">[</span><span class="s">&quot;abbey@foxpictures.com&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+
+     <span class="n">emailCounter</span><span class="p">[</span><span class="s">&quot;joe123@google.com&quot;</span><span class="p">]</span> <span class="p">+=</span> <span class="m">1</span><span class="p">;</span>
+
+     <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">k</span> <span class="k">in</span> <span class="n">emailCounter</span><span class="p">.</span><span class="n">Keys</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Key {0} has value {1}.\n&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">emailCounter</span><span class="p">[</span><span class="n">k</span><span class="p">]));</span>
+     <span class="p">}</span>
+     <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span>
+         <span class="s">&quot;There are {0} key-value pairs in the dictionary.\n&quot;</span><span class="p">,</span> <span class="n">emailCounter</span><span class="p">.</span><span class="n">Count</span><span class="p">));</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Take note:</p>
+<ul class="simple">
+<li>In line 3 we define a generic dictionary and supply the type of the keys, <code class="docutils literal"><span class="pre">string</span></code>, and the
+type of the values, <code class="docutils literal"><span class="pre">int</span></code>.   On the right-hand-side of the assignment we instantiate a new empty dictionary.</li>
+<li>Lines 5-8 add new items to the dictionary.  But notice now that the &#8220;index&#8221; is a key &#8212; a string in this case.</li>
+<li>Line 10 changes the value associated with a key, by incrementing it.</li>
+<li>In line 12, we see that we can get an enumerator for the keys, so <code class="docutils literal"><span class="pre">foreach</span></code> can look at
+each key in turn.  Each key is a string, which is assigned to <code class="docutils literal"><span class="pre">k</span></code> in the loop.</li>
+<li>Line 14 outputs each key and the value associated with it.</li>
+<li>Line 17 shows that we can use the <code class="docutils literal"><span class="pre">Count</span></code> property to discover how many pairs are in the dictionary.</li>
+</ul>
+<p>Here&#8217;s what we get:</p>
+<blockquote>
+<div><img alt="_images/dictionary_emails.png" src="_images/dictionary_emails.png" />
+</div></blockquote>
+<div class="admonition-hashing admonition">
+<p class="first admonition-title">Hashing</p>
+<p class="last">Our output here shows the pairs in the same order as we inserted them, but
+this is misleading!  In general, the order in which a dictionary stores
+its pairs is unpredictable.  (So the order in which we&#8217;ll get them
+delivered by a <code class="docutils literal"><span class="pre">foreach</span></code> becomes unpredictable.)    C# uses
+complex &#8220;hashing&#8221; algorithms, designed for very fast access, to determine
+where the key-value pairs get stored in memory. In small
+dictionaries like ours, C# might choose a list, but for large dictionaries
+it will switch techniques. If you want to learn more about
+hashing, Wikipedia has some interesting information!</p>
+</div>
+<div class="section" id="dictionary-initializers">
+<h2>29.1. Dictionary Initializers<a class="headerlink" href="#dictionary-initializers" title="Permalink to this headline">¶</a></h2>
+<p>Similar to what have for integer, doubles, arrays, strings, and lists,
+there is also some useful initializer syntax in C#.  This lets us
+provide some pairs when we instantiate the dictionary.
+Lines 5-8 in our example can also be coded like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre>     <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">emailCounter</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;()</span>
+         <span class="p">{</span>  <span class="p">{</span><span class="s">&quot;a.n.other@ru.ac.za&quot;</span><span class="p">,</span>    <span class="m">3</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&quot;joe123@google.com&quot;</span><span class="p">,</span>    <span class="m">12</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&quot;president@gov.za&quot;</span><span class="p">,</span>      <span class="m">2</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&quot;abbey@foxpictures.com&quot;</span><span class="p">,</span> <span class="m">5</span><span class="p">}</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+<p>If we try to
+get the value associated with a key that doesn&#8217;t exist in our dictionary,
+we&#8217;ll get a  <code class="docutils literal"><span class="pre">KeyNotFound</span></code> exception.  So</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>     <span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="n">emailCounter</span><span class="p">[</span><span class="s">&quot;bill@microsoft.com&quot;</span><span class="p">];</span>  <span class="c1">// Exception</span>
+</pre></div>
+</td></tr></table></div>
+<p>is not going to work!</p>
+</div>
+<div class="section" id="dictionary-methods">
+<h2>29.2. Dictionary Methods<a class="headerlink" href="#dictionary-methods" title="Permalink to this headline">¶</a></h2>
+<p>Here are a couple of useful methods:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">ContainsKey(key)</span></code>  can (safely) test whether a key is
+in a dictionary.</li>
+<li><code class="docutils literal"><span class="pre">Remove(key)</span></code> removes the key and its associated value from the dictionary.</li>
+<li><code class="docutils literal"><span class="pre">Clear()</span></code> will remove all key-value pairs and leave the dictionary empty.</li>
+</ul>
+<p>A dictionary is a reference type.  Because it can be updated,
+we need to be aware of aliasing.  Whenever
+two variables refer to the same object, changes to one affect the other.</p>
+<div class="admonition-dictionaries-and-lists-are-your-friends admonition">
+<p class="first admonition-title">Dictionaries and lists are your friends!</p>
+<p>As you learn more C# you&#8217;ll discover more exotic ways of organizing
+your collections: we&#8217;ve briefly covered lists and dictionaries, but you&#8217;ll
+find queues, stacks, sets, deques, and possibly others.</p>
+<p>But most of the time the most practical
+data structure of choice will be either a list (if you don&#8217;t need
+key-value associations), or a dictionary (if you do).</p>
+<p class="last">If you want some extra reading on C# dictionaries, try <a class="reference external" href="http://www.dotnetperls.com/dictionary">http://www.dotnetperls.com/dictionary</a>.</p>
+</div>
+</div>
+<div class="section" id="counting-letters-in-a-string">
+<h2>29.3. Counting letters in a string<a class="headerlink" href="#counting-letters-in-a-string" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/dict_freq_count.png" class="align-right" src="_images/dict_freq_count.png" />
+<p>We&#8217;ll build a frequency table of the letters in a string.
+Such a frequency table might be useful for compressing a text file. Because different
+letters appear with different frequencies, we can compress a file by using
+shorter codes for common letters and longer codes for letters that appear less
+frequently.</p>
+<p>Dictionaries provide an elegant way to generate a frequency table:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">letterFreqs</span><span class="p">(</span><span class="kt">string</span> <span class="n">theText</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">result</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;();</span>
+     <span class="k">foreach</span> <span class="p">(</span><span class="kt">char</span> <span class="n">c</span> <span class="k">in</span> <span class="n">theText</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+         <span class="p">{</span>
+             <span class="n">result</span><span class="p">[</span><span class="n">c</span><span class="p">]++;</span>
+         <span class="p">}</span>
+         <span class="k">else</span>
+         <span class="p">{</span>
+             <span class="n">result</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>We start with an empty dictionary. For each character in the string we
+test whether it is the first time we&#8217;ve encountered it (and it becomes
+a new association in our dictionary at line 12), or we bump (increment) the counter
+of the number of times we&#8217;ve already seen it (line 8).</p>
+<p>With the code below to exercise our method we get the output here.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="k">void</span> <span class="nf">btnLetterFreq_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="kt">string</span> <span class="n">poem</span> <span class="p">=</span>
+ <span class="s">@&quot;   The truth I do not stretch or shove</span>
+<span class="s">     When I state that the dog is full of love.</span>
+<span class="s">          I&#39;ve also found, by actual test,</span>
+<span class="s">             A wet dog is the lovingest.</span>
+
+<span class="s">                                      Ogden Nash&quot;</span><span class="p">;</span>
+
+     <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">freqs</span> <span class="p">=</span> <span class="n">letterFreqs</span><span class="p">(</span><span class="n">poem</span><span class="p">);</span>
+     <span class="k">foreach</span> <span class="p">(</span><span class="kt">char</span> <span class="n">k</span> <span class="k">in</span> <span class="n">freqs</span><span class="p">.</span><span class="n">Keys</span><span class="p">)</span>
+     <span class="p">{</span>
+        <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span>
+             <span class="s">&quot;Character &#39;{0}&#39; occurs {1} times.\n&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">freqs</span><span class="p">[</span><span class="n">k</span><span class="p">]));</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Those broken lines in the middle of the output correspond to the carriage return
+and newline characters at the end of each line of the poem.  We&#8217;ll change our frequency
+counter to ignore them.  And it might be more appealing to get back a frequency
+table in alphabetical order.</p>
+</div>
+<div class="section" id="slightly-fancier-dictionaries">
+<h2>29.4. Slightly fancier dictionaries<a class="headerlink" href="#slightly-fancier-dictionaries" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/dict_freq_count_II.png" class="align-right" src="_images/dict_freq_count_II.png" />
+<p>Dictionaries (and lists) are important enough that the .NET Framework gives us
+a number of different flavours of each that we can choose from.  This
+allows a smart programmer to choose a type that is most effective for the problem.</p>
+<p>In the <code class="docutils literal"><span class="pre">System.Collections.Generic</span></code> namespace (we&#8217;re already using it for type <code class="docutils literal"><span class="pre">Dictionary</span></code>)
+we also find a <code class="docutils literal"><span class="pre">SortedDictionary</span></code> type.   And if we want more choice,
+the <code class="docutils literal"><span class="pre">System.Collections.Specialized</span></code> namespace offers us a <code class="docutils literal"><span class="pre">ListDictionary</span></code> type,
+an <code class="docutils literal"><span class="pre">OrderedDictionary</span></code> type and a <code class="docutils literal"><span class="pre">StringDictionary</span></code> type.</p>
+<p>Let&#8217;s put some changes into our code:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span class="hll"> <span class="k">private</span> <span class="n">IDictionary</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">letterFreqs</span><span class="p">(</span><span class="kt">string</span> <span class="n">theText</span><span class="p">)</span>
+</span> <span class="p">{</span>
+<span class="hll">     <span class="n">SortedDictionary</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">result</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SortedDictionary</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;();</span>
+</span>     <span class="k">foreach</span> <span class="p">(</span><span class="kt">char</span> <span class="n">c</span> <span class="k">in</span> <span class="n">theText</span><span class="p">)</span>
+     <span class="p">{</span>
+<span class="hll">         <span class="k">if</span> <span class="p">(</span><span class="kt">char</span><span class="p">.</span><span class="n">IsLetter</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+</span>         <span class="p">{</span>
+             <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+             <span class="p">{</span>
+                 <span class="n">result</span><span class="p">[</span><span class="n">c</span><span class="p">]++;</span>
+             <span class="p">}</span>
+             <span class="k">else</span>
+             <span class="p">{</span>
+                 <span class="n">result</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+             <span class="p">}</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li>At line 6 we test that <code class="docutils literal"><span class="pre">c</span></code> is a letter before we count it.</li>
+<li>At line 3 we use a <code class="docutils literal"><span class="pre">SortedDictionary</span></code> instead of a plain one. This guarantees that
+when we use the <code class="docutils literal"><span class="pre">foreach</span></code> we will get the keys out in sorted order.  Otherwise all the code is the same.</li>
+<li>At line 1 we&#8217;ve done something special: we&#8217;re returning a type called <code class="docutils literal"><span class="pre">IDictionary</span></code>.  We&#8217;re going
+to talk about that in the next chapter.</li>
+</ul>
+<p>We make one change to the calling code, &#8212; change the definition at line 11 to also be an <code class="docutils literal"><span class="pre">IDictionary</span></code>
+instead of <code class="docutils literal"><span class="pre">Dictionary</span></code>, and we get the new output shown here.   (Join the dots... recall that for
+characters, all upper-case letters are ordered before the lower-case letters).</p>
+<p>You could lower-case the string if you wanted capitals and small letters to be treated equivalently.
+There are also advanced options (beyond the scope of this book) to set up a dictionary that uses
+our own &#8220;comparer&#8221; method that we supply. That would give us complete control
+over decisions about when two keys are considered less than or equal to each other.</p>
+</div>
+<div class="section" id="dictionary-array-or-list">
+<h2>29.5. Dictionary, array, or list?<a class="headerlink" href="#dictionary-array-or-list" title="Permalink to this headline">¶</a></h2>
+<p>If we think about it, lists and arrays are also &#8220;mappings&#8221; of keys to associated data.
+An array of the names of the days of the week would have position 0 associated with &#8220;Sunday&#8221;,
+position 1 with &#8220;Monday&#8221;, and so on.</p>
+<p>In an array or list the index (or key) must always be an integer and the lowest index is always zero.
+For dictionaries this is not the case.</p>
+<p>So, specifically for the situation when our keys are integers, we should ask
+<em>&#8220;Which of list, or array, or dictionary, will be a good choice?&#8221;</em>.</p>
+<p>So here are two sample problems, let us think about the best data representation for each:</p>
+<blockquote>
+<div><p>a) We want to check whether a random number generator really does give a uniform
+distribution of numbers in the range [0,100).  We&#8217;ll generate ten million random
+numbers and count how many times each one occurs.  For a uniform generator, we&#8217;ll
+expect the frequencies should be close to each other. (And our statistics wizards
+will be able to define exactly what is meant by &#8220;close enough&#8221;.)</p>
+<p>b) People work in a building that uses an access card to allow
+them through specific doors.  The security card uses a date of birth followed
+by two random digits, for example 1994052674, as a key, and the
+associated data is a string of characters describing the doors they can open &#8212;
+&#8220;A103,B12,Foyer,North Seminar Room,Stairwell&#8221;.</p>
+</div></blockquote>
+<div class="sidebar">
+<p class="first sidebar-title">Will the large access code fit into an <code class="docutils literal"><span class="pre">int</span></code>?</p>
+<p>We should double-check that our <code class="docutils literal"><span class="pre">int</span></code> type is suitable for storing large
+access codes like this.
+The biggest number that can be stored in a 32-bit integer is 2,147,483,647.</p>
+<p class="last">So yes, our codes will fit, but our program could
+go wrong when someone born after 2147 needs access to our building.</p>
+</div>
+<p>In the first case the keys are &#8220;dense&#8221;, and there is no need for a list that can grow
+or shrink dynamically.  So an integer array of 100 elements sounds ideal.
+Each time we generate a new random number we can immediately know which array element to
+update.  So <code class="docutils literal"><span class="pre">int[]</span> <span class="pre">freqs</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">int[100];</span></code> will be a great way to store this data.</p>
+<p>In the second problem the nature of the keys is very different.  We might only have
+eighty people who can access the building, but their keys are all very large
+integers, and far apart from one another.  If we plotted all the keys on a number
+line they would be very &#8220;sparse&#8221;.   In this case, a <code class="docutils literal"><span class="pre">Dictionary&lt;int,</span> <span class="pre">string&gt;</span></code>
+would be a better choice.</p>
+<p>In the first case, we, the programmers, are really determining where to store
+the elements.  In the second case, we&#8217;ve handed that problem over to the dictionary.</p>
+</div>
+<div class="section" id="glossary">
+<h2>29.6. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-dictionary">dictionary</dt>
+<dd>A collection of key-value pairs that maps from keys to values.</dd>
+<dt id="term-key">key</dt>
+<dd>A data item that is <em>mapped to</em> a value in a dictionary. Keys are used
+to look up values in a dictionary. Each key must be unique
+across the dictionary.</dd>
+<dt id="term-key-value-pair">key-value pair</dt>
+<dd>One of the pairs of items in a dictionary. Values are looked up in a
+dictionary by their key.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>29.7. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Perform a frequency count on randomly generated numbers in the range [0,10000).
+Do it twice: once with an array, and once with a dictionary.  Devise an
+experiment to compare the performance of the two alternatives.   Try to control
+for the overheads of generating the random numbers and running the loops, so
+that your experimental results become an accurate measure of the speeds of
+the underlying storage mechanisms.</p>
+</li>
+<li><p class="first">Suppose every computer lab user has a usercode like g09m1234.  Associated with
+the usercode is a <code class="docutils literal"><span class="pre">UserProfile</span></code> object that holds their name, permissions,
+desktop preferences, and course groups that they belong to.  Give a
+type definition for a dictionary that could maintain the mapping between
+the usercode and its profile.</p>
+</li>
+<li><p class="first">In our &#8220;List and Array Algorithms&#8221; chapter we worked extensively with
+<cite>Alice&#8217;s Adventures in Wonderland</cite>.  Re-use as much of that code as you
+can, and produce an alphabetic frequency count of the words in the book,
+something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>Word              Count
+=======================
+a                 631
+a-piece           1
+abide             1
+able              1
+about             94
+above             3
+absence           1
+absurd            2
+</pre></div>
+</div>
+<p>How many times does the word &#8220;alice&#8221; occur in the book?</p>
+</li>
+<li><p class="first">What is the longest word in Alice in Wonderland? How many characters does it have?</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="interfaces.html" title="30. Interfaces"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="inheritance.html" title="28. Inheritance"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Customizing and Contributing to the Book &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Some Tips, Tricks, and Common Errors" href="app_e.html" />
+    <link rel="prev" title="Configuring Ubuntu for Python Development" href="app_c.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="app_e.html" title="Some Tips, Tricks, and Common Errors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="app_c.html" title="Configuring Ubuntu for Python Development"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="customizing-and-contributing-to-the-book">
+<h1>Customizing and Contributing to the Book<a class="headerlink" href="#customizing-and-contributing-to-the-book" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><em>Note:</em> the following instructions assume that you are connected to
+the Internet and that you have both the <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">universe</span></code>
+package repositories enabled.  All unix shell commands are assumed to
+be running from your home directory ($HOME).  Finally, any command that
+begins with <code class="docutils literal notranslate"><span class="pre">sudo</span></code> assumes that you have administrative rights on your
+machine.  If you do not — please ask your system administrator about
+installing the software you need.</div></blockquote>
+<p>This book is free as in freedom, which means you have the right to modify it
+to suite your needs, and to redistribute your modifications so that our whole
+community can benefit.</p>
+<p>That freedom lacks meaning, however, if you the tools needed to make a
+custom version or to contribute corrections and additions are not within your
+reach.  This appendix attempts to put those tools in your hands.</p>
+<p>Thanks!</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="mailto:jeff&#37;&#52;&#48;elkner&#46;net">Jeffrey Elkner</a></div>
+<div class="line">Governor’s Career and Technical Academy in Arlington</div>
+<div class="line">Arlington, Virginia</div>
+</div>
+<div class="section" id="getting-the-source">
+<h2>Getting the Source<a class="headerlink" href="#getting-the-source" title="Permalink to this headline">¶</a></h2>
+<p>This book is <a class="reference external" href="http://en.wikipedia.org/wiki/Markup_language">marked up</a> in
+<a class="reference external" href="http://en.wikipedia.org/wiki/ReStructuredText">ReStructuredText</a> using
+a document generation system called
+<a class="reference external" href="http://en.wikipedia.org/wiki/Sphinx_%28documentation_generator%29">Sphinx</a>.</p>
+<p>The source code is located at <a class="reference external" href="https://code.launchpad.net/~thinkcspy-rle-team/thinkcspy/thinkcspy3-rle">https://code.launchpad.net/~thinkcspy-rle-team/thinkcspy/thinkcspy3-rle</a>.</p>
+<p>The easiest way to get the source code on an Ubuntu computer is:</p>
+<ol class="arabic simple">
+<li>run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">bzr</span></code> on your system to install
+<a class="reference external" href="http://en.wikipedia.org/wiki/Bazaar_%28software%29">bzr</a>.</li>
+<li>run <code class="docutils literal notranslate"><span class="pre">bzr</span> <span class="pre">branch</span> <span class="pre">lp:thinkcspy</span></code>.</li>
+</ol>
+<p>The last command above will download the book source from Launchpad into a
+directory named <code class="docutils literal notranslate"><span class="pre">thinkcspy</span></code> which contains the Sphinx source and
+configuration information needed to build the book.</p>
+</div>
+<div class="section" id="making-the-html-version">
+<h2>Making the HTML Version<a class="headerlink" href="#making-the-html-version" title="Permalink to this headline">¶</a></h2>
+<p>To generate the html version of the book:</p>
+<ol class="arabic simple">
+<li>run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-sphinx</span></code> to install the Sphinx
+documentation system.</li>
+<li><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">thinkcspy</span></code> - change into the <code class="docutils literal notranslate"><span class="pre">thinkcspy</span></code> directory containing the
+book source.</li>
+<li><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code>.</li>
+</ol>
+<p>The last command will run sphinx and create a directory named <code class="docutils literal notranslate"><span class="pre">build</span></code>
+containing the html verion of the text.</p>
+<blockquote>
+<div><em>Note</em>: Sphinx supports building other output types as well, such as
+<a class="reference external" href="http://en.wikipedia.org/wiki/PDF">PDF</a>.  This requires that
+<a class="reference external" href="http://en.wikipedia.org/wiki/LaTeX">LaTeX</a> be present on your
+system.  Since I only personally use the html version, I will not
+attempt to document that process here.</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="app_e.html" title="Some Tips, Tricks, and Common Errors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="app_c.html" title="Configuring Ubuntu for Python Development"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,489 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>27. Queues &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="28. Trees" href="trees.html" />
+    <link rel="prev" title="26. Stacks" href="stacks.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="trees.html" title="28. Trees"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="stacks.html" title="26. Stacks"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="queues">
+<h1>27. Queues<a class="headerlink" href="#queues" title="Permalink to this headline">¶</a></h1>
+<p>This chapter presents two ADTs: the Queue and the Priority Queue. In real life,
+a <strong>queue</strong> is a line of people waiting for something. In most
+cases, the first person in line is the next one to be served. There are
+exceptions, though. At airports, peoples whose flights are leaving soon are
+sometimes taken from the middle of the queue. At supermarkets, a polite
+person might let someone with only a few items go in front of them.</p>
+<p>The rule that determines who goes next is called the <strong>queueing policy</strong>. The
+simplest queueing policy is called “First in, First out”, <strong>FIFO</strong> for short. The most
+general queueing policy is <strong>priority queueing</strong>, in which each person is
+assigned a priority and the person with the highest priority goes first,
+regardless of the order of arrival. We say this is the most general policy
+because the priority can be based on anything: what time a flight leaves; how
+many groceries the person has; or how important the person is. Of course,
+not all queueing policies are fair, but fairness is in the eye of the beholder.</p>
+<p>The Queue ADT and the Priority Queue ADT have the same set of operations. The
+difference is in the semantics of the operations: a queue uses the FIFO policy;
+and a priority queue (as the name suggests) uses the priority queueing policy.</p>
+<div class="section" id="the-queue-adt">
+<h2>27.1. The Queue ADT<a class="headerlink" href="#the-queue-adt" title="Permalink to this headline">¶</a></h2>
+<p>The Queue ADT is defined by the following operations:</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">__init__</span></code></dt>
+<dd>Initialize a new empty queue.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">insert</span></code></dt>
+<dd>Add a new item to the queue.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">remove</span></code></dt>
+<dd>Remove and return an item from the queue. The item that is returned is the
+first one that was added.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">is_empty</span></code></dt>
+<dd>Check whether the queue is empty.</dd>
+</dl>
+</div>
+<div class="section" id="linked-queue">
+<h2>27.2. Linked Queue<a class="headerlink" href="#linked-queue" title="Permalink to this headline">¶</a></h2>
+<p>The first implementation of the Queue ADT we will look at is called a <strong>linked
+queue</strong> because it is made up of linked <code class="docutils literal notranslate"><span class="pre">Node</span></code> objects. Here is the class
+definition:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Queue</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cargo</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">cargo</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># If list is empty the new node goes first</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Find the last node in the list</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span>
+            <span class="k">while</span> <span class="n">last</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
+                <span class="n">last</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="n">next</span>
+            <span class="c1"># Append the new node</span>
+            <span class="n">last</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cargo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">cargo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">next</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">cargo</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The methods <code class="docutils literal notranslate"><span class="pre">is_empty</span></code> and <code class="docutils literal notranslate"><span class="pre">remove</span></code> are identical to the <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code>
+methods <code class="docutils literal notranslate"><span class="pre">is_empty</span></code> and <code class="docutils literal notranslate"><span class="pre">remove_first</span></code>. The <code class="docutils literal notranslate"><span class="pre">insert</span></code> method is new and a
+bit more complicated.</p>
+<p>We want to insert new items at the end of the list. If the queue is empty, we
+just set <code class="docutils literal notranslate"><span class="pre">head</span></code> to refer to the new node.</p>
+<p>Otherwise, we traverse the list to the last node and tack the new node on the
+end. We can identify the last node because its <code class="docutils literal notranslate"><span class="pre">next</span></code> attribute is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>There are two invariants for a properly formed <code class="docutils literal notranslate"><span class="pre">Queue</span></code> object. The value of
+<code class="docutils literal notranslate"><span class="pre">length</span></code> should be the number of nodes in the queue, and the last node should
+have <code class="docutils literal notranslate"><span class="pre">next</span></code> equal to <code class="docutils literal notranslate"><span class="pre">None</span></code>. Convince yourself that this method preserves
+both invariants.</p>
+</div>
+<div class="section" id="performance-characteristics">
+<h2>27.3. Performance characteristics<a class="headerlink" href="#performance-characteristics" title="Permalink to this headline">¶</a></h2>
+<p>Normally when we invoke a method, we are not concerned with the details of its
+implementation. But there is one detail we might want to know: the performance
+characteristics of the method. How long does it take, and how does the run time
+change as the number of items in the collection increases?</p>
+<p>First look at <code class="docutils literal notranslate"><span class="pre">remove</span></code>. There are no loops or function calls here, suggesting
+that the runtime of this method is the same every time.  Such a method is
+called a <strong>constant time</strong> operation. In reality, the method might be slightly
+faster when the list is empty since it skips the body of the conditional, but
+that difference is not significant.</p>
+<p>The performance of <code class="docutils literal notranslate"><span class="pre">insert</span></code> is very different. In the general case, we have
+to traverse the list to find the last element.</p>
+<p>This traversal takes time proportional to the length of the list.  Since the
+runtime is a linear function of the length, this method is called <strong>linear
+time</strong>. Compared to constant time, that’s very bad.</p>
+</div>
+<div class="section" id="improved-linked-queue">
+<h2>27.4. Improved Linked Queue<a class="headerlink" href="#improved-linked-queue" title="Permalink to this headline">¶</a></h2>
+<p>We would like an implementation of the Queue ADT that can perform all
+operations in constant time. One way to do that is to modify the <code class="docutils literal notranslate"><span class="pre">Queue</span></code> class so
+that it maintains a reference to both the first and the last node, as shown in
+the figure:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ImprovedQueue</span></code> implementation looks like this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ImprovedQueue</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>So far, the only change is the attribute <code class="docutils literal notranslate"><span class="pre">last</span></code>. It is used in <code class="docutils literal notranslate"><span class="pre">insert</span></code> and
+<code class="docutils literal notranslate"><span class="pre">remove</span></code> methods:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ImprovedQueue</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cargo</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">cargo</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># If list is empty, the new node is head and last</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Find the last node</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span>
+            <span class="c1"># Append the new node</span>
+            <span class="n">last</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Since <code class="docutils literal notranslate"><span class="pre">last</span></code> keeps track of the last node, we don’t have to search for it. As
+a result, this method is constant time.</p>
+<p>There is a price to pay for that speed. We have to add a special case to
+<code class="docutils literal notranslate"><span class="pre">remove</span></code> to set <code class="docutils literal notranslate"><span class="pre">last</span></code> to <code class="docutils literal notranslate"><span class="pre">None</span></code> when the last node is removed:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ImprovedQueue</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cargo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">cargo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">next</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">cargo</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This implementation is more complicated than the Linked Queue implementation,
+and it is more difficult to demonstrate that it is correct. The advantage is
+that we have achieved the goal — both <code class="docutils literal notranslate"><span class="pre">insert</span></code> and <code class="docutils literal notranslate"><span class="pre">remove</span></code> are
+constant time operations.</p>
+</div>
+<div class="section" id="priority-queue">
+<h2>27.5. Priority queue<a class="headerlink" href="#priority-queue" title="Permalink to this headline">¶</a></h2>
+<p>The Priority Queue ADT has the same interface as the Queue ADT, but different
+semantics. Again, the interface is:</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">__init__</span></code></dt>
+<dd>Initialize a new empty queue.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">insert</span></code></dt>
+<dd>Add a new item to the queue.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">remove</span></code></dt>
+<dd>Remove and return an item from the queue. The item that is returned is the
+one with the highest priority.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">is_empty</span></code></dt>
+<dd>Check whether the queue is empty.</dd>
+</dl>
+<p>The semantic difference is that the item that is removed from the queue is not
+necessarily the first one that was added. Rather, it is the item in the queue
+that has the highest priority. What the priorities are and how they compare to
+each other are not specified by the Priority Queue implementation. It depends
+on which items are in the queue.</p>
+<p>For example, if the items in the queue have names, we might choose them in
+alphabetical order. If they are bowling scores, we might go from highest to
+lowest, but if they are golf scores, we would go from lowest to highest. As
+long as we can compare the items in the queue, we can find and remove the one
+with the highest priority.</p>
+<p>This implementation of Priority Queue has as an attribute a Python list that
+contains the items in the queue.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PriorityQueue</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span>
+
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The initialization method, <code class="docutils literal notranslate"><span class="pre">is_empty</span></code>, and <code class="docutils literal notranslate"><span class="pre">insert</span></code> are all veneers on list
+operations. The only interesting method is <code class="docutils literal notranslate"><span class="pre">remove</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PriorityQueue</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">maxi</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">maxi</span><span class="p">]:</span>
+                <span class="n">maxi</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">maxi</span><span class="p">]</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">maxi</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">item</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>At the beginning of each iteration, <code class="docutils literal notranslate"><span class="pre">maxi</span></code> holds the index of the biggest
+item (highest priority) we have seen <em>so far</em>. Each time through the loop, the
+program compares the <code class="docutils literal notranslate"><span class="pre">i</span></code>’th item to the champion. If the new item is bigger,
+the value of <code class="docutils literal notranslate"><span class="pre">maxi</span></code> is set to <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p>
+<p>When the <code class="docutils literal notranslate"><span class="pre">for</span></code> statement completes, <code class="docutils literal notranslate"><span class="pre">maxi</span></code> is the index of the biggest
+item. This item is removed from the list and returned.</p>
+<p>Let’s test the implementation:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">PriorityQueue</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">13</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="n">q</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">remove</span><span class="p">())</span>
+<span class="gp">...</span>
+<span class="go">14</span>
+<span class="go">13</span>
+<span class="go">12</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>If the queue contains simple numbers or strings, they are removed in numerical
+or alphabetical order, from highest to lowest. Python can find the biggest
+integer or string because it can compare them using the built-in comparison
+operators.</p>
+<p>If the queue contains an object type, it has to provide a <code class="docutils literal notranslate"><span class="pre">__gt__</span></code> method.
+When <code class="docutils literal notranslate"><span class="pre">remove</span></code> uses the <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> operator to compare items, it invokes the
+<code class="docutils literal notranslate"><span class="pre">__gt__</span></code> method for one of the items and passes the other as a parameter. As long
+as the <code class="docutils literal notranslate"><span class="pre">__gt__</span></code> method works correctly, the Priority Queue will work.</p>
+</div>
+<div class="section" id="the-golfer-class">
+<h2>27.6. The <code class="docutils literal notranslate"><span class="pre">Golfer</span></code> class<a class="headerlink" href="#the-golfer-class" title="Permalink to this headline">¶</a></h2>
+<p>As an example of an object with an unusual definition of priority, let’s
+implement a class called <code class="docutils literal notranslate"><span class="pre">Golfer</span></code> that keeps track of the names and scores of
+golfers. As usual, we start by defining <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and <code class="docutils literal notranslate"><span class="pre">__str__</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Golfer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">score</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="o">=</span> <span class="n">score</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0:16}</span><span class="s2">: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">__str__</span></code> uses the format method to put the names and scores in neat
+columns.</p>
+<p>Next we define a version of <code class="docutils literal notranslate"><span class="pre">__gt__</span></code> where the lowest score gets highest
+priority. As always, <code class="docutils literal notranslate"><span class="pre">__gt__</span></code> returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">self</span></code> is greater than
+<code class="docutils literal notranslate"><span class="pre">other</span></code>, and <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Golfer</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">score</span>    <span class="c1"># Less is more</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Now we are ready to test the priority queue with the <code class="docutils literal notranslate"><span class="pre">Golfer</span></code> class:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tiger</span> <span class="o">=</span> <span class="n">Golfer</span><span class="p">(</span><span class="s2">&quot;Tiger Woods&quot;</span><span class="p">,</span> <span class="mi">61</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phil</span> <span class="o">=</span> <span class="n">Golfer</span><span class="p">(</span><span class="s2">&quot;Phil Mickelson&quot;</span><span class="p">,</span> <span class="mi">72</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hal</span> <span class="o">=</span> <span class="n">Golfer</span><span class="p">(</span><span class="s2">&quot;Hal Sutton&quot;</span><span class="p">,</span> <span class="mi">69</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pq</span> <span class="o">=</span> <span class="n">PriorityQueue</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="p">[</span><span class="n">tiger</span><span class="p">,</span> <span class="n">phil</span><span class="p">,</span> <span class="n">hal</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="n">pq</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="ow">not</span> <span class="n">pq</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">pq</span><span class="o">.</span><span class="n">remove</span><span class="p">())</span>
+<span class="gp">...</span>
+<span class="go">Tiger Woods     : 61</span>
+<span class="go">Hal Sutton      : 69</span>
+<span class="go">Phil Mickelson  : 72</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="glossary">
+<h2>27.7. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-constant-time">constant time</dt>
+<dd>An operation whose runtime does not depend on the size of the data
+structure.</dd>
+<dt id="term-fifo-first-in-first-out">FIFO (First In, First Out)</dt>
+<dd>a queueing policy in which the first member to arrive is the first
+to be removed.</dd>
+<dt id="term-linear-time">linear time</dt>
+<dd>An operation whose runtime is a linear function of the size of the data
+structure.</dd>
+<dt id="term-linked-queue">linked queue</dt>
+<dd>An implementation of a queue using a linked list.</dd>
+<dt id="term-priority-queue">priority queue</dt>
+<dd>A queueing policy in which each member has a priority determined by
+external factors. The member with the highest priority is the first to
+be removed.</dd>
+<dt id="term-5">Priority Queue</dt>
+<dd>An ADT that defines the operations one might perform on a priority
+queue.</dd>
+<dt id="term-queue">queue</dt>
+<dd>An ordered set of objects waiting for a service of some kind.</dd>
+<dt id="term-7">Queue</dt>
+<dd>An ADT that performs the operations one might perform on a queue.</dd>
+<dt id="term-queueing-policy">queueing policy</dt>
+<dd>The rules that determine which member of a queue is removed next.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>27.8. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Write an implementation of the Queue ADT using a Python list.  Compare the
+performance of this implementation to the <code class="docutils literal notranslate"><span class="pre">ImprovedQueue</span></code> for a range of
+queue lengths.</li>
+<li>Write an implementation of the Priority Queue ADT using a
+linked list. You should keep the list sorted so that removal is a constant
+time operation. Compare the performance of this implementation with the
+Python list implementation.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="trees.html" title="28. Trees"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="stacks.html" title="26. Stacks"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

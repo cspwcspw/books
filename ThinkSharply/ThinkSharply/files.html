@@ -1,0 +1,727 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>18. I/O, Files, and Networks &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="19. List and Array Algorithms" href="list_algorithms.html" />
+    <link rel="prev" title="17. Odds and Ends" href="odds_and_ends.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="list_algorithms.html" title="19. List and Array Algorithms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="odds_and_ends.html" title="17. Odds and Ends"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="i-o-files-and-networks">
+<h1>18. I/O, Files, and Networks<a class="headerlink" href="#i-o-files-and-networks" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="about-i-o-files-and-networks">
+<span id="index-0"></span><h2>18.1. About I/O, Files and Networks<a class="headerlink" href="#about-i-o-files-and-networks" title="Permalink to this headline">¶</a></h2>
+<p>While a program is running, its data is stored in <em>random access memory</em> (RAM).
+RAM is fast, but it is also <strong>volatile</strong>, which means that when
+the program ends, or the computer shuts down, data in RAM disappears. To make
+data available the next time the computer is turned on and the program
+is started, it has to be written to a <strong>file</strong> on a <strong>non-volatile</strong> device
+such as a disk or USB memory stick, or the data needs to saved somewhere
+on the Internet (in the &#8220;cloud&#8221;).</p>
+<p>I/O is a shorthand for Input/Output.  So whenever a program
+reads or writes data to something (or somewhere) outside itself
+(including files, memory, or the Internet), we&#8217;ll call this I/O.</p>
+<p>By reading and writing files, programs can save information between program runs.</p>
+<p>Working with I/O is often like working with a notebook. To use a notebook,
+it has to be opened. When done, it has to be closed.  While the
+notebook is open, it can either be read from or written to. In either case,
+the notebook holder knows where they are in the notebook. They can read the
+whole notebook in its natural order or they can skip around.</p>
+<p>All of this applies to files as well. To open a file, we specify its name and
+indicate whether we want to read or write.</p>
+<p>Most of the file-related classes are in the library called <code class="docutils literal"><span class="pre">System.IO</span></code>, so all
+the programs in this chapter will need a <code class="docutils literal"><span class="pre">using</span> <span class="pre">System.IO;</span></code> directive at the
+top of the file.</p>
+</div>
+<div class="section" id="writing-our-first-file">
+<h2>18.2. Writing our first file<a class="headerlink" href="#writing-our-first-file" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s begin with a simple program that writes a few lines of text to a file:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">writeMyFirstTextFile</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">TextWriter</span> <span class="n">myfile</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">CreateText</span><span class="p">(</span><span class="s">&quot;C:\\temp\\test1.txt&quot;</span><span class="p">);</span>
+    <span class="n">myfile</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;My first file written from C#&quot;</span><span class="p">);</span>
+    <span class="n">myfile</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;-----------------------------&quot;</span><span class="p">);</span>
+    <span class="n">myfile</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Hello, world!&quot;</span><span class="p">);</span>
+    <span class="n">myfile</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;The time now is {0}&quot;</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToLongTimeString</span><span class="p">());</span>
+    <span class="n">myfile</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>If there is no file with the given name on our disk,
+one will be created. If there already is one, it will be replaced by the
+file we are writing now.</p>
+<p>To put a line of data into the file we invoke the <code class="docutils literal"><span class="pre">Write</span></code> or <code class="docutils literal"><span class="pre">WriteLine</span></code> method on the object, shown
+in lines 4-7 above.  In bigger programs, these lines will usually be
+replaced by a loop that writes many lines into the file.</p>
+<p>Closing the file (line 8) tells the system that we are done writing and makes
+the file available for reading by other programs (or by our own program).</p>
+<p>The <code class="docutils literal"><span class="pre">WriteLine</span></code> method can do everything that <code class="docutils literal"><span class="pre">string.Format</span></code> can do, so it
+provides a convenient way to format our strings as we write them to the file.</p>
+</div>
+<div class="section" id="reading-a-file-line-by-line-style-1">
+<h2>18.3. Reading a file line-by-line (style 1)<a class="headerlink" href="#reading-a-file-line-by-line-style-1" title="Permalink to this headline">¶</a></h2>
+<p>Let us now read all the lines in some file, one line at a time.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">readMyFirstFileLineByLine</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">TextReader</span> <span class="n">myfile</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">OpenText</span><span class="p">(</span><span class="s">&quot;C:\\temp\\poem.txt&quot;</span><span class="p">);</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span>                              <span class="c1">// Keep reading forever.</span>
+    <span class="p">{</span>
+        <span class="kt">string</span> <span class="n">theline</span> <span class="p">=</span> <span class="n">myfile</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>   <span class="c1">// Try to read another line.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">theline</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>           <span class="c1">// If no more lines, leave the loop.</span>
+
+        <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">theline</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">);</span> <span class="c1">// process the line we&#39;ve just read.</span>
+    <span class="p">}</span>
+    <span class="n">myfile</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>                           <span class="c1">// Close the file.</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>This is a handy pattern for our toolbox. In bigger programs, we&#8217;d normally
+squeeze more extensive logic into the body of the loop at line 10 &#8212;
+perhaps even call another method and pass the line to that method for handing.
+For example, if each line of the file contained the name and email address
+of one of our friends, perhaps we&#8217;d split the line into some pieces and
+send the friend a party invitation.</p>
+<p>The end-of-file detection logic is important: when there are no more lines to be
+read from the file, <code class="docutils literal"><span class="pre">ReadLine</span></code> returns <code class="docutils literal"><span class="pre">null</span></code> &#8212; it does not refer to
+any string, not even an empty string.</p>
+<div class="admonition-fail-first admonition">
+<p class="first admonition-title">Fail first ...</p>
+<p>In our sample case here, if we have three lines in the file, we&#8217;ll
+execute line 7 and 8 <em>four</em> times.  In C#, we only learn that
+the file has no more lines when we try to read another line, and fail.
+In some other programming languages
+(e.g. Pascal), things are different: we have what is called <em>look ahead</em>.
+Before reading each line we must call a method to test if there is a line to be read.
+In Pascal, we&#8217;re not allowed to try to read a line that does not exist.</p>
+<p>So the styles and templates for working line-at-a-time in Pascal and C# are
+subtly different!</p>
+<p class="last">When we transfer our C# skills to our next computer language, we&#8217;ll need to
+clarify how we&#8217;ll know when the file has ended: is the style
+in the language &#8220;try, and after we&#8217;ve failed we&#8217;ll know&#8221;, or is the style
+&#8220;look ahead&#8221;?</p>
+</div>
+<p>If we try to open a file for reading, but it doesn&#8217;t exist, we&#8217;ll get an error:</p>
+<img alt="_images/FileNotFoundException.png" src="_images/FileNotFoundException.png" />
+<div class="admonition-relative-file-paths admonition">
+<p class="first admonition-title">Relative File Paths</p>
+<p>A file path like <code class="docutils literal"><span class="pre">C:\\temp\\poem.txt</span></code> is an <strong>absolute file path</strong>.
+Navigation begins at <code class="docutils literal"><span class="pre">C:</span></code> and goes into the <code class="docutils literal"><span class="pre">temp</span></code> folder.</p>
+<p>Another way of expressing file locations &#8212; <strong>relative paths</strong> &#8212; can
+be used instead.  In that case, navigation starts in the folder where
+the executable <a href="#id1"><span class="problematic" id="id2">*</span></a>.exe file is. The designation <code class="docutils literal"><span class="pre">..\\</span></code> means &#8220;go up one
+level to my parent&#8221;.   So consider these statements:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">TextWriter</span> <span class="n">a</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">CreateText</span><span class="p">(</span><span class="s">&quot;test.txt&quot;</span><span class="p">);</span>
+<span class="n">TextWriter</span> <span class="n">b</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">CreateText</span><span class="p">(</span><span class="s">&quot;..\\..\\test.txt&quot;</span><span class="p">);</span>
+<span class="n">TextWriter</span> <span class="n">c</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">CreateText</span><span class="p">(</span><span class="s">&quot;..\\..\\..\\test.txt&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<ul class="last simple">
+<li>Line 1 creates the file in the same folder as the executable.</li>
+<li>Line 2 creates the file two levels above where the executable is.
+With a standard configuration of Visual
+Studio, that means &#8220;in our project directory&#8221;.</li>
+<li>Line 3 creates the file three directory levels above the executable.
+In VS that usually means &#8220;in our solution directory&#8221;.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="reading-a-file-into-an-array-of-lines-style-2">
+<span id="index-1"></span><h2>18.4. Reading a file into an array of lines (style 2)<a class="headerlink" href="#reading-a-file-into-an-array-of-lines-style-2" title="Permalink to this headline">¶</a></h2>
+<p>It is often useful to fetch data from
+a disk file and turn it into a array of strings, one string per line in the file.
+Suppose we have a
+file containing our friends and their email addresses, one per line
+in the file.  But we&#8217;d like the lines sorted into
+alphabetical order.  A good plan is to read everything into an
+array of lines, then sort the array, and then process the lines:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">readToArrayOfLines</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">lines</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllLines</span><span class="p">(</span><span class="s">&quot;..\\..\\poem.txt&quot;</span><span class="p">);</span>
+    <span class="n">Array</span><span class="p">.</span><span class="n">Sort</span><span class="p">(</span><span class="n">lines</span><span class="p">);</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">line</span> <span class="k">in</span> <span class="n">lines</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">line</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal"><span class="pre">ReadAllLines</span></code> method in line 3 reads all the lines and
+returns an array of the strings.  (Notice it even opens and closes the
+file for us, so it just needs one line our our code!)
+Line 4 uses a method in the <code class="docutils literal"><span class="pre">Array</span></code> class
+to sort the array, and lines 6-9 processes each line in some way.</p>
+<p>We could have used the template from the previous section to read each line
+one-at-a-time, and to build up a list ourselves, but it is a lot easier
+to use the method that the C# implementors gave us!</p>
+<div class="admonition-what-if-we-want-to-read-a-file-into-a-list-instead-of-array admonition">
+<p class="first admonition-title">What if we want to read a file into a list instead of array?</p>
+<p>We cannot do so directly.  But, recall that it is easy to convert arrays to
+lists, or vice-versa.  Here we show how to read the contents of two files
+and put all their lines into the same list:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">textLines1</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllLines</span><span class="p">(</span><span class="s">&quot;..\\..\\vocab.txt&quot;</span><span class="p">);</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="n">textLines1</span><span class="p">);</span>
+
+<span class="kt">string</span><span class="p">[]</span> <span class="n">textLines2</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllLines</span><span class="p">(</span><span class="s">&quot;..\\..\\alice_in_wonderland.txt&quot;</span><span class="p">);</span>
+<span class="n">xs</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span><span class="n">textLines2</span><span class="p">);</span>
+
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} strings in list xs&quot;</span><span class="p">,</span> <span class="n">xs</span><span class="p">.</span><span class="n">Count</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 1 reads one text file into one array of strings, line 4 does the same for reading
+another file to a second array.
+In line 2 we construct a new list containing all the strings
+in the first array.   In line 5, we add all the second file&#8217;s lines onto the
+end of <code class="docutils literal"><span class="pre">xs</span></code>.</p>
+<p>Of course, you could even combine the logic of lines 1 and 2 into a single line,
+like this:</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="n">File</span><span class="p">.</span><span class="n">ReadAllLines</span><span class="p">(</span><span class="s">&quot;..\\..\\vocab.txt&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>And some Computer Scientists consider it fun to see how much logic they
+can cram into a single line of code.   So this one-liner is possible too ...</p>
+<div class="last highlight-csharp"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="n">File</span><span class="p">.</span><span class="n">ReadAllLines</span><span class="p">(...)).</span><span class="n">AddRange</span><span class="p">(</span><span class="n">File</span><span class="p">.</span><span class="n">ReadAllLines</span><span class="p">(...));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="reading-the-whole-file-into-one-string-style-3">
+<span id="index-2"></span><h2>18.5. Reading the whole file into one string (style 3)<a class="headerlink" href="#reading-the-whole-file-into-one-string-style-3" title="Permalink to this headline">¶</a></h2>
+<p>Another way of working with text files is to read the complete
+contents of the file into one big string, and then to use our string-processing
+skills to work with the contents.</p>
+<p>We&#8217;d normally choose this style of working if we were not
+interested in the line-by-line structure of the file.   For example, we&#8217;ve
+seen the <code class="docutils literal"><span class="pre">Split</span></code> method on strings which can break a string into
+words.  So here is how we might count the number of words in a
+file:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">readToString</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">content</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllText</span><span class="p">(</span><span class="s">&quot;..\\..\\poem.txt&quot;</span><span class="p">);</span>
+
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">delimiters</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">words</span> <span class="p">=</span> <span class="n">content</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="n">delimiters</span><span class="p">,</span> <span class="n">StringSplitOptions</span><span class="p">.</span><span class="n">RemoveEmptyEntries</span><span class="p">);</span>
+
+    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} words in the file.&quot;</span><span class="p">,</span> <span class="n">words</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="processing-data-from-text-files">
+<span id="processingtextfiles"></span><h2>18.6. Processing data from text files<a class="headerlink" href="#processing-data-from-text-files" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;re often asked to process data from scientific instruments, or from surveys,
+or data that has been exported from a spreadsheet.   We&#8217;ll assume here
+that we want to process &#8220;one line at a time&#8221;, because data collection files are
+often very large.   We&#8217;ll call each line a <strong>record</strong>, and each record will
+have a couple of <strong>fields</strong>.</p>
+<p>There are two cases we&#8217;ll consider: some data files are &#8220;fixed-format&#8221;: the fields
+occur in the same columns in every line of the file.  In the other kind of file,
+we have fields that will be delimited by some special character that doesn&#8217;t otherwise
+occur.</p>
+<p>In the fixed-format case our strategy will be
+to read the line, (so we&#8217;ll have a string), and then to extract our fields from
+the file using the string&#8217;s <code class="docutils literal"><span class="pre">Substring</span></code> method.  We might also need to convert
+the field into a number.  Here are a few lines from a fixed-format text file</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">Tiger Woods            67   67   71   70</span>
+<span class="go">Kevin Streelman        69   70   71   67</span>
+<span class="go">Jeff Maggert           70   71   66   70</span>
+<span class="go">David Lingmerth        68   68   69   72</span>
+<span class="go">Martin Laird           71   67   73   67</span>
+<span class="go">Henrik Stenson         68   67   71   72</span>
+<span class="go">Ryan Palmer            67   69   70   72</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In a delimited file, we&#8217;ll use the string <code class="docutils literal"><span class="pre">Split</span></code> method to turn the fields into an array
+of strings, and we may also need to convert some of the fields to numbers.  Here is the
+same data in a comma-delimited file:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">Tiger Woods,67,67,71,70</span>
+<span class="go">Kevin Streelman,69,70,71,67</span>
+<span class="go">Jeff Maggert,70,71,66,70</span>
+<span class="go">David Lingmerth,68,68,69,72</span>
+<span class="go">Martin Laird,71,67,73,67</span>
+<span class="go">Henrik Stenson,68,67,71,72</span>
+<span class="go">Ryan Palmer,67,69,70,72</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>There are some exercises at the end of this chapter where we can practice processing
+both fixed-format or delimited files ...</p>
+</div>
+<div class="section" id="an-example-programming-a-filter">
+<span id="index-3"></span><h2>18.7. An example: programming a filter<a class="headerlink" href="#an-example-programming-a-filter" title="Permalink to this headline">¶</a></h2>
+<p>Many useful line-processing programs will read a text file line-at-a-time and do some minor
+processing as they write the (modified) lines to an output file.  They might number the
+lines in the output file, or insert extra blank lines after every 60 lines to
+make it convenient for printing on sheets of paper, or only extract some specific
+columns from each line in the source file, or only print lines that
+contain a specific substring.  This kind of program is called a <strong>filter</strong>.</p>
+<p>Here is a filter that copies one file to another,
+omitting any lines that are too short:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre> <span class="n">TextReader</span> <span class="n">myfile</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">OpenText</span><span class="p">(</span><span class="s">&quot;..\\..\\poem.txt&quot;</span><span class="p">);</span>
+ <span class="n">TextWriter</span> <span class="n">newfile</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">CreateText</span><span class="p">(</span><span class="s">&quot;..\\..\\poem_filtered.txt&quot;</span><span class="p">);</span>
+ <span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="kt">string</span> <span class="n">theline</span> <span class="p">=</span> <span class="n">myfile</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">theline</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">theline</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">30</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="n">newfile</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">theline</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+ <span class="n">myfile</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+ <span class="n">newfile</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="working-with-binary-files">
+<h2>18.8. Working with binary files<a class="headerlink" href="#working-with-binary-files" title="Permalink to this headline">¶</a></h2>
+<p>Files that hold photographs, videos, zip files, executable programs, etc. are called
+<strong>binary</strong> files: they&#8217;re not organized into lines, and cannot be opened with a
+normal text editor like NotePad++.  C# works just as easily with binary files, but
+when we read from the file we&#8217;re going to get bytes back rather than
+a string.  Here we&#8217;ll copy one binary file to another the easy way:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">byte</span><span class="p">[]</span> <span class="n">buffer</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;C:\\temp\\somewhere.mp4&quot;</span><span class="p">);</span>
+<span class="n">File</span><span class="p">.</span><span class="n">WriteAllBytes</span><span class="p">(</span><span class="s">&quot;C:\\temp\\thecopy.mp4&quot;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>All the bytes are read into a buffer (which has type <code class="docutils literal"><span class="pre">byte[]</span></code>), and then the content
+of the buffer is written to a new file.</p>
+<p>This method only works well if the file size is small enough so that the buffer can
+comfortably be held in memory.  But if the buffer gets too big your system will become
+really slow or it will crash.</p>
+<p>A more reliable but long-winded way of copying a big binary file is to read a chunk of
+the file, write it out, read the next chunk, etc.  This means our computer memory only has
+to be large enough for the chunk that we&#8217;re working with.  Here is some code that shows how
+we&#8217;d organize that:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Stream</span> <span class="n">inpf</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">OpenRead</span><span class="p">(</span><span class="s">&quot;C:\\temp\\somewhere.mp4&quot;</span><span class="p">);</span>
+<span class="n">Stream</span> <span class="n">outf</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="s">&quot;C:\\temp\\thecopy2.mp4&quot;</span><span class="p">);</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">chunkSz</span> <span class="p">=</span> <span class="m">1024</span><span class="p">;</span>
+<span class="kt">byte</span><span class="p">[]</span> <span class="n">buffer</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="p">[</span><span class="n">chunkSz</span><span class="p">];</span>
+<span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="n">inpf</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">chunkSz</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+    <span class="n">outf</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">inpf</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+<span class="n">outf</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+<p>There are a few new things here. In line 4 the const keyword prevents the
+value of chunkSz from being changed or reassigned at a later stage.
+In line 5 we pre-allocate an array (our buffer)
+to hold the data.  At line 8 we read data into the buffer. The third
+argument gives the maximum number of bytes to be read.  The <code class="docutils literal"><span class="pre">Read</span></code> method
+will transfer bytes into the buffer, and return the number of
+bytes successfully transferred.  This gives us a mechanism for detecting
+when we&#8217;re at the end of the input file, at line 9, to break out of
+the loop.</p>
+<p>Note too that in line 10 we only write <code class="docutils literal"><span class="pre">n</span></code> bytes to the new file.
+On the last iteration of the loop, we&#8217;re almost certain to get back
+fewer bytes than we requested.  So it is important to use the count
+of how many we <em>actually</em> got when we write the data to our new file.</p>
+<p>We don&#8217;t do any more detailed work with the <code class="docutils literal"><span class="pre">byte</span></code> type in these notes!</p>
+</div>
+<div class="section" id="what-about-fetching-something-from-a-network">
+<h2>18.9. What about fetching something from a network?<a class="headerlink" href="#what-about-fetching-something-from-a-network" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-general-harder-way">
+<h3>18.9.1. The general, harder way<a class="headerlink" href="#the-general-harder-way" title="Permalink to this headline">¶</a></h3>
+<p>In the above example our file was exposed to our program as
+a <code class="docutils literal"><span class="pre">Stream</span></code> object that we could read from.</p>
+<p>But there are other kinds of specialized streams too, some very sophisticated.
+A stream can get its data from memory, from a file, from a connection
+to another program, from a database, or from the web, to name just a few
+sources.  Additionally, some streams can unzip or decrypt data
+while reading, or encrypt or compress while writing.</p>
+<p>So a <code class="docutils literal"><span class="pre">Stream</span></code> is a very central type of object allowing for different
+kinds of input and output in your program.  (In the early sections of
+this chapter we used other object types like <code class="docutils literal"><span class="pre">TextReader</span></code> and <code class="docutils literal"><span class="pre">TextWriter</span></code>.
+These are &#8220;convenience&#8221; wrappers around streams, so there is still a <code class="docutils literal"><span class="pre">Stream</span></code>
+object at work in the heart of the system.)</p>
+<p>To fetch a resource from the web we&#8217;ll create a stream
+to read from. Then we&#8217;ll just copy and reuse lines 4-13 from the code above.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>  <span class="c1">// Include this directive to access the Internet</span>
+
+<span class="p">...</span>                <span class="c1">// Find an image to download from the web.</span>
+<span class="kt">string</span> <span class="n">myUri</span> <span class="p">=</span> <span class="s">&quot;http://www.ict.ru.ac.za/resources/thinkSharply/thinksharply/_images/csharp_lessons.png&quot;</span><span class="p">;</span>
+
+<span class="c1">// Create a web request</span>
+<span class="n">HttpWebRequest</span> <span class="n">myReq</span> <span class="p">=</span> <span class="p">(</span><span class="n">HttpWebRequest</span><span class="p">)</span> <span class="n">HttpWebRequest</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="n">myUri</span><span class="p">);</span>
+<span class="c1">// Get the response from the remote server</span>
+<span class="n">WebResponse</span> <span class="n">myResp</span> <span class="p">=</span> <span class="n">myReq</span><span class="p">.</span><span class="n">GetResponse</span><span class="p">();</span>
+
+<span class="c1">// Part of the response is a stream with our data ...</span>
+<span class="n">Stream</span> <span class="n">inpf</span> <span class="p">=</span> <span class="n">myResp</span><span class="p">.</span><span class="n">GetResponseStream</span><span class="p">();</span>
+<span class="n">Stream</span> <span class="n">outf</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="s">&quot;C:\\temp\\theLogo.png&quot;</span><span class="p">);</span>
+
+<span class="c1">// Repeat / adapt the code at lines 4-13 from the previous example.</span>
+</pre></div>
+</td></tr></table></div>
+<p>We&#8217;ll need to get a few things right before this works:</p>
+<ul class="simple">
+<li>The resource we&#8217;re trying to fetch must exist!  Check this using a browser.</li>
+<li>We&#8217;ll need permission to write to the destination file, and the file will
+be created in the &#8220;current directory&#8221; &#8212; i.e. the same folder that the C# program is saved in.</li>
+<li>If we are behind a proxy server that requires authentication,
+(as some students are), this may require some more special handling to work around our proxy.
+Use a local resource for the purpose of this demo!</li>
+</ul>
+<p>With the powerful notion of streams we can start to generalize how we think about
+data. Whether we&#8217;re reading or writing data from or to files, the web, or another
+program, there are one consistent set of underlying I/O ideas.</p>
+<p>There are some useful samples of how to do common I/O tasks at
+<a class="reference external" href="http://msdn.microsoft.com/en-us/library/ms404278(v=vs.100).aspx">http://msdn.microsoft.com/en-us/library/ms404278(v=vs.100).aspx</a>.</p>
+</div>
+<div class="section" id="an-easier-way">
+<h3>18.9.2. An easier way<a class="headerlink" href="#an-easier-way" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>  <span class="c1">// Include this directive to access the Internet</span>
+<span class="p">...</span>
+
+<span class="c1">// Now let a web client do the messy work for us ...</span>
+<span class="n">WebClient</span> <span class="n">wc</span> <span class="p">=</span> <span class="k">new</span> <span class="n">WebClient</span><span class="p">();</span>
+
+<span class="kt">string</span> <span class="n">addr1</span> <span class="p">=</span> <span class="s">&quot;http://www.ict.ru.ac.za/resources/ThinkSharply/thinkSharply/_downloads/golf_fixed_format.txt&quot;</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">content1</span> <span class="p">=</span> <span class="n">wc</span><span class="p">.</span><span class="n">DownloadString</span><span class="p">(</span><span class="n">addr1</span><span class="p">);</span>  <span class="c1">// brings down the whole text file.</span>
+
+<span class="c1">// Now fetch an image into a byte array, and save it to disk</span>
+<span class="kt">string</span> <span class="n">addr2</span> <span class="p">=</span> <span class="s">&quot;http://www.ict.ru.ac.za/resources/ThinkSharply/thinkSharply/_images/csharp_lessons.png&quot;</span><span class="p">;</span>
+<span class="kt">byte</span><span class="p">[]</span> <span class="n">buf</span> <span class="p">=</span> <span class="n">wc</span><span class="p">.</span><span class="n">DownloadData</span><span class="p">(</span><span class="n">addr2</span><span class="p">);</span>
+<span class="n">File</span><span class="p">.</span><span class="n">WriteAllBytes</span><span class="p">(</span><span class="s">&quot;C:\\temp\\pic.png&quot;</span><span class="p">,</span>  <span class="n">buf</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>The WebClient is a powerful class that makes fetching text or binary data
+from the web easy.  We show two of its methods here (there are more): in the first case we
+fetch a text file.  In the second we fetch an image.   Instead of &#8220;http&#8221; as the protocol,
+others are possible too. So if the server understands &#8220;ftp&#8221;, you could download a file using
+the ftp protocol instead.  (ftp was an older way of fetching network files before
+the Web and http were invented.)</p>
+<p>The important thing here is how our libraries can encapsulate and
+hide detail, and provide us with really powerful abstractions.</p>
+</div>
+<div class="section" id="a-cool-thing-about-network-programming">
+<h3>18.9.3. A cool thing about network programming<a class="headerlink" href="#a-cool-thing-about-network-programming" title="Permalink to this headline">¶</a></h3>
+<p>Historically, we had files but no networks.  Modern network tools can not only
+access data over the network, but they can also treat your local disks as
+part of the network:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// One way to get all the text from a file</span>
+<span class="kt">string</span> <span class="n">content1</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllText</span><span class="p">(</span><span class="s">&quot;C:\\temp\\poem.txt&quot;</span><span class="p">);</span>
+
+<span class="c1">// And a newer way to do the same thing!</span>
+<span class="n">WebClient</span> <span class="n">wc</span> <span class="p">=</span> <span class="k">new</span> <span class="n">WebClient</span><span class="p">();</span>
+<span class="kt">string</span> <span class="n">content2</span> <span class="p">=</span> <span class="n">wc</span><span class="p">.</span><span class="n">DownloadString</span><span class="p">(</span><span class="s">&quot;file:///C:/temp/poem.txt&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Note <code class="docutils literal"><span class="pre">File.ReadAllText</span></code> uses backslashes whereas <code class="docutils literal"><span class="pre">wc.DownloadString</span></code> uses forwardslashes.</p>
+</div>
+</div>
+<div class="section" id="glossary">
+<h2>18.10. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-delimited-file">delimited file</dt>
+<dd>Often comma-delimited file or semicolon-delimited file: the fields in each record (line)
+are separate from one another by a delimiter.  (Sometimes we also call this a file with
+<em>comma separated values</em>, or a CSV file).
+Our technique for processing a file like this will be to use
+the string <code class="docutils literal"><span class="pre">Split</span></code> method to split the record into its fields.
+(Compare fixed-format file.)</dd>
+<dt id="term-delimiter">delimiter</dt>
+<dd>Something that shows boundaries. In files, fields in a record are often
+delimited or separated by commas or semicolons.</dd>
+<dt id="term-field">field</dt>
+<dd>A single unit of information, usually as part of a bigger record.  In a
+student record, the student name would be one field, the birth date another
+field, etc.</dd>
+<dt id="term-file">file</dt>
+<dd>A named entity, usually stored on a disk drive or network.
+It contains data. (See text file.)</dd>
+<dt id="term-file-system">file system</dt>
+<dd>A method for naming, accessing, and organizing files and the data they
+contain.</dd>
+<dt id="term-filter">filter</dt>
+<dd>A program that reads an input file and produces an output file, generally with
+some transformation or selection of the data.  It might only output lines
+that are not empty, or it might number the lines in the output file.</dd>
+<dt id="term-fixed-format-file">fixed-format file</dt>
+<dd>A file in which every record, or line, has a fixed layout in specific columns.
+Our strategy for processing a file like this will be to extract the fields
+we need by using the string&#8217;s <code class="docutils literal"><span class="pre">Substring</span></code> method.  (Compare delimited file.)</dd>
+<dt id="term-i-o">I/O</dt>
+<dd>An acronym for Input/Output.  The mechanisms by which your program
+reads and writes data to other devices or other programs.</dd>
+<dt id="term-non-volatile-memory">non-volatile memory</dt>
+<dd>Memory that can maintain its state without power. Hard drives, flash
+drives, and compact disks (CDs) are examples of non-volatile memory.</dd>
+<dt id="term-path">path</dt>
+<dd>A sequence of directory names that specifies the exact location of a
+file.</dd>
+<dt id="term-record">record</dt>
+<dd>A sequence of fields that make up a single entity.
+Each student would have a record in a school&#8217;s mark system.  If a file
+is used to hold records, a record would usually be a single line in the file.</dd>
+<dt id="term-stream"><code class="docutils literal"><span class="pre">Stream</span></code></dt>
+<dd>A type in the C# libraries that provides a very flexible source or
+destination for doing I/O. Streams can be used to read or write to
+files, or to or from memory, or to or from the web.</dd>
+<dt id="term-text-file">text file</dt>
+<dd>A file that contains characters organized into lines
+separated by newline characters.</dd>
+<dt id="term-volatile-memory">volatile memory</dt>
+<dd>Memory which requires an electrical current to maintain state. The
+<em>main memory</em> or RAM of a computer is volatile.  Information stored in
+RAM is lost when the computer is turned off.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>18.11. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Write a program that reads a file and writes out a new file
+with the lines in reversed order
+(i.e. the first line in the old file becomes the last one in the new file.)</p>
+</li>
+<li><p class="first">Write a program that reads a file and prints only those lines that contain the
+substring <code class="docutils literal"><span class="pre">void</span></code>.</p>
+</li>
+<li><p class="first">Write a program that reads a file and produces an output file which is a
+copy of the file, except the first five columns of each line contain a four
+digit line number, followed by a space.
+Start numbering the first line in the output file at 1.  Ensure that
+every line number is formatted to the same width in the output file.  Use one
+of your C# programs as test data for this exercise: your output should be
+a printed and numbered listing of the C# program.</p>
+</li>
+<li><p class="first">Write a program that undoes the numbering of the previous exercise: it should
+read a file with numbered lines and produce another file without line numbers.</p>
+</li>
+<li><p class="first">Building on the example data in section <a class="reference internal" href="#processingtextfiles"><span>Processing data from text files</span></a> ,
+download and save the
+files <a class="reference download internal" href="_downloads/golf_fixed_format.txt"><code class="xref download docutils literal"><span class="pre">a</span> <span class="pre">fixed</span> <span class="pre">format</span> <span class="pre">data</span> <span class="pre">file</span></code></a>
+and <a class="reference download internal" href="_downloads/golf_delimited.txt"><code class="xref download docutils literal"><span class="pre">a</span> <span class="pre">comma-delimited</span> <span class="pre">data</span> <span class="pre">file</span></code></a>.</p>
+<p>a. Write a program that reads the fixed format file and writes a new fixed-format
+file that shows each golfer, their scores for the four rounds, and their total
+score for all four rounds of the tournament:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">Tiger Woods            67   67   71   70    275</span>
+<span class="go">Kevin Streelman        69   70   71   67    277</span>
+<span class="go">Jeff Maggert           70   71   66   70    277</span>
+<span class="go">David Lingmerth        68   68   69   72    277</span>
+<span class="go">Martin Laird           71   67   73   67    278</span>
+<span class="go">Henrik Stenson         68   67   71   72    278</span>
+<span class="go">Ryan Palmer            67   69   70   72    278</span>
+<span class="gp">...</span>
+<span class="go">John Senden            73   70   71   73    287</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>b. Now also output the golfer&#8217;s position in the tournament.   Woods was first with the
+lowest score, then the next three players all came (tied) second, and the next
+three all came (tied) 5th, etc.   So output a file as shown below,
+where the field-width of the position is four columns, and the position is right-justified:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">Position   1  Tiger Woods            67   67   71   70    275</span>
+<span class="go">Position   2  Kevin Streelman        69   70   71   67    277</span>
+<span class="go">Position   2  Jeff Maggert           70   71   66   70    277</span>
+<span class="go">Position   2  David Lingmerth        68   68   69   72    277</span>
+<span class="go">Position   5  Martin Laird           71   67   73   67    278</span>
+<span class="go">Position   5  Henrik Stenson         68   67   71   72    278</span>
+<span class="go">Position   5  Ryan Palmer            67   69   70   72    278</span>
+<span class="gp">...</span>
+<span class="go">Position  45  John Senden            73   70   71   73    287</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>c. Now repeat the exercise: output exactly the same as the above, but take the input data
+from the comma-delimited file instead of the fixed format file.  You should attempt
+to organize the code so that, as far as possible, you have as few changes between this
+version of the solution and the previous one.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="list_algorithms.html" title="19. List and Array Algorithms"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="odds_and_ends.html" title="17. Odds and Ends"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

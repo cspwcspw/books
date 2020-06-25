@@ -1,0 +1,18 @@
+﻿<Window x:Class="AdvancedFeatures.AdvancedDemoMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Some advanced interplay between WPF and Tess" Height="432" Width="752">
+    <Grid Background="#FFD3D9C1">
+      
+        <ListBox Height="160" HorizontalAlignment="Left" Margin="5,32,0,0" Name="lbDemos" VerticalAlignment="Top" Width="130" SelectionChanged="lbDemos_SelectionChanged"></ListBox>
+        <Label Content="Demo" HorizontalAlignment="Left" Margin="13,9,0,274" Name="label1" IsEnabled="True" />
+        <TextBlock Name="textHelp" Text="" Width="486" Canvas.Left="0" Canvas.Top="-105" Background="#FFE5E5E4" Margin="164,3,80,299" />
+        <Button Content="New brushes" Height="23" HorizontalAlignment="Left" Margin="13,232,0,0" Name="btn_demo1" VerticalAlignment="Top" Width="93" Click="btn_demo1_Click" />
+        <Button Content="Reset" Height="23" HorizontalAlignment="Left" Margin="13,203,0,0" Name="btnReset" VerticalAlignment="Top" Width="93" Click="btnReset_Click" />
+        <Button Content="Stamp text" Height="23" HorizontalAlignment="Left" Margin="13,261,0,0" Name="btnStampText" VerticalAlignment="Top" Width="93" Click="btnStampText_Click" />
+        <Button Content="SetAppearance" Height="23" HorizontalAlignment="Left" Margin="13,290,0,0" Name="btnSetAppearance" VerticalAlignment="Top" Width="93" Click="btnSetAppearance_Click" />
+        <Button Content="SetAppearance II" Height="23" HorizontalAlignment="Left" Margin="12,319,0,0" Name="btnSetAppearanceII" VerticalAlignment="Top" Width="93" Click="btnSetAppearanceII_Click" />
+        <Canvas HorizontalAlignment="Stretch" Margin="141,100,12,12" Name="playground" VerticalAlignment="Stretch" Background="White"></Canvas>
+        <Button Content="Other" Height="23" HorizontalAlignment="Left" Margin="13,348,0,0" Name="btnOther" VerticalAlignment="Top" Width="93" Click="btnOther_Click" />
+    </Grid>
+</Window>

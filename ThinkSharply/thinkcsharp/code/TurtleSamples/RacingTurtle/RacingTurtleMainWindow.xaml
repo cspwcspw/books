@@ -1,0 +1,13 @@
+﻿<Window x:Class="RacingTurtle.RacingTurtleMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Turtle Racing" Height="753" Width="780" KeyDown="Window_KeyDown">
+    <Grid Background="#FF00F200">
+        <Canvas HorizontalAlignment="Stretch" Margin="52,34,81,84" Name="playground" VerticalAlignment="Stretch" MouseMove="playground_MouseMove">
+            <Canvas.Background>
+                <ImageBrush ImageSource="/RacingTurtle;component/Images/race_track.png" Stretch="Fill" TileMode="None" />
+            </Canvas.Background>
+        </Canvas>
+        <Button Content="Button" Height="36" Name="button1" Width="90" Margin="525,386,45,230" />
+    </Grid>
+</Window>

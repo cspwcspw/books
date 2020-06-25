@@ -1,0 +1,685 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>15. Classes and Objects — the Basics &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="16. Classes and Objects — Digging a little deeper" href="classes_and_objects_II.html" />
+    <link rel="prev" title="14. List Algorithms" href="list_algorithms.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="classes_and_objects_II.html" title="16. Classes and Objects — Digging a little deeper"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="list_algorithms.html" title="14. List Algorithms"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="classes-and-objects-the-basics">
+<h1>15. Classes and Objects — the Basics<a class="headerlink" href="#classes-and-objects-the-basics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="object-oriented-programming">
+<span id="index-0"></span><h2>15.1. Object-oriented programming<a class="headerlink" href="#object-oriented-programming" title="Permalink to this headline">¶</a></h2>
+<p>Python is an <strong>object-oriented programming language</strong>, which means that it
+provides features that support <a class="reference external" href="http://en.wikipedia.org/wiki/Object-oriented_programming">object-oriented programming</a> (<strong>OOP</strong>).</p>
+<p>Object-oriented programming has its roots in the 1960s, but it wasn’t until the
+mid 1980s that it became the main <a class="reference external" href="http://en.wikipedia.org/wiki/Programming_paradigm">programming paradigm</a> used in the creation
+of new software. It was developed as a way to handle the rapidly increasing
+size and complexity of software systems, and to make it easier to modify these
+large and complex systems over time.</p>
+<p>Up to now, most of the programs we have been writing use a <a class="reference external" href="http://en.wikipedia.org/wiki/Procedural_programming">procedural programming</a> paradigm. In
+procedural programming the focus is on writing functions or <em>procedures</em> which
+operate on data. In object-oriented programming the focus is on the creation of
+<strong>objects</strong> which contain both data and functionality together.   (We have seen turtle
+objects, string objects, and random number generators, to name a few places where
+we’ve already worked with objects.)</p>
+<p>Usually, each object definition corresponds to some object or concept in the real
+world, and the functions that operate on that object correspond to the ways
+real-world objects interact.</p>
+</div>
+<div class="section" id="user-defined-compound-data-types">
+<span id="index-1"></span><h2>15.2. User-defined compound data types<a class="headerlink" href="#user-defined-compound-data-types" title="Permalink to this headline">¶</a></h2>
+<p>We’ve already seen classes like <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code> and <code class="docutils literal notranslate"><span class="pre">Turtle</span></code>.
+We are now ready to create our own user-defined class: the <code class="docutils literal notranslate"><span class="pre">Point</span></code>.</p>
+<p>Consider the concept of a mathematical point. In two dimensions, a point is two
+numbers (coordinates) that are treated collectively as a single object.
+Points are often written in parentheses with a comma
+separating the coordinates. For example, <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0)</span></code> represents the origin, and
+<code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code> represents the point <code class="docutils literal notranslate"><span class="pre">x</span></code> units to the right and <code class="docutils literal notranslate"><span class="pre">y</span></code> units up
+from the origin.</p>
+<p>Some of the typical operations that one associates with points might be
+calculating the distance of a point from the origin, or from another point,
+or finding a midpoint of two points, or asking if a point falls within a
+given rectangle or circle.  We’ll shortly see how we can organize these
+together with the data.</p>
+<p>A natural way to represent a point in Python is with two numeric values. The
+question, then, is how to group these two values into a compound object. The
+quick and dirty solution is to use a tuple, and for some applications
+that might be a good choice.</p>
+<p>An alternative is to define a new <strong>class</strong>. This approach involves a
+bit more effort, but it has advantages that will be apparent soon.
+We’ll want our points to each have an <code class="docutils literal notranslate"><span class="pre">x</span></code> and a <code class="docutils literal notranslate"><span class="pre">y</span></code> attribute,
+so our first class definition looks like this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Point class represents and manipulates x,y coords. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a new point at the origin &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Class definitions can appear anywhere in a program, but they are usually near
+the beginning (after the <code class="docutils literal notranslate"><span class="pre">import</span></code> statements). Some programmers and languages
+prefer to put every class in a module of its own — we won’t do that here.
+The syntax rules for a class
+definition are the same as for other compound statements. There is a header
+which begins with the keyword, <code class="docutils literal notranslate"><span class="pre">class</span></code>, followed by the name of the class,
+and ending with a colon.  Indentation levels tell us where the class ends.</p>
+<p>If the first line after the class header is a string, it becomes
+the docstring of the class, and will be recognized by various tools.  (This
+is also the way docstrings work in functions.)</p>
+<p>Every class should have a method with the special name <code class="docutils literal notranslate"><span class="pre">__init__</span></code>.
+This <strong>initializer method</strong> is automatically called whenever a new
+instance of <code class="docutils literal notranslate"><span class="pre">Point</span></code> is created.  It gives the programmer the opportunity
+to set up the attributes required within the new instance by giving them
+their initial state/values.  The <code class="docutils literal notranslate"><span class="pre">self</span></code> parameter (we could choose any
+other name, but <code class="docutils literal notranslate"><span class="pre">self</span></code> is the convention) is automatically set to reference
+the newly created object that needs to be initialized.</p>
+<p>So let’s use our new <code class="docutils literal notranslate"><span class="pre">Point</span></code> class now:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>         <span class="c1"># Instantiate an object of type Point</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>         <span class="c1"># Make a second point</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># Each point object has its own x and y</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This program prints:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>because during the initialization of the objects, we created two
+attributes called <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> for each, and gave them both the value 0.</p>
+<p>This should look familiar — we’ve used classes before to create
+more than one object:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">turtle</span> <span class="k">import</span> <span class="n">Turtle</span>
+
+<span class="n">tess</span> <span class="o">=</span> <span class="n">Turtle</span><span class="p">()</span>     <span class="c1"># Instantiate objects of type Turtle</span>
+<span class="n">alex</span> <span class="o">=</span> <span class="n">Turtle</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The variables <code class="docutils literal notranslate"><span class="pre">p</span></code> and <code class="docutils literal notranslate"><span class="pre">q</span></code> are assigned references to two new <code class="docutils literal notranslate"><span class="pre">Point</span></code> objects.
+A function like <code class="docutils literal notranslate"><span class="pre">Turtle</span></code> or <code class="docutils literal notranslate"><span class="pre">Point</span></code> that creates a new object instance
+is called a <strong>constructor</strong>, and every class automatically provides a
+constructor function which is named the same as the class.</p>
+<p>It may be helpful to think of a class as a <em>factory</em> for making objects.
+The class itself isn’t an instance of a point, but it contains the machinery
+to make point instances.   Every time we call the constructor, we’re asking
+the factory to make us a new object.  As the object comes off the
+production line, its initialization method is executed to
+get the object properly set up with its factory default settings.</p>
+<p>The combined process of “make me a new object” and “get its settings initialized
+to the factory default settings” is called <strong>instantiation</strong>.</p>
+</div>
+<div class="section" id="attributes">
+<span id="index-2"></span><h2>15.3. Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h2>
+<p>Like real world objects, object instances have both attributes and methods.</p>
+<p>We can modify the attributes in an instance using dot notation:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Both modules and instances create
+their own namespaces, and the syntax for accessing names contained in each,
+called <strong>attributes</strong>, is the same. In this case the attribute we are selecting
+is a data item from an instance.</p>
+<p>The following state diagram shows the result of these assignments:</p>
+<blockquote>
+<div><img alt="Point state diagram" src="_images/point.png" />
+</div></blockquote>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">p</span></code> refers to a <code class="docutils literal notranslate"><span class="pre">Point</span></code> object, which contains two attributes.
+Each attribute refers to a number.</p>
+<p>We can access the value of an attribute using the same syntax:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The expression <code class="docutils literal notranslate"><span class="pre">p.x</span></code> means, “Go to the object <code class="docutils literal notranslate"><span class="pre">p</span></code> refers to and get the
+value of <code class="docutils literal notranslate"><span class="pre">x</span></code>”. In this case, we assign that value to a variable named <code class="docutils literal notranslate"><span class="pre">x</span></code>.
+There is no conflict between the variable <code class="docutils literal notranslate"><span class="pre">x</span></code> (in the global namespace here)
+and the attribute <code class="docutils literal notranslate"><span class="pre">x</span></code> (in the namespace belonging to the instance). The
+purpose of dot notation is to fully qualify which variable we are referring to
+unambiguously.</p>
+<p>We can use dot notation as part of any expression, so the following statements
+are legal:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(x=</span><span class="si">{0}</span><span class="s2">, y=</span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+<span class="n">distance_squared_from_origin</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The first line outputs <code class="docutils literal notranslate"><span class="pre">(x=3,</span> <span class="pre">y=4)</span></code>.  The second line calculates the value 25.</p>
+</div>
+<div class="section" id="improving-our-initializer">
+<h2>15.4. Improving our initializer<a class="headerlink" href="#improving-our-initializer" title="Permalink to this headline">¶</a></h2>
+<p>To create a point at position (7, 6) currently needs three lines of code:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">6</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>We can make our class constructor more general by placing extra parameters into
+the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method, as shown in this example:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Point class represents and manipulates x,y coords. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a new point at x, y &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+<span class="c1"># Other statements outside the class continue below here.</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> parameters here are both optional.  If the caller does not
+supply arguments, they’ll get the default values of 0.  Here is our improved class
+in action:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>       <span class="c1"># r represents the origin (0, 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="go">4 3 0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition-technically-speaking admonition">
+<p class="first admonition-title">Technically speaking …</p>
+<p>If we are really fussy, we would argue that the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method’s docstring
+is inaccurate. <code class="docutils literal notranslate"><span class="pre">__init__</span></code> doesn’t <em>create</em> the object (i.e. set aside memory for it), —
+it just initializes the object to its factory-default settings after its creation.</p>
+<p>But tools like PyScripter understand that instantiation — creation and initialization —
+happen together, and they choose to display the <em>initializer’s</em> docstring as the tooltip
+to guide the programmer that calls the class constructor.</p>
+<p>So we’re writing the docstring so that it makes the most sense when it pops up to
+help the programmer who is using our <code class="docutils literal notranslate"><span class="pre">Point</span></code> class:</p>
+<img alt="_images/tooltip_init.png" class="last" src="_images/tooltip_init.png" />
+</div>
+</div>
+<div class="section" id="adding-other-methods-to-our-class">
+<h2>15.5. Adding other methods to our class<a class="headerlink" href="#adding-other-methods-to-our-class" title="Permalink to this headline">¶</a></h2>
+<p>The key advantage of using a class like <code class="docutils literal notranslate"><span class="pre">Point</span></code> rather than a simple
+tuple <code class="docutils literal notranslate"><span class="pre">(6,</span> <span class="pre">7)</span></code> now becomes apparent.  We can add methods to
+the <code class="docutils literal notranslate"><span class="pre">Point</span></code> class that are sensible operations for points, but
+which may not be appropriate for other tuples like <code class="docutils literal notranslate"><span class="pre">(25,</span> <span class="pre">12)</span></code> which might
+represent, say, a day and a month, e.g. Christmas day. So being able
+to calculate the distance from the origin is sensible for
+points, but not for (day, month) data.  For (day, month) data,
+we’d like different operations, perhaps to find what day of the week
+it will fall on in 2020.</p>
+<p>Creating a class like <code class="docutils literal notranslate"><span class="pre">Point</span></code> brings an exceptional
+amount of “organizational power” to our programs, and to our thinking.
+We can group together the sensible operations, and the kinds of data
+they apply to, and each instance of the class can have its own state.</p>
+<p>A <strong>method</strong> behaves like a function but it is invoked on a specific
+instance, e.g. <code class="docutils literal notranslate"><span class="pre">tess.right(90)</span></code>.   Like a data
+attribute, methods are accessed using dot notation.</p>
+<p>Let’s add another method, <code class="docutils literal notranslate"><span class="pre">distance_from_origin</span></code>, to see better how methods
+work:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Create a new Point, at coordinates x, y &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a new point at x, y &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+    <span class="k">def</span> <span class="nf">distance_from_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Compute my distance from the origin &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.5</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Let’s create a few point instances, look at their attributes, and call our new
+method on them: (We must run our program first, to make our <code class="docutils literal notranslate"><span class="pre">Point</span></code> class available to the interpreter.)</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">x</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">y</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">distance_from_origin</span><span class="p">()</span>
+<span class="go">5.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">x</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">y</span>
+<span class="go">12</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">distance_from_origin</span><span class="p">()</span>
+<span class="go">13.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">x</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">y</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">distance_from_origin</span><span class="p">()</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>When defining a method, the first parameter refers to the instance being
+manipulated.  As already noted, it is customary to name this parameter <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
+<p>Notice that the caller of <code class="docutils literal notranslate"><span class="pre">distance_from_origin</span></code> does not explicitly
+supply an argument to match the <code class="docutils literal notranslate"><span class="pre">self</span></code> parameter — this is done for
+us, behind our back.</p>
+</div>
+<div class="section" id="instances-as-arguments-and-parameters">
+<h2>15.6. Instances as arguments and parameters<a class="headerlink" href="#instances-as-arguments-and-parameters" title="Permalink to this headline">¶</a></h2>
+<p>We can pass an object as an argument in the usual way. We’ve already seen
+this in some of the turtle examples, where we passed the turtle to
+some function like <code class="docutils literal notranslate"><span class="pre">draw_bar</span></code> in the chapter titled <cite>Conditionals</cite>,
+so that the function could control and use whatever turtle instance we passed to it.</p>
+<p>Be aware that our variable only holds a reference to an object, so passing <code class="docutils literal notranslate"><span class="pre">tess</span></code>
+into a function creates an alias: both the caller and the called function
+now have a reference, but there is only one turtle!</p>
+<p>Here is a simple function involving our new <code class="docutils literal notranslate"><span class="pre">Point</span></code> objects:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_point</span><span class="p">(</span><span class="n">pt</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">print_point</span></code> takes a point as an argument and formats the output in whichever
+way we choose.  If we call <code class="docutils literal notranslate"><span class="pre">print_point(p)</span></code> with point <code class="docutils literal notranslate"><span class="pre">p</span></code> as defined previously,
+the output is <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">4)</span></code>.</p>
+</div>
+<div class="section" id="converting-an-instance-to-a-string">
+<h2>15.7. Converting an instance to a string<a class="headerlink" href="#converting-an-instance-to-a-string" title="Permalink to this headline">¶</a></h2>
+<p>Most object-oriented programmers probably would not do what we’ve just done in <code class="docutils literal notranslate"><span class="pre">print_point</span></code>.
+When we’re working with classes and objects, a preferred alternative
+is to add a new method to the class.  And we don’t like chatterbox methods that call
+<code class="docutils literal notranslate"><span class="pre">print</span></code>.  A better approach is to have a method so that every instance
+can produce a string representation of itself.  Let’s initially
+call it <code class="docutils literal notranslate"><span class="pre">to_string</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+    <span class="c1"># ...</span>
+
+    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Now we can say:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="go">(3, 4)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>But don’t we already have a <code class="docutils literal notranslate"><span class="pre">str</span></code> type converter that can
+turn our object into a string?  Yes!  And doesn’t <code class="docutils literal notranslate"><span class="pre">print</span></code>
+automatically use this when printing things?  Yes again!
+But these automatic mechanisms do not yet do exactly what we want:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">&#39;&lt;__main__.Point object at 0x01F9AA10&gt;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">&#39;&lt;__main__.Point object at 0x01F9AA10&gt;&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Python has a clever trick up its sleeve to fix this.  If we call our new
+method <code class="docutils literal notranslate"><span class="pre">__str__</span></code> instead of <code class="docutils literal notranslate"><span class="pre">to_string</span></code>, the Python interpreter
+will use our code whenever it needs to convert a <code class="docutils literal notranslate"><span class="pre">Point</span></code> to a string.
+Let’s re-do this again, now:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+        <span class="c1"># ...</span>
+
+        <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    <span class="c1"># All we have done is renamed the method</span>
+            <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>and now things are looking great!</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>     <span class="c1"># Python now uses the __str__ method that we wrote.</span>
+<span class="go">(3, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">(3, 4)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="instances-as-return-values">
+<h2>15.8. Instances as return values<a class="headerlink" href="#instances-as-return-values" title="Permalink to this headline">¶</a></h2>
+<p>Functions and methods can return instances. For example, given two <code class="docutils literal notranslate"><span class="pre">Point</span></code> objects,
+find their midpoint.  First we’ll write this as a regular function:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">midpoint</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the midpoint of points p1 and p2 &quot;&quot;&quot;</span>
+    <span class="n">mx</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">p2</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">my</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">p2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The function creates and returns a new <code class="docutils literal notranslate"><span class="pre">Point</span></code> object:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">midpoint</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span>
+<span class="go">(4.0, 8.0)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Now let us do this as a method instead.  Suppose we have a point object,
+and wish to find the midpoint halfway between it and some other target point:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+   <span class="c1"># ...</span>
+
+   <span class="k">def</span> <span class="nf">halfway</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the halfway point between myself and the target &quot;&quot;&quot;</span>
+        <span class="n">mx</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">target</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">my</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">target</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This method is identical to the function, aside from some renaming.
+It’s usage might be like this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">halfway</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span>
+<span class="go">(4.0, 8.0)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>While this example assigns each point to a variable, this need not be done.
+Just as function calls are composable, method calls and object instantiation
+are also composable, leading to this alternative that uses no variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">halfway</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">)))</span>
+<span class="go">(4.0, 8.0)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-change-of-perspective">
+<h2>15.9. A change of perspective<a class="headerlink" href="#a-change-of-perspective" title="Permalink to this headline">¶</a></h2>
+<p>The original syntax for a function call, <code class="docutils literal notranslate"><span class="pre">print_time(current_time)</span></code>, suggests that the
+function is the active agent. It says something like, <em>“Hey, print_time!
+Here’s an object for you to print.”</em></p>
+<p>In object-oriented programming, the objects are considered the active agents. An
+invocation like <code class="docutils literal notranslate"><span class="pre">current_time.print_time()</span></code> says <em>“Hey current_time!
+Please print yourself!”</em></p>
+<p>In our early introduction to turtles, we used
+an object-oriented style, so that we said <code class="docutils literal notranslate"><span class="pre">tess.forward(100)</span></code>, which
+asks the turtle to move itself forward by the given number of steps.</p>
+<p>This change in perspective might be more polite, but it may not initially
+be obvious that it is useful. But sometimes shifting responsibility from
+the functions onto the objects makes it possible to write more versatile
+functions, and makes it easier to maintain and reuse code.</p>
+<p>The most important advantage of the object-oriented style is that it
+fits our mental chunking and real-life experience more accurately.
+In real life our <code class="docutils literal notranslate"><span class="pre">cook</span></code> method is part of our microwave oven — we don’t
+have a <code class="docutils literal notranslate"><span class="pre">cook</span></code> function sitting in the corner of the kitchen, into which
+we pass the microwave!  Similarly, we use the cellphone’s own methods
+to send an sms, or to change its state to silent.  The functionality
+of real-world objects tends to be tightly bound up inside the objects
+themselves.  OOP allows us to accurately mirror this when we
+organize our programs.</p>
+</div>
+<div class="section" id="objects-can-have-state">
+<h2>15.10. Objects can have state<a class="headerlink" href="#objects-can-have-state" title="Permalink to this headline">¶</a></h2>
+<p>Objects are most useful when we also need to keep some state that is updated from
+time to time.  Consider a turtle object.  Its state consists of things like
+its position, its heading, its color, and its shape.  A method like <code class="docutils literal notranslate"><span class="pre">left(90)</span></code> updates
+the turtle’s heading, <code class="docutils literal notranslate"><span class="pre">forward</span></code> changes its position, and so on.</p>
+<p>For a bank account object, a main component of the state would be
+the current balance, and perhaps a log of all transactions.  The methods would
+allow us to query the current balance, deposit new funds, or make a payment.
+Making a payment would include an amount, and a description, so that this could
+be added to the transaction log.  We’d also want a method to show the transaction
+log.</p>
+</div>
+<div class="section" id="glossary">
+<h2>15.11. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-attribute">attribute</dt>
+<dd>One of the named data items that makes up an instance.</dd>
+<dt id="term-class">class</dt>
+<dd>A user-defined compound type. A class can also be thought of as a
+template for the objects that are instances of it. (The iPhone is
+a class. By December 2010, estimates are that 50 million instances
+had been sold!)</dd>
+<dt id="term-constructor">constructor</dt>
+<dd>Every class has a “factory”, called by the same name as the class, for
+making new instances.  If the class has an <em>initializer method</em>, this method
+is used to get the attributes (i.e. the state) of the new object properly set up.</dd>
+<dt id="term-initializer-method">initializer method</dt>
+<dd>A special method in Python (called <code class="docutils literal notranslate"><span class="pre">__init__</span></code>)
+that is invoked automatically to set a newly created object’s
+attributes to their initial (factory-default) state.</dd>
+<dt id="term-instance">instance</dt>
+<dd>An object whose type is of some class.  Instance and object are used
+interchangeably.</dd>
+<dt id="term-instantiate">instantiate</dt>
+<dd>To create an instance of a class, and to run its initializer.</dd>
+<dt id="term-method">method</dt>
+<dd>A function that is defined inside a class definition and is invoked on
+instances of that class.</dd>
+<dt id="term-object">object</dt>
+<dd>A compound data type that is often used to model a thing or concept in
+the real world.  It bundles together the data and the operations that
+are relevant for that kind of data.  Instance and object are used
+interchangeably.</dd>
+<dt id="term-object-oriented-programming">object-oriented programming</dt>
+<dd>A powerful style of programming in which data and the operations
+that manipulate it are organized into objects.</dd>
+<dt id="term-object-oriented-language">object-oriented language</dt>
+<dd>A language that provides features, such as user-defined classes and
+inheritance, that facilitate object-oriented programming.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>15.12. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Rewrite the <code class="docutils literal notranslate"><span class="pre">distance</span></code> function from the chapter titled <em>Fruitful functions</em> so that it takes two
+<code class="docutils literal notranslate"><span class="pre">Point</span></code>s as parameters instead of four numbers.</p>
+</li>
+<li><p class="first">Add a method <code class="docutils literal notranslate"><span class="pre">reflect_x</span></code> to <code class="docutils literal notranslate"><span class="pre">Point</span></code> which returns a new <code class="docutils literal notranslate"><span class="pre">Point</span></code>, one which is the
+reflection of the point about the x-axis.  For example,
+<code class="docutils literal notranslate"><span class="pre">Point(3,</span> <span class="pre">5).reflect_x()</span></code> is (3, -5)</p>
+</li>
+<li><p class="first">Add a method <code class="docutils literal notranslate"><span class="pre">slope_from_origin</span></code> which returns the slope of the line joining the origin
+to the point.   For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">slope_from_origin</span><span class="p">()</span>
+<span class="go">2.5</span>
+</pre></div>
+</div>
+<p>What cases will cause this method to fail?</p>
+</li>
+<li><p class="first">The equation of a straight line is  “y = ax + b”, (or perhaps “y = mx + c”).
+The coefficients a and b completely describe the line.  Write a method in the
+<code class="docutils literal notranslate"><span class="pre">Point</span></code> class so that if a point instance is given another point, it will compute the equation
+of the straight line joining the two points.  It must return the two coefficients as a tuple
+of two values.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span><span class="o">.</span><span class="n">get_line_to</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This tells us that the equation of the line joining the two points is “y = 2x + 3”.
+When will this method fail?</p>
+</li>
+<li><p class="first">Given four points that fall on the circumference of a circle, find the midpoint of the circle.
+When will this function fail?</p>
+<p><em>Hint:</em> You <em>must</em>
+know how to solve the geometry problem <em>before</em> you think of going anywhere near programming.
+You cannot program a solution to a problem if you don’t understand what you want the computer to do!</p>
+</li>
+<li><p class="first">Create a new class, SMS_store.  The class will instantiate SMS_store objects,
+similar to an inbox or outbox on a cellphone:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_inbox</span> <span class="o">=</span> <span class="n">SMS_store</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This store can hold multiple SMS messages  (i.e. its internal state will just be a list of messages).  Each message
+will be represented as a tuple:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">has_been_viewed</span><span class="p">,</span> <span class="n">from_number</span><span class="p">,</span> <span class="n">time_arrived</span><span class="p">,</span> <span class="n">text_of_SMS</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The inbox object should provide these methods:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_inbox</span><span class="o">.</span><span class="n">add_new_arrival</span><span class="p">(</span><span class="n">from_number</span><span class="p">,</span> <span class="n">time_arrived</span><span class="p">,</span> <span class="n">text_of_SMS</span><span class="p">)</span>
+  <span class="c1"># Makes new SMS tuple, inserts it after other messages</span>
+  <span class="c1"># in the store. When creating this message, its</span>
+  <span class="c1"># has_been_viewed status is set False.</span>
+
+<span class="n">my_inbox</span><span class="o">.</span><span class="n">message_count</span><span class="p">()</span>
+  <span class="c1"># Returns the number of sms messages in my_inbox</span>
+
+<span class="n">my_inbox</span><span class="o">.</span><span class="n">get_unread_indexes</span><span class="p">()</span>
+  <span class="c1"># Returns list of indexes of all not-yet-viewed SMS messages</span>
+
+<span class="n">my_inbox</span><span class="o">.</span><span class="n">get_message</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="c1"># Return (from_number, time_arrived, text_of_sms) for message[i]</span>
+  <span class="c1"># Also change its state to &quot;has been viewed&quot;.</span>
+  <span class="c1"># If there is no message at position i, return None</span>
+
+<span class="n">my_inbox</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>     <span class="c1"># Delete the message at index i</span>
+<span class="n">my_inbox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>       <span class="c1"># Delete all messages from inbox</span>
+</pre></div>
+</div>
+<p>Write the class, create a message store object, write tests for these methods, and implement the methods.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="classes_and_objects_II.html" title="16. Classes and Objects — Digging a little deeper"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="list_algorithms.html" title="14. List Algorithms"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

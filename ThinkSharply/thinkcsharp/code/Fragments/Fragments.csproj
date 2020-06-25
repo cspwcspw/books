@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E5986759-67C2-43BE-A566-B672D64246BE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fragments</RootNamespace>
+    <AssemblyName>Fragments</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="DictionaryGUI.xaml.cs">
+      <DependentUpon>DictionaryGUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Diving_into_code.xaml.cs">
+      <DependentUpon>Diving_into_code.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Favorite_controls.xaml.cs">
+      <DependentUpon>Favorite_controls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Files_chapter.xaml.cs">
+      <DependentUpon>Files_chapter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FrameworkClassLib.xaml.cs">
+      <DependentUpon>FrameworkClassLib.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces_chapter.xaml.cs">
+      <DependentUpon>Interfaces_chapter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List_algorithms_chapter.xaml.cs">
+      <DependentUpon>List_algorithms_chapter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Nesting.xaml.cs">
+      <DependentUpon>Nesting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Queens.xaml.cs">
+      <DependentUpon>Queens.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QueensGUI.xaml.cs">
+      <DependentUpon>QueensGUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Recursion_chapter.xaml.cs">
+      <DependentUpon>Recursion_chapter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScopeLifetimeGUI.xaml.cs">
+      <DependentUpon>ScopeLifetimeGUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TrafficLightFSM.cs" />
+    <Compile Include="TrafficLightsGUI.xaml.cs">
+      <DependentUpon>TrafficLightsGUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TurtleGTX.cs" />
+    <Compile Include="TurtleGTXGUI.xaml.cs">
+      <DependentUpon>TurtleGTXGUI.xaml</DependentUpon>
+    </Compile>
+    <Page Include="DictionaryGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Diving_into_code.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Exceptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Favorite_controls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Files_chapter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Fragments_main.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exceptions.xaml.cs">
+      <DependentUpon>Exceptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments_main.xaml.cs">
+      <DependentUpon>Fragments_main.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="FrameworkClassLib.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interfaces_chapter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Lists_chapter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List_algorithms_chapter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Nesting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Queens.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QueensGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Recursion_chapter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScopeLifetimeGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TrafficLightsGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TurtleGTXGUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lists_chapter.xaml.cs">
+      <DependentUpon>Lists_chapter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThinkLib\ThinkLib.csproj">
+      <Project>{6C1DE767-DD3F-403D-AC11-00D3ACE98E44}</Project>
+      <Name>ThinkLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ChessQueen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Queen_of_Hearts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TrafficLightRed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TrafficLightGreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TrafficLightAmber.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

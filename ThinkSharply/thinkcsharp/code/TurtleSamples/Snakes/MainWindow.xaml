@@ -1,0 +1,8 @@
+﻿<Window x:Class="Snakes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Retro Snakes Game" Height="350" Width="525" KeyDown="Window_KeyDown">
+    <Grid>
+        <Canvas HorizontalAlignment="Stretch" Margin="42,25,33,23" Name="playground" VerticalAlignment="Stretch" Background="#FFB9D4D2" ClipToBounds="True" />
+    </Grid>
+</Window>

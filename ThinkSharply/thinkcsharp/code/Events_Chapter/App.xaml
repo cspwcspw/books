@@ -1,0 +1,8 @@
+﻿<Application x:Class="Events_Chapter.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Events_MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

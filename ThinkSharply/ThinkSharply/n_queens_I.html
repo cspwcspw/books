@@ -1,0 +1,665 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>20. The N-Queens Puzzle — a Case Study &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="21. Recursion" href="recursion.html" />
+    <link rel="prev" title="19. List and Array Algorithms" href="list_algorithms.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="recursion.html" title="21. Recursion"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="list_algorithms.html" title="19. List and Array Algorithms"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="eightqueenssolver"></span><div class="section" id="the-n-queens-puzzle-a-case-study">
+<span id="index-0"></span><h1>20. The N-Queens Puzzle &#8212; a Case Study<a class="headerlink" href="#the-n-queens-puzzle-a-case-study" title="Permalink to this headline">¶</a></h1>
+<p>As told by Wikipedia, <em>&#8220;The eight queens puzzle is the problem of placing eight chess
+queens on an 8x8 chessboard so that no two queens attack each other. Thus, a
+solution requires that no two queens share the same row, column, or diagonal.&#8221;</em></p>
+<blockquote>
+<div><img alt="_images/eight_queens_01.png" src="_images/eight_queens_01.png" />
+</div></blockquote>
+<p>Please try this yourself, and find a few more solutions by hand.</p>
+<p>We&#8217;d like to write a program to find solutions to this puzzle.  In fact,
+the puzzle generalizes to placing N queens on an NxN board, so we&#8217;re going to
+think about the general case, not just the 8x8 case.  Perhaps we can find solutions
+for 12 queens on a 12x12 board, or 20 queens on a 20x20 board.</p>
+<div class="section" id="getting-started">
+<h2>20.1. Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>How do we approach a complex problem like this?  A good starting point is to think
+about our <em>data structures</em> &#8212; how exactly do we plan to represent the state of
+the chessboard and its queens in our program?  Once we have an initial idea about
+how our puzzle is going to be represented in memory, we can begin to think about the methods
+and logic we&#8217;ll need to solve it, i.e. perhaps we&#8217;ll need a way to put another queen onto the board
+somewhere, or to check whether a specific queen clashes with any of the other queens on the board.</p>
+<p>The steps of finding a good representation, and then finding a good algorithm to operate on
+the data cannot always be done independently of each other.  As you think about the operations
+you require, you may want to change or reorganize the data somewhat to make it easier
+to do the operations you need.</p>
+<p>This relationship between algorithms and data was elegantly expressed in the title
+of a book <em>Algorithms + Data Structures = Programs</em>, written by one of the pioneers in
+Computer Science, Niklaus Wirth, the inventor of Pascal.</p>
+<p>Let&#8217;s brainstorm some ideas about how a chessboard and queens could be represented in memory.</p>
+<ul>
+<li><p class="first">A two dimensional 8x8 array or a list of lists is one possibility.
+At each square of the board we would like to know whether it contains a queen or not &#8212; just two
+possible states for each square &#8212; so perhaps each element could be a boolean,
+or, more simply, 0 or 1.</p>
+<p>Our state for the solution pictured above could then have this data representation: <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><p class="first">Notice that we&#8217;re not using C# syntax here &#8212; it is a bit easier and cleaner without C#.</p>
+<div class="last highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">bd1</span> <span class="p">=</span> <span class="p">[[</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">],</span>
+<span class="na">       [0,0,0,0,0,0,1,0]</span><span class="p">,</span>
+<span class="na">       [0,0,1,0,0,0,0,0]</span><span class="p">,</span>
+<span class="na">       [0,0,0,0,0,0,0,1]</span><span class="p">,</span>
+<span class="na">       [0,1,0,0,0,0,0,0]</span><span class="p">,</span>
+<span class="na">       [0,0,0,0,1,0,0,0]</span><span class="p">,</span>
+<span class="na">       [1,0,0,0,0,0,0,0]</span><span class="p">,</span>
+<span class="na">       [0,0,0,0,0,1,0,0]</span><span class="p">]</span>
+</pre></div>
+</td></tr></table></div>
+</td></tr>
+</tbody>
+</table>
+<p>You should also be able to see how the empty board would be represented, and you should start
+to imagine what operations or changes you&#8217;d need to make to the data to place another
+queen somewhere on the board.</p>
+</li>
+<li><p class="first">Another idea might be to keep a list of coordinate positions of
+where the queens are currently placed.  Using the notation in Wikipedia&#8217;s
+illustration at the start of this chapter, for example, we could represent the state of that solution as:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">bd2</span> <span class="p">=</span> <span class="p">[</span> <span class="s">&quot;a6&quot;</span><span class="p">,</span> <span class="s">&quot;b4&quot;</span><span class="p">,</span> <span class="s">&quot;c2&quot;</span><span class="p">,</span> <span class="s">&quot;d0&quot;</span><span class="p">,</span> <span class="s">&quot;e5&quot;</span><span class="p">,</span> <span class="s">&quot;f7&quot;</span><span class="p">,</span> <span class="s">&quot;g1&quot;</span><span class="p">,</span> <span class="s">&quot;h3&quot;</span> <span class="p">]</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">We could make other tweaks to this &#8212; perhaps each
+element in this array should rather be an x,y pair, with
+integer coordinates for both axes.  And being good computer scientists, we&#8217;d probably start numbering
+each axis from 0 instead of at 1. Now our representation could be:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">bd3</span> <span class="p">=</span> <span class="p">[(</span><span class="m">0</span><span class="p">,</span><span class="m">6</span><span class="p">),</span> <span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">4</span><span class="p">),</span> <span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">),</span> <span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="m">7</span><span class="p">),</span> <span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="m">1</span><span class="p">),</span> <span class="p">(</span><span class="m">7</span><span class="p">,</span><span class="m">3</span><span class="p">)]</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">Looking at this representation, we can&#8217;t help but notice that the first coordinates
+are <code class="docutils literal"><span class="pre">0,1,2,3,4,5,6,7</span></code> and they correspond exactly to the index position of the
+pairs in the array.  So we could discard them, and come up with this really compact
+alternative representation of the solution:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">bd4</span> <span class="p">=</span> <span class="p">[</span><span class="m">6</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">]</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This is what we&#8217;ll use: a simple 1-dimensional array (or list) of int.   Let&#8217;s see where that takes us.</p>
+</li>
+</ul>
+<blockquote>
+<div><div class="admonition-this-representation-is-not-general admonition">
+<p class="first admonition-title">This representation is not general</p>
+<p>We&#8217;ve come up with a great representation for the N-Queens problem.
+But will it work for other puzzles?</p>
+<p>Our simple 1-dimensional array has the limitation that
+we can only put one value in each position, which
+means we&#8217;ll never be able to represent a board with two queens in the same column.
+But that is a puzzle constraint anyway &#8212; no two queens are
+allowed to share the same column.  So puzzle and data representation are well matched.</p>
+<p class="last">But if we were trying to solve a different puzzle on a chessboard, perhaps
+play a game of checkers, where many pieces could be in the same column, our
+one-dimensional array representation would not be general enough.</p>
+</div>
+</div></blockquote>
+<p>Let us now take some grand &#8220;Aha!&#8221; insight into the problem.  Is it just a coincidence
+that there are no repeated numbers in the solution?  The solution  <code class="docutils literal"><span class="pre">[6,4,2,0,5,7,1,3]</span></code>
+contains the numbers <code class="docutils literal"><span class="pre">0,1,2,3,4,5,6,7</span></code>, but none are duplicated!  Could other
+solutions ever contain duplicate numbers, or not?</p>
+<p>A little thinking should convince you that there can never be duplicate numbers in a
+solution: the numbers represent the row on which the queen is placed, and because we are
+never permitted to put two queens in the same row, no solution can have
+duplicate row numbers in it.</p>
+<blockquote>
+<div><div class="admonition-our-key-aha-insight admonition">
+<p class="first admonition-title">Our key &#8220;Aha!&#8221; insight</p>
+<p class="last"><em>In our chosen representation, every solution to the N queens problem must
+therefore be a permutation of the numbers [0 .. N-1].</em></p>
+</div>
+</div></blockquote>
+<p>Not all permutations are solutions.  For example, <code class="docutils literal"><span class="pre">[0,1,2,3,4,5,6,7]</span></code> has all
+queens on the same diagonal, so it is not a solution.  But all solutions are permutations.</p>
+<p>Wow, we seem to be making progress on this problem merely by thinking, rather than coding!</p>
+<p>Our algorithm can start taking shape now.  We can start with an array containing values [0..N-1],
+generate various permutations of the array, and check each permutation to see if it
+has any clashes (queens that are on the same diagonal).  If it has no clashes, we have
+found a solution, and we can output it.</p>
+<p>Let us be precise and clear on this issue: if we only use permutations of the rows, and we&#8217;re
+using our compact representation, no queens can clash on either rows or columns, and we don&#8217;t
+even have to concern ourselves with testing those cases.  So the only clashes we need
+to test for are clashes on the diagonals.</p>
+<p>It sounds like a useful method will be one that can test if two queens
+share a diagonal.</p>
+<p>Each queen is at some (x,y) position.
+So does the queen at (5,2) share a diagonal with the one at (2,0)?
+Does (5,2) clash with (3,0)?</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">shareDiagonal</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">shareDiagonal</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">shareDiagonal</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">3</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">shareDiagonal</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>A little geometry will help us here.
+A diagonal has a slope of either 1 or -1.  The question we really want to
+ask is <em>is their distance between them the same in the x and the y direction?</em>
+If it is, they share a diagonal.  Because diagonals can be to the left
+or right, it will make sense for this program to use the absolute distance
+in each direction:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Is (x0, y0) on a shared diagonal with (x1, y1)?</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">private</span> <span class="kt">bool</span> <span class="nf">shareDiagonal</span><span class="p">(</span><span class="kt">int</span> <span class="n">x0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">dy</span> <span class="p">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">y1</span> <span class="p">-</span> <span class="n">y0</span><span class="p">);</span>       <span class="c1">// Calc the absolute y distance</span>
+    <span class="kt">int</span> <span class="n">dx</span> <span class="p">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">x1</span> <span class="p">-</span> <span class="n">x0</span><span class="p">);</span>       <span class="c1">// Calc the absolute x distance</span>
+    <span class="k">return</span> <span class="n">dx</span> <span class="p">==</span> <span class="n">dy</span><span class="p">;</span>                  <span class="c1">// They clash if dx == dy</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>If you copy the code and run it, you&#8217;ll be happy to learn that the tests pass!</p>
+<p>Let&#8217;s put together a little GUI now so that we have some scaffolding from which
+to run our tests, or to show our solutions.  This GUI is mostly self
+explanatory: some labels and text boxes for input, a couple of buttons
+to run some tests, and a text box for showing the results that we&#8217;re interested in.
+We&#8217;ll set up the results text box to stretch when the window resizes, and we can set its
+property to give it a vertical scroll bar.</p>
+<img alt="_images/main_gui.png" src="_images/main_gui.png" />
+<p>One way to check all queens for any clashes is to work through the
+board, left-to-right, and checking each queen against all those to
+its left. For example, when we consider the queen on column 6,
+it is enough to check for clashes against those in all
+the columns to its left, i.e. in columns 0,1,2,3,4,5. (Convince yourself
+that no queen needs to check any queens to its right.)</p>
+<p>So the next building block is a method that can check whether the queen at
+column <code class="docutils literal"><span class="pre">c</span></code> clashes with any of the queens to its left, at columns 0,1,2,..c-1:
+The tests can go behind the button called &#8220;Logic tests&#8221; in our GUI.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">6</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">5</span> <span class="p">},</span> <span class="m">4</span><span class="p">),</span> <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">6</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span> <span class="p">},</span> <span class="m">7</span><span class="p">),</span> <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span> <span class="p">},</span> <span class="m">1</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span> <span class="p">},</span> <span class="m">1</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">6</span><span class="p">,</span> <span class="m">5</span> <span class="p">},</span> <span class="m">1</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">6</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">3</span> <span class="p">},</span> <span class="m">3</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">5</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">7</span> <span class="p">},</span> <span class="m">2</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span> <span class="p">},</span> <span class="m">1</span><span class="p">),</span> <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span> <span class="p">},</span> <span class="m">2</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Here is our method that makes them all pass:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Return true if the queen at column col clashes</span>
+<span class="c1">/// on the diagonal with any queen to its left.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">private</span> <span class="kt">bool</span> <span class="nf">colHasDiagonalClashes</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">bd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">col</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">col</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>   <span class="c1">// Look at all columns to the left of col</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">shareDiagonal</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">bd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">col</span><span class="p">,</span> <span class="n">bd</span><span class="p">[</span><span class="n">col</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>           <span class="c1">// No clashes</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Finally, we&#8217;re going to give our program one of our permutations &#8212; i.e.
+all queens placed somewhere, one on each row, one on each column.  But does
+the permutation have any diagonal clashes?</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// Solution from picture above</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">boardHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">6</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span> <span class="p">}),</span> <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">boardHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">4</span><span class="p">,</span> <span class="m">6</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span> <span class="p">}),</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">boardHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span> <span class="p">}),</span> <span class="k">true</span><span class="p">);</span>  <span class="c1">// Try small 4x4 board</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">boardHasDiagonalClashes</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">1</span> <span class="p">}),</span> <span class="k">false</span><span class="p">);</span> <span class="c1">// Solution to 4x4 case</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>And the code to make the tests pass:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Determine whether we have any queens clashing on the diagonals.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">private</span> <span class="kt">bool</span> <span class="nf">boardHasDiagonalClashes</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">bd</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">col</span> <span class="p">&lt;</span> <span class="n">bd</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">col</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">colHasDiagonalClashes</span><span class="p">(</span><span class="n">bd</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Summary of what we&#8217;ve done so far:  we now have a powerful method called <code class="docutils literal"><span class="pre">boardHasDiagonalClashes</span></code>
+that can tell if a permutation is a solution to the queens puzzle.   Let&#8217;s get on now with generating
+lots of permutations and finding which of them happen to be solutions!</p>
+<blockquote>
+<div></div></blockquote>
+</div>
+<div class="section" id="shuffling-an-array">
+<span id="index-1"></span><h2>20.2. Shuffling an array<a class="headerlink" href="#shuffling-an-array" title="Permalink to this headline">¶</a></h2>
+<p>Before we return to the Queens problem, we&#8217;ll need a
+method that shuffles an array of integers into a random
+order.  C# provides a built-in method that can sort a pair of two &#8220;parallel&#8221; arrays.  The first
+array contains keys (to be used for the comparisons), and the second array contains associated
+data.   So, if we had keys [30, 10, 20] and data [&#8220;Joe&#8221;, &#8220;Zim&#8221;, &#8220;Abe&#8221;]  we can do the paired-array
+sort and the arrays would be changed to [10, 20, 30] and [&#8220;Zim&#8221;, &#8220;Abe&#8221;, &#8220;Joe&#8221;].  So the relationship
+between the i&#8217;th elements (between the 10 and &#8220;Zim&#8221;) in the paired arrays is preserved.</p>
+<p>Our shuffling strategy is to create a new key array of the same length as the items, and
+to fill it with random numbers.  Then we can use the built-in C# method to
+sort the pair of arrays on the keys.   This will randomly shuffle the item array.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Random</span> <span class="n">rng</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">shuffle</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Create an array of random numbers to use as the sorting key.</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">keys</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>  <span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">();</span>
+
+    <span class="n">Array</span><span class="p">.</span><span class="n">Sort</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">xs</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Effectively each value in the array xs is paired to a randomly generated int (the key).
+When the randomly generated keys are sorted into an ascending order in line 9 it results
+in the array, xs, being sorted into a random order (ie. randomly shuffled).
+We&#8217;ve chosen to put the random number generator outside of the method,
+as a class-level variable, so it only gets instantiated once.</p>
+<p>Well, here our unit testing strategy breaks down.  We don&#8217;t have an easy
+way to automatically check that the shuffle is working because its output
+cannot be predicted from its inputs.  It turns out that testing and verifying
+random processes is a complex task &#8212; people expend a great deal of effort
+attempting to show that the random numbers are not predictable.</p>
+<p>For our purposes, a handler like the following will probably be enough to
+convince us that each time we click the button we get a different
+shuffle of the array.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span> <span class="nf">stringify</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="s">&quot;{&quot;</span><span class="p">;</span>
+    <span class="kt">string</span> <span class="n">separator</span> <span class="p">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">result</span> <span class="p">+=</span> <span class="n">separator</span> <span class="p">+</span> <span class="n">x</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+        <span class="n">separator</span> <span class="p">=</span> <span class="s">&quot;, &quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span> <span class="p">+</span> <span class="s">&quot;}&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">btnShuffleTest_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span> <span class="p">=</span> <span class="p">{</span> <span class="m">12</span><span class="p">,</span> <span class="m">15</span><span class="p">,</span> <span class="m">13</span><span class="p">,</span> <span class="m">18</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">24</span><span class="p">,</span> <span class="m">96</span><span class="p">,</span> <span class="m">42</span><span class="p">,</span> <span class="m">33</span><span class="p">,</span> <span class="m">19</span> <span class="p">};</span>
+    <span class="n">shuffle</span><span class="p">(</span><span class="n">xs</span><span class="p">);</span>
+    <span class="n">txtResults</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0}\n&quot;</span><span class="p">,</span><span class="n">stringify</span><span class="p">(</span><span class="n">xs</span><span class="p">)));</span>
+    <span class="n">txtResults</span><span class="p">.</span><span class="n">ScrollToEnd</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Repeated events gave us output like this, but of course each time we run it
+we&#8217;d expect different results:</p>
+<blockquote>
+<div><img alt="_images/shuffle_demo.png" src="_images/shuffle_demo.png" />
+</div></blockquote>
+</div>
+<div class="section" id="putting-it-all-together">
+<span id="eightqueensmainprog"></span><h2>20.3. Putting it all together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline">¶</a></h2>
+<p>This is the fun part where we get to see some results of all our hard work.
+We could try to find all permutations of <code class="docutils literal"><span class="pre">[0,1,2,3,4,5,6,7]</span></code>
+&#8212; that might be algorithmically challenging, and would be a <em>brute force</em> way of tackling the
+problem.  We just try everything, and find all possible solutions.</p>
+<p>Of course we know there are N! permutations of N things, so we can get an early idea of
+how long it would take to search all of them for all solutions.  Not too long at all, actually -
+8! is only 40320 different cases to check out.  This is vastly better than starting with
+64 places to put eight queens.  If you
+do the sums for how many ways can you choose 8 of the 64 squares for your queens, the
+formula (called <em>N choose k</em> where you&#8217;re choosing k=8 squares of the available N=64)
+yields a whopping 4426165368, obtained from (64! / (8! x 56!)).</p>
+<blockquote>
+<div><div class="admonition-what-is-the-most-significant-thing-in-this-chapter admonition">
+<p class="first admonition-title">What is the most significant thing in this chapter?</p>
+<p>Our earlier important insight &#8212; that we only need to consider permutations &#8212;
+has reduced what we call the <em>problem space</em> for the 8x8 Queens problem
+from about 4.4 billion cases to just 40320!</p>
+<p class="last">Good algorithms and good programs are not just about neat lines of code.
+Here we took advantage of a very simple representation for our boards, and
+had a pretty deep insight into the properties that any solution needed to possess.</p>
+</div>
+</div></blockquote>
+<p>We&#8217;re not even going to explore all 40320 permutations, however.
+Instead we&#8217;re going to write a &#8220;random&#8221; algorithm to find solutions to the N queens
+problem.  We&#8217;ll begin with the permutation [0,1,2,3,4,5,6,7] and we&#8217;ll repeatedly shuffle
+and test the array, looking for a solution!  Along the way we&#8217;ll also count how many shuffle/test
+attempts we need before we stumble across the next solution.  (We could find the same
+solution more than once, because our shuffling will be random!).</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Find and return one random solution to the NxN queens problem.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="c1">/// &lt;param name=&quot;N&quot;&gt;The size of the board&lt;/param&gt;</span>
+<span class="c1">/// &lt;returns&gt;A solution to the N-queens problem&lt;/returns&gt;</span>
+<span class="k">private</span> <span class="kt">int</span><span class="p">[]</span> <span class="nf">findQueensSolution</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// set up the initial board of the correct size</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">bd</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+    <span class="c1">// Fill the initial array with numbers 0,1,2,...N-1</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="n">bd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">tries</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+    <span class="c1">// Just keep checking and shuffling until we get lucky.</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">boardHasDiagonalClashes</span><span class="p">(</span><span class="n">bd</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">bd</span><span class="p">);</span>
+        <span class="n">tries</span><span class="p">++;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// output the results ...</span>
+    <span class="n">txtResults</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Solution {0} found in {1} tries.\n&quot;</span><span class="p">,</span> <span class="n">stringify</span><span class="p">(</span><span class="n">bd</span><span class="p">),</span> <span class="n">tries</span><span class="p">));</span>
+    <span class="n">txtResults</span><span class="p">.</span><span class="n">ScrollToEnd</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">bd</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">btnGo_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">sz</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="n">txtSz</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">numSolutionsWanted</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="n">txtNumSolutions</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">numFound</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">numFound</span> <span class="p">&lt;</span> <span class="n">numSolutionsWanted</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span><span class="p">[]</span> <span class="n">solution</span> <span class="p">=</span> <span class="n">findQueensSolution</span><span class="p">(</span><span class="n">sz</span><span class="p">);</span>
+        <span class="n">numFound</span><span class="p">++;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>And now we get ...</p>
+<blockquote>
+<div><img alt="_images/solutions_demo.png" src="_images/solutions_demo.png" />
+</div></blockquote>
+<p>Here is an interesting observation.  On an 8x8 board,
+there are known to be 92 different solutions to this puzzle.  By shuffling,
+we are randomly picking one of 40320 possible permutations of our representation.
+So our chances of picking a solution on each try are 92/40320.  Put another way,
+on average we&#8217;ll need 40320/92 tries &#8212; about 438.26 random shuffles &#8212;
+before we stumble across a solution.  The number of tries we showed here looks
+like our experimental data average should be quite close to that, so our
+experimental data agrees quite nicely with our theory!</p>
+<p>We&#8217;ll leave it as an exercise to you, the reader, to repeatedly find solutions
+and work out the average number of tries needed for different size boards.
+Perhaps leave your computer running overnight, and see if you can find some
+solutions to a 24x24 board.</p>
+<div class="admonition-save-this-code-for-later admonition">
+<p class="first admonition-title">Save this code for later.</p>
+<p class="last">Later in the course we&#8217;ll want to draw the boards.</p>
+</div>
+</div>
+<div class="section" id="exercises">
+<h2>20.4. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Modify the queens program to solve some boards of size 4, 12, and 16.  What is the
+maximum size puzzle you can usually solve in under a minute?</p>
+</li>
+<li><p class="first">What is the average number of shuffles you&#8217;d expect to have to get for a 10x10 puzzle
+before you stumbled across a solution?  What about bigger puzzles?
+Wikipedia can tell you how many solutions exist
+for different size boards, so you can compute the expected number of tries quite easily.</p>
+</li>
+<li><p class="first">Add some logic to find and display the average number of tries needed to find N solutions.
+So when the GO! button is clicked asking for 20 solutions, say, compute the average
+number of tries for finding those 20.  Compare this experimental data
+to the theoretical prediction.</p>
+</li>
+<li><p class="first">Adapt the queens program so that we keep a list of solutions that have already
+been found, so that we don&#8217;t find the same solution more than once. (This may
+be trickier than it first appears: we&#8217;ll need to be able to compare two
+boards to tell if their array elements are identical, but there is no built-in
+comparison in C# that can test an array for element-by-element equality.)</p>
+</li>
+<li><p class="first">Chess boards are symmetric: if we have a solution to the queens problem, its
+mirror image &#8212; either flipping the board on the X or on the Y axis, or on
+a diagonal, is also a solution.  And rotating a solution by 90 degrees,
+180 degrees, or 270 degrees gives more solutions.
+In some sense, solutions that are just
+mirror images or rotations of other solutions &#8212; in the same family &#8212;
+are less interesting than the unique &#8220;core cases&#8221;.   Of the 92 solutions for
+the 8 queens problem, there are only 12 unique families
+if you take rotations and mirror images into account.
+Wikipedia has some fascinating stuff about this.</p>
+<ol class="loweralpha">
+<li><p class="first">Write a method to mirror a solution in the Y axis
+(i.e. given <code class="docutils literal"><span class="pre">[0,4,7,5,2,6,1,3]</span></code>, produce <code class="docutils literal"><span class="pre">[3,1,6,2,5,7,4,0]</span></code>).</p>
+</li>
+<li><p class="first">Write a method to mirror a solution in the X axis.</p>
+</li>
+<li><p class="first">Write a method to rotate a solution by 90 degrees anti-clockwise,
+and use this to provide 180 and 270 degree rotations too.</p>
+</li>
+<li><p class="first">Write a method which is given a solution, and it generates the family of
+symmetries for that solution.   For example, the symmetries of <code class="docutils literal"><span class="pre">[0,4,7,5,2,6,1,3]</span></code>
+(not C# syntax, again) are</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+ <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">]]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Now adapt the queens program so it won&#8217;t output solutions that are in the
+same family.  Only show solutions from unique families.</p>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="recursion.html" title="21. Recursion"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="list_algorithms.html" title="19. List and Array Algorithms"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

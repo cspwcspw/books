@@ -1,0 +1,11 @@
+﻿<Window x:Class="FreeFlow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button Content="Step" Height="44" HorizontalAlignment="Left" Margin="21,33,0,0" Name="button1" VerticalAlignment="Top" Width="65" Click="button1_Click" />
+        <TextBox Height="223" HorizontalAlignment="Left" Margin="169,44,0,0" Name="txtResult" VerticalAlignment="Top" Width="283" FontFamily="Consolas" FontSize="14" />
+        <Button Content="Next soln" Height="44" HorizontalAlignment="Left" Margin="21,96,0,0" Name="button2" VerticalAlignment="Top" Width="65" Click="button2_Click" />
+        <Button Content="NoBrainer" Height="42" HorizontalAlignment="Left" Margin="21,225,0,0" Name="btnNoBrainer" VerticalAlignment="Top" Width="65" Click="btnNoBrainer_Click" />
+    </Grid>
+</Window>

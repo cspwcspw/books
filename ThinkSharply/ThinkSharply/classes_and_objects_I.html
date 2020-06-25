@@ -1,0 +1,664 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>26. Writing our own Classes &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="27. In the Caves — a Case Study" href="in_the_caves.html" />
+    <link rel="prev" title="25. GUIs for our Queens" href="n_queens_II.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="in_the_caves.html" title="27. In the Caves — a Case Study"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="n_queens_II.html" title="25. GUIs for our Queens"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <style> .red {color:red} </style><div class="section" id="writing-our-own-classes">
+<h1>26. Writing our own Classes<a class="headerlink" href="#writing-our-own-classes" title="Permalink to this headline">¶</a></h1>
+<p>A class is a <em>type</em>. Up until this point in the book we&#8217;ve seen many classes and objects &#8212; Button,
+Canvas, Turtle, Random, Timer, etc. are all classes that we&#8217;ve used,
+but we&#8217;ve not yet designed our own classes (other than
+GUI windows).  In this chapter we&#8217;ll learn to design our own (non-GUI) classes.</p>
+<p><img alt="NB!" src="_images/nb.png" /> It is useful to think of a class as a <em>factory</em> for
+creating many objects of the type.</p>
+<p>So we&#8217;ve been able to use a class like a factory, e.g. the Button class
+gives rise to many Button instances, or we can create many Timer instances,
+or many Turtle objects:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre> <span class="n">Turtle</span> <span class="n">tess</span><span class="p">,</span> <span class="n">alex</span><span class="p">;</span>     <span class="c1">// define two variables that can refer to type Turtle ...</span>
+
+ <span class="c1">// and somewhere else in the code</span>
+   <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span> <span class="c1">// Ask the factory to create a turtle</span>
+   <span class="n">alex</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="m">90</span><span class="p">,</span> <span class="m">90</span><span class="p">);</span> <span class="c1">// and now manufacture another turtle!</span>
+</pre></div>
+</td></tr></table></div>
+<p>So breaking our programs into multiple classes (instead of doing everything in one
+big class) has two really important advantages:</p>
+<ul class="simple">
+<li>It allows us to create many objects, all independent and disentangled from each other.</li>
+<li>It is an essential tool for managing bigger tasks with more complexity.</li>
+</ul>
+<p>An object, as we&#8217;ve already seen, allows us to encapsulate, or chunk together,
+two main things: some <em>state</em> of the object, and some <em>functionality</em> for the object.
+The state can be internal to the object &#8212; private &#8212; or it can be
+exposed via public properties.  Think about turtles again &#8212; each one has its own
+<code class="docutils literal"><span class="pre">Heading</span></code>, its own <code class="docutils literal"><span class="pre">BrushWidth</span></code>, and so on.  They also have functionality &#8212;
+the things they can do.  These are the public methods, like <code class="docutils literal"><span class="pre">Forward</span></code> or <code class="docutils literal"><span class="pre">Stamp</span></code>.</p>
+<div class="section" id="object-oriented-programming">
+<span id="index-0"></span><h2>26.1. Object-oriented programming<a class="headerlink" href="#object-oriented-programming" title="Permalink to this headline">¶</a></h2>
+<p>In the Events chapter we animated some traffic lights. Go back to the traffic-light
+example there, and notice
+that we had three important abstractions, or &#8220;mental chunks&#8221; for the problem:</p>
+<ul class="simple">
+<li>We used a <em>state machine</em>  to represent the <em>Model</em> (the internal mechanism or
+the &#8220;business logic&#8221;), of how traffic lights should work.</li>
+<li>There was a <em>View</em> of the traffic lights &#8212; some pictures that
+we changed in the GUI as the program ran.</li>
+<li>There was a source of events &#8212; timer tick events in this case, which was
+a <em>Controller</em> for the system. Buttons, scrollbars, menus, etc. are common
+parts of the controller in a GUI program.</li>
+</ul>
+<p>The separation of problems so that we organize them as three different parts, a
+Model, a View, and a Controller, has turned out to be a really useful technique for
+designing software and games.  The controller responds to the keyboard, mouse,
+gamepad, touchscreen, etc.), and it drives the changes in the model. Then the
+controller gets the view to show some representation of the model and its changes.</p>
+<p>The way that we break up and organize programs into component
+parts is called a <strong>software architecture</strong>.
+Model-View-Controller (also called MVC for short) is one popular architecture.</p>
+<p>We can get a nice overview at <a class="reference external" href="http://en.wikipedia.org/wiki/Model-view-controller">http://en.wikipedia.org/wiki/Model-view-controller</a>.</p>
+<div class="admonition-our-working-problem admonition">
+<p class="first admonition-title">Our working problem</p>
+<p>Here we&#8217;re going to re-implement the traffic lights, with some twists.</p>
+<p>We now require three different sets of traffic lights.  Each will
+have its own controller: one can be controlled by a timer, one by
+a keypress, and one by having the user explicitly click a button.</p>
+<p>We&#8217;ll need three separate state machines &#8212; internal engines for
+the model of how the lights work.  Here we&#8217;ll separate the logic for
+what the state machine should do into its own separate class, and we&#8217;ll create
+three instances of that class, one for each of the different sets of traffic lights.</p>
+<p class="last">And finally, we&#8217;ll have three different ways to visualize our traffic lights.  One
+can use our pictures from the earlier chapter, one can just have some
+text output to say what the light is doing, and ... (we&#8217;ll make up something
+when we get there...).</p>
+</div>
+</div>
+<div class="section" id="designing-a-class">
+<span id="index-1"></span><h2>26.2. Designing a class<a class="headerlink" href="#designing-a-class" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ll want our own class to encapsulate (encapsulate means to enclose, as if
+in a capsule) the state and the functionality for a State Machine.
+One of the popular ways of figuring out how to break a complex system into
+more manageable components is to to write this information on a index card that
+is divided into three parts:</p>
+<ul class="simple">
+<li>What is the name of the class?</li>
+<li>What responsibilities will it (or the objects we instantiate from it) have,</li>
+<li>What other (types of) objects will it collaborate with?</li>
+</ul>
+<p>See <a class="reference external" href="http://en.wikipedia.org/wiki/Class-responsibility-collaboration_card">http://en.wikipedia.org/wiki/Class-responsibility-collaboration_card</a> for
+more detail, but this is enough to get us started.</p>
+<ul class="simple">
+<li>Let&#8217;s call our class <code class="docutils literal"><span class="pre">TrafficLightFSM</span></code> (FSM for finite state machine).</li>
+<li>Its responsibilities will be<ul>
+<li>to keep track of what state the state machine is currently in,</li>
+<li>to advance (or transition) from the current state to its next state.</li>
+</ul>
+</li>
+<li>Its collaborators will be<ul>
+<li>the controller logic in the GUI part of our program,</li>
+<li>the viewer logic in the GUI part of our program.</li>
+</ul>
+</li>
+</ul>
+<p>One we&#8217;ve figured out what classes we want, (just the one in this case)
+we&#8217;ll decide what properties and methods we need to give our objects
+so that they can fulfil their responsibilities.</p>
+<p>For our very simple objects, let&#8217;s start with one
+property &#8212; the <code class="docutils literal"><span class="pre">CurrentState</span></code> that the machine is in, and two methods:
+the constructor method to initialize new objects, and a method called
+<code class="docutils literal"><span class="pre">AdvanceState()</span></code>.</p>
+<p>To get a new class in our project in Visual Studio, right-click on our
+project in the Solution Explorer pane, and choose Add | Class...   You&#8217;ll
+be prompted for a name (enter <code class="docutils literal"><span class="pre">TrafficLightFSM.cs</span></code>).  Visual Studio will
+now generate a new class skeleton and add it to our project.  It will open
+the code, and will look something like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+ <span class="p">...</span>
+
+ <span class="k">namespace</span> <span class="nn">Fragments</span>
+ <span class="p">{</span>
+     <span class="k">class</span> <span class="nc">TrafficLightFSM</span>
+     <span class="p">{</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Your namespace may be different to the example above but will be the same as the namespace used
+in your <code class="docutils literal"><span class="pre">MainWindow</span></code>, and in any other classes we create later.
+(Putting all the classes in our project into
+the same namespace makes it easier for us, because they can all &#8220;see&#8221; each
+other without having to add any extra <code class="docutils literal"><span class="pre">using</span></code> directives at the top.)</p>
+<p>Now we can write our methods and our property definitions or private variable definitions
+inside the class.   Here&#8217;s what we&#8217;ll put in place of lines 6-8 now:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">class</span> <span class="nc">TrafficLightFSM</span>
+ <span class="p">{</span>
+     <span class="k">public</span> <span class="kt">int</span> <span class="n">CurrentState</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+
+     <span class="k">public</span> <span class="nf">TrafficLightFSM</span><span class="p">()</span>
+     <span class="p">{</span>
+         <span class="n">CurrentState</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="k">public</span> <span class="k">void</span> <span class="nf">Advance</span><span class="p">()</span>
+     <span class="p">{</span>
+         <span class="k">switch</span> <span class="p">(</span><span class="n">CurrentState</span><span class="p">)</span>
+         <span class="p">{</span>
+             <span class="k">case</span> <span class="m">0</span><span class="p">:</span>
+                 <span class="n">CurrentState</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+                 <span class="k">break</span><span class="p">;</span>
+             <span class="k">case</span> <span class="m">1</span><span class="p">:</span>
+                 <span class="n">CurrentState</span> <span class="p">=</span> <span class="m">2</span><span class="p">;</span>
+                 <span class="k">break</span><span class="p">;</span>
+             <span class="k">case</span> <span class="m">2</span><span class="p">:</span>
+                 <span class="n">CurrentState</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+                 <span class="k">break</span><span class="p">;</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Lines 5-8 define the constructor for our new class &#8212; the code necessary
+to initialize a new object of this type to its factory settings.  The distinguishing
+thing about the constructor is that it has no return type &#8212; not even the
+keyword <code class="docutils literal"><span class="pre">void</span></code> &#8212; and its name must be identical to the class name.  If we do provide a
+constructor, it will be automatically called whenever we instantiate a new object of this type.</p>
+<p>Lines 10-24 provide the functionality we wanted &#8212;
+the same logic as we saw in the &#8220;More Events Handling&#8221; chapter of this book.</p>
+<div class="sidebar">
+<p class="first sidebar-title">Properties can do more...</p>
+<p>There are more complex ways of using properties that we don&#8217;t cover.</p>
+<p>They&#8217;re preferred over variables.  Public variables
+mean that an external collaborator might change them,
+so the object loses control of its own state.</p>
+<p class="last">But the reason why we encapsulate state in the first place is
+so that the object itself can stay in charge.</p>
+</div>
+<p>Line 3 is new: it shows that we&#8217;re defining a new property of
+type <code class="docutils literal"><span class="pre">int</span></code>.  A property is like a variable, but with finer
+control over how it can be used &#8212; this one says that the property is public &#8212;
+it can be accessed outside the class (others can <em>get</em> its value),
+but the <code class="docutils literal"><span class="pre">private</span></code> modifier on <code class="docutils literal"><span class="pre">set</span></code> restricts the property so that
+it can only be set (assigned a new value) by methods within this class.</p>
+<p>If we right-click on the class name in the Solution Explorer and choose the option
+&#8220;View Class Diagram&#8221;, we&#8217;ll get a diagram of the class (this feature may not
+be in all versions of Visual Studio):</p>
+<img alt="_images/classdiagram1.png" class="align-left" src="_images/classdiagram1.png" />
+<p>A class diagram is a widely used notation that allows software developers
+to express different aspects of their design.  Many people will tell us
+that we should draw our diagram first, and write our class according to
+our diagram.  In Visual Studio, because we can get the diagram
+from a class it seems sometimes easier just to start with the class.</p>
+<p>Well done!  We&#8217;ve written our very first (non GUI) class.  Now let&#8217;s
+make some objects of this type, and put them to good use.</p>
+</div>
+<div class="section" id="three-sets-of-traffic-lights-the-controllers-and-the-views">
+<span id="index-2"></span><h2>26.3. Three sets of traffic lights &#8212; The Controllers and the Views<a class="headerlink" href="#three-sets-of-traffic-lights-the-controllers-and-the-views" title="Permalink to this headline">¶</a></h2>
+<p>In the kinds of programs we write the Controllers and the Views
+are both intertwined in our Window class, so they&#8217;re
+not fantastically well separated.  We&#8217;ll make a special effort
+to separate them in our thinking, at least.</p>
+<p>Here&#8217;s what the finished product will look like:</p>
+<img alt="_images/traffic_light_gui.png" src="_images/traffic_light_gui.png" />
+<p>Let&#8217;s begin by just getting the first set of lights to work.
+Most of the code is identical to what we saw previously
+in the <em>More Event Handling</em> chapter,
+except that the logic for the state machine
+is now in its own class.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30</pre></div></td><td class="code"><div class="highlight"><pre>     <span class="k">private</span> <span class="n">BitmapImage</span><span class="p">[]</span> <span class="n">thePics</span><span class="p">;</span>
+     <span class="k">private</span> <span class="n">TrafficLightFSM</span> <span class="n">model1</span><span class="p">,</span> <span class="n">model2</span><span class="p">,</span> <span class="n">model3</span><span class="p">;</span>
+     <span class="k">private</span> <span class="n">System</span><span class="p">.</span><span class="n">Windows</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">DispatcherTimer</span> <span class="n">theTimer</span><span class="p">;</span>
+
+     <span class="k">public</span> <span class="nf">TrafficLightsGUI</span><span class="p">()</span>
+     <span class="p">{</span>
+         <span class="n">InitializeComponent</span><span class="p">();</span>
+
+         <span class="n">model1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TrafficLightFSM</span><span class="p">();</span>
+         <span class="n">model2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TrafficLightFSM</span><span class="p">();</span>
+         <span class="n">model3</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TrafficLightFSM</span><span class="p">();</span>
+
+         <span class="kt">string</span> <span class="n">inThisProject</span> <span class="p">=</span> <span class="s">&quot;pack://application:,,,/&quot;</span><span class="p">;</span>  <span class="c1">// the magic spell ...</span>
+         <span class="n">thePics</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BitmapImage</span><span class="p">[]</span> <span class="p">{</span>
+                     <span class="k">new</span> <span class="nf">BitmapImage</span><span class="p">(</span><span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="n">inThisProject</span> <span class="p">+</span> <span class="s">&quot;TrafficLightGreen.png&quot;</span><span class="p">)),</span>
+                     <span class="k">new</span> <span class="nf">BitmapImage</span><span class="p">(</span><span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="n">inThisProject</span> <span class="p">+</span> <span class="s">&quot;TrafficLightAmber.png&quot;</span><span class="p">)),</span>
+                     <span class="k">new</span> <span class="nf">BitmapImage</span><span class="p">(</span><span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="n">inThisProject</span> <span class="p">+</span> <span class="s">&quot;TrafficLightRed.png&quot;</span><span class="p">))</span> <span class="p">};</span>
+
+         <span class="n">theTimer</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Windows</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">DispatcherTimer</span><span class="p">();</span>
+         <span class="n">theTimer</span><span class="p">.</span><span class="n">Tick</span> <span class="p">+=</span> <span class="n">theTimer_Tick</span><span class="p">;</span>
+         <span class="n">theTimer</span><span class="p">.</span><span class="n">Interval</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromMilliseconds</span><span class="p">(</span><span class="m">500</span><span class="p">);</span>
+         <span class="n">theTimer</span><span class="p">.</span><span class="n">Start</span><span class="p">();</span>
+     <span class="p">}</span>
+
+     <span class="k">private</span> <span class="k">void</span> <span class="nf">theTimer_Tick</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+     <span class="p">{</span>   <span class="c1">// advance the model</span>
+         <span class="n">model1</span><span class="p">.</span><span class="n">Advance</span><span class="p">();</span>
+         <span class="c1">// update the view</span>
+         <span class="n">image1</span><span class="p">.</span><span class="n">Source</span> <span class="p">=</span> <span class="n">thePics</span><span class="p">[</span><span class="n">model1</span><span class="p">.</span><span class="n">CurrentState</span><span class="p">];</span>
+     <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>In line 2 we define variables for all three models, and at lines 9-11 we
+instantiate all three.  Otherwise the code is pretty similar to what
+it was before: our
+class constructor instantiates all the objects it needs,
+and starts the timer.  When the timer ticks we advance our model, and
+then we update the view by asking the model for its current state,
+and using that to choose the picture that is displayed by the image control.</p>
+<p>Our second set of traffic lights is controlled by a keyboard event,
+so we create an event handler for the Window&#8217;s <code class="docutils literal"><span class="pre">KeyDown</span></code> event, and respond to
+a keypress like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre>     <span class="k">private</span> <span class="k">void</span> <span class="nf">Window_KeyDown</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">KeyEventArgs</span> <span class="n">e</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="k">switch</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Key</span><span class="p">)</span>
+         <span class="p">{</span>
+             <span class="c1">// Controller for light set 2 - press the N key for Next</span>
+             <span class="k">case</span> <span class="n">Key</span><span class="p">.</span><span class="n">N</span><span class="p">:</span>
+                 <span class="n">model2</span><span class="p">.</span><span class="n">Advance</span><span class="p">();</span>
+                 <span class="k">switch</span> <span class="p">(</span><span class="n">model2</span><span class="p">.</span><span class="n">CurrentState</span><span class="p">)</span>  <span class="c1">// update view</span>
+                 <span class="p">{</span>
+                     <span class="k">case</span> <span class="m">0</span><span class="p">:</span> <span class="n">lblOutputSet2</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="s">&quot;GO!&quot;</span><span class="p">;</span>
+                         <span class="k">break</span><span class="p">;</span>
+                     <span class="k">case</span> <span class="m">1</span><span class="p">:</span> <span class="n">lblOutputSet2</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="s">&quot;PAUSE!&quot;</span><span class="p">;</span>
+                         <span class="k">break</span><span class="p">;</span>
+                     <span class="k">case</span> <span class="m">2</span><span class="p">:</span> <span class="n">lblOutputSet2</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="s">&quot;STOP!&quot;</span><span class="p">;</span>
+                         <span class="k">break</span><span class="p">;</span>
+                 <span class="p">}</span>
+                 <span class="k">break</span><span class="p">;</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>So our &#8220;view&#8221; in this case is just some text that is displayed in a label.
+To reinforce the idea that the view is now independent from the
+model and controller, perhaps we can consider how easily we could change
+the view to display Spanish rather than English in the label.</p>
+<p>Finally, the third set of traffic lights is controlled by clicking the
+button.  So here is the code behind the button click event:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre>     <span class="k">private</span> <span class="k">void</span> <span class="nf">btnAdvance_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="n">model3</span><span class="p">.</span><span class="n">Advance</span><span class="p">();</span>
+         <span class="k">switch</span> <span class="p">(</span><span class="n">model3</span><span class="p">.</span><span class="n">CurrentState</span><span class="p">)</span>   <span class="c1">// update view</span>
+         <span class="p">{</span>
+             <span class="k">case</span> <span class="m">0</span><span class="p">:</span> <span class="n">progressBar1</span><span class="p">.</span><span class="n">Value</span> <span class="p">=</span> <span class="m">33</span><span class="p">;</span>
+                 <span class="n">progressBar1</span><span class="p">.</span><span class="n">Foreground</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Green</span><span class="p">;</span>
+                 <span class="k">break</span><span class="p">;</span>
+             <span class="k">case</span> <span class="m">1</span><span class="p">:</span> <span class="n">progressBar1</span><span class="p">.</span><span class="n">Value</span> <span class="p">=</span> <span class="m">66</span><span class="p">;</span>
+                 <span class="n">progressBar1</span><span class="p">.</span><span class="n">Foreground</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Orange</span><span class="p">;</span>
+                 <span class="k">break</span><span class="p">;</span>
+             <span class="k">case</span> <span class="m">2</span><span class="p">:</span> <span class="n">progressBar1</span><span class="p">.</span><span class="n">Value</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span>
+                 <span class="n">progressBar1</span><span class="p">.</span><span class="n">Foreground</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Red</span><span class="p">;</span>
+                 <span class="k">break</span><span class="p">;</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>We&#8217;ve not used a <code class="docutils literal"><span class="pre">ProgressBar</span></code> control before, but they&#8217;re
+quite easy.  We drag one onto our Window, and we set its orientation property
+to make it grow vertically instead of horizontally.  It shows progress according to
+the number we assign to its <code class="docutils literal"><span class="pre">Value</span></code> property.  (By default, 0 represents
+no progress, 100 represents &#8220;100% progress&#8221;.)
+We also change the brush colour to view the different states.</p>
+</div>
+<div class="section" id="the-keyword-this">
+<h2>26.4. The keyword <code class="docutils literal"><span class="pre">this</span></code><a class="headerlink" href="#the-keyword-this" title="Permalink to this headline">¶</a></h2>
+<p>The keyword <code class="docutils literal"><span class="pre">this</span></code> is available in a class, and works like the English word &#8220;me&#8221;.
+So every object can use a reference to itself.  So <code class="docutils literal"><span class="pre">this.CurrentState</span></code> means &#8220;my CurrentState&#8221;.</p>
+<p>Normally we don&#8217;t need to use the keyword explicitly.  But it is really convenient in one
+particular situation &#8212; in a class constructor.
+So let us change our <code class="docutils literal"><span class="pre">TrafficLightFSM</span></code> constructor.  Instead of always creating an FSM which begins
+in state 0, we now want the caller to be able to pass an argument to the constructor, to set the initial state:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre>  <span class="k">class</span> <span class="nc">TrafficLightFSM</span>
+  <span class="p">{</span>
+      <span class="k">public</span> <span class="kt">int</span> <span class="n">CurrentState</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+
+      <span class="k">public</span> <span class="nf">TrafficLightFSM</span><span class="p">(</span><span class="kt">int</span> <span class="n">CurrentState</span><span class="p">)</span>
+      <span class="p">{</span>
+<span class="hll">          <span class="k">this</span><span class="p">.</span><span class="n">CurrentState</span> <span class="p">=</span> <span class="n">CurrentState</span><span class="p">;</span>
+</span>      <span class="p">}</span>
+
+  <span class="p">...</span>
+  <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The tricky bit is at line 7.  We now have a parameter at line 5 with exactly
+the same name as our property in line 3.  We recall our
+discussion about scope lookup rules in Chapter 24: <code class="docutils literal"><span class="pre">CurrentState</span></code>
+means the most closely nested definition of the name.
+Which is the parameter on line 5.</p>
+<p>Our new keyword, <code class="docutils literal"><span class="pre">this</span></code>, can be used to explicitly qualify the a name
+to mean <em>&#8220;the CurrentState that belongs to me, the object&#8221;</em>
+(i.e. the one defined at line 3, in <em>class-level scope</em>.)</p>
+<p>It is sometimes easier just to choose another name for the parameter, but
+using the same names is popular practice in C# (and in Java). So we&#8217;ll need
+to use <code class="docutils literal"><span class="pre">this</span></code> to work around the scope rules to let us access the class-level
+variable of the name.  So we&#8217;re sure to see it often.</p>
+</div>
+<div class="section" id="summary">
+<h2>26.5. Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>By making <code class="docutils literal"><span class="pre">TrafficLightFSM</span></code> into its own class we&#8217;ve
+simplified the logic, especially when we want multiple instances, each with
+their own state. It would be tricky to have all the logic and variables for three
+separate state machines tangled up inside our Window class.</p>
+<p>Our first <code class="docutils literal"><span class="pre">TrafficLightFSM</span></code> class was really simple: one property and one
+method (apart from the constructor).  But the powerful thing is the idea:
+as we put more state and logic into our objects, we&#8217;ll see more
+benefits from this approach of breaking programs into
+separate components that interact with each other. (Consider how complicated the
+behaviour of a Window or a Turtle object is, or for any of the GUI controls
+that we use so easily. Having classes to organize and manage this complexity is essential!)</p>
+</div>
+<div class="section" id="the-bigger-picture">
+<h2>26.6. The bigger picture<a class="headerlink" href="#the-bigger-picture" title="Permalink to this headline">¶</a></h2>
+<p>C# is a fully object-oriented programming language:
+every method must belong to a class, and the only way to organize
+computation is by having classes that give rise to objects that
+can interact with each other.  Java is like this too.</p>
+<p>An earlier style of organizing computation is called
+<em>procedural</em> (or <em>imperative</em>) programming.  Look it up.
+Fortran, C, BASIC and Pascal are popular languages
+that support this style.</p>
+<p>Some procedural languages added objects and classes to their
+procedural core, and they now have a (sometimes messy) mixture that
+can be used in either style. C++, Python, Visual Basic, and some newer
+versions of Pascal (e.g. Delphi Pascal) work like this.</p>
+</div>
+<div class="section" id="glossary">
+<h2>26.7. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-class">class</dt>
+<dd>A class defines a new type of object.  A class can also be thought of as a
+template or a blueprint for the objects that are created according to its
+specifications.</dd>
+<dt id="term-constructor">constructor</dt>
+<dd>Every class may have special method that is invoked automatically to
+initialize a new object to its factory-default state.</dd>
+<dt id="term-instance">instance</dt>
+<dd>An object whose type is of some class.  Instance and object are used
+interchangeably.</dd>
+<dt id="term-instantiate">instantiate</dt>
+<dd>To create an instance of a class, and to run its constructor, if one exists.</dd>
+<dt id="term-method">method</dt>
+<dd>A method is defined inside a class definition and is invoked on
+objects of that class. Methods give objects their behaviour.</dd>
+<dt id="term-model-view-controller-mvc">Model-View-Controller (MVC)</dt>
+<dd>A popular way of breaking software systems into three co-operating components.</dd>
+<dt id="term-object">object</dt>
+<dd>The run-time entity that is often used to represent a real-world thing.
+It bundles together the state (data) and the behaviour appropriate
+for that kind of thing.  Instance and object are used interchangeably.</dd>
+<dt id="term-software-architecture">software architecture</dt>
+<dd>The overall design of a large software system.</dd>
+<dt id="term-this"><code class="docutils literal"><span class="pre">this</span></code></dt>
+<dd>A C# keyword that refers to the current instance of the class.</dd>
+<dt id="term-object-oriented-programming">object-oriented programming</dt>
+<dd>A powerful style of programming in which data and the operations
+that manipulate it are organized into objects.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>26.8. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/classdiagram_smsmessage.png" class="align-right" src="_images/classdiagram_smsmessage.png" />
+<ol class="arabic">
+<li><p class="first">Write a class definition for an SMSMessage that implements the class diagram here.
+It should contain four properties that are privately settable, but publically gettable.
+The constructor should initialize the sender&#8217;s number and the message from parameters,
+and it should also set <code class="docutils literal"><span class="pre">HasBeenRead</span></code> to false, set the <code class="docutils literal"><span class="pre">TimeStamp</span></code> to <code class="docutils literal"><span class="pre">DateTime.Now</span></code>.
+The <code class="docutils literal"><span class="pre">MarkAsRead</span></code> method should change <code class="docutils literal"><span class="pre">HasBeenRead</span></code> to true.</p>
+<img alt="_images/classdiagram_smsstore.png" class="align-right" src="_images/classdiagram_smsstore.png" />
+</li>
+<li><p class="first">Create a new class, SMSStore, that can be used for an SMS inbox or outbox on a cellphone.
+It should implement the class diagram here.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre> <span class="n">SMSStore</span> <span class="n">myInbox</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SMSStore</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+<p>This store can hold multiple <code class="docutils literal"><span class="pre">SMSMessage</span></code> objects.  (Hint: use a <code class="docutils literal"><span class="pre">List&lt;SMSMessage&gt;</span></code>!)</p>
+<p>An SMSStore object should provide methods with these signatures:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">void</span> <span class="nf">AddSMS</span><span class="p">(</span><span class="kt">string</span> <span class="n">fromNumber</span><span class="p">,</span> <span class="kt">string</span> <span class="n">textOfSMS</span><span class="p">);</span>
+   <span class="c1">// Makes a new SMSMessage object, inserts it after other messages.</span>
+
+ <span class="kt">int</span> <span class="nf">GetCount</span><span class="p">();</span>
+   <span class="c1">// Returns the number of sms messages in the store.</span>
+
+ <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">GetUnreadIndexes</span><span class="p">();</span>
+   <span class="c1">// Returns list of indexes of all not-yet-viewed SMS messages</span>
+
+ <span class="n">SMSMessage</span> <span class="nf">GetMessage</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span>
+   <span class="c1">// Return message[i].</span>
+   <span class="c1">// If there is no message at position i, throw an exception.</span>
+
+ <span class="k">void</span> <span class="nf">Remove</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span>     <span class="c1">// Delete the message at index i (or throw an exception)</span>
+ <span class="k">void</span> <span class="nf">Clear</span><span class="p">();</span>           <span class="c1">// Delete all messages from the store</span>
+</pre></div>
+</td></tr></table></div>
+<p>Write the class, create a message store object, write tests for these methods, and implement the methods.</p>
+</li>
+<li><p class="first">Make a GUI like the one shown.  In one half of the screen you can be in the role of a friend,
+and &#8220;send&#8221; new SMS messages to your inbox.  In the other half of the screen you can be the phone
+&#8220;user&#8221; &#8212; you&#8217;ll be able to refresh the status (the view) of your inbox.  (In this sample I used
+two Canvas controls and set different background colours to provide the two halves of the screen.)</p>
+<p>You can read any message by entering its index number.</p>
+<img alt="_images/sms_interface.png" src="_images/sms_interface.png" />
+</li>
+<li><p class="first">Extend your SMS GUI so that you don&#8217;t need the &#8220;Refresh Status&#8221; button &#8212; the status automatically updates
+itself whenever you add a message to the Inbox, or when a message is read.  Extend the interface so that the
+user can delete a message, or clear all messages from the Inbox.</p>
+</li>
+<li><p class="first">Add another class called AddressBook to your program.  Pre-program some phone numbers and names
+into the address book.  (We won&#8217;t worry about adding new contacts or deleting contacts, or updating their
+information, although this could be a nice exercise too!)  Now change your GUI from the previous
+question so that if the SMS arrives from a known contact, their name will be shown in the GUI instead
+of their number.</p>
+</li>
+<li><p class="first">Do the following experiment on your phone.  Find an SMS in your Inbox for which you have no contact
+details.  Add a dummy contact for that number.  Does your Inbox now show the dummy
+contact name, or does it still show the original number?  What happens if you now delete the dummy contact?
+Do you think your phone searches your contact list when the SMS arrives, or when you want to see your Inbox,
+or does it update your Inbox whenever you make changes to your contact list?</p>
+</li>
+<li><p class="first">Take an existing class, and add the qualifier <code class="docutils literal"><span class="pre">this</span></code> to every use of a member (variable, method, property)
+so that you build a good understanding that an unqualified name often resolves (using the normal scope rules)
+to the local scope.  But the <code class="docutils literal"><span class="pre">this</span></code> keyword explicitly forces the name to be at class-level scope.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="in_the_caves.html" title="27. In the Caves — a Case Study"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="n_queens_II.html" title="25. GUIs for our Queens"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

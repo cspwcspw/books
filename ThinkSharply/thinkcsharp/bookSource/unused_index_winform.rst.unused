@@ -1,0 +1,203 @@
+..  Copyright (C) Peter Wentworth under a Creative Commons BY-NC-SA Licence.
+    See the fine print at http://creativecommons.org/licenses/by-nc-sa/3.0/ 
+ 
+.. raw:: html
+
+   <style> .red {color:red} </style>
+
+.. role:: red
+
+.. |wip0| image:: illustrations/wip0.png
+
+.. |wip1| image:: illustrations/wip1.png
+
+.. |wip2| image:: illustrations/wip2.png
+
+.. |wip3| image:: illustrations/wip3.png
+
+.. |wip4| image:: illustrations/wip4.png
+
+.. |wip5| image:: illustrations/wip5.png
+
+.. |wip6| image:: illustrations/wip6.png
+
+.. |wip7| image:: illustrations/wip7.png
+
+.. |wip8| image:: illustrations/wip8.png
+
+
+*Please do not create external links or refer to this book yet: its status is "Work in Progress".*
+
+
+Think Sharply with C#  
+=====================   
+
+.. image:: _static/csharp_lessons.png
+    :alt: Think Sharply with C# Workbook Logo
+      
+
+Version date: February 2013 
+
+Peter Wentworth 
+~~~~~~~~~~~~~~~
+
+p.wentworth@ru.ac.za
+
+  
+* `Foreword <foreword.html>`__
+
+
+Part 1
+------
+
+.. only:: wpf   
+
+    * `Chapter 1 <way_of_the_program.html>`__ *The way of the program*
+    * `Chapter 2 <forms_1.html>`__ *Start with a Form*
+    * `Chapter 3 <VS_guide_1.html>`__ *Visual Studio Survival Guide*
+    * `Chapter 4 <variables_expressions_statements.html>`__ *Variables, expressions, and statements*
+    * `Chapter 5 <events_and_handlers_1.html>`__ *Events and Handlers*
+    * `Chapter 6 <hello_little_turtles.html>`__ *Hello, little turtles!*   
+    * `Chapter 7 <methods_void.html>`__ *Void Methods*
+    * `Chapter 8 <conditionals.html>`__ *Working with Booleans and and Conditional Statements*
+    * `Chapter 9 <methods_value_returning.html>`__ *Value-returning Methods*
+    * `Chapter 10 <iteration.html>`__ *Iteration*
+    * `Chapter 11 <strings.html>`__ *Strings*
+    * `Chapter 12 <events.html>`__ *More Event Handling*    
+    * `Chapter 13 <arrays.html>`__ *Arrays*
+
+.. only:: winform   
+
+    * `Chapter 1 <way_of_the_program.html>`__ *The way of the program*
+    * `Chapter 2 <forms_1.html>`__ *Start with a Form*
+    * `Chapter 3 <VS_guide_1.html>`__ *Visual Studio Survival Guide*
+    * `Chapter 4 <variables_expressions_statements.html>`__ *Variables, expressions, and statements*
+    * `Chapter 5 <events_and_handlers_1.html>`__ *Events and Handlers*
+    * `Chapter 6 <winform_hello_little_turtles.html>`__ *Hello, little turtles!*     
+    * `Chapter 7 <methods_void.html>`__ *Void Methods*
+    * `Chapter 8 <conditionals.html>`__ *Working with Booleans and and Conditional Statements*
+    * `Chapter 9 <methods_value_returning.html>`__ *Value-returning Methods*
+    * `Chapter 10 <iteration.html>`__ *Iteration*
+    * `Chapter 11 <strings.html>`__ *Strings*
+    * `Chapter 12 <winform_events.html>`__ *More Event Handling*    
+    * `Chapter 13 <arrays.html>`__ *Arrays*
+    
+    
+Part 2 
+------
+
+Scheduled for release in July 2013.
+
+* :ref:`search`      
+    
+.. only:: commentedOut  
+
+    Section C  (Semester 2)
+    ~~~~~~~~~~~~~~~~~~~~~~~
+
+    * |wip0|  `ex-python chapter 11 <lists.html>`__ *Lists*
+    * |wip0|  `ex-python chapter 12 <modules.html>`__ *Modules*
+    * |wip0|  `ex-python chapter 13 <files.html>`__ *Files*
+    * |wip0|  `ex-python chapter 14 <list_algorithms.html>`__ *List Algorithms*
+    * |wip0|  `ex-python chapter 15 <classes_and_objects_I.html>`__ *Classes and Objects - the Basics*
+    * |wip0|  `ex-python chapter 16 <classes_and_objects_II.html>`__ *Classes and Objects - Digging a little deeper*
+
+    Section D
+    ~~~~~~~~~
+
+    * |wip0|  `ex-python chapter 18 <recursion.html>`__ *Recursion*
+    * |wip0|  `ex-python chapter 19 <exceptions.html>`__ *Exceptions*
+    * |wip0|  `ex-python chapter 21 <casestudy_fileindexer.html>`__ *Case Study: A File Indexer*
+    * |wip0|  `ex-python chapter 20 <dictionaries.html>`__ *Dictionaries*
+    * |wip0|  `ex-python chapter 22 <even_more_oop.html>`__ *Even more OOP*
+
+    Section E   (XNA stuff)
+    ~~~~~~~~~~~~~~~~~~~~~~~
+
+    * |wip0|  `ex-python chapter 17 <pygame.html>`__ *PyGame*
+
+
+
+    Appendices
+    ~~~~~~~~~~
+
+    * |wip0|  `ex-python Appendix A <app_a.html>`__ *Debugging*
+    * |wip0|  `ex-python Appendix B <app_b.html>`__ *An odds-and-ends Workbook*
+    * |wip0|  `ex-python Appendix D <app_d.html>`__ *Customizing and Contributing to the Book*
+    * |wip0|  `ex-python Appendix E <app_e.html>`__ *Some Tips, Tricks, and Common Errors*
+    * |wip2| `new Appendix F <app_f.html>`__ *Cheat Sheets*
+
+    Scratch-pad area not intended for final book
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    * `Resources <resources.html>`__ *Resources and Philosophy*
+    * `Syllabus <syllabus.html>`__ *Course Outline*
+
+    Existing Python chapters that we are probably going to discard or subsume elsewhere:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+    * |wip0|  `ex-python chapter 09 <tuples.html>`__ *Tuples*            
+     
+    * |wip0|  `ex-python unused <unused.html>`__ *Unused sections*
+    * |wip0|  `ex-python chapter 23 <collections.html>`__ *Collections of Objects*
+    * |wip0|  `ex-python chapter 24 <inheritance.html>`__ *Inheritance*
+    * |wip0|  `ex-python chapter 25 <linked_lists.html>`__ *Linked Lists*
+    * |wip0|  `ex-python chapter 26 <stacks.html>`__ *Stacks*
+    * |wip0|  `ex-python chapter 27 <queues.html>`__ *Queues*
+    * |wip0|  `ex-python chapter 28 <trees.html>`__ *Trees*
+
+    * |wip0|  `ex-python chapterx C <app_c.html>`__ *Configuring Ubuntu for C# Development*
+
+
+
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    foreword.rst
+
+
+.. only:: wpf
+
+    .. toctree::
+        :maxdepth: 1
+        :numbered:
+        :hidden:
+
+        way_of_the_program.rst
+        forms_1.rst
+        VS_guide_1.rst
+        variables_expressions_statements.rst
+        events_and_handlers_1.rst
+        hello_little_turtles.rst
+        methods_void.rst
+        conditionals.rst
+        methods_value_returning.rst
+        iteration.rst
+        strings.rst
+        events.rst
+        arrays.rst
+    
+.. only:: winform
+
+    .. toctree::
+        :maxdepth: 1
+        :numbered:
+        :hidden:
+        
+        way_of_the_program.rst
+        forms_1.rst
+        VS_guide_1.rst
+        variables_expressions_statements.rst
+        events_and_handlers_1.rst
+        winform_hello_little_turtles.rst
+        methods_void.rst
+        conditionals.rst
+        methods_value_returning.rst
+        iteration.rst
+        strings.rst
+        winform_events.rst
+        arrays.rst

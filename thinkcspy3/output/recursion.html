@@ -1,0 +1,809 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>18. Recursion &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="19. Exceptions" href="exceptions.html" />
+    <link rel="prev" title="17. PyGame" href="pygame.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="exceptions.html" title="19. Exceptions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pygame.html" title="17. PyGame"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="recursion">
+<h1>18. Recursion<a class="headerlink" href="#recursion" title="Permalink to this headline">¶</a></h1>
+<p><strong>Recursion</strong> means “defining something in terms of itself” usually at some
+smaller scale, perhaps multiple times, to achieve your objective.
+For example, we might say “A human being is someone whose mother is a human being”,
+or “a directory is a structure that holds files and (smaller) directories”, or “a family tree starts
+with a couple who have children, each with their own family sub-trees”.</p>
+<p>Programming languages generally support <strong>recursion</strong>, which means that, in order
+to solve a problem, functions can <em>call themselves</em> to solve smaller subproblems.</p>
+<div class="section" id="drawing-fractals">
+<h2>18.1. Drawing Fractals<a class="headerlink" href="#drawing-fractals" title="Permalink to this headline">¶</a></h2>
+<p>For our purposes, a <strong>fractal</strong> is a drawing which also has <em>self-similar</em> structure,
+where it can be defined in terms of itself.</p>
+<p>Let us start by looking at the famous Koch fractal.  An order 0 Koch fractal is simply
+a straight line of a given size.</p>
+<img alt="_images/koch_0.png" src="_images/koch_0.png" />
+<p>An order 1 Koch fractal is obtained like this: instead of drawing just one line,
+draw instead four smaller segments, in the pattern shown here:</p>
+<img alt="_images/koch_1.png" src="_images/koch_1.png" />
+<p>Now what would happen if we repeated this Koch pattern again on each of the order 1 segments?
+We’d get this order 2 Koch fractal:</p>
+<img alt="_images/koch_2.png" src="_images/koch_2.png" />
+<p>Repeating our pattern again gets us an order 3 Koch fractal:</p>
+<img alt="_images/koch_3.png" src="_images/koch_3.png" />
+<p>Now let us think about it the other way around.  To draw a Koch fractal
+of order 3, we can simply draw four order 2 Koch fractals.  But each of these
+in turn needs four order 1 Koch fractals, and each of those in turn needs four
+order 0 fractals.  Ultimately, the only drawing that will take place is
+at order 0. This is very simple to code up in Python:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">koch</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Make turtle t draw a Koch fractal of &#39;order&#39; and &#39;size&#39;.</span>
+<span class="sd">       Leave the turtle facing the same direction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">order</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>          <span class="c1"># The base case is just a straight line</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">koch</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>   <span class="c1"># Go 1/3 of the way</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+        <span class="n">koch</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+        <span class="n">koch</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+        <span class="n">koch</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The key thing that is new here is that if order is not zero,
+<code class="docutils literal notranslate"><span class="pre">koch</span></code> calls itself recursively to get its job done.</p>
+<p>Let’s make a simple observation and tighten up this code.  Remember that
+turning right by 120 is the same as turning left by -120.  So with a
+bit of clever rearrangement, we can use a loop instead of lines 10-16:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">koch</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">order</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+           <span class="n">koch</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+           <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The final turn is 0 degrees — so it has no effect.  But it has allowed us to
+find a pattern and reduce seven lines of code to three, which will make
+things easier for our next observations.</p>
+<div class="admonition-recursion-the-high-level-view admonition">
+<p class="first admonition-title">Recursion, the high-level view</p>
+<p>One way to think about this is to convince yourself that the function
+works correctly when you call it for an order 0 fractal.  Then do
+a mental <em>leap of faith</em>, saying <em>“the fairy godmother</em> (or Python, if
+you can think of Python as your fairy godmother) <em>knows how to
+handle the recursive level 0 calls for me on lines 11, 13, 15, and 17, so
+I don’t need to think about that detail!”</em>  All I need to focus on
+is how to draw an order 1 fractal <em>if I can assume the order 0 one is
+already working.</em></p>
+<p>You’re practicing <em>mental abstraction</em> — ignoring the subproblem
+while you solve the big problem.</p>
+<p>If this mode of thinking works (and you should practice it!), then take
+it to the next level.  Aha! now can I see that it will work when called
+for order 2 <em>under the assumption that it is already working for level 1</em>.</p>
+<p>And, in general, if I can assume the order n-1 case works, can I just
+solve the level n problem?</p>
+<p class="last">Students of mathematics who have played with proofs of induction should
+see some very strong similarities here.</p>
+</div>
+<div class="admonition-recursion-the-low-level-operational-view admonition">
+<p class="first admonition-title">Recursion, the low-level operational view</p>
+<p>Another way of trying to understand recursion is to get rid of it! If we
+had separate functions to draw a level 3 fractal, a level 2 fractal, a level 1
+fractal and a level 0 fractal, we could simplify the above code, quite mechanically,
+to a situation where there was no longer any recursion, like this:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">koch_0</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">koch_1</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+       <span class="n">koch_0</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+       <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">koch_2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+       <span class="n">koch_1</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+       <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">koch_3</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+       <span class="n">koch_2</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+       <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>This trick of “unrolling” the recursion gives us an operational view
+of what happens.  You can trace the program into <code class="docutils literal notranslate"><span class="pre">koch_3</span></code>, and from
+there, into <code class="docutils literal notranslate"><span class="pre">koch_2</span></code>, and then into <code class="docutils literal notranslate"><span class="pre">koch_1</span></code>, etc., all the way down
+the different layers of the recursion.</p>
+<p class="last">This might be a useful hint to build your understanding.  The mental goal
+is, however, to be able to do the abstraction!</p>
+</div>
+</div>
+<div class="section" id="recursive-data-structures">
+<span id="index-0"></span><h2>18.2. Recursive data structures<a class="headerlink" href="#recursive-data-structures" title="Permalink to this headline">¶</a></h2>
+<p>All of the Python data types we have seen can be grouped inside lists and
+tuples in a variety of ways. Lists and tuples can also be nested, providing
+many possibilities for organizing data. The organization of data for the
+purpose of making it easier to use is called a <strong>data structure</strong>.</p>
+<p>It’s election time and we are helping to compute the votes as they come in.
+Votes arriving from individual wards, precincts, municipalities, counties, and
+states are sometimes reported as a sum total of votes and sometimes as a list
+of subtotals of votes. After considering how best to store the tallies, we
+decide to use a <em>nested number list</em>, which we define as follows:</p>
+<p>A <em>nested number list</em> is a list whose elements are either:</p>
+<ol class="loweralpha simple">
+<li>numbers</li>
+<li>nested number lists</li>
+</ol>
+<p>Notice that the term, <em>nested number list</em> is used in its own definition.
+<strong>Recursive definitions</strong> like this are quite common in mathematics and
+computer science. They provide a concise and powerful way to describe
+<strong>recursive data structures</strong> that are partially composed of smaller and
+simpler instances of themselves. The definition is not circular, since at some
+point we will reach a list that does not have any lists as elements.</p>
+<p>Now suppose our job is to write a function that will sum all of the values in a
+nested number list. Python has a built-in function which finds the sum of a
+sequence of numbers:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sum</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+<p>For our <em>nested number list</em>, however, <code class="docutils literal notranslate"><span class="pre">sum</span></code> will not work:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sum</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="mi">8</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;interactive input&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">unsupported operand type(s) for +: &#39;int&#39; and &#39;list&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>The problem is that the third element of this list, <code class="docutils literal notranslate"><span class="pre">[11,</span> <span class="pre">13]</span></code>, is itself a
+list, so it cannot just be added to <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, and <code class="docutils literal notranslate"><span class="pre">8</span></code>.</p>
+</div>
+<div class="section" id="processing-recursive-number-lists">
+<span id="index-1"></span><h2>18.3. Processing recursive number lists<a class="headerlink" href="#processing-recursive-number-lists" title="Permalink to this headline">¶</a></h2>
+<p>To sum all the numbers in our recursive nested number list we need to traverse
+the list, visiting each of the elements within its nested structure, adding any
+numeric elements to our sum, and <em>recursively repeating the summing process</em> with any elements
+which are themselves sub-lists.</p>
+<p>Thanks to recursion, the Python code needed to sum the values of a nested number list is
+surprisingly short:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">r_sum</span><span class="p">(</span><span class="n">nested_num_list</span><span class="p">):</span>
+    <span class="n">tot</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">nested_num_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">([]):</span>
+            <span class="n">tot</span> <span class="o">+=</span> <span class="n">r_sum</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tot</span> <span class="o">+=</span> <span class="n">element</span>
+    <span class="k">return</span> <span class="n">tot</span>
+</pre></div>
+</td></tr></table></div>
+<p>The body of <code class="docutils literal notranslate"><span class="pre">r_sum</span></code> consists mainly of a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop that traverses
+<code class="docutils literal notranslate"><span class="pre">nested_num_list</span></code>. If <code class="docutils literal notranslate"><span class="pre">element</span></code> is a numerical value (the <code class="docutils literal notranslate"><span class="pre">else</span></code> branch),
+it is simply added to <code class="docutils literal notranslate"><span class="pre">tot</span></code>. If <code class="docutils literal notranslate"><span class="pre">element</span></code> is a list, then <code class="docutils literal notranslate"><span class="pre">r_sum</span></code>
+is called again, with the element as an argument.  The statement inside the
+function definition in which the function calls itself is known as the
+<strong>recursive call</strong>.</p>
+<p>The example above has a <strong>base case</strong> (on line 7) which does not lead to a
+recursive call: the case where the element is not a (sub-) list. Without
+a base case, you’ll have <strong>infinite recursion</strong>, and your program will not work.</p>
+<p>Recursion is truly one of the most beautiful and elegant tools in computer
+science.</p>
+<p>A slightly more complicated problem is finding the largest value in our nested
+number list:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">r_max</span><span class="p">(</span><span class="n">nxs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Find the maximum in a recursive structure of lists</span>
+<span class="sd">      within other lists.</span>
+<span class="sd">      Precondition: No lists or sublists are empty.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">largest</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">first_time</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">nxs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">([]):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">r_max</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">e</span>
+
+        <span class="k">if</span> <span class="n">first_time</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">largest</span><span class="p">:</span>
+            <span class="n">largest</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="n">first_time</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">largest</span>
+
+<span class="n">test</span><span class="p">(</span><span class="n">r_max</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r_max</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="p">[[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="mi">90</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span> <span class="o">==</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r_max</span><span class="p">([[[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="mi">90</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span> <span class="o">==</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r_max</span><span class="p">([</span><span class="s2">&quot;joe&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;sam&quot;</span><span class="p">,</span> <span class="s2">&quot;ben&quot;</span><span class="p">]])</span> <span class="o">==</span> <span class="s2">&quot;sam&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Tests are included to provide examples of <code class="docutils literal notranslate"><span class="pre">r_max</span></code> at work.</p>
+<p>The added twist to this problem is finding a value for initializing
+<code class="docutils literal notranslate"><span class="pre">largest</span></code>. We can’t just use <code class="docutils literal notranslate"><span class="pre">nxs[0]</span></code>, since that could be either
+a element or a list. To solve this problem (at every recursive call)
+we initialize a Boolean flag (at line 8).  When we’ve found the value of interest,
+(at line 15)
+we check to see whether this is the initializing (first) value for
+<code class="docutils literal notranslate"><span class="pre">largest</span></code>, or a value that could potentially change <code class="docutils literal notranslate"><span class="pre">largest</span></code>.</p>
+<p>Again here we have a base case at line 13.  If we don’t supply a base case,
+Python stops after reaching a maximum recursion depth and returns a runtime
+error.  See how this happens, by running this little script which we will call <cite>infinite_recursion.py</cite>:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">recursion_depth</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">, &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">recursion_depth</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">recursion_depth</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>After watching the messages flash by, you will be presented with the end of a
+long traceback that ends with a message like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">RuntimeError</span><span class="p">:</span> <span class="n">maximum</span> <span class="n">recursion</span> <span class="n">depth</span> <span class="n">exceeded</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>We would certainly never want something like this to happen to a user of one of
+our programs, so in the next chapter we’ll see how
+errors, any kinds of errors, are handled in Python.</p>
+</div>
+<div class="section" id="case-study-fibonacci-numbers">
+<span id="index-2"></span><h2>18.4. Case study: Fibonacci numbers<a class="headerlink" href="#case-study-fibonacci-numbers" title="Permalink to this headline">¶</a></h2>
+<p>The famous <strong>Fibonacci sequence</strong> 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 134, … was devised by
+Fibonacci (1170-1250), who used this to model the breeding of (pairs) of rabbits.
+If, in generation 7 you had 21 pairs in total, of which 13 were adults,
+then next generation the adults will all have bred new children,
+and the previous children will have grown up to become adults.
+So in generation 8 you’ll have 13+21=34, of which 21 are adults.</p>
+<p>This <em>model</em> to explain rabbit breeding made the simplifying assumption that rabbits never died.
+Scientists often make (unrealistic) simplifying assumptions and restrictions
+to make some headway with the problem.</p>
+<p>If we number the terms of the sequence from 0, we can describe each term recursively
+as the sum of the previous two terms:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>  <span class="k">for</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>This translates very directly into some Python:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t</span>
+</pre></div>
+</td></tr></table></div>
+<p>This is a particularly inefficient algorithm, and we’ll show one way of fixing it when we learn about dictionaries:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">35</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;fib(</span><span class="si">{0}</span><span class="s2">) = </span><span class="si">{1}</span><span class="s2">, (</span><span class="si">{2:.2f}</span><span class="s2"> secs)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">t1</span><span class="o">-</span><span class="n">t0</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<p>We get the correct result, but an exploding amount of work!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span> <span class="o">=</span> <span class="mi">9227465</span><span class="p">,</span> <span class="p">(</span><span class="mf">10.54</span> <span class="n">secs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-with-recursive-directories-and-files">
+<h2>18.5. Example with recursive directories and files<a class="headerlink" href="#example-with-recursive-directories-and-files" title="Permalink to this headline">¶</a></h2>
+<p>The following program lists the contents of a directory and all its subdirectories.</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">get_dirlist</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Return a sorted list of all entries in path.</span>
+<span class="sd">      This returns just the names, not the full path to the names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dirlist</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">dirlist</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">dirlist</span>
+
+<span class="k">def</span> <span class="nf">print_files</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Print recursive listing of contents of path &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>  <span class="c1"># Detect outermost call, print a heading</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Folder listing for&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;| &quot;</span>
+
+    <span class="n">dirlist</span> <span class="o">=</span> <span class="n">get_dirlist</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dirlist</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="n">f</span><span class="p">)</span>                    <span class="c1"># Print the line</span>
+        <span class="n">fullname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>   <span class="c1"># Turn name into full pathname</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">fullname</span><span class="p">):</span>        <span class="c1"># If a directory, recurse.</span>
+            <span class="n">print_files</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;| &quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Calling the function <code class="docutils literal notranslate"><span class="pre">print_files</span></code> with some folder name will produce output similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Folder</span> <span class="n">listing</span> <span class="k">for</span> <span class="n">c</span><span class="p">:</span>\<span class="n">python31</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pygame</span>\<span class="n">examples</span>
+<span class="o">|</span> <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">aacircle</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">aliens</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">arraydemo</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">blend_fill</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">blit_blends</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">camera</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">chimp</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">cursors</span><span class="o">.</span><span class="n">py</span>
+<span class="o">|</span> <span class="n">data</span>
+<span class="o">|</span> <span class="o">|</span> <span class="n">alien1</span><span class="o">.</span><span class="n">png</span>
+<span class="o">|</span> <span class="o">|</span> <span class="n">alien2</span><span class="o">.</span><span class="n">png</span>
+<span class="o">|</span> <span class="o">|</span> <span class="n">alien3</span><span class="o">.</span><span class="n">png</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="an-animated-fractal-using-pygame">
+<h2>18.6. An animated fractal, using PyGame<a class="headerlink" href="#an-animated-fractal-using-pygame" title="Permalink to this headline">¶</a></h2>
+<p>Here we have a tree fractal pattern of order 8.  We’ve labelled some of the edges,
+showing the depth of the recursion at which each edge was drawn.</p>
+<img alt="_images/recursivetree1.png" src="_images/recursivetree1.png" />
+<p>In the tree above, the angle of deviation from the trunk is 30 degrees.
+Varying that angle gives other interesting shapes, for example, with
+the angle at 90 degrees we get this:</p>
+<img alt="_images/recursivetree2.png" src="_images/recursivetree2.png" />
+<p>An interesting animation occurs if we generate and draw trees very rapidly,
+each time varying the angle a little. Although the Turtle module can draw trees
+like this quite elegantly, we could struggle for good frame rates.
+So we’ll use PyGame instead, with a few embellishments and observations.
+(Once again, we suggest you cut and paste this code into your Python environment.)</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pygame</span><span class="o">,</span> <span class="nn">math</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>           <span class="c1"># prepare the pygame module for use</span>
+
+<span class="c1"># Create a new surface and window.</span>
+<span class="n">surface_size</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">main_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="n">surface_size</span><span class="p">,</span><span class="n">surface_size</span><span class="p">))</span>
+<span class="n">my_clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">draw_tree</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">posn</span><span class="p">,</span> <span class="n">heading</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+   <span class="n">trunk_ratio</span> <span class="o">=</span> <span class="mf">0.29</span>       <span class="c1"># How big is the trunk relative to whole tree?</span>
+   <span class="n">trunk</span> <span class="o">=</span> <span class="n">sz</span> <span class="o">*</span> <span class="n">trunk_ratio</span> <span class="c1"># length of trunk</span>
+   <span class="n">delta_x</span> <span class="o">=</span> <span class="n">trunk</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">heading</span><span class="p">)</span>
+   <span class="n">delta_y</span> <span class="o">=</span> <span class="n">trunk</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">heading</span><span class="p">)</span>
+   <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">=</span> <span class="n">posn</span>
+   <span class="n">newpos</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">)</span>
+   <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">main_surface</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">posn</span><span class="p">,</span> <span class="n">newpos</span><span class="p">)</span>
+
+   <span class="k">if</span> <span class="n">order</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>   <span class="c1"># Draw another layer of subtrees</span>
+
+      <span class="c1"># These next six lines are a simple hack to make the two major halves</span>
+      <span class="c1"># of the recursion different colors. Fiddle here to change colors</span>
+      <span class="c1"># at other depths, or when depth is even, or odd, etc.</span>
+      <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+          <span class="n">color1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+          <span class="n">color2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+          <span class="n">color1</span> <span class="o">=</span> <span class="n">color</span>
+          <span class="n">color2</span> <span class="o">=</span> <span class="n">color</span>
+
+      <span class="c1"># make the recursive calls to draw the two subtrees</span>
+      <span class="n">newsz</span> <span class="o">=</span> <span class="n">sz</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">trunk_ratio</span><span class="p">)</span>
+      <span class="n">draw_tree</span><span class="p">(</span><span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">newsz</span><span class="p">,</span> <span class="n">newpos</span><span class="p">,</span> <span class="n">heading</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="n">color1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">draw_tree</span><span class="p">(</span><span class="n">order</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">newsz</span><span class="p">,</span> <span class="n">newpos</span><span class="p">,</span> <span class="n">heading</span><span class="o">+</span><span class="n">theta</span><span class="p">,</span> <span class="n">color2</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">gameloop</span><span class="p">():</span>
+
+    <span class="n">theta</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+        <span class="c1"># Handle evente from keyboard, mouse, etc.</span>
+        <span class="n">ev</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ev</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+            <span class="k">break</span><span class="p">;</span>
+
+        <span class="c1"># Updates - change the angle</span>
+        <span class="n">theta</span> <span class="o">+=</span> <span class="mf">0.01</span>
+
+        <span class="c1"># Draw everything</span>
+        <span class="n">main_surface</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">draw_tree</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">surface_size</span><span class="o">*</span><span class="mf">0.9</span><span class="p">,</span> <span class="p">(</span><span class="n">surface_size</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">surface_size</span><span class="o">-</span><span class="mi">50</span><span class="p">),</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+        <span class="n">my_clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+
+
+<span class="n">gameloop</span><span class="p">()</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<ul>
+<li><p class="first">The <code class="docutils literal notranslate"><span class="pre">math</span></code> library works with angles in radians rather than degrees.</p>
+</li>
+<li><p class="first">Lines 14 and 15 uses some high school trigonmetry.  From the length of the desired line (<code class="docutils literal notranslate"><span class="pre">trunk</span></code>),
+and its desired angle, <code class="docutils literal notranslate"><span class="pre">cos</span></code> and <code class="docutils literal notranslate"><span class="pre">sin</span></code> help us to calculate the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>
+distances we need to move.</p>
+</li>
+<li><p class="first">Lines 22-30 are unnecessary, except if we want a colorful tree.</p>
+</li>
+<li><p class="first">In the main game loop at line 49 we change the angle on every frame, and redraw
+the new tree.</p>
+</li>
+<li><p class="first">Line 18 shows that PyGame can also draw lines, and plenty more.  Check out the
+documentation.  For example, drawing a small circle at each branch point of the
+tree can be accomplished by adding this line directly below line 18:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">main_surface</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">posn</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">posn</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+</ul>
+<p>Another interesting effect — instructive too, if you wish to reinforce the idea
+of different instances of the function being called at different depths of recursion —
+is to create a list of colors, and let each recursive depth use a different color
+for drawing. (Use the depth of the recursion to index the list of colors.)</p>
+</div>
+<div class="section" id="glossary">
+<h2>18.7. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-base-case">base case</dt>
+<dd>A branch of the conditional statement in a recursive function that does
+not give rise to further recursive calls.</dd>
+<dt id="term-infinite-recursion">infinite recursion</dt>
+<dd>A function that calls itself recursively without ever reaching any base
+case. Eventually, infinite recursion causes a runtime error.</dd>
+<dt id="term-recursion">recursion</dt>
+<dd>The process of calling a function that is already executing.</dd>
+<dt id="term-recursive-call">recursive call</dt>
+<dd>The statement that calls an already executing function.  Recursion can
+also be indirect — function <cite>f</cite> can call <cite>g</cite> which calls <cite>h</cite>,
+and <cite>h</cite> could make a call back to <cite>f</cite>.</dd>
+<dt id="term-recursive-definition">recursive definition</dt>
+<dd>A definition which defines something in terms of itself. To be useful
+it must include <em>base cases</em> which are not recursive. In this way it
+differs from a <em>circular definition</em>.  Recursive definitions often
+provide an elegant way to express complex data structures, like a directory
+that can contain other directories, or a menu that can contain other menus.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>18.8. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Modify the Koch fractal program so that it draws a Koch snowflake, like this:</p>
+<img alt="_images/koch_snowflake.png" src="_images/koch_snowflake.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</li>
+<li id="index-3"><ol class="first loweralpha">
+<li><p class="first">Draw a Cesaro torn line fractal, of the order given by the user.
+We show four different lines of orders 0,1,2,3.
+In this example, the angle of the tear is 10 degrees.</p>
+<img alt="_images/cesaro_torn_line.png" src="_images/cesaro_torn_line.png" />
+</li>
+<li><p class="first">Four lines make a square.  Use the code in part a) to draw cesaro squares.
+Varying the angle gives interesting effects — experiment a bit,
+or perhaps let the user input the angle of the tear.</p>
+<img alt="_images/cesaro_torn_square.png" src="_images/cesaro_torn_square.png" />
+</li>
+</ol>
+<ol class="loweralpha simple" id="index-4" start="3">
+<li>(For the mathematically inclined). In the squares shown here, the higher-order drawings
+become a little larger. (Look at the bottom lines of each square - they’re not aligned.)
+This is because we just halved the drawn part of the line for each recursive subproblem.
+So we’ve “grown” the overall square by the width of the tear(s).
+Can you solve the geometry problem so that the total size of the subproblem case
+(including the tear) remains exactly the same size as the original?</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</li>
+<li><p class="first">A Sierpinski triangle of order 0 is an equilateral triangle.
+An order 1 triangle can be drawn by drawing 3 smaller triangles
+(shown slightly disconnected here, just to help our understanding).
+Higher order 2 and 3 triangles are also shown.
+Draw Sierpinski triangles of any order input by the user.</p>
+<img alt="_images/sierpinski.png" src="_images/sierpinski.png" />
+</li>
+<li><p class="first">Adapt the above program to change the color of its three sub-triangles at some depth
+of recursion. The illustration below shows two cases: on the left, the color is changed at depth 0
+(the outmost level of recursion), on the right, at depth 2. If the user supplies a negative
+depth, the color never changes.
+(Hint: add a new optional parameter <code class="docutils literal notranslate"><span class="pre">colorChangeDepth</span></code> (which defaults to -1), and make this one
+smaller on each recursive subcall. Then, in the section of code before you recurse, test
+whether the parameter is zero, and change color.)</p>
+<img alt="_images/sierpinski_color.png" src="_images/sierpinski_color.png" />
+</li>
+<li><p class="first">Write a function, <code class="docutils literal notranslate"><span class="pre">recursive_min</span></code>, that returns the smallest value in a
+nested number list.  Assume there are no empty lists or sublists:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">recursive_min</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">recursive_min</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="p">[[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">90</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">recursive_min</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="p">[[</span><span class="mi">13</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">],</span> <span class="mi">90</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span> <span class="o">==</span> <span class="o">-</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">recursive_min</span><span class="p">([[[</span><span class="o">-</span><span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="mi">90</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span> <span class="o">==</span> <span class="o">-</span><span class="mi">13</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a function <code class="docutils literal notranslate"><span class="pre">count</span></code> that returns the number of occurrences
+of <code class="docutils literal notranslate"><span class="pre">target</span></code> in  a nested list:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[]),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="p">[[</span><span class="mi">9</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="p">[[</span><span class="mi">9</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">[[</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="mi">5</span><span class="p">],</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span> <span class="o">==</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>
+     <span class="p">[[</span><span class="s2">&quot;this&quot;</span><span class="p">,[</span><span class="s2">&quot;a&quot;</span><span class="p">,[</span><span class="s2">&quot;thing&quot;</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">],</span><span class="s2">&quot;a&quot;</span><span class="p">],</span><span class="s2">&quot;is&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;easy&quot;</span><span class="p">]])</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a function <code class="docutils literal notranslate"><span class="pre">flatten</span></code> that returns a simple list
+containing all the values in a nested list:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">flatten</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="mi">8</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span> <span class="o">==</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="n">test</span><span class="p">(</span><span class="n">flatten</span><span class="p">([[</span><span class="mi">9</span><span class="p">,[</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="mi">8</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span> <span class="o">==</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="n">test</span><span class="p">(</span><span class="n">flatten</span><span class="p">([[</span><span class="mi">9</span><span class="p">,[</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="mi">8</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span> <span class="o">==</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="n">test</span><span class="p">(</span><span class="n">flatten</span><span class="p">([[</span><span class="s2">&quot;this&quot;</span><span class="p">,[</span><span class="s2">&quot;a&quot;</span><span class="p">,[</span><span class="s2">&quot;thing&quot;</span><span class="p">],</span><span class="s2">&quot;a&quot;</span><span class="p">],</span><span class="s2">&quot;is&quot;</span><span class="p">],[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;easy&quot;</span><span class="p">]])</span> <span class="o">==</span>
+              <span class="p">[</span><span class="s2">&quot;this&quot;</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;thing&quot;</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;is&quot;</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;easy&quot;</span><span class="p">])</span>
+<span class="n">test</span><span class="p">(</span><span class="n">flatten</span><span class="p">([])</span> <span class="o">==</span> <span class="p">[])</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Rewrite the fibonacci algorithm without using recursion. Can you find bigger
+terms of the sequence?  Can you find <code class="docutils literal notranslate"><span class="pre">fib(200)</span></code>?</p>
+</li>
+<li><p class="first">Use help to find out what <code class="docutils literal notranslate"><span class="pre">sys.getrecursionlimit()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">sys.setrecursionlimit(n)</span></code> do. Create several experiments similar to what
+was done in <cite>infinite_recursion.py</cite>
+to test your understanding of how these module functions work.</p>
+</li>
+<li><p class="first">Write a program that walks a directory structure (as in the last section of
+this chapter), but instead of printing filenames, it returns a list of all
+the full paths of files in the directory or the subdirectories.  (Don’t include
+directories in this list — just files.)  For example, the output list might
+have elements like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s2">&quot;C:\Python31\Lib\site-packages\pygame\docs</span><span class="se">\r</span><span class="s2">ef\mask.html&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;C:\Python31\Lib\site-packages\pygame\docs</span><span class="se">\r</span><span class="s2">ef\midi.html&quot;</span><span class="p">,</span>
+ <span class="o">...</span>
+ <span class="s2">&quot;C:\Python31\Lib\site-packages\pygame\examples</span><span class="se">\a</span><span class="s2">liens.py&quot;</span><span class="p">,</span>
+ <span class="o">...</span>
+ <span class="s2">&quot;C:\Python31\Lib\site-packages\pygame\examples\data</span><span class="se">\b</span><span class="s2">oom.wav&quot;</span><span class="p">,</span>
+ <span class="o">...</span> <span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a program named <code class="docutils literal notranslate"><span class="pre">litter.py</span></code> that creates an empty file named
+<code class="docutils literal notranslate"><span class="pre">trash.txt</span></code> in each subdirectory of a directory tree given the root of the
+tree as an argument (or the current directory as a default). Now write a
+program named <code class="docutils literal notranslate"><span class="pre">cleanup.py</span></code> that removes all these files.</p>
+<p><em>Hint #1:</em> Use the program from the example in the last section of this
+chapter as a basis for these two recursive programs.  Because you’re
+going to destroy files on your disks, you better get this right, or
+you risk losing files you care about.  So excellent advice is that
+initially you should fake the deletion of the files — just print
+the full path names of each file that you intend to delete.  Once
+you’re happy that your logic is correct, and you can see that you’re
+not deleting the wrong things, you can replace the print statement
+with the real thing.</p>
+<p><em>Hint #2:</em> Look in the <code class="docutils literal notranslate"><span class="pre">os</span></code> module for a function that removes
+files.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="exceptions.html" title="19. Exceptions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pygame.html" title="17. PyGame"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

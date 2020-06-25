@@ -1,0 +1,695 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>25. GUIs for our Queens &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="26. Writing our own Classes" href="classes_and_objects_I.html" />
+    <link rel="prev" title="24. Scope and Lifetime" href="scope_and_lifetime.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="classes_and_objects_I.html" title="26. Writing our own Classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="scope_and_lifetime.html" title="24. Scope and Lifetime"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="guis-for-our-queens">
+<span id="index-0"></span><h1>25. GUIs for our Queens<a class="headerlink" href="#guis-for-our-queens" title="Permalink to this headline">¶</a></h1>
+<p>We solved the N-Queens problem in an earlier chapter.  Now we&#8217;d like to draw
+the boards for the solutions as we find them.</p>
+<p>This chapter also takes us quite a bit deeper into WPF: we&#8217;ll learn how to
+have and manage more than one window in our application, and we&#8217;ll learn
+how to create visual controls in those windows <em>from our C# code</em>, rather than
+the usual way &#8212; from the XAML or the Designer in Visual Studio.</p>
+<p>Along the way, our two underlying agendas remain:</p>
+<ul class="simple">
+<li>To become more familiar with objects: how we create and manipulate them,
+their states, their properties, their events, their lifetimes, etc.</li>
+<li>To build our algorithmic skills with loops, arrays, conditionals, and events.</li>
+</ul>
+<p>In our earlier N-Queens puzzle-solver each solution was represented as an array
+of ints, like this:  [6, 4, 2, 0, 5, 7, 1, 3].</p>
+<p>Our goal now is to create a new window for each solution, and draw the boards,
+like this screen shot which shows two solutions for 8x8 boards,
+one for a 12x12 case, and one for an 18x18 case.</p>
+<img alt="_images/queens_gui_1.png" src="_images/queens_gui_1.png" />
+<p>The 8x8 board consists of 64 rectangle objects that are placed and positioned on a canvas.
+Then we place 8 image objects on the canvas too, to draw the eight queens.</p>
+<p>We can&#8217;t do this statically in the XAML because we don&#8217;t know ahead of time how big the
+board is going to be, or where the queen images need to be placed.
+So the correct number of rectangles and queens, and their
+sizes and positions can only be determined dynamically
+(while the program is running) &#8212; i.e. we&#8217;re going to have to
+write some loops in our code to create these objects as each solution is found.</p>
+<p>Like our previous canvas objects, we&#8217;ll also make this canvas stretch when the window is resized.
+So whenever the canvas changes size, we&#8217;ll have to recompute and adjust the positions and the
+sizes of all the rectangles and all the queens.  Take another look at the picture above: one 8x8 board is
+a lot bigger than the other 8x8 board, because we resized its window.  That means its rectangles
+and queens need to be bigger, and positioned differently.</p>
+<div class="section" id="creating-a-new-window-for-each-queens-solution">
+<h2>25.1. Creating a new window for each queens solution<a class="headerlink" href="#creating-a-new-window-for-each-queens-solution" title="Permalink to this headline">¶</a></h2>
+<p>We have a solver that already finds solutions in one class &#8212; the code behind
+our main window.  We now want a second type of window, which we&#8217;ll call the <code class="docutils literal"><span class="pre">QueensGUI</span></code>.
+Some of the sub-problems we need to solve now are:</p>
+<ul class="simple">
+<li>How does our main window instantiate (create) and show a new <code class="docutils literal"><span class="pre">QueensGUI</span></code> object?</li>
+<li>How do we pass the board that we want drawn from the solver to the newly created <code class="docutils literal"><span class="pre">QueensGUI</span></code> object?</li>
+<li>Within a <code class="docutils literal"><span class="pre">QueensGUI</span></code> object, how do we create the Rectangle and Image objects,
+and keep track of them?</li>
+<li>Within a <code class="docutils literal"><span class="pre">QueensGUI</span></code> object, how do we lay out all the rectangles and images in their
+correct positions, with their optimal sizes?</li>
+</ul>
+<p>To create a new Window class in our project we use Visual Studio, right-click on the
+project name in our Solution Explorer, and choose Add, and then choose Window.  It will ask
+for the name for our new type &#8212; let&#8217;s call it <code class="docutils literal"><span class="pre">QueensGUI</span></code>.   Visual Studio will
+create the class, and open the familiar XAML designer for our window.  At this stage, we
+can drag on a canvas (which we&#8217;ll name <code class="docutils literal"><span class="pre">canvas1</span></code>.  We&#8217;ll also set some properties to make the
+canvas stretch when the window is resized.</p>
+<p>This is the first time we&#8217;ve had more than one window class in a WPF program.  WPF has a setting
+in one of the XAML files that tells it which window to instantiate and
+open when the application first starts running.</p>
+<p>If we look at the XAML, we&#8217;ll see the canvas is nested within a <code class="docutils literal"><span class="pre">Grid</span></code> &#8212; we&#8217;ll give the
+grid a nice background colour, and give the canvas a different colour, and leave
+some border around the canvas so that it is visually easy to separate the two components.</p>
+<p>Instantiating a new QueensGUI window (and showing it) is just a few lines of code.  You&#8217;ll
+put this code into your previous Queens solver so that after we&#8217;ve displayed the textual
+solution, we also create a new window.  The changes are highlighted below:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span><span class="p">[]</span> <span class="nf">findQueensSolution</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// set up the initial board of the correct size</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">bd</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="n">bd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">tries</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">boardHasDiagonalClashes</span><span class="p">(</span><span class="n">bd</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">bd</span><span class="p">);</span>
+        <span class="n">tries</span><span class="p">++;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// output the results ...</span>
+    <span class="n">txtResults</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Solution {0} found in {1} tries.\n&quot;</span><span class="p">,</span> <span class="n">stringify</span><span class="p">(</span><span class="n">bd</span><span class="p">),</span> <span class="n">tries</span><span class="p">));</span>
+    <span class="n">txtResults</span><span class="p">.</span><span class="n">ScrollToEnd</span><span class="p">();</span>
+
+<span class="hll">    <span class="n">QueensGUI</span> <span class="n">theWindow</span> <span class="p">=</span> <span class="k">new</span> <span class="n">QueensGUI</span><span class="p">();</span>    <span class="c1">//   Create a new window object in memory.</span>
+</span><span class="hll">    <span class="n">theWindow</span><span class="p">.</span><span class="n">Owner</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span>                   <span class="c1">//   Let it know that we&#39;re its owner</span>
+</span><span class="hll">    <span class="n">theWindow</span><span class="p">.</span><span class="n">Show</span><span class="p">();</span>                         <span class="c1">//   Get the window to show itself on the screen.</span>
+</span>
+    <span class="k">return</span> <span class="n">bd</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 18 creates a new QueensGUI window object in memory.  At this point the GUI is not
+shown &#8212; the Window exists only in memory.  Line 20 makes the window visible on our
+screen.</p>
+<p>Line 19 can be left out, but it impacts the lifetime of the new child window.
+It sets the new window&#8217;s <code class="docutils literal"><span class="pre">parent</span></code> window reference to the solver&#8217;s window.  What this
+means is that if the parent window is closed, all its children windows will automatically
+close too.  Without line 19, the children windows will remain open even after the parent
+is closed, and you&#8217;ll have to close every window manually before your application terminates.</p>
+<p>So we began with a queens solver from Chapter 20. But now, each time it finds a solution,
+it opens a new child window.  So let&#8217;s get on with making each child window do
+something more interesting.</p>
+</div>
+<div class="section" id="drawing-the-board">
+<h2>25.2. Drawing the Board<a class="headerlink" href="#drawing-the-board" title="Permalink to this headline">¶</a></h2>
+<p>The child window needs to know what board (with Queens) it is trying to draw, so our next step is
+to pass the board array from the parent solver to the new child.  On line 18 in the code above we call the
+window&#8217;s constructor.  We&#8217;ve seen before with the Turtle class and the Random class that
+we can pass arguments to a constructor when the object is created.  So that&#8217;s what we&#8217;ll
+do: change line 18 in the code above to send in a (reference to) our board array:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">QueensGUI</span> <span class="n">theWindow</span> <span class="p">=</span> <span class="k">new</span> <span class="n">QueensGUI</span><span class="p">(</span><span class="n">bd</span><span class="p">);</span>  <span class="c1">// pass the board to the new window</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The compiler will now give an error because our constructor doesn&#8217;t expect an argument,
+so now it is time to dive into the code behind the QueensGUI window and
+change the constructor.</p>
+<p>Remember that the role of a constructor in a class is to set the new object up to
+its <em>factory default</em> settings when each new object is created.  So it is time to
+think about &#8220;what needs to be in this new class, what should it do, and how
+should it do that?&#8221;.</p>
+<p>When a new QueensGUI object is created, it should</p>
+<ul class="simple">
+<li>Save N, the size of the board (e.g. 8 for an 8x8 board) in a class-level variable.</li>
+<li>Create the required NxN Rectangle objects, and give them alternating colours, and place
+them on <code class="docutils literal"><span class="pre">canvas1</span></code>. (At this stage we won&#8217;t worry about sizes or positions &#8212;
+we&#8217;ll defer the layout until later, after the window is shown, when we know how
+big the canvas is.)</li>
+<li>We will need to keep track of the Rectangles, so each time we create one we&#8217;ll
+store a reference to it into an List of rows.  We&#8217;ll later want to run a loop
+over every rectangle and fix its position and size.   Since the board is always going
+to be a two-dimensional square board, we&#8217;ll use a List of List of Rectangles.</li>
+<li>We&#8217;ll also need to create and keep track of the Queen images. Here we&#8217;ll just use
+a List of Image, each holding a reference to an Image control that shows one of the queens.</li>
+</ul>
+<p>Some code then: the first few lines of our QueensGUI class are going to look like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">QueensGUI</span> <span class="p">:</span> <span class="n">Window</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Rectangle</span><span class="p">&gt;&gt;</span> <span class="n">rects</span><span class="p">;</span> <span class="c1">// Define a reference to a list of lists</span>
+    <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Image</span><span class="p">&gt;</span> <span class="n">queenImages</span><span class="p">;</span>     <span class="c1">// Define a reference to a list</span>
+    <span class="k">private</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">theBoard</span><span class="p">;</span>              <span class="c1">// Our own reference to the caller&#39;s board</span>
+    <span class="k">private</span> <span class="kt">int</span> <span class="n">N</span><span class="p">;</span>                       <span class="c1">// Number of squares on each edge, eg 8</span>
+
+    <span class="k">public</span> <span class="nf">QueensGUI</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">board</span><span class="p">)</span>        <span class="c1">// The constructor</span>
+    <span class="p">{</span>
+        <span class="n">InitializeComponent</span><span class="p">();</span>           <span class="c1">// Initialize all the bits defined in XAML</span>
+        <span class="n">theBoard</span> <span class="p">=</span> <span class="n">board</span><span class="p">;</span>                <span class="c1">// Save the reference for later use</span>
+        <span class="n">N</span> <span class="p">=</span> <span class="n">theBoard</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span>             <span class="c1">// Save board size as class-level variable</span>
+        <span class="n">rects</span> <span class="p">=</span> <span class="n">createRects</span><span class="p">();</span>           <span class="c1">// Create the NxN rectangles</span>
+        <span class="n">queenImages</span> <span class="p">=</span> <span class="n">createQueenImages</span><span class="p">();</span>  <span class="c1">// Create the N queen images</span>
+    <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Lines 3-6 define some private class-level member variables:
+they&#8217;ll live as long as the QueensGUI window remains open.
+We remind ourselves that defining a variable that can hold a reference
+to a list does not actually create that list.  That must be done separately.</p>
+<p>Lines 5 and 11 are an important technique that we&#8217;ll often see and use when
+writing our own classes.  The values contained in the parameter <code class="docutils literal"><span class="pre">board</span></code> are passed
+as the arguments for the constructor when it is called.  But <code class="docutils literal"><span class="pre">board</span></code> is local to
+the constructor, not visible to the other methods.  So we define a
+variable at line 5, and at line 11 we save our parameter by copying
+it into the variable (it is a reference to an array in this case).
+This can now be accessed from other methods in the class.</p>
+<p>At lines 13 and 14 we&#8217;ll call on some other (private) methods to create our Rectangles
+and Queens.  Notice that <code class="docutils literal"><span class="pre">rects</span></code> is defined as a reference to a List of Lists.
+We&#8217;ll have to bear that in mind when we create and lay out the rectangles.</p>
+<p>Now let&#8217;s write the method to create all those rectangle objects.
+We&#8217;ll create an initially empty List of rows.  Then a nested loop will
+create one row at a time, and add it to our List of rows.
+While we do this we&#8217;ll also need to set some properties for each rectangle,
+(particularly the brush that will set its colour), we&#8217;ll need to remember to
+add each rectangle as a child of <code class="docutils literal"><span class="pre">canvas1</span></code> as seen in line 15 (so that canvas1 knows
+to paint all its children when we need to draw the board):</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Rectangle</span><span class="p">&gt;&gt;</span> <span class="n">createRects</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Rectangle</span><span class="p">&gt;&gt;</span> <span class="n">result</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Rectangle</span><span class="p">&gt;&gt;();</span>
+    <span class="n">Brush</span><span class="p">[]</span> <span class="n">bs</span> <span class="p">=</span> <span class="p">{</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Red</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Blue</span> <span class="p">};</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">row</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">row</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">row</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">List</span><span class="p">&lt;</span><span class="n">Rectangle</span><span class="p">&gt;</span> <span class="n">thisRow</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Rectangle</span><span class="p">&gt;();</span>
+        <span class="kt">int</span> <span class="n">whichBrush</span> <span class="p">=</span> <span class="n">row</span> <span class="p">%</span> <span class="m">2</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">col</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">col</span><span class="p">++)</span>
+        <span class="p">{</span>
+            <span class="n">Rectangle</span> <span class="n">rect</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rectangle</span><span class="p">();</span>
+            <span class="n">rect</span><span class="p">.</span><span class="n">Fill</span> <span class="p">=</span> <span class="n">bs</span><span class="p">[</span><span class="n">whichBrush</span><span class="p">];</span>
+            <span class="n">canvas1</span><span class="p">.</span><span class="n">Children</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">rect</span><span class="p">);</span>
+            <span class="n">thisRow</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">rect</span><span class="p">);</span>
+            <span class="n">whichBrush</span> <span class="p">=</span> <span class="p">(</span><span class="n">whichBrush</span> <span class="p">+</span> <span class="m">1</span><span class="p">)</span> <span class="p">%</span> <span class="m">2</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">thisRow</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Image</span><span class="p">&gt;</span> <span class="n">createQueenImages</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">null</span><span class="p">;</span>   <span class="c1">// TODO: we still need to write this later ...</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Every time we execute the inner loop body we create a new
+Rectangle object, we save its reference into <code class="docutils literal"><span class="pre">thisRow</span></code> list, and add it to
+the canvas.  Line 8 is responsible for making sure each new row starts on
+a different colour:  <code class="docutils literal"><span class="pre">whichBrush</span></code> will always either have the value 0 or 1.
+Then, as we move along the row, at line 17, we keep swapping the brush index
+to go 0,1,0,1,0,1,0,1 ...   So the colours of each block will alternate in each row.</p>
+<p>It is quite common practice for programmers to write little stubs for functionality
+that they intend to provide later.  Lines 24-27 are part of this scaffolding: we
+have to provide a method because we called it from the constructor, but we can
+leave it empty for the moment as we try to focus on one thing at a time.</p>
+<div class="section" id="positioning-and-sizing-the-rectangles">
+<h3>25.2.1. Positioning and sizing the rectangles<a class="headerlink" href="#positioning-and-sizing-the-rectangles" title="Permalink to this headline">¶</a></h3>
+<p>Before we concern ourselves with drawing the queens,  let&#8217;s
+get the board drawn.   When the window is first created, it has not
+been shown. Until the window gets shown, Windows won&#8217;t compute how things
+are laid out. So we don&#8217;t yet know how big the canvas will be, and can&#8217;t decide
+yet how big to make the rectangles, or where to position them.</p>
+<p>After the window is first shown, (or when the user resizes the window), the canvas gets
+a <code class="docutils literal"><span class="pre">SizeChanged</span></code> event.  This is the right time for us to work out where we want each
+rectangle to be drawn, and how big it needs to be.   And if we put this logic behind this
+event, it will automatically recompute whenever the window size changes.</p>
+<p>So using the XAML designer we attach a handler to the <code class="docutils literal"><span class="pre">SizeChanged</span></code> event, and use it to
+call some new methods that we will write to reposition our rectangles (and eventually)
+our queens.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">canvas1_SizeChanged</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">SizeChangedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">layoutRectangles</span><span class="p">();</span>
+    <span class="n">layoutQueens</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">layoutRectangles</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">side</span> <span class="p">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">Min</span><span class="p">(</span><span class="n">canvas1</span><span class="p">.</span><span class="n">ActualWidth</span><span class="p">,</span> <span class="n">canvas1</span><span class="p">.</span><span class="n">ActualHeight</span><span class="p">);</span>
+    <span class="kt">double</span> <span class="n">rectSz</span> <span class="p">=</span> <span class="n">side</span> <span class="p">/</span> <span class="n">N</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">row</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">row</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">row</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">col</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">col</span><span class="p">++)</span>
+        <span class="p">{</span>
+            <span class="n">Rectangle</span> <span class="n">rect</span> <span class="p">=</span> <span class="n">rects</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">];</span>
+            <span class="n">Canvas</span><span class="p">.</span><span class="n">SetLeft</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="n">rectSz</span> <span class="p">*</span> <span class="n">col</span><span class="p">);</span>
+            <span class="n">Canvas</span><span class="p">.</span><span class="n">SetTop</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="n">rectSz</span> <span class="p">*</span> <span class="n">row</span><span class="p">);</span>
+            <span class="n">rect</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="n">rectSz</span><span class="p">;</span>
+            <span class="n">rect</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="n">rectSz</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">layoutQueens</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// TODO:  we&#39;ll leave this as a stub till later.</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>We intend to keep the squares properly square.   But the user can
+resize the window (and the canvas) narrow or higher, (i.e. not square).
+In line 9 we find the smaller side of the canvas.
+We know the board is NxN, (line 10), so we
+can work out <code class="docutils literal"><span class="pre">rectSz</span></code> &#8212; the width and height that every rectangle should be.
+We set each of our rectangles that we created earlier to that size in lines 19 and 20.</p>
+<p>Each rectangle is positioned on lines 17 and 18.  The distance from the top of the
+canvas depends on which row the rectangle is in, and the distance from the left
+depends on its column.</p>
+<p>Great, now if we solve an 8x8 board, we&#8217;ll get this:</p>
+<img alt="_images/queens_gui_2.png" src="_images/queens_gui_2.png" />
+<p>Notice that the board has sized to the smaller of the dimensions &#8212; its height,
+in this case. If we do resize the window we&#8217;ll see the board stretching or shrinking.</p>
+<p>Here is a fun idea that is a very easy change, and makes the board look a lot nicer.
+We could make the rectangles slightly smaller than what we computed above, but not change
+their positions. This would give a small open margin between each, so that they don&#8217;t
+touch each other.  The background colour of the canvas would show though the gaps.
+So here we demonstrate: we&#8217;ve set the canvas colour to white, and we change lines
+17-20 in the code above like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="n">Canvas</span><span class="p">.</span><span class="n">SetLeft</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="n">rectSz</span> <span class="p">*</span> <span class="n">col</span> <span class="p">+</span> <span class="m">0.05</span> <span class="p">*</span> <span class="n">rectSz</span><span class="p">);</span>
+    <span class="n">Canvas</span><span class="p">.</span><span class="n">SetTop</span><span class="p">(</span><span class="n">rect</span><span class="p">,</span> <span class="n">rectSz</span> <span class="p">*</span> <span class="n">row</span> <span class="p">+</span> <span class="m">0.05</span> <span class="p">*</span> <span class="n">rectSz</span><span class="p">);</span>
+    <span class="n">rect</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="n">rectSz</span> <span class="p">-</span> <span class="m">0.10</span> <span class="p">*</span> <span class="n">rectSz</span><span class="p">;</span>
+    <span class="n">rect</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="n">rectSz</span> <span class="p">-</span> <span class="m">0.10</span> <span class="p">*</span> <span class="n">rectSz</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>So we&#8217;ve made each rectangle 10% smaller in both width and height, and
+we&#8217;ve repositioned each rectangle by 5% of its size.  Visually, it is
+quite impressive what a big difference such a small change makes:</p>
+<img alt="_images/queens_gui_3.png" src="_images/queens_gui_3.png" />
+<p>Tiled floors or walls always have &#8220;grout&#8221; between the tiles, like this!</p>
+</div>
+<div class="section" id="adding-the-queens">
+<h3>25.2.2. Adding the Queens<a class="headerlink" href="#adding-the-queens" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/Queen_of_hearts.png" class="align-right" src="_images/Queen_of_hearts.png" />
+<p>A WPF Image control can render an image.  Our approach in this section will
+be precisely the same as it was for the Rectangle controls, but we&#8217;ll
+use Image controls instead.
+When we instantiate the window, we&#8217;ll create N Image controls on the canvas,
+and we&#8217;ll also keep track of them in a list.   Then we&#8217;ll
+complete the code for the <code class="docutils literal"><span class="pre">layoutQueens</span></code> method to position and size
+the Image controls correctly.</p>
+<p>We&#8217;ll also need a picture for our queens which we&#8217;ll add to our project
+(as we did earlier with the bouncing ball, in the &#8220;More Event Handling&#8221; chapter).
+You might want to click and save one of these images, or find one of your own.</p>
+<img alt="_images/ChessQueen.png" src="_images/ChessQueen.png" />
+<p>Here then is the code to create the N Image controls, and give them all
+the same picture.  Notice that this method was already called earlier
+by the constructor for the Window.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Image</span><span class="p">&gt;</span> <span class="n">createQueenImages</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="n">Image</span><span class="p">&gt;</span> <span class="n">result</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Image</span><span class="p">&gt;();</span>   <span class="c1">// Create the List</span>
+    <span class="n">BitmapImage</span> <span class="n">bm</span> <span class="p">=</span>             <span class="c1">// Fetch the bitmap that we&#39;re going to use</span>
+         <span class="k">new</span> <span class="nf">BitmapImage</span><span class="p">(</span><span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="s">&quot;pack://application:,,,/Queen_of_Hearts.png&quot;</span><span class="p">));</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>     <span class="c1">// Build the controls and the list.</span>
+    <span class="p">{</span>
+        <span class="n">Image</span> <span class="n">im</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Image</span><span class="p">();</span>     <span class="c1">// Create the WPF control</span>
+        <span class="n">im</span><span class="p">.</span><span class="n">Source</span> <span class="p">=</span> <span class="n">bm</span><span class="p">;</span>             <span class="c1">// Tell it what image to display</span>
+        <span class="n">canvas1</span><span class="p">.</span><span class="n">Children</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">im</span><span class="p">);</span>   <span class="c1">// Add the control to the canvas</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">im</span><span class="p">);</span>             <span class="c1">// And remember a reference to it.</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The final tweak we need to make is to position and size each Image control correctly.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">layoutQueens</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">side</span> <span class="p">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">Min</span><span class="p">(</span><span class="n">canvas1</span><span class="p">.</span><span class="n">ActualWidth</span><span class="p">,</span> <span class="n">canvas1</span><span class="p">.</span><span class="n">ActualHeight</span><span class="p">);</span>
+    <span class="kt">double</span> <span class="n">rectSz</span> <span class="p">=</span> <span class="n">side</span> <span class="p">/</span> <span class="n">N</span><span class="p">;</span>
+    <span class="c1">// Position and size the Image controls that display our queens</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">Image</span> <span class="n">q</span> <span class="p">=</span> <span class="n">queenImages</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="n">rectSz</span><span class="p">;</span>
+        <span class="n">q</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="n">rectSz</span><span class="p">;</span>
+        <span class="n">Canvas</span><span class="p">.</span><span class="n">SetLeft</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span> <span class="p">*</span> <span class="n">rectSz</span><span class="p">);</span>
+        <span class="n">Canvas</span><span class="p">.</span><span class="n">SetTop</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">theBoard</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">*</span> <span class="n">rectSz</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>And here&#8217;s one solution for a 5x5 board:</p>
+<img alt="_images/five_queens_final.png" src="_images/five_queens_final.png" />
+<p>At this stage you can go back and generate multiple solutions for
+different size boards: each solution should display in its own window
+that is resizeable.</p>
+</div>
+</div>
+<div class="section" id="can-we-see-all-the-interim-boards-as-the-solver-tries-each-shuffle">
+<h2>25.3. Can we see all the interim boards as the solver tries each shuffle?<a class="headerlink" href="#can-we-see-all-the-interim-boards-as-the-solver-tries-each-shuffle" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s go back to the code for <code class="docutils literal"><span class="pre">findQueensSolution</span></code> which was at the top of this
+chapter.  We did a search, and once we found a solution we created a window and
+displayed the solution.  But another plan could be to create the Window and the
+board when we <em>start</em> the search, and as we try every new shuffling of the board,
+we could rearrange the queens so that they displayed every shuffling.</p>
+<p>We&#8217;ll need one new (public) method called  <code class="docutils literal"><span class="pre">RefreshQueenPositions</span></code> in the GUI
+class, and we&#8217;ll make a small change to <code class="docutils literal"><span class="pre">findQueensSolution</span></code>:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span><span class="p">[]</span> <span class="nf">findQueensSolution</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// set up the initial board of the correct size</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">bd</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="n">bd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+
+<span class="hll">    <span class="n">QueensGUI</span> <span class="n">theWindow</span> <span class="p">=</span> <span class="k">new</span> <span class="n">QueensGUI</span><span class="p">(</span><span class="n">bd</span><span class="p">);</span>
+</span><span class="hll">    <span class="n">theWindow</span><span class="p">.</span><span class="n">Owner</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class="hll">    <span class="n">theWindow</span><span class="p">.</span><span class="n">Show</span><span class="p">();</span>
+</span>
+    <span class="kt">int</span> <span class="n">tries</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">boardHasDiagonalClashes</span><span class="p">(</span><span class="n">bd</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">bd</span><span class="p">);</span>
+<span class="hll">        <span class="n">theWindow</span><span class="p">.</span><span class="n">RefreshQueenPositions</span><span class="p">();</span>
+</span>        <span class="n">tries</span><span class="p">++;</span>
+    <span class="p">}</span>
+
+    <span class="n">txtResults</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Solution {0} found in {1} tries.\n&quot;</span><span class="p">,</span> <span class="n">stringify</span><span class="p">(</span><span class="n">bd</span><span class="p">),</span> <span class="n">tries</span><span class="p">));</span>
+    <span class="n">txtResults</span><span class="p">.</span><span class="n">ScrollToEnd</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">bd</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>There is one critically important aspect of this code that we must understand.
+In line 7, when we passed the array <code class="docutils literal"><span class="pre">bd</span></code> to the constructor for the new window, we passed a
+<em>reference</em> to the array, not its values.  Our new QueensGUI object stored that reference
+into one of its own variables.  <em>But there is still only one underlying array, with more than one
+reference pointing to it.</em>  So the array is aliased.  When we shuffle the array here on line 14,
+it means that the QueensGUI object has a reference to the newly shuffled array.  So our call in
+line 15 will use the latest shuffling to position the queen images.</p>
+<p>Let us write <code class="docutils literal"><span class="pre">RefreshQueenPositions</span></code> in the QueensGUI class like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">public</span> <span class="k">void</span> <span class="nf">RefreshQueenPositions</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">layoutQueens</span><span class="p">();</span>
+    <span class="n">Dispatcher</span><span class="p">.</span><span class="n">Invoke</span><span class="p">((</span><span class="n">Action</span><span class="p">)</span><span class="k">delegate</span><span class="p">{},</span> <span class="n">System</span><span class="p">.</span><span class="n">Windows</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">DispatcherPriority</span><span class="p">.</span><span class="n">SystemIdle</span><span class="p">);</span>
+    <span class="c1">// Magic spell to force the GUI to get updated immediately</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 3 recomputes all positions and sizes of the Image controls, on the basis of the permutation
+that is currently in the shuffled array.</p>
+<p>Line 4 is a messy workaround that we&#8217;ll need, but we won&#8217;t need to understand it in
+too much detail.  When WPF changes something related to the GUI, it creates a task that says
+&#8220;I must remember to redraw the screen at some future time&#8221;.  This gets put in a
+&#8220;tasks to be done&#8221; queue
+with other tasks that it might have waiting (for example, responding to a click event
+on a button, responding to a timer tick event, etc.).
+It gives top priority to tasks that run the user&#8217;s code,
+and only when it becomes idle, will it
+go back and do the work from the task queue.</p>
+<p>Unfortunately for us, WPF doesn&#8217;t think that updating the screen
+is important: so it postpones the work as a &#8220;future task to be done
+later when I have nothing better to do&#8221;.</p>
+<p>Line 4 forces WPF to re-prioritize things. It effectively says (with some weird syntax)
+<em>&#8220;pause here until you have cleared your backlog of work in your task queue&#8221;</em>.
+So it draws the screen before it starts the
+search for the next possible permutation.</p>
+<p>With these changes in place you can watch as the algorithm tries every shuffle.</p>
+</div>
+<div class="section" id="key-ideas">
+<h2>25.4. Key Ideas<a class="headerlink" href="#key-ideas" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>We&#8217;ve shown how to work with multiple windows in our programs.</li>
+<li>As each new window is created, we&#8217;ve created WPF controls and set properties from our own code,
+rather than from the XAML or Visual Studio&#8217;s designer.</li>
+<li>We&#8217;ve written a handler for the canvas&#8217; <code class="docutils literal"><span class="pre">SizeChanged</span></code> event, and done our own layout of all
+the rectangles and images.</li>
+<li>We&#8217;ve passed information from the parent window to the child window by calling the constructor with
+an argument.</li>
+<li>The constructor has saved that information, and saved all the Rectangles and Queen references into
+class-level variables.  This ensures that they will live while the Window lives, and that they&#8217;ll
+be accessible to the other methods of the class.</li>
+</ul>
+</div>
+<div class="section" id="exercises">
+<h2>25.5. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>The <code class="docutils literal"><span class="pre">QueensGUI</span></code> class doesn&#8217;t really have much interesting internal state
+or behaviour yet, apart from being able to resize itself.   Add a keyboard
+handler so that each time the F2 key is pressed the board gets a different
+colour scheme.  Provide at least three colour schemes, and cycle through
+them if the user repeatedly pushes the F2 key.</li>
+<li>Add some logic so that the caller can pass in the two brushes for painting the
+rectangles.</li>
+<li>Experiment with different kinds of brushes.  A good hint is to
+look up help for <code class="docutils literal"><span class="pre">System.Windows.Media.Brush</span></code> and expand its inheritance
+hierarchy to see what specific kinds of brushes are available.  For example,
+one could try a <code class="docutils literal"><span class="pre">RadialGradientBrush</span></code>.</li>
+<li>Drawing the screen is quite slow which is why WPF made it &#8220;low priority&#8221;.  So
+in the last section of this chapter we got it to draw a lot.  Run some timing
+experiments to estimate how many tries per second our solver can do a) if it is
+not having to update the GUI on each try, and b) if it is.  Try the experiment
+for different size boards, and for windows that are stretched big,
+or made small.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="classes_and_objects_I.html" title="26. Writing our own Classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="scope_and_lifetime.html" title="24. Scope and Lifetime"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

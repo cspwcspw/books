@@ -1,0 +1,539 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>25. Linked lists &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="26. Stacks" href="stacks.html" />
+    <link rel="prev" title="24. Inheritance" href="inheritance.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="stacks.html" title="26. Stacks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="inheritance.html" title="24. Inheritance"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="linked-lists">
+<h1>25. Linked lists<a class="headerlink" href="#linked-lists" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="embedded-references">
+<h2>25.1. Embedded references<a class="headerlink" href="#embedded-references" title="Permalink to this headline">¶</a></h2>
+<p>We have seen examples of attributes that refer to other objects, which we
+called <strong>embedded references</strong>. A common data structure, the <strong>linked list</strong>,
+takes advantage of this feature.</p>
+<p>Linked lists are made up of <strong>nodes</strong>, where each node contains a reference to
+the next node in the list. In addition, each node contains a unit of data
+called the <strong>cargo</strong>.</p>
+<p>A linked list is considered a <strong>recursive data structure</strong> because it has a
+recursive definition.</p>
+<p>A linked list is either:</p>
+<ol class="arabic simple">
+<li>the empty list, represented by <code class="docutils literal notranslate"><span class="pre">None</span></code>, or</li>
+<li>a node that contains a cargo object and a reference to a linked
+list.</li>
+</ol>
+<p>Recursive data structures lend themselves to recursive methods.</p>
+</div>
+<div class="section" id="the-node-class">
+<h2>25.2. The <code class="docutils literal notranslate"><span class="pre">Node</span></code> class<a class="headerlink" href="#the-node-class" title="Permalink to this headline">¶</a></h2>
+<p>As usual when writing a new class, we’ll start with the initialization and
+<code class="docutils literal notranslate"><span class="pre">__str__</span></code> methods so that we can test the basic mechanism of creating and
+displaying the new type:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cargo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">next</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cargo</span> <span class="o">=</span> <span class="n">cargo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span>  <span class="o">=</span> <span class="nb">next</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cargo</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>As usual, the parameters for the initialization method are optional.  By
+default, both the cargo and the link, <code class="docutils literal notranslate"><span class="pre">next</span></code>, are set to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>The string representation of a node is just the string representation of the
+cargo. Since any value can be passed to the <code class="docutils literal notranslate"><span class="pre">str</span></code> function, we can store any
+value in a list.</p>
+<p>To test the implementation so far, we can create a <code class="docutils literal notranslate"><span class="pre">Node</span></code> and print it:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+<span class="go">test</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>To make it interesting, we need a list with more than one node:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">node1</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">node2</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">node3</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This code creates three nodes, but we don’t have a list yet because the nodes
+are not <strong>linked</strong>. The state diagram looks like this:</p>
+<blockquote>
+<div><img alt="_images/link1.png" src="_images/link1.png" />
+</div></blockquote>
+<p>To link the nodes, we have to make the first node refer to the second and the
+second node refer to the third:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">node1</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">node2</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node3</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The reference of the third node is <code class="docutils literal notranslate"><span class="pre">None</span></code>, which indicates that it is the end
+of the list. Now the state diagram looks like this:</p>
+<blockquote>
+<div><img alt="_images/link2.png" src="_images/link2.png" />
+</div></blockquote>
+<p>Now you know how to create nodes and link them into lists. What might be less
+clear at this point is why.</p>
+</div>
+<div class="section" id="lists-as-collections">
+<h2>25.3. Lists as collections<a class="headerlink" href="#lists-as-collections" title="Permalink to this headline">¶</a></h2>
+<p>Lists are useful because they provide a way to assemble multiple objects into a
+single entity, sometimes called a <strong>collection</strong>. In the example, the first
+node of the list serves as a reference to the entire list.</p>
+<p>To pass the list as a parameter, we only have to pass a reference to the first
+node. For example, the function <code class="docutils literal notranslate"><span class="pre">print_list</span></code> takes a single node as an
+argument. Starting with the head of the list, it prints each node until it gets
+to the end:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_list</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>To invoke this method, we pass a reference to the first node:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_list</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span>
+<span class="go">1 2 3</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Inside <code class="docutils literal notranslate"><span class="pre">print_list</span></code> we have a reference to the first node of the list, but
+there is no variable that refers to the other nodes. We have to use the
+<code class="docutils literal notranslate"><span class="pre">next</span></code> value from each node to get to the next node.</p>
+<p>To traverse a linked list, it is common to use a loop variable like <code class="docutils literal notranslate"><span class="pre">node</span></code> to
+refer to each of the nodes in succession.</p>
+<p>This diagram shows the value of <code class="docutils literal notranslate"><span class="pre">list</span></code> and the values that <code class="docutils literal notranslate"><span class="pre">node</span></code> takes on:</p>
+<blockquote>
+<div><img alt="_images/link3.png" src="_images/link3.png" />
+</div></blockquote>
+</div>
+<div class="section" id="lists-and-recursion">
+<h2>25.4. Lists and recursion<a class="headerlink" href="#lists-and-recursion" title="Permalink to this headline">¶</a></h2>
+<p>It is natural to express many list operations using recursive methods.  For
+example, the following is a recursive algorithm for printing a list backwards:</p>
+<ol class="arabic simple">
+<li>Separate the list into two pieces: the first node (called the
+head); and the rest (called the tail).</li>
+<li>Print the tail backward.</li>
+<li>Print the head.</li>
+</ol>
+<p>Of course, Step 2, the recursive call, assumes that we have a way of printing a
+list backward. But if we assume that the recursive call works — the leap of
+faith — then we can convince ourselves that this algorithm works.</p>
+<p>All we need are a base case and a way of proving that for any list, we will
+eventually get to the base case. Given the recursive definition of a list, a
+natural base case is the empty list, represented by <code class="docutils literal notranslate"><span class="pre">None</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_backward</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+    <span class="n">head</span> <span class="o">=</span> <span class="nb">list</span>
+    <span class="n">tail</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">next</span>
+    <span class="n">print_backward</span><span class="p">(</span><span class="n">tail</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The first line handles the base case by doing nothing. The next two lines split
+the list into <code class="docutils literal notranslate"><span class="pre">head</span></code> and <code class="docutils literal notranslate"><span class="pre">tail</span></code>. The last two lines print the list. The
+<code class="docutils literal notranslate"><span class="pre">end</span></code> argument of the print statement keeps Python from printing a newline after
+each node.</p>
+<p>We invoke this method as we invoked <code class="docutils literal notranslate"><span class="pre">print_list</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_backward</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span>
+<span class="go">3 2 1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The result is a backward list.</p>
+<p>You might wonder why <code class="docutils literal notranslate"><span class="pre">print_list</span></code> and <code class="docutils literal notranslate"><span class="pre">print_backward</span></code> are functions and not
+methods in the <code class="docutils literal notranslate"><span class="pre">Node</span></code> class. The reason is that we want to use <code class="docutils literal notranslate"><span class="pre">None</span></code> to
+represent the empty list and it is not legal to invoke a method on <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+This limitation makes it awkward to write list – manipulating code in a clean
+object-oriented style.</p>
+<p>Can we prove that <code class="docutils literal notranslate"><span class="pre">print_backward</span></code> will always terminate? In other words,
+will it always reach the base case? In fact, the answer is no.  Some lists will
+make this method crash.</p>
+<div class="admonition-revisit-the-recursion-chapter admonition">
+<p class="first admonition-title">Revisit the Recursion chapter</p>
+<p>In our earlier chapter on recursion we distinguished between the high-level
+view that requires a leap of faith, and the low-level operational view.  In terms
+of mental chunking, we want to encourage the more abstract high-level view.</p>
+<p class="last">But if you’d like to see the detail you should use your single-stepping debugging tools to
+step into the recursive levels and to examine the execution stack frames at every call
+to <code class="docutils literal notranslate"><span class="pre">print_backward</span></code>.</p>
+</div>
+</div>
+<div class="section" id="infinite-lists">
+<h2>25.5. Infinite lists<a class="headerlink" href="#infinite-lists" title="Permalink to this headline">¶</a></h2>
+<p>There is nothing to prevent a node from referring back to an earlier node in
+the list, including itself. For example, this figure shows a list with two
+nodes, one of which refers to itself:</p>
+<blockquote>
+<div><img alt="_images/link4.png" src="_images/link4.png" />
+</div></blockquote>
+<p>If we invoke <code class="docutils literal notranslate"><span class="pre">print_list</span></code> on this list, it will loop forever. If we invoke
+<code class="docutils literal notranslate"><span class="pre">print_backward</span></code>, it will recurse infinitely. This sort of behavior makes
+infinite lists difficult to work with.</p>
+<p>Nevertheless, they are occasionally useful. For example, we might represent a
+number as a list of digits and use an infinite list to represent a repeating
+fraction.</p>
+<p>Regardless, it is problematic that we cannot prove that <code class="docutils literal notranslate"><span class="pre">print_list</span></code> and
+<code class="docutils literal notranslate"><span class="pre">print_backward</span></code> terminate. The best we can do is the hypothetical statement,
+“If the list contains no loops, then these methods will terminate.” This sort of
+claim is called a <strong>precondition</strong>. It imposes a constraint on one of the
+parameters and describes the behavior of the method if the constraint is
+satisfied. You will see more examples soon.</p>
+</div>
+<div class="section" id="the-fundamental-ambiguity-theorem">
+<h2>25.6. The fundamental ambiguity theorem<a class="headerlink" href="#the-fundamental-ambiguity-theorem" title="Permalink to this headline">¶</a></h2>
+<p>One part of <code class="docutils literal notranslate"><span class="pre">print_backward</span></code> might have raised an eyebrow:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">head</span> <span class="o">=</span> <span class="nb">list</span>
+<span class="n">tail</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">next</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>After the first assignment, <code class="docutils literal notranslate"><span class="pre">head</span></code> and <code class="docutils literal notranslate"><span class="pre">list</span></code> have the same type and the
+same value. So why did we create a new variable?</p>
+<p>The reason is that the two variables play different roles. We think of <code class="docutils literal notranslate"><span class="pre">head</span></code>
+as a reference to a single node, and we think of <code class="docutils literal notranslate"><span class="pre">list</span></code> as a reference to the
+first node of a list. These roles are not part of the program; they are in the
+mind of the programmer.</p>
+<p>In general we can’t tell by looking at a program what role a variable plays.
+This ambiguity can be useful, but it can also make programs difficult to read.
+We often use variable names like <code class="docutils literal notranslate"><span class="pre">node</span></code> and <code class="docutils literal notranslate"><span class="pre">list</span></code> to document how we
+intend to use a variable and sometimes create additional variables to
+disambiguate.</p>
+<p>We could have written <code class="docutils literal notranslate"><span class="pre">print_backward</span></code> without <code class="docutils literal notranslate"><span class="pre">head</span></code> and <code class="docutils literal notranslate"><span class="pre">tail</span></code>, which
+makes it more concise but possibly less clear:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_backward</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+    <span class="n">print_backward</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">next</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Looking at the two function calls, we have to remember that <code class="docutils literal notranslate"><span class="pre">print_backward</span></code>
+treats its argument as a collection and <code class="docutils literal notranslate"><span class="pre">print</span></code> treats its argument as a
+single object.</p>
+<p>The <strong>fundamental ambiguity theorem</strong> describes the ambiguity that is inherent
+in a reference to a node: <em>A variable that refers to a node might treat the
+node as a single object or as the first in a list of nodes.</em></p>
+</div>
+<div class="section" id="modifying-lists">
+<h2>25.7. Modifying lists<a class="headerlink" href="#modifying-lists" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to modify a linked list. Obviously, we can change the cargo
+of one of the nodes, but the more interesting operations are the ones that add,
+remove, or reorder the nodes.</p>
+<p>As an example, let’s write a method that removes the second node in the list
+and returns a reference to the removed node:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_second</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="nb">list</span>
+    <span class="n">second</span> <span class="o">=</span> <span class="nb">list</span><span class="o">.</span><span class="n">next</span>
+    <span class="c1"># Make the first node refer to the third</span>
+    <span class="n">first</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">second</span><span class="o">.</span><span class="n">next</span>
+    <span class="c1"># Separate the second node from the rest of the list</span>
+    <span class="n">second</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">second</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Again, we are using temporary variables to make the code more readable. Here is
+how to use this method:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">print_list</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span>
+<span class="go">1 2 3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">removed</span> <span class="o">=</span> <span class="n">remove_second</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_list</span><span class="p">(</span><span class="n">removed</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_list</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span>
+<span class="go">1 3</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This state diagram shows the effect of the operation:</p>
+<blockquote>
+<div><img alt="_images/link5.png" src="_images/link5.png" />
+</div></blockquote>
+<p>What happens if you invoke this method and pass a list with only one element (a
+<strong>singleton</strong>)? What happens if you pass the empty list as an argument? Is
+there a precondition for this method? If so, fix the method to handle a
+violation of the precondition in a reasonable way.</p>
+</div>
+<div class="section" id="wrappers-and-helpers">
+<h2>25.8. Wrappers and helpers<a class="headerlink" href="#wrappers-and-helpers" title="Permalink to this headline">¶</a></h2>
+<p>It is often useful to divide a list operation into two methods. For example, to
+print a list backward in the conventional list format <code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">2,</span> <span class="pre">1]</span></code> we can use
+the <code class="docutils literal notranslate"><span class="pre">print_backward</span></code> method to print <code class="docutils literal notranslate"><span class="pre">3,</span> <span class="pre">2,</span></code> but we need a separate method
+to print the brackets and the first node. Let’s call it
+<code class="docutils literal notranslate"><span class="pre">print_backward_nicely</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_backward_nicely</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">print_backward</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Again, it is a good idea to check methods like this to see if they work with
+special cases like an empty list or a singleton.</p>
+<p>When we use this method elsewhere in the program, we invoke
+<code class="docutils literal notranslate"><span class="pre">print_backward_nicely</span></code> directly, and it invokes <code class="docutils literal notranslate"><span class="pre">print_backward</span></code> on our
+behalf. In that sense, <code class="docutils literal notranslate"><span class="pre">print_backward_nicely</span></code> acts as a <strong>wrapper</strong>, and it
+uses <code class="docutils literal notranslate"><span class="pre">print_backward</span></code> as a <strong>helper</strong>.</p>
+</div>
+<div class="section" id="the-linkedlist-class">
+<h2>25.9. The <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code> class<a class="headerlink" href="#the-linkedlist-class" title="Permalink to this headline">¶</a></h2>
+<p>There are some subtle problems with the way we have been implementing lists. In
+a reversal of cause and effect, we’ll propose an alternative implementation
+first and then explain what problems it solves.</p>
+<p>First, we’ll create a new class called <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code>. Its attributes are an
+integer that contains the length of the list and a reference to the first node.
+<code class="docutils literal notranslate"><span class="pre">LinkedList</span></code> objects serve as handles for manipulating lists of <code class="docutils literal notranslate"><span class="pre">Node</span></code>
+objects:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinkedList</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>One nice thing about the <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code> class is that it provides a natural
+place to put wrapper functions like <code class="docutils literal notranslate"><span class="pre">print_backward_nicely</span></code>, which we can
+make a method of the <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code> class:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinkedList</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">print_backward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">print_backward</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">print_backward</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">next</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">tail</span><span class="o">.</span><span class="n">print_backward</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cargo</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Just to make things confusing, we renamed <code class="docutils literal notranslate"><span class="pre">print_backward_nicely</span></code>. Now there
+are two methods named <code class="docutils literal notranslate"><span class="pre">print_backward</span></code>: one in the <code class="docutils literal notranslate"><span class="pre">Node</span></code> class (the
+helper); and one in the <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code> class (the wrapper). When the wrapper
+invokes <code class="docutils literal notranslate"><span class="pre">self.head.print_backward</span></code>, it is invoking the helper, because
+<code class="docutils literal notranslate"><span class="pre">self.head</span></code> is a <code class="docutils literal notranslate"><span class="pre">Node</span></code> object.</p>
+<p>Another benefit of the <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code> class is that it makes it easier to add
+or remove the first element of a list. For example, <code class="docutils literal notranslate"><span class="pre">add_first</span></code> is a method
+for <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code>s; it takes an item of cargo as an argument and puts it at
+the beginning of the list:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinkedList</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">add_first</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cargo</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">cargo</span><span class="p">)</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>As usual, you should check code like this to see if it handles the special
+cases. For example, what happens if the list is initially empty?</p>
+</div>
+<div class="section" id="invariants">
+<h2>25.10. Invariants<a class="headerlink" href="#invariants" title="Permalink to this headline">¶</a></h2>
+<p>Some lists are well formed; others are not. For example, if a list contains a
+loop, it will cause many of our methods to crash, so we might want to require
+that lists contain no loops. Another requirement is that the <code class="docutils literal notranslate"><span class="pre">length</span></code> value
+in the <code class="docutils literal notranslate"><span class="pre">LinkedList</span></code> object should be equal to the actual number of nodes in
+the list.</p>
+<p>Requirements like these are called <strong>invariants</strong> because, ideally, they should
+be true of every object all the time. Specifying invariants for objects is a
+useful programming practice because it makes it easier to prove the correctness
+of code, check the integrity of data structures, and detect errors.</p>
+<p>One thing that is sometimes confusing about invariants is that there are times
+when they are violated. For example, in the middle of <code class="docutils literal notranslate"><span class="pre">add_first</span></code>, after we
+have added the node but before we have incremented <code class="docutils literal notranslate"><span class="pre">length</span></code>, the invariant is
+violated. This kind of violation is acceptable; in fact, it is often impossible
+to modify an object without violating an invariant for at least a little while.
+Normally, we require that every method that violates an invariant must restore
+the invariant.</p>
+<p>If there is any significant stretch of code in which the invariant is violated,
+it is important for the comments to make that clear, so that no operations are
+performed that depend on the invariant.</p>
+</div>
+<div class="section" id="glossary">
+<h2>25.11. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-embedded-reference">embedded reference</dt>
+<dd>A reference stored in an attribute of an object.</dd>
+<dt id="term-linked-list">linked list</dt>
+<dd>A data structure that implements a collection using a sequence of
+linked nodes.</dd>
+<dt id="term-node">node</dt>
+<dd>An element of a list, usually implemented as an object that contains a
+reference to another object of the same type.</dd>
+<dt id="term-cargo">cargo</dt>
+<dd>An item of data contained in a node.</dd>
+<dt id="term-link">link</dt>
+<dd>An embedded reference used to link one object to another.</dd>
+<dt id="term-precondition">precondition</dt>
+<dd>An assertion that must be true in order for a method to work correctly.</dd>
+<dt id="term-fundamental-ambiguity-theorem">fundamental ambiguity theorem</dt>
+<dd>A reference to a list node can be treated as a single object or as the
+first in a list of nodes.</dd>
+<dt id="term-singleton">singleton</dt>
+<dd>A linked list with a single node.</dd>
+<dt id="term-wrapper">wrapper</dt>
+<dd>A method that acts as a middleman between a caller and a helper method,
+often making the method easier or less error-prone to invoke.</dd>
+<dt id="term-helper">helper</dt>
+<dd>A method that is not invoked directly by a caller but is used by
+another method to perform part of an operation.</dd>
+<dt id="term-invariant">invariant</dt>
+<dd>An assertion that should be true of an object at all times (except
+perhaps while the object is being modified).</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>25.12. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>By convention, lists are often printed in brackets with commas between the
+elements, as in <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>. Modify <code class="docutils literal notranslate"><span class="pre">print_list</span></code> so that it generates
+output in this format.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="stacks.html" title="26. Stacks"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="inheritance.html" title="24. Inheritance"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

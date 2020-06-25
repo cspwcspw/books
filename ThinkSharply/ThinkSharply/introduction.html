@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Introduction &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="2. The Visual Studio Survival Guide" href="VS_guide_1.html" />
+    <link rel="prev" title="Foreword" href="foreword.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="VS_guide_1.html" title="2. The Visual Studio Survival Guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="foreword.html" title="Foreword"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>The goal of these notes is to help you to think like a computer scientist.
+This way of thinking combines some of the best features of mathematics,
+engineering, natural science, philosophy and art.
+If you like any of those, you might find that you like Computer Science, too.
+Most of all, Computer Science is challenging and fun, and a good computer
+scientist is always surprised that people are willing to pay him or her
+to work on interesting problems and have fun all day!</p>
+<p>The single most important skill for a new computer scientist is
+<strong>problem-solving</strong>. Problem-solving means the ability to formulate problems,
+think creatively about solutions, and express a solution clearly and accurately.
+As it turns out, the process of learning to program is an excellent opportunity
+to practice problem-solving skills. Programming is the process of translating
+problem-solving into a language that the computer can understand.</p>
+<div class="admonition-there-is-a-bigger-picture admonition">
+<p class="first admonition-title">There is a bigger picture ...</p>
+<p>We&#8217;re at university to toughen up our thinking skills.  We understand
+things not only by remembering facts, but by mentally organizing the ideas,
+and relating them to things we already know.</p>
+<p>New university students often have trouble.  Here is a
+quote from page 9 of a document <a class="footnote-reference" href="#id2" id="id1">[1]</a> written by those
+who&#8217;ve done a careful study of where the weaknesses are:</p>
+<blockquote>
+<div><em>&#8220;Entering university students therefore have limited ability to solve unseen problems, to apply their knowledge flexibly and appropriately in varied contexts, to demonstrate a range of cognitive skills, to extract and integrate salient information in order to create their own, meaningful knowledge and to monitor their own learning.&#8221;</em></div></blockquote>
+<p>This here are some of the things we&#8217;ll really need if we&#8217;re going
+to be successful in our studies:</p>
+<ul class="simple">
+<li>to be able to extract and pick the salient (relevant, or important) facts
+and ideas,</li>
+<li>to relate these new ideas and facts to our existing knowledge,</li>
+<li>to spend time thinking about how we learn best and where our strengths are,</li>
+<li>to understand the ideas in such a way that we can apply them to unseen
+problems and use them flexibly!</li>
+</ul>
+<p>So let&#8217;s get into some of the ideas from Computer Science,
+while we do the tough mental work of making sense of them
+and relating them all together!</p>
+<table class="last docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://www.che.ac.za/sites/default/files/publications/QEP%20Framework%20Feb%202014.pdf">http://www.che.ac.za/sites/default/files/publications/QEP%20Framework%20Feb%202014.pdf</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="what-is-a-program">
+<h2>1.1. What is a program?<a class="headerlink" href="#what-is-a-program" title="Permalink to this headline">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Programming styles</p>
+<p class="last">There are many different programming languages and many different ways of
+programming, just as there are many different human languages and many different
+ways of speaking.  C# is a &#8220;high-level garbage-collected statically-typed
+object-oriented C-family&#8221; language.  You&#8217;ll discover what this means as you
+progress through Computer Science and learn languages which aren&#8217;t like C#.
+For now, be aware that what you&#8217;re learning is only the smallest fraction of
+the vast field of Computer Science &#8211; but everyone has to start somewhere,
+and here is as good a place as anywhere else!</p>
+</div>
+<p>A <strong>program</strong> contains instructions that tell the computer what to do.
+These instructions are given according to the rules of your
+<strong>programming language</strong>, and are sometimes called <strong>code</strong>.
+Programming languages are designed for humans, but the computer
+can only follow a different set of instructions that are less
+convenient for humans &#8212; it has its own internal language.
+So after writing a program, you can tell the computer to <strong>compile</strong> your program;
+it checks whether your instructions make sense and translates each of your
+programming language instructions into its internal language that it can follow.
+If everything you wrote makes sense to the computer, you can ask the computer
+to follow the instructions (this is called <strong>executing</strong> or <strong>running</strong> the program).
+We also say that instructions are <strong>executed</strong>.</p>
+<p>The programming language you will be learning is called C# (pronounced &#8220;C sharp&#8221;).
+Some other popular computer languages you might have heard about are Java, Python, C, or Pascal.</p>
+<p>Programming languages such as C# are extremely <em>unforgiving</em>.
+If a single letter or punctuation-mark of the program is out-of-place
+or missing, the program will not compile.  Many programming languages
+are so strict that they don&#8217;t even allow you to alter the case of a
+letter &#8211; so if you type <cite>If</cite> instead of <cite>if</cite>, your program will
+probably fail to compile!  Beginning programmers make many simple
+mistakes because they aren&#8217;t precise enough.  With practice and caution,
+you will make fewer and fewer of these simple mistakes, until you
+eventually make no simple mistakes whatsoever.</p>
+</div>
+<div class="section" id="what-kind-of-programs-will-we-start-with">
+<h2>1.2. What kind of programs will we start with?<a class="headerlink" href="#what-kind-of-programs-will-we-start-with" title="Permalink to this headline">¶</a></h2>
+<p>Most modern programs have three main parts to them.  Let us think about a
+program that sends SMS messages.   It could look like this:</p>
+<blockquote>
+<div><img alt="_images/mySendSMS.png" src="_images/mySendSMS.png" />
+</div></blockquote>
+<ul>
+<li><p class="first">Part 1: The <strong>GUI</strong> &#8212; the Graphical User Interface is the part
+that determines what it looks
+like on our screen or on our device (phone, tablet, XBox, TV).
+The interface will contain buttons, sliders, text boxes, check boxes and so on.
+These parts that make up our GUI are called <em>controls</em>,
+because they let the user control what work the program does.
+(We&#8217;ll learn more about controls soon.)
+Part of the GUI designer&#8217;s job is to choose nice colours,
+text sizes, choose the fonts, and to lay out the different
+controls so that they are nicely organized, and the user
+of your program can see what needs to be done.</p>
+<p>The GUI or interface is sometimes called the <strong>front-end</strong> of the application.</p>
+</li>
+<li><p class="first">Part 2: The <strong>code-behind</strong> is the programming logic that
+carries out the tasks in response to what the
+user does.  So, for example, when the &#8220;Send&#8221; button is clicked, there has to be some hand-written
+code (that we&#8217;ll soon learn to write in C#) to make the useful work happen.  In this SMS
+example, the code-behind would probably check that the cellphone number had the correct number of
+digits, it might remove unnecessary spaces from whatever the user has typed in, it could check that
+the user did not type in any invalid characters (like xyz) in the number, it could
+check the length of the message, make sure the message was not empty.
+Then, if everything seemed okay, the program might use the third part to actually
+send the message.</p>
+</li>
+<li><p class="first">Part 3: The <strong>back-end</strong> part of an application
+(<code class="docutils literal"><span class="pre">application</span></code> is another name for a program)
+is responsible for long-term storage and other
+operations, like sending the SMS messages to the mobile network. So if we&#8217;re
+busy with on-line banking or we&#8217;re active on facebook, or we&#8217;re checking our available airtime,
+there will be some part of the application (often running remotely on another machine)
+that does this back-end work for us.</p>
+</li>
+</ul>
+<p>GUIs are often designed by well-paid graphic designers with good
+artistic taste and great colour sense.
+Our SMS example is not very pretty, which says something about the textbook author.</p>
+<p>The user will interact with our program via its GUI: they will enter text, click buttons
+and drag things around.  Actions that the user takes cause some <strong>events</strong> to happen.  Those
+events will cause some code in the code-behind part of our application to be executed.  And that
+is where we&#8217;ll do our magic that will make our program useful.</p>
+<p>We&#8217;ll start off by learning to design and build a few GUIs.
+Once we can build simple GUIs, we&#8217;ll move along to learning about the events
+that happen, and we&#8217;ll write some code-behind.  In this book none of our
+programs will be complex enough to have a third back-end part.</p>
+</div>
+<div class="section" id="how-do-we-get-started">
+<h2>1.3. How do we get started?<a class="headerlink" href="#how-do-we-get-started" title="Permalink to this headline">¶</a></h2>
+<p>We need a tool that allows us to design our GUIs, write some program code, and run and
+test our programs.   The tool we&#8217;re going to use in this book is one designed exactly
+for this purpose: Visual Studio, a tool provided by Microsoft Corporation.  So finding
+out a little about how the tool works is our next major objective, starting in the next chapter.</p>
+</div>
+<div class="section" id="glossary">
+<h2>1.4. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<p>In any new subject, the special terminology and words are important.  We&#8217;ve summarized
+the main terms here.  If one doesn&#8217;t know what the words mean, one can&#8217;t follow the
+ideas.  So it is worth spending some time getting a really good understanding of
+what each word means.</p>
+<dl class="glossary docutils">
+<dt id="term-application">application</dt>
+<dd>Another name for a program.</dd>
+<dt id="term-back-end">back-end</dt>
+<dd>One of the three parts of a modern application.  The back-end often runs
+remotely (at our bank, or on facebook).  See also <em>front-end</em> and <em>code-behind</em>.</dd>
+<dt id="term-code-behind">code-behind</dt>
+<dd>The part of an application that responds to what the user does and carries out
+the useful work of the program.   See also <em>back-end</em> and <em>front-end</em>.</dd>
+<dt id="term-event">event</dt>
+<dd>See the definition in the glossary of Chapter 3.</dd>
+<dt id="term-front-end">front-end</dt>
+<dd>Another name for the GUI or interface to an application.
+See also <em>back-end</em> and <em>code-behind</em>.</dd>
+<dt id="term-gui">GUI</dt>
+<dd>A Graphical User Interface.  This is the part of your application that the user
+can interact with, by entering text, clicking buttons, setting sliders, etc.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>1.5. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Become familiar with a couple of computer or smartphone applications like
+a web browser, Google search, a chat application, email, a facebook application,
+or a game like Sudoku.</p>
+<p>Identify each of the different controls (buttons, check boxes, places
+to type text, etc.) that the application offers the user.</p>
+<p>When the application does something (like make the next move in a
+game, or display another web page, or check that we&#8217;ve entered some
+information correctly), can you figure out which things are happening
+on your own computer or phone, and which things are being done remotely
+on some back-end computer?</p>
+</li>
+<li><p class="first">In your notebook, write down the most important ideas from this chapter,
+in just one line each.  (Trying to get an idea down into one sentence or
+one short line is an important part of organizing it well in our minds.)</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="VS_guide_1.html" title="2. The Visual Studio Survival Guide"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="foreword.html" title="Foreword"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

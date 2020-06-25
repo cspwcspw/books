@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. The Visual Studio Survival Guide &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="3. Start with a Window" href="start_window.html" />
+    <link rel="prev" title="1. Introduction" href="introduction.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="start_window.html" title="3. Start with a Window"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="1. Introduction"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-visual-studio-survival-guide">
+<h1>2. The Visual Studio Survival Guide<a class="headerlink" href="#the-visual-studio-survival-guide" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ll jump straight in.</p>
+<p>We&#8217;ll assume we have Visual Studio 2013 (VS) installed and
+working.  There are a few different versions of VS: the one we used
+is called Visual Studio 2013 Ultimate.  But if we don&#8217;t want to buy one, we should use
+the free VS Community 2013 Edition from <a class="reference external" href="https://www.dreamspark.com/Product/Product.aspx?productid=89">https://www.dreamspark.com/Product/Product.aspx?productid=89</a>.</p>
+<p>If we use a different version of VS a few things may look slightly different,
+but we&#8217;ll still be able to do all the samples in this textbook.
+The high-end commercial versions have extra features, options, and
+languages that we don&#8217;t need here.</p>
+<div class="section" id="our-first-hello-world-program">
+<h2>2.1. Our first &#8220;Hello, World!&#8221; program:<a class="headerlink" href="#our-first-hello-world-program" title="Permalink to this headline">¶</a></h2>
+<p>We start Visual Studio,  select the menu items <strong>File | New | Project</strong>  (we use this notation to
+mean &#8220;click on the <strong>File</strong> menu (top left corner), then open the <strong>New</strong> menu, then click on the <strong>Project</strong> item&#8221;).</p>
+<p>The <strong>New Project</strong> window will open, and our screen should look similar to this:</p>
+<img alt="_images/new_proj.png" src="_images/new_proj.png" />
+<p>Now we need 5 steps to create our new project:</p>
+<ol class="arabic simple">
+<li>Make sure we are creating a C# program for Windows.</li>
+<li>We choose to create a WPF (Windows Presentation Foundation) flavour of program.</li>
+<li>We select a folder or directory where we want our program to be created and saved.</li>
+<li>We choose a nice name for our program.  Always start the name with a letter!
+Don&#8217;t leave spaces in the name, or use any special characters other than the
+digits 0,1,2,3,4,5,6,7,8,9, or an underscore (_).   So we&#8217;ll call our first program
+something like <strong>My_First_Prog</strong>.   We type this into the <strong>Name</strong> field.</li>
+<li>We&#8217;re ready for some magic.  We click the OK button, and Visual Studio will get to work
+and will give us a skeleton of our first program.</li>
+</ol>
+<p>We should now see this:</p>
+<img alt="_images/my_first_prog.png" src="_images/my_first_prog.png" />
+<p>Perhaps the most important menu for our initial survival is the View menu:</p>
+<img alt="_images/view_menu.png" src="_images/view_menu.png" />
+<p>If we don&#8217;t have our <em>Solution Explorer</em> window showing,
+(the window labelled 2) we can make it show up from the View menu.
+The Solution Explorer is the &#8220;gateway&#8221;
+that allows us to get to our work.</p>
+<p>If we don&#8217;t have our <strong>Toolbox</strong> showing, (labelled 3), the View menu has an option
+again. (It looks like a toolbox, to remind us that these are our tools!)</p>
+<p>Practice opening and closing the Solution Explorer and the Toolbox.
+If we are feeling adventurous, we can also drag
+any window to another part of the screen or even onto a second screen,
+or get it completely detached from Visual Studio.</p>
+<p>There are also some interesting little &#8220;pins&#8221; next to the
+close button of each window: they &#8220;pin&#8221; the window
+so that it remains open.  If we unpin a window we&#8217;ll get
+an even more powerful way to organize everything on our desktop!  Try it!</p>
+<p>There are two other important labels on the image above:
+label 4 shows what we call a &#8220;tab control&#8221; &#8212; a way to
+have multiple windows stacked behind each other.
+We have two windows open in our tab control, the one called
+&#8220;MainWindow.xaml&#8221; is at the front, and &#8220;MainWindow.xaml.cs&#8221; is behind it.
+We can click on the tabs in the tab control
+to bring its window to the front.</p>
+<p>And finally, label 5 shows where to find the &#8220;Start&#8221; button.
+It starts running the program we&#8217;re about to write.</p>
+<p>Let&#8217;s take a closer look at MainWindow.xaml:</p>
+<img alt="_images/my_first_prog_mainwindow.png" src="_images/my_first_prog_mainwindow.png" />
+<p>This is all one window with two sub-windows.
+It provides a &#8220;design surface&#8221;, like a blank sheet of paper,
+that allows us to design what
+we want our program&#8217;s GUI to look like.</p>
+<p>It has two &#8220;views&#8221; of the same information:  the Design view, labelled 6,
+lets us see our design.  The window labelled 7 is an
+ugly, not-really-intended-for-humans description of our design,
+called the XAML (say it as &#8220;zammel&#8221;, like &#8220;camel&#8221;).</p>
+</div>
+<div class="section" id="designing-our-gui">
+<h2>2.2. Designing our GUI<a class="headerlink" href="#designing-our-gui" title="Permalink to this headline">¶</a></h2>
+<p>The Toolbox provides a collection of <strong>controls</strong> (see the definition in the glossary
+at the end of this chapter) that can be added to
+our main window.  If we drag and drop any control, say
+the <strong>Button</strong>, from the Toolbox to our main window,
+it will create a new button in our main window.
+Then we can grab the newly created button, and
+move it (or resize it).  Similarly, we can create a
+new label as part of our design by dragging a <strong>Label</strong>
+control from the tollbox.
+Here is what we&#8217;ll have after putting one label and two buttons on our
+window, and moving them around and resizing them a bit:</p>
+<img alt="_images/three_controls.png" src="_images/three_controls.png" />
+<p>We notice that as Design view changes when we add new things,
+the XAML also changes.
+They are two views, or ways of looking at the same thing.
+We can experiment by dragging or resizing the big button to a new location,
+and seeing how the XAML changes in response.
+Or, we can go into the XAML and change the string that gets displayed in the
+control.  For example, if we change the XAML
+corresponding to the big button (the one with <code class="docutils literal"><span class="pre">Height=&quot;70&quot;</span></code>)  to <code class="docutils literal"><span class="pre">Content=&quot;Hello&quot;</span></code>,
+we&#8217;ll see the new text displayed on the face of the button in the Design view too.</p>
+<p>So one way of changing controls is by dragging and moving them in the designer.
+A second way is by hand-editing the ugly XAML.
+But there is a third way too, one that we prefer to use.  The View
+menu allows us to open a <strong>Properties</strong> window to change properties.
+(Pressing the key F4 is a short-cut method of opening the Properties window.)
+Whichever control is currently selected (click on it, or click on its XAML) will
+have its own properties displayed in the Properties window.</p>
+<p>Some users prefer to work with the Properties window
+&#8220;detached from the others&#8221; so that as the properties are changed
+they can also see the Design view (and the XAML) changing at the same time.
+The Property window gives us an easier way to change the <strong>properties</strong> of any control.
+So after a few changes, it could look something like this:</p>
+<img alt="_images/properties.png" src="_images/properties.png" />
+<p>There are more than 60
+properties that can be set on a button. Here they are arranged by category,
+so everything to do with text properties is in one place, and everything to
+do with brushes for the colours is grouped together.</p>
+<p>Here we&#8217;ve changed five properties of our button:
+the Control&#8217;s <em>name</em>, at the top, in red.  (We&#8217;re going
+to use this name later when we write some code-behind.)
+The Content is what gets
+displayed on the button.  And we&#8217;ve changed the Font, the Font Size, and
+we&#8217;ve clicked the Bold button to make the font bold.   Each change here
+also shows up as a change in the XAML, and we can also see the changes
+in the Design view.</p>
+<p>Once we&#8217;ve changed what we want to for this button, we can close its property
+window, go back to our Main Window.   Now we can repeat what we did for
+the second button: open its property window,
+change some of its properties, and close the property window.  Finally, we can
+also change some properties on the label.
+We&#8217;ll now have our Design window looking like this:</p>
+<img alt="_images/final_first_gui.png" src="_images/final_first_gui.png" />
+</div>
+<div class="section" id="adding-some-code-to-our-program">
+<h2>2.3. Adding some code to our program<a class="headerlink" href="#adding-some-code-to-our-program" title="Permalink to this headline">¶</a></h2>
+<p>When our program is running, we expect that the user will
+click one of the buttons.
+This causes an <strong>event</strong> from the button.  We now
+need to write our first bit of C# <em>handler</em> code that
+will <em>respond</em> to the event.</p>
+<p>In the Design view, double-click on the &#8220;Hello&#8221; button.
+Visual Studio now writes some skeleton handler
+code for us.  It also changes the XAML for the button
+so that the button click event becomes &#8220;tied to&#8221;
+the new handler code.</p>
+<p>We&#8217;ll add a line to the skeleton handler that VS has written for us.
+So when we&#8217;ve
+typed that line in, we&#8217;ll have this fragment of code, and some other
+code that we&#8217;ll ignore for the moment, in the file too.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">btnHello_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="hll">    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Hey, hello there!&quot;</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Lines 1,2 and 4 are the skeleton of the handler
+(provided for free by Visual Studio).
+But line 3 we&#8217;ll have to type by hand.  Be careful with all
+the syntax and the capitalization &#8212; it must be precisely as shown.</p>
+</div>
+<div class="section" id="now-we-can-run-our-first-program">
+<h2>2.4. Now we can run our first program!<a class="headerlink" href="#now-we-can-run-our-first-program" title="Permalink to this headline">¶</a></h2>
+<p>In Visual Studio, click the run button.   Notice a few things.</p>
+<ul class="simple">
+<li>Our new program starts running and opens our newly designed GUI with a title bar that says MainWindow.</li>
+<li>Our program&#8217;s GUI window opens up in front of Visual Studio.</li>
+<li>If we click our button labelled <em>Hello</em>, a message box will pop up with our message.</li>
+<li>We can close the message box and try clicking the button again.  (What do we think will happen?)</li>
+<li>While our program is running, the Visual Studio title bar (at the top of the main VS window) displays the state as &#8220;(Running)&#8221;.</li>
+<li>And Visual Studio also gives us an extra button to Stop our program.</li>
+</ul>
+<img alt="_images/first_prog_running.png" src="_images/first_prog_running.png" />
+<p>We can stop our program by closing its MainWindow.
+(So the program stops itself.)  Or we can use the Visual
+Studio stop button to force it to stop.  Forcing a program to stop (by using Visual Studio)
+is useful when we write an incorrect program that cannot correctly stop itself.</p>
+</div>
+<div class="section" id="your-turn">
+<h2>2.5. Your turn<a class="headerlink" href="#your-turn" title="Permalink to this headline">¶</a></h2>
+<p>Stop the program, go back and add a second handler for the other button, do something similar, and make it
+work so that the user can click either button and get a different response from our program.</p>
+</div>
+<div class="section" id="hey-my-work-has-gone-missing">
+<h2>2.6. Hey, my work has gone missing!<a class="headerlink" href="#hey-my-work-has-gone-missing" title="Permalink to this headline">¶</a></h2>
+<p>Close the two windows (MainWindow.xaml) and (MainWindow.xaml.cs).  Now we&#8217;re stuck.
+How can we get them back?</p>
+<p>That&#8217;s where the Solution Explorer window is so useful.  Make sure it is open (Section 2.1 tells you
+what to do if it is not open).  Notice the
+little expandable triangle icons occur all over the place: they always mean that there is some
+sub-detail that can be shown (or hidden) if we click on them.  So let us get our Solution Explorer
+looking like this:</p>
+<img alt="_images/solution_explorer.png" src="_images/solution_explorer.png" />
+<p>From there, we can double-click on our working files to open them again.</p>
+</div>
+<div class="section" id="mental-workout-connecting-the-dots">
+<h2>2.7. Mental workout: Connecting the dots<a class="headerlink" href="#mental-workout-connecting-the-dots" title="Permalink to this headline">¶</a></h2>
+<p>It is important to understand that the toolbox offers you a number of different
+<em>types</em> of controls for building your GUI &#8212; Button, Label, etc.
+When we drag a button onto our design window, we&#8217;re making a
+new <em>instance</em> of that type of thing.   So we had two button instances and one
+label instance in our first program.</p>
+<p>One button instance can display
+some text, another might be a different size, at a different position,
+and might show something different on the button face.
+And we&#8217;ve already seen that each button can have its own &#8220;handler&#8221; code,
+and can do something different when clicked.</p>
+<p>We&#8217;ll see this idea often.  We have a <em>type</em> of building block, but we can make as
+many different instances as we need to.  This is an idea we see all around us everyday.
+For example, the Samsung S5 Mini is a type of phone.
+There are many instances, each with their own address book, their
+own ring tones, and so on.</p>
+<p>A good hint for becoming a good Computer Scientist (any kind of scientist, really) is to
+always look for opportunities to join the dots. Can you relate some seemingly new idea
+to other ideas that you already know and understand.
+How is this new situation similar, how is it different?</p>
+</div>
+<div class="section" id="key-survival-skills-and-concepts-that-we-ll-need">
+<h2>2.8. Key survival skills and concepts that we&#8217;ll need<a class="headerlink" href="#key-survival-skills-and-concepts-that-we-ll-need" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>How to start up Visual Studio, choose the right language and flavour of program, and build a simple program.</li>
+<li>Understand <em>design time</em> versus <em>run time</em>.
+How to know which state Visual Studio is in.
+(We&#8217;ll watch the VS title bar if we are unsure).</li>
+<li>How to run our program.</li>
+<li>How to stop a running program, even if it doesn&#8217;t want to stop itself!</li>
+<li>How to find and open the different VS sub-windows after they have been closed or hidden.
+(Solution Explorer, Toolbox, our MainWindow, the code associated with the main window)</li>
+<li>We&#8217;ll need some familiarity with the Toolbox of
+available <em>control</em> types, like Button, and Label.</li>
+<li>How to create different instances of any controls on our MainWindow GUI.</li>
+<li>The idea that each instance has its own properties.</li>
+<li>How to use the Properties window to edit the properties of any instance.</li>
+<li>How to name each instance uniquely.</li>
+<li>The idea that we&#8217;ve seen three different ways to change properties:
+we can move or resize things in the designer view;  or we can use the
+Properties window to make changes; or we can change the XAML.  It doesn&#8217;t
+matter which method we use: so pick the one that works best for you.</li>
+</ul>
+</div>
+<div class="section" id="glossary">
+<h2>2.9. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-container-control">container control</dt>
+<dd>A control that can have children controls.  It allows us to group, organize,
+and lay out the children controls.  The Grid is a container control.  Visual
+Studio starts off a new WPF application by giving us a blank Grid to begin with.  (See
+line 5 of the XAML code in the screen shot above: there is a Grid instance that
+contains everything else.)</dd>
+<dt id="term-control">control</dt>
+<dd>Any of the visual components or building blocks that we can use to design our window.
+Some examples are buttons, sliders, menus, panels, labels, images and text boxes.</dd>
+<dt id="term-design-time">design time</dt>
+<dd>The time when we are designing our GUI window, or writing code-behind for our application.
+See <em>run time</em>.</dd>
+<dt id="term-properties-window">properties window</dt>
+<dd>One of the Visual Studio windows that lets us edit (change) properties of our control instances.</dd>
+<dt id="term-property">property</dt>
+<dd>Each instance of a control (say a button instance) has properties
+such as the content that it displays; its size; its position; its background colour;
+the font it uses for text; the font size, etc.</dd>
+<dt id="term-run-time">run time</dt>
+<dd>The time when our program is running. See <em>design time</em>.</dd>
+<dt id="term-toolbox">toolbox</dt>
+<dd>One of the Visual Studio sub-windows that shows the control types that
+we can use when designing our own WPF flavour of GUI applications.</dd>
+<dt id="term-visual-studio">Visual Studio</dt>
+<dd>A software product from Microsoft that helps us design applications that
+start with a main GUI window which can contain other visual components like buttons,
+sliders and images.</dd>
+<dt id="term-wpf">WPF</dt>
+<dd>Windows Presentation Foundation (WPF) is a set of tools (many of them
+found in the toolbox) that allows us to build
+applications with a GUI window for interaction with our users.</dd>
+<dt id="term-wpf-application">WPF application</dt>
+<dd>A WPF application (which is the kind we&#8217;re building here) is an application built using
+the WPF tools.  It will always open a main GUI window when it starts running.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>2.10. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Connect the dots ...   Find your favourite music or video player application, and check
+out what icons (little shapes or symbols) it uses for Play, Pause and Stop.   Then
+check out the Visual Studio buttons for Running, Pausing and Stopping a program, and see
+if they are the same.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="start_window.html" title="3. Start with a Window"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="1. Introduction"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

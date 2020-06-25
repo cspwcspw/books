@@ -1,0 +1,395 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>21. A Case Study: Indexing your files &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="22. Even more OOP" href="even_more_oop.html" />
+    <link rel="prev" title="20. Dictionaries" href="dictionaries.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="even_more_oop.html" title="22. Even more OOP"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dictionaries.html" title="20. Dictionaries"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="a-case-study-indexing-your-files">
+<h1>21. A Case Study: Indexing your files<a class="headerlink" href="#a-case-study-indexing-your-files" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">We present a small case study that ties together modules, recursion,
+files, dictionaries and introduces simple serialization and deserialization.</p>
+<p>In this chapter we’re going to use a dictionary to help us find a
+file rapidly.</p>
+<p>The case study has two components:</p>
+<ul class="simple">
+<li>A <cite>crawler</cite> program that scans the disk (or folder)
+and constructs and saves the dictionary to your disk.</li>
+<li>A <cite>query</cite> program that loads the dictionary and can rapidly answer
+user queries about where a file is located.</li>
+</ul>
+<div class="section" id="the-crawler">
+<h2>21.1. The Crawler<a class="headerlink" href="#the-crawler" title="Permalink to this headline">¶</a></h2>
+<p>Near the end of the chapter on recursion we showed an example of
+how to recursively list all files under a given path of our filesystem.</p>
+<p>We’ll borrow (and change) that code somewhat to provide the skeleton of
+our crawler.  It’s function is to recursively traverse every file in
+a given path.  (We’ll figure out what to do with the file soon: for
+the moment we’ll just print it’s short name, and its full path.)</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="c1"># Crawler crawls the filesystem and builds a dictionary</span>
+ <span class="kn">import</span> <span class="nn">os</span>
+
+ <span class="k">def</span> <span class="nf">crawl_files</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+     <span class="sd">&quot;&quot;&quot; Recursively visit all files in path &quot;&quot;&quot;</span>
+
+     <span class="c1"># Fetch all the entries in the current folder.</span>
+     <span class="n">dirlist</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dirlist</span><span class="p">:</span>
+         <span class="c1"># Turn each name into full pathname</span>
+         <span class="n">fullname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+         <span class="c1"># If it is a directory, recurse.</span>
+         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">fullname</span><span class="p">):</span>
+             <span class="n">crawl_files</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+         <span class="k">else</span><span class="p">:</span>  <span class="c1"># Do something useful with the file</span>
+             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:30}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fullname</span><span class="p">))</span>
+
+ <span class="n">crawl_files</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Python32&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>We get output similar to this:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">CherryPy-wininst.log           C:\Python32\CherryPy-wininst.log</span>
+<span class="go">bz2.pyd                        C:\Python32\DLLs\bz2.pyd</span>
+<span class="go">py.ico                         C:\Python32\DLLs\py.ico</span>
+<span class="go">pyc.ico                        C:\Python32\DLLs\pyc.ico</span>
+<span class="go">pyexpat.pyd                    C:\Python32\DLLs\pyexpat.pyd</span>
+<span class="go">python3.dll                    C:\Python32\DLLs\python3.dll</span>
+<span class="go">select.pyd                     C:\Python32\DLLs\select.pyd</span>
+<span class="go">sqlite3.dll                    C:\Python32\DLLs\sqlite3.dll</span>
+<span class="go">tcl85.dll                      C:\Python32\DLLs\tcl85.dll</span>
+<span class="go">tclpip85.dll                   C:\Python32\DLLs\tclpip85.dll</span>
+<span class="go">tk85.dll                       C:\Python32\DLLs\tk85.dll</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>We’ll adapt this now to store the short name and the full path of the file
+as a key:value pair in a dictionary.  But first, two observations:</p>
+<ul class="simple">
+<li>We can have many instances of files with the same name (in different
+paths).  For example, the name <cite>index.html</cite> is quite common.  But dictionary
+keys must be unique.  Our solution is to map each key in our dictionary
+to a <em>list</em> of paths.</li>
+<li>File names are not case sensitive. (Well, not for Windows users!)  So
+a good technique is to <em>normalize</em> the keys before storing them.  Here we’ll
+just ensure that all keys are converted to lowercase.  Of course we’ll do the
+same later when we write the query program.</li>
+</ul>
+<p>We’ll change the code above by setting up a global dictionary, initially empty:
+The statement <code class="docutils literal notranslate"><span class="pre">thedict</span> <span class="pre">=</span> <span class="pre">{}</span></code> inserted at line 3 will do this.  Then instead of
+printing the information at line 17, we’ll add the filename and path to the
+dictionary.  The code will need to check whether the key already exists:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">key</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>  <span class="c1"># Normalize the filename</span>
+<span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">thedict</span><span class="p">:</span>
+   <span class="n">thedict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>   <span class="c1"># insert the key and a list of one pathname</span>
+   <span class="n">thedict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fullname</span><span class="p">]</span>
+</pre></div>
+</td></tr></table></div>
+<p>After running for a while the program terminates.  We can interactively confirm
+that the dictionary seems to have been built correctly:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">thedict</span><span class="p">)</span>
+<span class="go">14861</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thedict</span><span class="p">[</span><span class="s2">&quot;python.exe&quot;</span><span class="p">]</span>
+<span class="go">[&#39;C:\\Python32\\python.exe&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thedict</span><span class="p">[</span><span class="s2">&quot;logo.png&quot;</span><span class="p">]</span>
+<span class="go">[&#39;C:\\Python32\\Lib\\site-packages\\PyQt4\\doc\\html\\_static\\logo.png&#39;,</span>
+<span class="go"> &#39;C:\\Python32\\Lib\\site-packages\\PyQt4\\doc\\sphinx\\static\\logo.png&#39;,</span>
+<span class="go"> &#39;C:\\Python32\\Lib\\site-packages\\PyQt4\\examples\\demos\\textedit\\images\\logo.png&#39;,</span>
+<span class="go"> &#39;C:\\Python32\\Lib\\site-packages\\sphinx-1.1.3-py3.2.egg\\sphinx\\themes\\scrolls\\static\\logo.png&#39;]</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>It would be nice to add a progress bar while the crawler is running: a typical
+technique is to print dots to show progress.  We’ll introduce a count of how
+many files have been indexed (this can be a global variable), and after we’ve
+handled the current file, we’ll add this code:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="n">filecount</span> <span class="o">+=</span> <span class="mi">1</span>
+ <span class="k">if</span> <span class="n">filecount</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">filecount</span> <span class="o">%</span> <span class="mi">5000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+         <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>As we complete each 100 files we print a dot. After every 50 dots we
+start a new line.   You’ll need to also create the global variable,
+initialize it to zero, and remember to declare the variable as
+global in the crawler.</p>
+<p>The main calling code can now print some statistics for us.  It becomes</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="n">crawl_files</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Python32&quot;</span><span class="p">)</span>
+ <span class="nb">print</span><span class="p">()</span>  <span class="c1"># End the last line of dots ...</span>
+ <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Indexed </span><span class="si">{0}</span><span class="s2"> files, </span><span class="si">{1}</span><span class="s2"> entries in the dictionary.&quot;</span><span class="o">.</span>
+                     <span class="nb">format</span><span class="p">(</span><span class="n">filecount</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">thedict</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table></div>
+<p>We’ll now get something like</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
+<span class="go">..................................................</span>
+<span class="go">..................................................</span>
+<span class="go">..................................................</span>
+<span class="go">....................................</span>
+<span class="go">Indexed 18635 files, 14861 entries in the dictionary.</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>It is reassuring to look at the properties of the folder in
+our operating system, and note that it counts exactly the same
+number of files as our program does!</p>
+</div>
+<div class="section" id="saving-the-dictionary-to-disk">
+<h2>21.2. Saving the dictionary to disk<a class="headerlink" href="#saving-the-dictionary-to-disk" title="Permalink to this headline">¶</a></h2>
+<p>The dictionary we’ve built is an object.  To save it we’re going to
+turn it into a string, and write the string to a file on our disk.
+The string must be in a format that allows another program to
+unambiguously reconstruct another dictionary with the same
+key-value entries.  The process of turning an object into a
+string representation is called <strong>serialization</strong>, and the
+inverse operation — reconstructing a new object from a string —
+is called <strong>deserialization</strong>.</p>
+<p>There are a few ways to do this: some use binary formats, some use
+text formats, and the way different types of data are encoded differs.
+A popular, lightweight technique used extensively in
+web servers and web pages is to use JSON (JavaScript Object Notation)
+encoding.</p>
+<p>Amazingly, we need just four new lines of code to save our dictionary
+to our disk:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kn">import</span> <span class="nn">json</span>
+
+ <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">temp</span><span class="se">\\</span><span class="s2">mydict.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+ <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">thedict</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+ <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>You can find the file on your disk and open it with a text editor to see
+what the JSON encoding looks like.</p>
+</div>
+<div class="section" id="the-query-program">
+<h2>21.3. The Query Program<a class="headerlink" href="#the-query-program" title="Permalink to this headline">¶</a></h2>
+<p>This needs to reconstruct the dictionary from the disk file, and
+then provide a lookup function:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kn">import</span> <span class="nn">json</span>
+
+ <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">temp</span><span class="se">\\</span><span class="s2">mydict.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+ <span class="nb">dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+ <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+ <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loaded </span><span class="si">{0}</span><span class="s2"> filenames for querying.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">dict</span><span class="p">)))</span>
+
+ <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+     <span class="n">f</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+     <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">:</span>
+         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No hits for </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+     <span class="k">else</span><span class="p">:</span>
+         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> is at &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">[</span><span class="n">f</span><span class="p">]:</span>
+             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>And here is a sample run:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
+<span class="go">Loaded 14861 filenames for querying.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;python.exe&#39;</span><span class="p">)</span>
+<span class="go">python.exe is at</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">python</span><span class="o">.</span><span class="n">exe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;java.exe&#39;</span><span class="p">)</span>
+<span class="go">No hits for java.exe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;INDEX.HtMl&#39;</span><span class="p">)</span>
+<span class="go">INDEX.HtMl is at</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">cherrypy</span>\<span class="n">test</span>\<span class="n">static</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">eric5</span>\<span class="n">Documentation</span>\<span class="n">Source</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">IPython</span>\<span class="n">frontend</span>\<span class="n">html</span>\<span class="n">notebook</span>\<span class="n">static</span>\<span class="n">codemirror</span>\<span class="n">mode</span>\<span class="n">css</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">IPython</span>\<span class="n">frontend</span>\<span class="n">html</span>\<span class="n">notebook</span>\<span class="n">static</span>\<span class="n">codemirror</span>\<span class="n">mode</span>\<span class="n">htmlmixed</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">IPython</span>\<span class="n">frontend</span>\<span class="n">html</span>\<span class="n">notebook</span>\<span class="n">static</span>\<span class="n">codemirror</span>\<span class="n">mode</span>\<span class="n">javascript</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">IPython</span>\<span class="n">frontend</span>\<span class="n">html</span>\<span class="n">notebook</span>\<span class="n">static</span>\<span class="n">codemirror</span>\<span class="n">mode</span>\<span class="n">markdown</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">IPython</span>\<span class="n">frontend</span>\<span class="n">html</span>\<span class="n">notebook</span>\<span class="n">static</span>\<span class="n">codemirror</span>\<span class="n">mode</span>\<span class="n">python</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">IPython</span>\<span class="n">frontend</span>\<span class="n">html</span>\<span class="n">notebook</span>\<span class="n">static</span>\<span class="n">codemirror</span>\<span class="n">mode</span>\<span class="n">rst</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">IPython</span>\<span class="n">frontend</span>\<span class="n">html</span>\<span class="n">notebook</span>\<span class="n">static</span>\<span class="n">codemirror</span>\<span class="n">mode</span>\<span class="n">xml</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pygame</span>\<span class="n">docs</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pygame</span>\<span class="n">docs</span>\<span class="n">ref</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="gp">... </span><span class="n">C</span><span class="p">:</span>\<span class="n">Python32</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">PyQt4</span>\<span class="n">doc</span>\<span class="n">html</span>\<span class="n">index</span><span class="o">.</span><span class="n">html</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compressing-the-serialized-dictionary">
+<h2>21.4. Compressing the serialized dictionary<a class="headerlink" href="#compressing-the-serialized-dictionary" title="Permalink to this headline">¶</a></h2>
+<p>The JSON file might get quite big.  Gzip compression is available in Python,
+so let’s take advantage of it…</p>
+<p>When we saved the dictionary to disk we opened a text file for writing.  We simply
+have to change that one line of the program (and import the correct modules),
+to create a gzip file instead of a normal text file.   The replacement code is</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">gzip</span><span class="o">,</span> <span class="nn">io</span>
+
+ <span class="c1">## f = open(&quot;C:\\temp\\mydict.txt&quot;, &quot;w&quot;)</span>
+ <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span><span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">temp</span><span class="se">\\</span><span class="s2">mydict.gz&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wb&quot;</span><span class="p">))</span>
+ <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">thedict</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+ <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>Magically, we now get a zipped file that is about 7 times smaller than
+the text version. (Compressiion/decompression like this is often done by web
+servers and browsers for significantly faster downloads.)</p>
+<p>Now, of course, our query program needs to uncompress the data:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">gzip</span><span class="o">,</span> <span class="nn">io</span>
+
+ <span class="c1">## f = open(&quot;C:\\temp\\mydict.txt&quot;, &quot;r&quot;)</span>
+ <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span><span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">temp</span><span class="se">\\</span><span class="s2">mydict.gz&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">))</span>
+ <span class="nb">dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+ <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+ <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loaded </span><span class="si">{0}</span><span class="s2"> filenames for querying.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">dict</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition-composability-is-the-key admonition">
+<p class="first admonition-title">Composability is the key…</p>
+<p>In the earliest chapters of the book we talked about composability:
+the ability to join together or <em>compose</em> different fragments of code
+and functionality to build more powerful constructs.</p>
+<p class="last">This case study has shown an excellent example of this.  Our JSON
+serializer and deserializer can link with our file mechanisms. The gzip
+compressor / decompressor can also present itself to our program as
+as if it was just a specialized stream of data, as one might get from
+reading a file.  The end result is a very elegant composition of
+powerful tools.  Instead of requiring separate steps for serializing
+the dictionary to a string, compressing the string, writing the resulting
+bytes to a file, etc., the composability has let us do it all very easily!</p>
+</div>
+</div>
+<div class="section" id="glossary">
+<h2>21.5. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-deserialization">deserialization</dt>
+<dd>Reconstruction an in-memory object from some external text representation</dd>
+<dt id="term-gzip">gzip</dt>
+<dd>A lossless compression technique that reduces the storage size of data.
+(Lossless means you can recover the original data exactly.)</dd>
+<dt id="term-json">JSON</dt>
+<dd>JavaScript Object Notation is a format for serializing and transporting objects,
+often used between web servers and web browsers that run JavasScript.
+Python contains a <code class="docutils literal notranslate"><span class="pre">json</span></code> module to provide this capability.</dd>
+<dt id="term-serialization">serialization</dt>
+<dd>Turning an object into a string (or bytes) so that it can be sent over the
+internet, or saved in a file.  The recipient can reconstruct a new object from the
+data.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="even_more_oop.html" title="22. Even more OOP"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dictionaries.html" title="20. Dictionaries"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

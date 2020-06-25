@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started with ThinkLib &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="prev" title="ThinkLib.Tester Documentation" href="thinklib_tester_docs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="thinklib_tester_docs.html" title="ThinkLib.Tester Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="getting-started-with-thinklib">
+<h1>Getting Started with ThinkLib<a class="headerlink" href="#getting-started-with-thinklib" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-if-you-d-prefer-a-video admonition">
+<p class="first admonition-title">If you&#8217;d prefer a video ...</p>
+<p class="last">See this demonstration of downloading and installing ThinkLib, and building your first
+turtle application at
+<a class="reference external" href="http://www.ict.ru.ac.za/resources/thinksharply/videos/TessAndAlex.avi">http://www.ict.ru.ac.za/resources/thinksharply/videos/TessAndAlex.avi</a></p>
+</div>
+<ol class="arabic">
+<li><p class="first">Download the file <a class="reference external" href="http://www.ict.ru.ac.za/Resources/ThinkSharply/downloads/ThinkLib.zip">http://www.ict.ru.ac.za/Resources/ThinkSharply/downloads/ThinkLib.zip</a>
+and unzip it into a convenient place on your hard disk.</p>
+<p>(If you have a folder for your ThinkSharply projects, this would be a good place).
+It should unzip as two files: ThinkLib.dll (the module itself) and ThinkLib.XML
+(the documentation that allows IntelliSense to work nicely with this module).</p>
+<blockquote>
+<div><img alt="_images/VS_added_reference.png" class="align-right" src="_images/VS_added_reference.png" />
+</div></blockquote>
+</li>
+<li><p class="first">Start a new project in Visual Studio.  (A WPF application).</p>
+</li>
+<li><p class="first">In the Solution Explorer, right click on your project&#8217;s References and choose Add Reference.</p>
+</li>
+<li><p class="first">Chose the Browse tab.  Browse to the folder where you saved ThinkLib.dll.  Select it and
+click OK.  You&#8217;ll find it now appears under the references for your project - similar to what is
+shown in the diagram here.  You can collapse the References detail.</p>
+</li>
+<li><p class="first">Open the file MainWindow.xaml.cs (the code-behind MainWindow.xaml), and add this &#8220;using&#8221; statement
+below those that are already there:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">using</span> <span class="nn">ThinkLib</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">That&#8217;s it.  You&#8217;re ready to start with the first example in the Chapter <a class="reference external" href="hello_little_turtles.html">Hello, little turtles!</a>.</p>
+</li>
+<li><p class="first">If you want to use ThinkLib in any new project you need to remember to add a reference to it.</p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="thinklib_tester_docs.html" title="ThinkLib.Tester Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

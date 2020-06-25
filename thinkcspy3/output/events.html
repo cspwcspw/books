@@ -1,0 +1,588 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>10. Event-Driven Programming &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="11. Lists" href="lists.html" />
+    <link rel="prev" title="9. Tuples" href="tuples.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lists.html" title="11. Lists"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tuples.html" title="9. Tuples"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="event-driven-programming">
+<span id="index-0"></span><h1>10. Event-Driven Programming<a class="headerlink" href="#event-driven-programming" title="Permalink to this headline">¶</a></h1>
+<p>Most programs and devices like a cellphone respond to <em>events</em> — things that happen.
+For example, you might move your mouse, and the computer responds.  Or you click a button,
+and the program does something interesting.   In this chapter we’ll touch very briefly on
+how event-driven programming works.</p>
+<div class="section" id="keypress-events">
+<h2>10.1. Keypress events<a class="headerlink" href="#keypress-events" title="Permalink to this headline">¶</a></h2>
+<p>Here’s a program with some new features.  Copy it into your workspace, run it.  When the
+turtle window opens, press the arrow keys and make tess move about!</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">turtle</span>
+
+<span class="n">turtle</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>                <span class="c1"># Determine the window size</span>
+<span class="n">wn</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Screen</span><span class="p">()</span>                 <span class="c1"># Get a reference to the window</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Handling keypresses!&quot;</span><span class="p">)</span>     <span class="c1"># Change the window title</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">bgcolor</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>             <span class="c1"># Set the background color</span>
+<span class="n">tess</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>               <span class="c1"># Create our favorite turtle</span>
+
+<span class="c1"># The next four functions are our &quot;event handlers&quot;.</span>
+<span class="k">def</span> <span class="nf">h1</span><span class="p">():</span>
+   <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">h2</span><span class="p">():</span>
+   <span class="n">tess</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">h3</span><span class="p">():</span>
+   <span class="n">tess</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">h4</span><span class="p">():</span>
+    <span class="n">wn</span><span class="o">.</span><span class="n">bye</span><span class="p">()</span>                        <span class="c1"># Close down the turtle window</span>
+
+<span class="c1"># These lines &quot;wire up&quot; keypresses to the handlers we&#39;ve defined.</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">onkey</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="s2">&quot;Up&quot;</span><span class="p">)</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">onkey</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="s2">&quot;Left&quot;</span><span class="p">)</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">onkey</span><span class="p">(</span><span class="n">h3</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">)</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">onkey</span><span class="p">(</span><span class="n">h4</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">)</span>
+
+<span class="c1"># Now we need to tell the window to start listening for events,</span>
+<span class="c1"># If any of the keys that we&#39;re monitoring is pressed, its</span>
+<span class="c1"># handler will be called.</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>Here are some points to note:</p>
+<ul class="simple">
+<li>We need the call to the window’s <code class="docutils literal notranslate"><span class="pre">listen</span></code> method at line 31, otherwise it won’t notice our keypresses.</li>
+<li>We named our handler functions <code class="docutils literal notranslate"><span class="pre">h1</span></code>, <code class="docutils literal notranslate"><span class="pre">h2</span></code> and so on, but we can choose better names.  The handlers can be
+arbitrarily complex functions that call other functions, etc.</li>
+<li>Pressing the <code class="docutils literal notranslate"><span class="pre">q</span></code> key on the keyboard calls function <code class="docutils literal notranslate"><span class="pre">h4</span></code> (because we <cite>bound</cite> the <code class="docutils literal notranslate"><span class="pre">q</span></code> key to <code class="docutils literal notranslate"><span class="pre">h4</span></code> on line 26).
+While executing <code class="docutils literal notranslate"><span class="pre">h4</span></code>, the window’s <code class="docutils literal notranslate"><span class="pre">bye</span></code> method (line 20) closes the turtle window, which causes the window’s
+mainloop call (line 31) to end its execution.  Since we did not write any more statements after line 32, this means
+that our program has completed everything, so it too will terminate.</li>
+<li>We can refer to keys on the keyboard by their character code (as we did in line 26), or by their symbolic names.
+Some of the symbolic names to try are Cancel (the Break key), BackSpace, Tab, Return(the Enter key),
+Shift_L (any Shift key), Control_L (any Control key), Alt_L (any Alt key), Pause, Caps_Lock, Escape, Prior (Page Up),
+Next (Page Down), End, Home, Left, Up, Right, Down, Print, Insert, Delete, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10,
+F11, F12, Num_Lock, and Scroll_Lock.</li>
+</ul>
+</div>
+<div class="section" id="mouse-events">
+<h2>10.2. Mouse events<a class="headerlink" href="#mouse-events" title="Permalink to this headline">¶</a></h2>
+<p>A mouse event is a bit different from a keypress event because its handler needs two parameters
+to receive x,y coordinate information telling us where the mouse was when the event occurred.</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">turtle</span>
+
+<span class="n">turtle</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">wn</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Screen</span><span class="p">()</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;How to handle mouse clicks on the window!&quot;</span><span class="p">)</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">bgcolor</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>
+
+<span class="n">tess</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="s2">&quot;purple&quot;</span><span class="p">)</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">pensize</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="s2">&quot;circle&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">h1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+   <span class="n">tess</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">wn</span><span class="o">.</span><span class="n">onclick</span><span class="p">(</span><span class="n">h1</span><span class="p">)</span>  <span class="c1"># Wire up a click on the window.</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>There is a new turtle method used at line 14 — this allows us to move the turtle to an <em>absolute</em>
+coordinate position.  (Most of the examples that we’ve seen so far move the turtle <em>relative</em> to where
+it currently is).   So what this program does is move the turtle (and draw a line) to wherever
+the mouse is clicked.  Try it out!</p>
+<p>If we add this line before line 14, we’ll learn a useful debugging trick too:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Got click at coords </span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Because we can easily change the text in the window’s title bar, it is a useful place to display
+occasional debugging or status information. (Of course, this is not the real purpose of the window
+title!)</p>
+<p>But there is more!</p>
+<p>Not only can the window receive mouse events: individual turtles can also
+have their own handlers for mouse clicks.  The turtle that
+“receives” the click event will be the one under the mouse.   So we’ll create
+two turtles.  Each will bind a handler to its own <code class="docutils literal notranslate"><span class="pre">onclick</span></code> event.  And the
+two handlers can do different things for their turtles.</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">turtle</span>
+
+<span class="n">turtle</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>              <span class="c1"># Determine the window size</span>
+<span class="n">wn</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Screen</span><span class="p">()</span>               <span class="c1"># Get a reference to the window</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Handling mouse clicks!&quot;</span><span class="p">)</span> <span class="c1"># Change the window title</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">bgcolor</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>           <span class="c1"># Set the background color</span>
+<span class="n">tess</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>             <span class="c1"># Create two turtles</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="s2">&quot;purple&quot;</span><span class="p">)</span>
+<span class="n">alex</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>             <span class="c1"># Move them apart</span>
+<span class="n">alex</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">alex</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">handler_for_tess</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Tess clicked at </span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">handler_for_alex</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Alex clicked at </span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="n">alex</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">84</span><span class="p">)</span>
+    <span class="n">alex</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">tess</span><span class="o">.</span><span class="n">onclick</span><span class="p">(</span><span class="n">handler_for_tess</span><span class="p">)</span>
+<span class="n">alex</span><span class="o">.</span><span class="n">onclick</span><span class="p">(</span><span class="n">handler_for_alex</span><span class="p">)</span>
+
+<span class="n">wn</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>Run this, click on the turtles, see what happens!</p>
+</div>
+<div class="section" id="automatic-events-from-a-timer">
+<h2>10.3. Automatic events from a timer<a class="headerlink" href="#automatic-events-from-a-timer" title="Permalink to this headline">¶</a></h2>
+<p>Alarm clocks, kitchen timers, and thermonuclear bombs in James Bond movies are set to
+create an “automatic” event after a certain interval. The turtle module in Python has a
+timer that can cause an event when its time is up.</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">turtle</span>
+
+<span class="n">turtle</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">wn</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Screen</span><span class="p">()</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Using a timer&quot;</span><span class="p">)</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">bgcolor</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>
+
+<span class="n">tess</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="s2">&quot;purple&quot;</span><span class="p">)</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">pensize</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">h1</span><span class="p">():</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">56</span><span class="p">)</span>
+
+<span class="n">wn</span><span class="o">.</span><span class="n">ontimer</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>On line 16 the timer is started and set to explode in 2000 milliseconds (2 seconds). When the event does occur,
+the handler is called, and tess springs into action.</p>
+<p>Unfortunately, when one sets a timer, it only goes off once. So a common idiom, or style, is to restart
+the timer inside the handler.  In this way the timer will keep on giving new events.  Try this program:</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">turtle</span>
+
+<span class="n">turtle</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">wn</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Screen</span><span class="p">()</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Using a timer to get events!&quot;</span><span class="p">)</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">bgcolor</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>
+
+<span class="n">tess</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="s2">&quot;purple&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">h1</span><span class="p">():</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">56</span><span class="p">)</span>
+    <span class="n">wn</span><span class="o">.</span><span class="n">ontimer</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="n">h1</span><span class="p">()</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="an-example-state-machines">
+<h2>10.4. An example: state machines<a class="headerlink" href="#an-example-state-machines" title="Permalink to this headline">¶</a></h2>
+<p>A state machine is a system that can be in one of a few different <cite>states</cite>. We draw a
+state diagram to represent the machine, where each state is drawn as a circle or an ellipse.
+Certain events occur which cause the system to leave one state and <cite>transition</cite> into a
+different state.  These <cite>state transitions</cite> are usually drawn as an arrow on the diagram.</p>
+<p>This idea is not new: when first turning on a cellphone, it goes into a
+state which we could call “Awaiting PIN”.  When the correct PIN is entered, it
+transitions into a different state — say “Ready”.  Then we could lock the phone, and it
+would enter a “Locked” state, and so on.</p>
+<p>A simple state machine that we encounter often is a traffic light.  Here
+is a state diagram which shows that the machine continually cycles through three different
+states, which we’ve numbered 0, 1 and 2.</p>
+<blockquote>
+<div><img alt="_images/fsm_traffic_lights.png" src="_images/fsm_traffic_lights.png" />
+</div></blockquote>
+<p>We’re going to build a program that uses a turtle to simulate the traffic lights.
+There are three lessons here. The first shows off some different ways to use our turtles.
+The second demonstrates how we would program a state machine in Python, by using a variable
+to keep track of the current state, and a number of different <code class="docutils literal notranslate"><span class="pre">if</span></code> statements to
+inspect the current state, and take the actions as we change to a different state.
+The third lesson is to use events from the keyboard to trigger the state changes.</p>
+<p>Copy and run this program.  Make sure you understand what each line does, consulting the
+documentation as you need to.</p>
+<div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">turtle</span>           <span class="c1"># Tess becomes a traffic light.</span>
+
+<span class="n">turtle</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">wn</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Screen</span><span class="p">()</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Tess becomes a traffic light!&quot;</span><span class="p">)</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">bgcolor</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>
+<span class="n">tess</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">draw_housing</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Draw a nice housing to hold the traffic lights &quot;&quot;&quot;</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">pensize</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;darkgrey&quot;</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">begin_fill</span><span class="p">()</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">tess</span><span class="o">.</span><span class="n">end_fill</span><span class="p">()</span>
+
+
+<span class="n">draw_housing</span><span class="p">()</span>
+
+<span class="n">tess</span><span class="o">.</span><span class="n">penup</span><span class="p">()</span>
+<span class="c1"># Position tess onto the place where the green light should be</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="c1"># Turn tess into a big green circle</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="s2">&quot;circle&quot;</span><span class="p">)</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">shapesize</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">tess</span><span class="o">.</span><span class="n">fillcolor</span><span class="p">(</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+
+<span class="c1"># A traffic light is a kind of state machine with three states,</span>
+<span class="c1"># Green, Orange, Red.  We number these states  0, 1, 2</span>
+<span class="c1"># When the machine changes state, we change tess&#39; position and</span>
+<span class="c1"># her fillcolor.</span>
+
+<span class="c1"># This variable holds the current state of the machine</span>
+<span class="n">state_num</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">advance_state_machine</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">state_num</span>
+    <span class="k">if</span> <span class="n">state_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>       <span class="c1"># Transition from state 0 to state 1</span>
+        <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
+        <span class="n">tess</span><span class="o">.</span><span class="n">fillcolor</span><span class="p">(</span><span class="s2">&quot;orange&quot;</span><span class="p">)</span>
+        <span class="n">state_num</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">state_num</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>     <span class="c1"># Transition from state 1 to state 2</span>
+        <span class="n">tess</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
+        <span class="n">tess</span><span class="o">.</span><span class="n">fillcolor</span><span class="p">(</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+        <span class="n">state_num</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>                    <span class="c1"># Transition from state 2 to state 0</span>
+        <span class="n">tess</span><span class="o">.</span><span class="n">back</span><span class="p">(</span><span class="mi">140</span><span class="p">)</span>
+        <span class="n">tess</span><span class="o">.</span><span class="n">fillcolor</span><span class="p">(</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+        <span class="n">state_num</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Bind the event handler to the space key.</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">onkey</span><span class="p">(</span><span class="n">advance_state_machine</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">)</span>
+
+<span class="n">wn</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span>                      <span class="c1"># Listen for events</span>
+<span class="n">wn</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>The new Python statement is at line 46.  The <code class="docutils literal notranslate"><span class="pre">global</span></code> keyword tells Python not to
+create a new local variable for <code class="docutils literal notranslate"><span class="pre">state_num</span></code> (in spite of the fact that
+the function assigns to this variable at lines 50, 54, and 58).  Instead, in this function,
+<code class="docutils literal notranslate"><span class="pre">state_num</span></code> always refers to the variable that was created at line 42.</p>
+<p>What the code in <code class="docutils literal notranslate"><span class="pre">advance_state_machine</span></code> does is advance from whatever
+the current state is, to the next state.  On the state change we move tess
+to her new position, change her color, and, of course, we assign to <code class="docutils literal notranslate"><span class="pre">state_num</span></code>
+the number of the new state we’ve just entered.</p>
+<p>Each time the space bar is pressed, the event handler causes the traffic light
+machine to move to its new state.</p>
+</div>
+<div class="section" id="glossary">
+<h2>10.5. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-bind">bind</dt>
+<dd>We bind a function (or associate it) with an event, meaning that when the event occurs, the
+function is called to handle it.</dd>
+<dt id="term-event">event</dt>
+<dd>Something that happens “outside” the normal control flow of our program, usually from some user action.
+Typical events are mouse operations and keypresses.  We’ve also seen that a timer can be primed
+to create an event.</dd>
+<dt id="term-handler">handler</dt>
+<dd>A function that is called in response to an event.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>10.6. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Add some new key bindings to the first sample program:</p>
+<ul class="simple">
+<li>Pressing keys R, G or B should change tess’ color to Red, Green or Blue.</li>
+<li>Pressing keys + or - should increase or decrease the width of tess’ pen.
+Ensure that the pen size stays between 1 and 20 (inclusive).</li>
+<li>Handle some other keys to change some attributes of tess, or attributes of the window,
+or to give her new behaviour that can be controlled from the keyboard.</li>
+</ul>
+</li>
+<li><p class="first">Change the traffic light program so that changes occur automatically, driven by a timer.</p>
+</li>
+<li><p class="first">In an earlier chapter we saw two turtle methods, <code class="docutils literal notranslate"><span class="pre">hideturtle</span></code> and <code class="docutils literal notranslate"><span class="pre">showturtle</span></code> that
+can hide or show a turtle.  This suggests that we could take a different approach to
+the traffic lights program.  Add to your program above as follows:  draw a second
+housing for another set of traffic lights.  Create three separate
+turtles to represent each of the green, orange and red lights, and position them appropriately
+within your new housing.  As your state changes occur, just make one of the three turtles visible
+at any time. Once you’ve made the changes, sit back and ponder some deep thoughts: you’ve now got
+two different ways to use turtles to simulate the traffic lights, and both seem to work.
+Is one approach somehow preferable to the other?  Which one more closely resembles reality —
+i.e. the traffic lights in your town?</p>
+</li>
+<li><p class="first">Now that you’ve got a traffic light program with different turtles for each light, perhaps
+the visibility / invisibility trick wasn’t such a great idea. If we watch traffic lights, they
+turn on and off — but when they’re off they are still there, perhaps just a darker color.
+Modify the program now so that the lights don’t disappear: they are either on, or off. But when
+they’re off, they’re still visible.</p>
+</li>
+<li><p class="first">Your traffic light controller program has been patented, and you’re about to
+become seriously rich.  But your new client needs a change.  They want
+four states in their state machine: Green, then Green and Orange together,
+then Orange only, and then Red.  Additionally, they want different
+times spent in each state.  The machine should spend 3 seconds in the Green state,
+followed by one second in the Green+Orange state, then one second in
+the Orange state, and then 2 seconds in the Red state.
+Change the logic in the state machine.</p>
+</li>
+<li><p class="first">If you don’t know how tennis scoring works, ask a friend or consult Wikipedia.  A single
+game in tennis between player A and player B always has a score.  We want to think
+about the “state of the score” as a state machine.   The game starts in state (0, 0), meaning
+neither player has any score yet.  We’ll assume the first element in this pair is the score
+for player A.   If player A wins the first point, the score becomes (15, 0).
+If B wins the first point, the state becomes (0, 15).  Below are the first
+few states and transitions for a state diagram. In this diagram, each state
+has two possible outcomes (A wins the next point, or B does), and the
+uppermost arrow is always the transition that happens when A wins the point.
+Complete the diagram, showing all transitions and all states.
+(Hint: there are twenty states, if you include the duece state, the advantage states,
+and the “A wins” and “B wins” states in your diagram.)</p>
+<img alt="_images/fsm_tennis_scores.png" src="_images/fsm_tennis_scores.png" />
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="lists.html" title="11. Lists"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tuples.html" title="9. Tuples"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

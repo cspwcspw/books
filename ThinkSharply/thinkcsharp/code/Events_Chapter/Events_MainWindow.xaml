@@ -1,0 +1,11 @@
+﻿<Window x:Class="Events_Chapter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pete's Pong Game" Height="359" Width="329" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" MouseMove="Window_MouseMove" Cursor="None">
+    <Grid>
+        <Canvas HorizontalAlignment="Stretch" Margin="12" Name="canvas1" VerticalAlignment="Stretch" Background="#FFC0F2C0" Grid.RowSpan="5">
+            <Button Canvas.Left="99" Height="22" Name="paddle" Width="75" VerticalAlignment="Bottom" HorizontalAlignment="Left" Canvas.Top="268" />
+            <Image   Canvas.Left="68" Canvas.Top="50" Height="34" Name="ball" Stretch="None" Width="34" DataContext="{Binding}" Source="/Events_Chapter;component/Images/ball.png" />
+        </Canvas>
+    </Grid>
+</Window>

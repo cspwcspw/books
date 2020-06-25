@@ -1,0 +1,1551 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>11. Iteration &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="12. Strings" href="strings.html" />
+    <link rel="prev" title="10. Value-returning methods" href="methods_value_returning.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="strings.html" title="12. Strings"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="methods_value_returning.html" title="10. Value-returning methods"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="iteration">
+<h1>11. Iteration<a class="headerlink" href="#iteration" title="Permalink to this headline">¶</a></h1>
+<p>Computers are often used to automate repetitive tasks. Repeating identical or
+similar tasks without making errors is something that computers do well and
+people do poorly.</p>
+<p>Repeated execution of a set of statements is called <strong>iteration</strong>.  Because
+iteration is so common, C# provides several language features to make it
+easier. We&#8217;ve already seen the <code class="docutils literal"><span class="pre">while</span></code> statement.  But in this chapter
+we&#8217;ve going to look at the <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">foreach</span></code> statements again &#8212; another way to have your
+program do iteration, useful in slightly different circumstances.</p>
+<p>Before we do that, let&#8217;s review a few ideas...</p>
+<div class="section" id="assignment">
+<span id="index-0"></span><h2>11.1. Assignment<a class="headerlink" href="#assignment" title="Permalink to this headline">¶</a></h2>
+<p>As we have mentioned previously, as the program runs over time, it is legal to make more
+than one assignment to the same variable.  A new assignment gives an existing variable
+a new value (and it loses its old value).  Of course, the variable must already have been
+defined before we can assign to it.  C# also allows us to give a newly defined
+variable a value right at the time we define it &#8212; we call this an <strong>initializer</strong>.
+Using initializers is considered good practice.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">airtime_remaining</span> <span class="p">=</span> <span class="m">1500</span><span class="p">;</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">airtime_remaining</span><span class="p">);</span>
+<span class="n">airtime_remaining</span> <span class="p">=</span> <span class="m">700</span><span class="p">;</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">airtime_remaining</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The output of this program on the Console is:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">1500</span>
+<span class="go">700</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>because the first time <code class="docutils literal"><span class="pre">airtime_remaining</span></code> is
+printed, its value is 1500, and the second time, its value is 700.</p>
+<p>It is especially important to distinguish between an
+assignment statement and a Boolean expression that tests for equality.
+Because C# uses the equal token (<code class="docutils literal"><span class="pre">=</span></code>) for assignment,
+it is tempting to interpret a statement like
+<code class="docutils literal"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">b</span></code> as a Boolean test.  Unlike mathematics, it is not!  Remember that the C# token
+for the equality operator is <code class="docutils literal"><span class="pre">==</span></code>.</p>
+<p>Note too that an equality test is symmetric, but assignment is not. For example,
+if <code class="docutils literal"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">7</span></code> then <code class="docutils literal"><span class="pre">7</span> <span class="pre">==</span> <span class="pre">a</span></code>. But in C#, the assignment <code class="docutils literal"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">7</span></code>
+is legal but <code class="docutils literal"><span class="pre">7</span> <span class="pre">=</span> <span class="pre">a</span></code> is not.</p>
+<p>In C#, an assignment statement can make
+two variables equal, but because further assignments can change either of them,
+they don&#8217;t have to stay that way:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">b</span> <span class="p">=</span> <span class="n">a</span><span class="p">;</span>     <span class="c1">// After executing this line, a and b are now equal</span>
+<span class="n">a</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>         <span class="c1">// After executing this line, a and b are no longer equal</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The third line changes the value of <code class="docutils literal"><span class="pre">a</span></code> but does not change the value of
+<code class="docutils literal"><span class="pre">b</span></code>, so they are no longer equal. (In some programming languages, a different
+symbol is used for assignment, such as <code class="docutils literal"><span class="pre">&lt;-</span></code> or <code class="docutils literal"><span class="pre">:=</span></code>, to avoid confusion.  Some
+people also think that <em>variable</em> was an unfortunate word to choose, and instead
+we should have called them <em>assignables</em>.  C# chooses to
+follow common terminology and token usage, also found in languages like C, C++, Java, and Python,
+so we use the tokens <code class="docutils literal"><span class="pre">=</span></code> for assignment, <code class="docutils literal"><span class="pre">==</span></code> for equality, and we talk of <em>variables</em>.</p>
+</div>
+<div class="section" id="updating-variables">
+<span id="index-1"></span><h2>11.2. Updating variables<a class="headerlink" href="#updating-variables" title="Permalink to this headline">¶</a></h2>
+<p>When an assignment statement is executed, the right-hand side expression (i.e. the
+expression that comes after the assignment token) is evaluated first.  This produces a value.
+Then the assignment is made, so that the variable on the left-hand side now holds
+the new value.</p>
+<p>One of the most common forms of assignment is an <em>update</em>, where the new
+value of the variable depends on its old value.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">//Deduct 40 cents from my airtime balance.</span>
+<span class="n">airtime_remaining</span> <span class="p">=</span> <span class="n">airtime_remaining</span> <span class="p">-</span> <span class="m">0.40</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+<span class="c1">// Change n, based on it&#39;s current value.</span>
+<span class="n">n</span> <span class="p">=</span> <span class="p">(</span><span class="n">n</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">?</span> <span class="n">n</span> <span class="p">/</span> <span class="m">2</span> <span class="p">:</span> <span class="m">3</span> <span class="p">*</span> <span class="n">n</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>When reading an assignment statement, develop the habit of evaluating the right hand
+side first, because this is how computer languages do it.  So line 6 means
+<em>first get the current value of n and evaluate the conditional expression to test if
+it is even.  Since it is not even, multiply it by three and then add
+one.  (This results in the value 16 in this case.) Then assign that 16 to the variable n</em>.</p>
+<p>If we try to get the value of a variable that has never been assigned to, (and if the compiler
+is not clever enough to understand the situation) we&#8217;ll get
+its <em>default initialization value</em>.  This is the value that C# gives the variable if we do not
+provide an initializing expression.  For numbers the initial value is zero, for strings it is
+the value <code class="docutils literal"><span class="pre">null</span></code>.</p>
+<p>Some programming languages don&#8217;t provide initializing values automatically,
+and our variables could start off containing random nonsense.  For this reason it is a good
+habit to make sure that we explicitly give every variable an initial value.</p>
+<p>The C# compiler can sometimes spot that we have never initialized a
+variable, and it will give an error if we try to use it.  But it doesn&#8217;t always catch this.
+And if we inspect the variable values in memory using the debugger, we&#8217;ll see that they have
+been initialized to their default initialization values.</p>
+<p>The automatic initialization feature will become more useful when we cover arrays in the subsequent
+chapters.  We can define an array of a thousand integers, and we can safely assume that they
+will all have their initial value of zero.</p>
+</div>
+<div class="section" id="abbreviated-assignment">
+<span id="index-2"></span><h2>11.3. Abbreviated assignment<a class="headerlink" href="#abbreviated-assignment" title="Permalink to this headline">¶</a></h2>
+<p>Adding something to a variable is so common that C# provides an abbreviated syntax
+for it:  <code class="docutils literal"><span class="pre">count</span> <span class="pre">+=</span> <span class="pre">4;</span></code> is an abbreviation for <code class="docutils literal"><span class="pre">count</span> <span class="pre">=</span> <span class="pre">count</span> <span class="pre">+</span> <span class="pre">4;</span></code>  We pronounce the operator
+as <em>&#8220;plus-equals&#8221;</em>.</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="n">runs_scored</span> <span class="p">+=</span> <span class="m">4</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>There are similar abbreviations for <code class="docutils literal"><span class="pre">-=</span></code>, <code class="docutils literal"><span class="pre">*=</span></code>, <code class="docutils literal"><span class="pre">/=</span></code> and <code class="docutils literal"><span class="pre">%=</span></code>.</p>
+<p>What is the final value of <code class="docutils literal"><span class="pre">n</span></code> after executing this sequence of statements?</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="m">123</span><span class="p">;</span>
+<span class="n">n</span> <span class="p">-=</span> <span class="m">10</span><span class="p">;</span>
+<span class="n">n</span> <span class="p">*=</span> <span class="m">2</span><span class="p">;</span>
+<span class="n">n</span> <span class="p">/=</span> <span class="m">3</span><span class="p">;</span>
+<span class="n">n</span> <span class="p">%=</span> <span class="m">7</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Incrementing (adding one to) a variable (we say we <em>bump</em> the variable) or decrementing (subtracting one from) a variable is also so common that C# provides more special shorthand:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="n">n</span><span class="p">++;</span>      <span class="c1">// Adds one to n</span>
+<span class="n">k</span><span class="p">--;</span>      <span class="c1">// Subtracts one from k</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>C is an older language that uses this shorthand.  C evolved into a new language
+called C++ (a clever name, suggesting that C++ is &#8220;one better than C&#8221;).
+C# is a great name for a language too.  It says
+&#8220;We&#8217;re also related to C, but we&#8217;re sharper!&#8221;.
+(In music, C# (C sharp) is one semitone above C.)</p>
+</div>
+<div class="section" id="the-foreach-loop-revisited">
+<span id="index-3"></span><h2>11.4. The <code class="docutils literal"><span class="pre">foreach</span></code> loop revisited<a class="headerlink" href="#the-foreach-loop-revisited" title="Permalink to this headline">¶</a></h2>
+<p>Recall that the <code class="docutils literal"><span class="pre">foreach</span></code> loop processes each item in an array.  Each item in
+turn is (re-)assigned to the loop variable, and the body of the loop is executed.
+Running through all the items in an array is called <strong>traversing</strong>
+the items.</p>
+<p>Let us write a method to sum up all the elements in an array of numbers.
+<em>We should do this by hand first</em>, and try to isolate exactly what steps we take.  We&#8217;ll
+find we need to keep track of some &#8220;running total&#8221; of the sum so far, either on a piece
+of paper, in our head, or in our calculator. Remembering things from one step to the next is
+precisely why we have variables in a program, and why we have a memory in a calculator:
+so our program will need a variable to remember the &#8220;running total&#8221;.
+It should be initialized to the value zero.
+As we traverse the items in the array, we&#8217;ll update the running total by
+adding the current item to the running total.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">mySum</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>   <span class="c1">// Sum all the numbers in the array xs, and return the total.</span>
+    <span class="kt">int</span> <span class="n">running_total</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">running_total</span> <span class="p">+=</span> <span class="n">x</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">running_total</span><span class="p">;</span>
+<span class="p">}</span>
+
+    <span class="c1">// Add tests like these to your test suite ...</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">ws</span> <span class="p">=</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">};</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">mySum</span><span class="p">(</span><span class="n">ws</span><span class="p">),</span> <span class="m">10</span><span class="p">);</span>
+
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">ys</span> <span class="p">=</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">};</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">mySum</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span>  <span class="m">2</span><span class="p">);</span>
+
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">zs</span> <span class="p">=</span> <span class="p">{</span> <span class="p">};</span> <span class="c1">// notice this case. foreach works fine with an empty array.</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">mySum</span><span class="p">(</span><span class="n">zs</span><span class="p">),</span> <span class="m">0</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="the-for-loop">
+<span id="index-4"></span><h2>11.5. The <code class="docutils literal"><span class="pre">for</span></code> loop<a class="headerlink" href="#the-for-loop" title="Permalink to this headline">¶</a></h2>
+<p>C# comes with extensive documentation for all its built-in methods, and its libraries.
+Different systems have different ways of accessing this help.  In Visual Studio, you can
+put your mouse cursor above a keyword like <code class="docutils literal"><span class="pre">for</span></code> and hit the <code class="docutils literal"><span class="pre">F1</span></code> key to get help.
+Learn to read and make frequent use of the documentation &#8212;
+it takes a little getting used to.  We&#8217;ll use Microsoft&#8217;s documentation
+here instead of writing our own:</p>
+<img alt="_images/for_loop.png" src="_images/for_loop.png" />
+</div>
+<div class="section" id="the-while-statement">
+<span id="index-5"></span><h2>11.6. The <code class="docutils literal"><span class="pre">while</span></code> statement<a class="headerlink" href="#the-while-statement" title="Permalink to this headline">¶</a></h2>
+<p>Let us now write a method to calculate the sum of all the numbers between 1 and N.
+There are at least two ways to do this: perhaps we know the formula for the
+answer, and can just plug N into the formula.  Or, on the other hand, perhaps we&#8217;ll just
+solve it the long way: write a loop and total them all up one at a time.
+Let&#8217;s start with a method for doing this that
+demonstrates the use of the <code class="docutils literal"><span class="pre">while</span></code> statement:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">sumTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>  <span class="c1">// Return the sum of 1+2+3 ... n</span>
+    <span class="kt">int</span> <span class="n">ss</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">v</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">v</span> <span class="p">&lt;=</span> <span class="n">n</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ss</span> <span class="p">+=</span> <span class="n">v</span><span class="p">;</span>
+        <span class="n">v</span><span class="p">++;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ss</span><span class="p">;</span>
+<span class="p">}</span>
+
+    <span class="c1">// For our test suite</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">sumTo</span><span class="p">(</span><span class="m">4</span><span class="p">),</span> <span class="m">10</span><span class="p">);</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">sumTo</span><span class="p">(</span><span class="m">1000</span><span class="p">),</span> <span class="m">500500</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>We can almost read the <code class="docutils literal"><span class="pre">while</span></code> statement as if it were English.  It means,
+while <code class="docutils literal"><span class="pre">v</span></code> is less than or equal to <code class="docutils literal"><span class="pre">n</span></code>, continue executing the body of the loop. Within
+the body, each time, increment <code class="docutils literal"><span class="pre">v</span></code>. When <code class="docutils literal"><span class="pre">v</span></code> passes <code class="docutils literal"><span class="pre">n</span></code>, return our accumulated sum.</p>
+<p>More formally, here is precise flow of execution for a <code class="docutils literal"><span class="pre">while</span></code> statement:</p>
+<ul class="simple">
+<li>Evaluate the condition at line 5, yielding a value which is either <code class="docutils literal"><span class="pre">false</span></code> or <code class="docutils literal"><span class="pre">true</span></code>.</li>
+<li>If the value is <code class="docutils literal"><span class="pre">false</span></code>, exit the <code class="docutils literal"><span class="pre">while</span></code> statement and continue
+execution at the next statement (line 10 in this case).</li>
+<li>If the value is <code class="docutils literal"><span class="pre">true</span></code>, execute each of the statements in the body (lines 7 and 8) and
+then go back to the <code class="docutils literal"><span class="pre">while</span></code> statement at line 5.</li>
+</ul>
+<p>The body of the loop consists of all of the statements within the braces after the <code class="docutils literal"><span class="pre">while</span></code> keyword.</p>
+<p>Notice that if the loop condition is <code class="docutils literal"><span class="pre">false</span></code> the first time we get
+loop, the statements in the body of the loop are never executed.  (What test case
+could you write if you didn&#8217;t want the body of the loop to execute at all?)</p>
+<p>Usually the body of the loop will change the value of one or more variables so that
+eventually the controlling condition becomes false and the loop terminates. Otherwise the
+loop will repeat forever. This is called an <strong>infinite loop</strong>.</p>
+<p>In the case here, we can easily reason that the loop terminates because we
+know that the value of <code class="docutils literal"><span class="pre">n</span></code> is finite, and we can see that the value of <code class="docutils literal"><span class="pre">v</span></code>
+increments each time through the loop, so eventually it will have to exceed <code class="docutils literal"><span class="pre">n</span></code>. In
+other cases, it is not so easy, sometimes even impossible, to prove,
+that a loop will or will not terminate.</p>
+<p>What we notice in the previous example is that the <code class="docutils literal"><span class="pre">while</span></code> loop is more work for
+us &#8212; the programmers &#8212; than the equivalent <code class="docutils literal"><span class="pre">for</span></code> loop.  When using a <code class="docutils literal"><span class="pre">while</span></code>
+loop one has to manage the loop variable yourself: define it, give it an initial value, test
+for completion, and then make sure you change something in the body so that the loop
+terminates.  By comparison, here is a method that uses <code class="docutils literal"><span class="pre">for</span></code> instead:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">sumTo</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>  <span class="c1">// Return the sum of 1+2+3 ... n</span>
+    <span class="kt">int</span> <span class="n">ss</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">v</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">v</span> <span class="p">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">v</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">ss</span> <span class="p">+=</span> <span class="n">v</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ss</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>There is also a simple formula for doing this really fast, without the need for
+N iterations.  Check out <a class="reference external" href="http://en.wikipedia.org/wiki/Summation">http://en.wikipedia.org/wiki/Summation</a> and make sure you
+can also write a C# method to compute <code class="docutils literal"><span class="pre">sumTo</span></code> without using any looping at all!</p>
+<p>So why have a <code class="docutils literal"><span class="pre">while</span></code> loop if a <code class="docutils literal"><span class="pre">for</span></code> loop seems easier?  This next example shows a case where
+we need the extra power that we get from the <code class="docutils literal"><span class="pre">while</span></code> loop.</p>
+</div>
+<div class="section" id="the-collatz-3n-1-sequence-aka-the-hailstone-sequence">
+<span id="index-6"></span><h2>11.7. The Collatz 3n + 1 sequence (AKA the <em>Hailstone</em> sequence)<a class="headerlink" href="#the-collatz-3n-1-sequence-aka-the-hailstone-sequence" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s look at a simple sequence that has fascinated and foxed mathematicians since 1937.
+They still cannot answer even quite simple questions about this.</p>
+<p>The &#8220;computational rule&#8221; for creating the sequence is to start from
+some given <code class="docutils literal"><span class="pre">n</span></code>, and to generate
+the next term of the sequence from <code class="docutils literal"><span class="pre">n</span></code>, either by halving <code class="docutils literal"><span class="pre">n</span></code>,
+(whenever <code class="docutils literal"><span class="pre">n</span></code> is even), or else by multiplying it by three and adding 1.  The sequence
+terminates when <code class="docutils literal"><span class="pre">n</span></code> reaches 1.   Start by doing some sequences by hand or by using your
+calculator.</p>
+<p>This C# method captures that algorithm:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">collatz</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>  <span class="c1">// Print the 3n+1 sequence starting from n,</span>
+   <span class="c1">//    terminating when it reaches 1.</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">n</span> <span class="p">!=</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;{0}, &quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>        <span class="c1">// n is even</span>
+        <span class="p">{</span>
+            <span class="n">n</span> <span class="p">/=</span> <span class="m">2</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>                  <span class="c1">// n is odd</span>
+        <span class="p">{</span>
+            <span class="n">n</span> <span class="p">=</span> <span class="n">n</span> <span class="p">*</span> <span class="m">3</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;{0}. Yes, it got to 1!&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Notice first that lines 7 and 17 perform output, this time to the console.  If you&#8217;re working
+in Visual Studio, use View | Output to see your answers.  If we pass the value 24 to the method,
+your Console output should look like this:   (Visual Studio outputs a lot of other stuff into
+the same Console window, so you may need to hunt for your answers in the middle of other noise!)</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">24, 12, 6, 3, 10, 5, 16, 8, 4, 2, 1. Yes, it got to 1!</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Of course you might prefer to send your output to your GUI instead of having to search for the Console window,
+and search for the text within that window.   You could replace lines 7 and 17 above with these two lines:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre>    <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;, &quot;</span><span class="p">);</span>
+    <span class="p">...</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;. Yes, it got to 1!\n&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<img alt="_images/collatz_conjecture.png" class="align-left" src="_images/collatz_conjecture.png" />
+<p>The condition for continuing with this loop is <code class="docutils literal"><span class="pre">n</span> <span class="pre">!=</span> <span class="pre">1</span></code>, so the loop will continue running until
+it reaches its termination condition, (i.e. <code class="docutils literal"><span class="pre">n</span> <span class="pre">==</span> <span class="pre">1</span></code>).</p>
+<p>Each time through the loop, the program outputs the value of <code class="docutils literal"><span class="pre">n</span></code> and then
+checks whether it is even or odd. If it is even, the value of <code class="docutils literal"><span class="pre">n</span></code> is divided
+by 2 using integer division. If it is odd, the value is replaced by <code class="docutils literal"><span class="pre">n</span> <span class="pre">*</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">1</span></code>.</p>
+<p>Since <code class="docutils literal"><span class="pre">n</span></code> sometimes increases and sometimes decreases, there is no obvious
+proof that <code class="docutils literal"><span class="pre">n</span></code> will ever reach 1, or that the program terminates. For some
+particular values of <code class="docutils literal"><span class="pre">n</span></code>, we can prove termination. For example, if the
+starting value is a power of two, then the value of <code class="docutils literal"><span class="pre">n</span></code> will be even each
+time through the loop until it reaches 1. The previous example ends with such a
+sequence, starting with 16.</p>
+<p>See if you can find a small starting
+number that needs more than a hundred steps before it terminates.</p>
+<p>Particular values aside, the interesting question was first posed by a German
+mathematician called Lothar Collatz: the <em>Collatz conjecture</em> (also known as
+the <em>3n + 1 conjecture</em>), is that this sequence terminates for <em>all</em> positive
+values of <code class="docutils literal"><span class="pre">n</span></code>.  So far, no one has been able to prove it <em>or</em> disprove it!
+(A conjecture is a statement that might be true, but nobody knows for sure.)</p>
+<p>Think carefully about what would be needed for a proof or disproof of the conjecture
+<em>&#8220;All positive integers will eventually converge to 1 using the Collatz rules&#8221;</em>.
+With fast computers we have been able to test every integer up to very
+large values, and so far, they have all eventually ended up at 1.
+But who knows? Perhaps there is some as-yet untested number which does not reduce to 1.</p>
+<div class="sidebar">
+<p class="first sidebar-title">There is a subtle shift of emphasis here  ...</p>
+<p>Up to this point in the book we&#8217;ve mainly thought about programs and code,
+and how to do things.</p>
+<p>In Computer Science our attention turns quite quickly instead to &#8220;the nature
+of the problem&#8221; that we&#8217;re dealing with. So questions like <em>&#8220;Do we need definite
+or indefinite iteration?&#8221;</em>, or <em>&#8220;What would we need for a proof?&#8221;</em>, or <em>&#8220;How does
+this sequence climb and fall as we iterate it?&#8221;</em> are focussed on the problem
+rather than on the code.</p>
+<p class="last">As you progress in your Computer Science studies you&#8217;ll see more emphasis shifting
+in this direction.</p>
+</div>
+<p>You&#8217;ll notice that if you don&#8217;t stop when you reach 1, the sequence gets into
+its own cyclic loop:  1, 4, 2, 1, 4, 2, 1, 4 ...   So one possibility is that there might
+be other cycles that we just haven&#8217;t found yet.</p>
+<p>Wikipedia has an informative article about the Collatz conjecture. The sequence
+also goes under other names (Hailstone sequence, Wonderous numbers, etc.),
+and you&#8217;ll find out just how many integers have already been tested by computer,
+and so far, every one has been found to converge to 1!</p>
+<div class="admonition-choosing-between-for-and-while admonition" id="index-7">
+<p class="first admonition-title">Choosing between <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">while</span></code></p>
+<p>Use a <code class="docutils literal"><span class="pre">for</span></code> loop if you know, before you start looping,
+the maximum number of times that you&#8217;ll need to execute the body.
+For example, if you&#8217;re traversing an array of elements, you know that the maximum
+number of loop iterations you can possibly need is &#8220;all the elements in the array&#8221;.
+Or if you need to print the 12 times table, we know right away how many times
+the loop will need to run.</p>
+<p>So any problem like &#8220;iterate this weather model for 1000 cycles&#8221;, or &#8220;search this
+array of words&#8221;, &#8220;find all prime numbers up to 10000&#8221; suggests that a <code class="docutils literal"><span class="pre">for</span></code> loop is better.</p>
+<p>By contrast, if you are required to repeat some computation until some condition is
+met, and you cannot calculate in advance when (or if) this will happen,
+(as was the case in this 3n + 1 problem), you&#8217;ll need a <code class="docutils literal"><span class="pre">while</span></code> loop.</p>
+<p class="last">We call the first case <strong>definite iteration</strong> &#8212; we know ahead of time some definite bounds for
+what is needed.  The latter case is called <strong>indefinite iteration</strong> &#8212; we&#8217;re not sure
+how many iterations we&#8217;ll need &#8212; we cannot even establish an upper bound!</p>
+</div>
+</div>
+<div class="section" id="counting">
+<h2>11.8. Counting<a class="headerlink" href="#counting" title="Permalink to this headline">¶</a></h2>
+<p>We often want to count something: perhaps the number of times we had to iterate a Collatz
+sequence number before we reached one.  The pattern for counting has three parts:</p>
+<ul class="simple">
+<li>define and initialize a counter to 0 before your iteration or before the region of code that needs the counting operation,</li>
+<li>in the loop body or repeated code, increment the counter each time you want to count another item,</li>
+<li>when the loop terminates, your counter contains the count you want.</li>
+</ul>
+<p>Sometimes you&#8217;ll be asked to
+only count items that satisfy some condition:  how many students passed the test, or how many numbers are
+odd.  So you&#8217;ll put the increment statement under a conditional, so that it only gets counted sometimes.</p>
+<p>We illustrate by changing our Collatz program to also count and show how many elements of the sequence
+were strictly greater than 10. The new bits of the program are highlighted.  We&#8217;ve also got rid of
+the verbose <code class="docutils literal"><span class="pre">if</span></code> statement and used the more compact conditional expression in its place at line 11.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">collatz</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>  <span class="c1">// Print the 3n+1 sequence starting from n,</span>
+   <span class="c1">//    terminating when it reaches 1.</span>
+
+<span class="hll">    <span class="kt">int</span> <span class="n">bigNumCount</span> <span class="p">=</span> <span class="m">0</span>
+</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">n</span> <span class="p">!=</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;{0}, &quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+<span class="hll">        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">&gt;</span> <span class="m">10</span><span class="p">)</span> <span class="n">bigNumCount</span><span class="p">++;</span>
+</span>        <span class="n">n</span> <span class="p">=</span> <span class="p">(</span><span class="n">n</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">?</span> <span class="n">n</span> <span class="p">/</span> <span class="m">2</span> <span class="p">:</span> <span class="n">n</span> <span class="p">*</span> <span class="m">3</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;{0}. Yes, it got to 1!&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+<span class="hll">    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;{0} numbers were bigger than 10.&quot;</span><span class="p">,</span> <span class="n">bigNumCount</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="tracing-a-program">
+<span id="index-8"></span><h2>11.9. Tracing a program<a class="headerlink" href="#tracing-a-program" title="Permalink to this headline">¶</a></h2>
+<p>To write effective computer programs, and to build a good conceptual
+model of program execution, a programmer needs to develop the ability
+to <strong>trace</strong> the execution of a computer program. Tracing involves becoming the
+computer and following the flow of execution through a sample program run,
+recording the state of all variables and any output the program generates after
+each instruction is executed.</p>
+<p>To understand this process, let&#8217;s trace the call to <code class="docutils literal"><span class="pre">collatz(3)</span></code> from the
+previous section. At the start of the trace, we have a variable, <code class="docutils literal"><span class="pre">n</span></code>
+(the parameter), with an initial value of 3. Since 3 is not equal to 1, the
+<code class="docutils literal"><span class="pre">while</span></code> loop body is executed. 3 is printed. At line 10, we see that <code class="docutils literal"><span class="pre">n</span></code>
+is not bigger than <code class="docutils literal"><span class="pre">n</span></code>, so nothing happens.  Now the conditional expression at line
+11 is executed: first its condition  <code class="docutils literal"><span class="pre">(3</span> <span class="pre">%</span> <span class="pre">2</span> <span class="pre">==</span> <span class="pre">0)</span></code> is evaluated.
+Since it evaluates to <code class="docutils literal"><span class="pre">false</span></code>, the value of <code class="docutils literal"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">1</span></code> is evaluated and assigned to <code class="docutils literal"><span class="pre">n</span></code>.</p>
+<p>To keep track of all this as you hand trace a program, make a column heading on
+a piece of paper for each variable, and another column for output.   On each line,
+record the values of the variables at the end of each iteration of the loop:
+Our trace so far would look something like this:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">n       bigNumCount        output so far</span>
+<span class="go">--      -----------        -------------</span>
+<span class="go">3                 0        3,</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Since <code class="docutils literal"><span class="pre">10</span> <span class="pre">!=</span> <span class="pre">1</span></code> evaluates to <code class="docutils literal"><span class="pre">true</span></code>, the loop body is again executed,
+and 10 is printed. <code class="docutils literal"><span class="pre">(10</span> <span class="pre">%</span> <span class="pre">2</span> <span class="pre">==</span> <span class="pre">0)</span></code> is true, so the first part of the
+conditional expression is evaluated and <code class="docutils literal"><span class="pre">n</span></code> becomes 5.
+By the end of the trace we have:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">n       bigNumCount       output so far</span>
+<span class="go">--      -----------       -------------</span>
+<span class="go">3                 0       3,</span>
+<span class="go">10                0       3, 10,</span>
+<span class="go">5                 0       3, 10, 5,</span>
+<span class="go">16                1       3, 10, 5, 16,</span>
+<span class="go">8                 1       3, 10, 5, 16, 8,</span>
+<span class="go">4                 1       3, 10, 5, 16, 8, 4,</span>
+<span class="go">2                 1       3, 10, 5, 16, 8, 4, 2,</span>
+<span class="go">1                 1       3, 10, 5, 16, 8, 4, 2, 1. Yes, it got to 1!</span>
+<span class="go">                          1 numbers were bigger than 10.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Tracing can be a bit tedious and error prone (that&#8217;s why we get computers to do
+this stuff in the first place!), but it is an essential skill for a programmer
+to have. From this trace we can learn a lot about the way our code works. We
+can observe that as soon as <code class="docutils literal"><span class="pre">n</span></code> becomes a power of 2, for example, the program
+will require log<sub>2</sub>(n) executions of the loop body to complete. We can
+also see that the final 1 will not be printed as output within the body of the loop,
+which is why we put the special statement at line 13.</p>
+<p>Tracing a program is, of course, related to single-stepping through your code
+and being able to inspect the variables. Using the computer to <strong>single-step</strong> is
+less error prone and more convenient.
+Also, as your programs get more complex, they might execute many millions of
+steps before they get to the code that you&#8217;re really interested in, so manual tracing
+becomes impossible.  Being able to set a <strong>breakpoint</strong> where you need
+one is far more powerful. So we strongly encourage you to invest time in
+learning using to use your programming environment (Visual Studio, in these notes) to full
+effect.</p>
+</div>
+<div class="section" id="counting-digits">
+<span id="id1"></span><h2>11.10. Counting digits<a class="headerlink" href="#counting-digits" title="Permalink to this headline">¶</a></h2>
+<p>The following method counts the number of decimal digits in a positive integer:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">num_digits</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">n</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">count</span><span class="p">++;</span>
+        <span class="n">n</span> <span class="p">/=</span> <span class="m">10</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Calling <code class="docutils literal"><span class="pre">num_digits(710)</span></code> will return the value <code class="docutils literal"><span class="pre">3</span></code>. Trace the execution of this
+method call (perhaps using the single step method in Visual Studio, or on some paper)
+to convince yourself that it works.</p>
+<p>If we wanted to only count digits that are either 0 or 5, adding an <code class="docutils literal"><span class="pre">if</span></code> statement
+before incrementing the counter will do the trick:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">num_zero_and_five_digits</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">count</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">n</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">digit</span> <span class="p">=</span> <span class="n">n</span> <span class="p">%</span> <span class="m">10</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">digit</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">||</span> <span class="p">(</span><span class="n">digit</span> <span class="p">==</span> <span class="m">5</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="n">count</span><span class="p">++;</span>
+        <span class="p">}</span>
+        <span class="n">n</span> <span class="p">/=</span> <span class="m">10</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Notice a clever technique in line 6 here.  By finding the remainder after
+division by 10 we have isolated the last digit of the current number.</p>
+<p>Confirm that <code class="docutils literal"><span class="pre">Tester.TestEq(num_zero_and_five_digits(1055030250),</span> <span class="pre">7);</span></code> passes.
+Notice, however, that <code class="docutils literal"><span class="pre">Tester.TestEq(num_digits(0),</span> <span class="pre">1);</span></code> fails.  Explain why.
+Do you think this is a bug in
+the code, or a bug in the specifications, or our expectations, or the tests?</p>
+</div>
+<div class="section" id="tables">
+<span id="index-9"></span><h2>11.11. Tables<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h2>
+<p>One of the things loops are good for is generating tables.  Before
+computers were readily available, people had to calculate logarithms, sines and
+cosines, etc. by hand.  To make that easier, mathematics books often contained
+long tables to let the reader look up the answer rather than calculate it from scratch.
+Creating the tables was slow and boring, and they tended to have occasional errors.</p>
+<p>When computers appeared on the scene, one of the initial reactions was, <em>&#8220;This is
+great! We can use the computers to generate the tables, so there will be no
+errors.&#8221;</em> That turned out to be true (mostly) but short sighted. Soon thereafter,
+computers and calculators were so pervasive that the tables became obsolete, and we
+found more interesting uses for computers &#8212; YouTube, cellphones, games, etc.</p>
+<p>For some operations, computers still use tables of values to get an
+approximate answer, and then they perform computations to improve the approximation.
+In some cases, there have been errors in the underlying tables, most famously
+in the tables that one generation of the Intel Pentium processor chip used
+to perform floating-point division.</p>
+<p>Although a log or power table is not as useful as it once was, it still makes a good
+example of iteration. The following program outputs a sequence of values in the
+left column and 2 raised to the power of that value in the right column:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">12</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="kt">string</span> <span class="n">txt</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0,4} {1,8}\n&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">Math</span><span class="p">.</span><span class="n">Pow</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="n">i</span><span class="p">));</span>
+        <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">txt</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 3 uses a <code class="docutils literal"><span class="pre">for</span></code> loop to run the body of the loop 12 times, while varying <code class="docutils literal"><span class="pre">i</span></code>
+between 1 and 12 (both inclusive).  Notice that we&#8217;ve now used the abbreviated assignment
+<code class="docutils literal"><span class="pre">i++</span></code> &#8212; this is the typical way you&#8217;re going to see the loop written in other code.
+Line 5 does some magic with string formatting.
+We&#8217;ll be covering more about this in the next chapter, but here is a quick preview:
+The string.Format method in this case has 3 arguments: the first is a template string
+with &#8220;place-holders&#8221; <code class="docutils literal"><span class="pre">{0}</span></code>   and  <code class="docutils literal"><span class="pre">{1}</span></code>.   The value of <code class="docutils literal"><span class="pre">i</span></code> is converted to a string
+and takes the place of the first place-holder.  Then  <code class="docutils literal"><span class="pre">Math.Pow(2,</span> <span class="pre">i)</span></code> computes 3 to the power of i,
+and it too gets converted to a string and takes the place of the second place-holder.  The resulting
+string is assigned to <code class="docutils literal"><span class="pre">txt</span></code>, and we then find some way to display or output the text.  (Of course,
+if you prefer working with the console you could have said <code class="docutils literal"><span class="pre">Console.Write(txt)</span></code> instead.)</p>
+<p>In the example here, each place-holder has an extra bit of information about how wide the
+field should be to hold the number.  This lets us make the columns in table line up nicely.</p>
+<p>We&#8217;ll see output like this:</p>
+<blockquote>
+<div><img alt="_images/powersof2.png" src="_images/powersof2.png" />
+</div></blockquote>
+<div class="admonition-proportional-vs-monospace-fonts admonition">
+<p class="first admonition-title">Proportional vs Monospace fonts</p>
+<p>If you try this, your output may initially look different.  To lay out data in fixed columns, we need
+to make sure that every character that is output takes exactly the same number of pixels, or width. This
+kind of font is called a <strong>monospace</strong> font (or <em>fixed-width</em> font).  Normal fonts, like this text
+you are reading, are called <strong>proportional</strong> fonts &#8212; thin characters like &#8216;i&#8217; and &#8216;l&#8217; take less width
+that wide characters like &#8216;w&#8217; and &#8216;b&#8217;.</p>
+<p>So in the example image above, we&#8217;ve set a property for <code class="docutils literal"><span class="pre">txtResult</span></code> to use the font <em>Consolas</em>.  Other
+popular monospace fonts are the <em>Courier</em> family.  See which you prefer.  The Console
+output window in C# will always automatically use a monospace font, and program source code is
+usually shown in a monospace font.</p>
+<blockquote class="last">
+<div><img alt="_images/proportionalVsMonoFont.png" src="_images/proportionalVsMonoFont.png" />
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="two-dimensional-tables">
+<span id="index-10"></span><h2>11.12. Two-dimensional tables<a class="headerlink" href="#two-dimensional-tables" title="Permalink to this headline">¶</a></h2>
+<p>A two-dimensional table is a table where you can look up the value at the intersection
+of a row and a column.  (A row in a table is laid out horizontally, on a single line.
+The columns go vertically down the page.)   A multiplication table is a good example. Let&#8217;s say you
+want to create a multiplication table for the values from 1 to 6.  (So it has 6 rows, and 6 columns.)  Like this:</p>
+<blockquote>
+<div><img alt="_images/table.png" src="_images/table.png" />
+</div></blockquote>
+<p>A good way to start is to write a loop that generates one of the rows, say all the multiples of 2, all on
+one line:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span><span class="p">=</span><span class="m">1</span><span class="p">;</span> <span class="n">col</span> <span class="p">&lt;=</span> <span class="m">6</span><span class="p">;</span> <span class="n">col</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0,5}&quot;</span><span class="p">,</span> <span class="m">2</span> <span class="p">*</span> <span class="n">col</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>As the loop executes, the value of <code class="docutils literal"><span class="pre">col</span></code> changes from 1 to
+6. When <code class="docutils literal"><span class="pre">col</span></code> gets larger than 6, the loop terminates, and we end off
+the line.  Each value of <code class="docutils literal"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">col</span></code> uses a field width of 5 spaces.</p>
+<p>Line 5 finishes the current line, and starts a new line.  Once again,
+if you prefer working with the Console, you could have said <code class="docutils literal"><span class="pre">Console.Write(...)</span></code> on line 3,
+and <code class="docutils literal"><span class="pre">Console.WriteLine()</span></code> on line 5.</p>
+<p>The output of the program is now the second row of the table we want to create:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">2    4    6    8   10   12</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>So far, so good. The next step is to <strong>encapsulate</strong> and <strong>generalize</strong>.</p>
+</div>
+<div class="section" id="encapsulation-and-generalization">
+<span id="index-11"></span><h2>11.13. Encapsulation and generalization<a class="headerlink" href="#encapsulation-and-generalization" title="Permalink to this headline">¶</a></h2>
+<p>Encapsulation is the process of wrapping a piece of code in a method,
+allowing you to take advantage of all the things methods are good for. You
+have already seen some examples of encapsulation, including <code class="docutils literal"><span class="pre">isDivisible</span></code> in a previous chapter.</p>
+<p>Generalization means taking something specific, such as generating the multiples
+of 2, and making it more general, such as generating the multiples of any integer.</p>
+<p>This method encapsulates the previous loop and generalizes it to create
+multiples of <code class="docutils literal"><span class="pre">n</span></code>:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">generateOneRow</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span><span class="p">=</span><span class="m">1</span><span class="p">;</span> <span class="n">col</span> <span class="p">&lt;=</span> <span class="m">6</span><span class="p">;</span> <span class="n">col</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0,5}&quot;</span><span class="p">,</span> <span class="n">n</span> <span class="p">*</span> <span class="n">col</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>To encapsulate, all we had to do was add the signature, which defines the
+name of the method with it&#8217;s parameter. To generalize, all we had to do
+was replace the value 2 with the parameter <code class="docutils literal"><span class="pre">n</span></code>.</p>
+<p>If we call this method with the argument 2, we get the same output as before.
+With the argument 3, the output is:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">3    6    9   12   15   18</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>With the argument 4, the output is:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">4    8   12   16   20   24</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>By now you can probably guess how to create our multiplication table &#8212; by
+calling <code class="docutils literal"><span class="pre">generateOneRow</span></code> repeatedly with different arguments. In fact, we
+can use another loop:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">generateTable</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">row</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">row</span> <span class="p">&lt;=</span> <span class="m">6</span><span class="p">;</span> <span class="n">row</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">generateOneRow</span><span class="p">(</span><span class="n">row</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>By calling this method we get the table shown at the beginning of this section.
+We called our loop variables <code class="docutils literal"><span class="pre">row</span></code> and <code class="docutils literal"><span class="pre">col</span></code>, but of course any legal identifier
+would have worked.  But when you work with tables you&#8217;ll find programmers often choose
+these names (or if they&#8217;re a bit lazier, they might use <code class="docutils literal"><span class="pre">r</span></code> and <code class="docutils literal"><span class="pre">c</span></code>).</p>
+<div class="admonition-exercise-can-we-generalize-further admonition">
+<p class="first admonition-title">Exercise: can we generalize further?</p>
+<p>The method <code class="docutils literal"><span class="pre">generateTable</span></code> can only generate a 6x6 table.  What if we wanted a 10x10 table, or 12x12, or 50x50?</p>
+<p class="last">Add a new parameter to <code class="docutils literal"><span class="pre">generateTable</span></code> that controls how many rows to generate.  When that works you&#8217;ll find each row
+still only has 6 columns.  So generalize <code class="docutils literal"><span class="pre">generateOneRow</span></code> by adding another parameter to control how many columns to
+generate.</p>
+</div>
+</div>
+<div class="section" id="local-variables-revisited">
+<span id="index-12"></span><h2>11.14. Local variables, revisited<a class="headerlink" href="#local-variables-revisited" title="Permalink to this headline">¶</a></h2>
+<p>Do the following experiment:  change the variable called <code class="docutils literal"><span class="pre">row</span></code> and call it <code class="docutils literal"><span class="pre">i</span></code> instead.  (Visual Studio understands
+when you rename a variable, and will offer to rename all other places where it is used.  So it can help you make small
+cosmetic changes like this very easily.)  Make sure your program still works as expected.</p>
+<p>Now do the same for the <code class="docutils literal"><span class="pre">col</span></code> variable:  change it to <code class="docutils literal"><span class="pre">i</span></code>.  Does it still work?</p>
+<p>You might be wondering how we can use the same variable, <code class="docutils literal"><span class="pre">i</span></code>, in both
+<code class="docutils literal"><span class="pre">generateTable</span></code> and <code class="docutils literal"><span class="pre">generateOneRow</span></code>. Doesn&#8217;t it cause problems when
+one of the methods changes the value of the variable <code class="docutils literal"><span class="pre">i</span></code>?</p>
+<p>The answer is no, because the <code class="docutils literal"><span class="pre">i</span></code> in <code class="docutils literal"><span class="pre">generateTable</span></code> and the <code class="docutils literal"><span class="pre">i</span></code> in
+<code class="docutils literal"><span class="pre">generateTable</span></code> are <em>not</em> the same variable.</p>
+<p>In C#, a number of statements grouped together (usually by curly braces) is called a <strong>block</strong>, or
+equivalently, a <strong>compound statement</strong>.   Each block in a program can have its own local
+variable definitions, and these don&#8217;t clash with variables defined in other blocks.</p>
+<p>So variables created inside a block (or a method) are local to the block (or method); you can&#8217;t access a
+local variable from outside its block where it is defined. That means you are free to have
+multiple variables with the same name as long as they are not in the same block.   It also means that
+updating the variable <code class="docutils literal"><span class="pre">i</span></code> in <code class="docutils literal"><span class="pre">generateOneRow</span></code> has absolutely no effect on the variable <code class="docutils literal"><span class="pre">i</span></code> in
+<code class="docutils literal"><span class="pre">generateTable</span></code> &#8212; they are different variables, even though they have the same name!  (You probably
+also know quite a few friends called John.  Of course they&#8217;re different!)</p>
+<p>In C# the <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">foreach</span></code> statements also let you define your loop control variable,
+and that is a local variable that only exists for the loop.
+So you&#8217;ll often find C# code that does something like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">6</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">p</span> <span class="p">=</span> <span class="m">123</span> <span class="p">*</span> <span class="n">i</span><span class="p">;</span>
+    <span class="c1">// ... do stuff</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">15</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>   <span class="c1">// Use i again, it is a different variable.</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">p</span> <span class="p">=</span> <span class="m">3.1415</span> <span class="p">*</span> <span class="n">i</span><span class="p">;</span>     <span class="c1">// Use p again, it is in a different block.</span>
+    <span class="c1">// ... do more stuff</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The variables <code class="docutils literal"><span class="pre">i</span></code> in  lines 1 and 7 are different variables.  Similarly, the variable <code class="docutils literal"><span class="pre">p</span></code> at
+line 3 is not the same variable as the <code class="docutils literal"><span class="pre">p</span></code> at line 9.</p>
+<p>It is common and perfectly legal to have different local variables with the
+same name. In particular, names like <code class="docutils literal"><span class="pre">i</span></code> and <code class="docutils literal"><span class="pre">j</span></code> are used frequently as
+loop variables. If you avoid using them in one method just because you used
+them somewhere else, you will probably make the program harder to read.</p>
+</div>
+<div class="section" id="the-break-statement">
+<span id="index-13"></span><h2>11.15. The <code class="docutils literal"><span class="pre">break</span></code> statement<a class="headerlink" href="#the-break-statement" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>break</strong> statement is used to immediately leave the body of its loop.  The next
+statement to be executed is the first one after the body:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span><span class="p">[]</span> <span class="n">nums</span> <span class="p">=</span> <span class="p">{</span><span class="m">12</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">17</span><span class="p">,</span> <span class="m">24</span><span class="p">,</span> <span class="m">29</span><span class="p">,</span> <span class="m">30</span><span class="p">};</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="k">in</span> <span class="n">nums</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>   <span class="c1">// immediately exit the loop.</span>
+    <span class="p">}</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0} &quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="s">&quot;done\n&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This will put the following text into <code class="docutils literal"><span class="pre">txtResult</span></code>:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">12 16 done</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Notice that on the third iteration of the loop, <code class="docutils literal"><span class="pre">n</span></code> is assigned the value 17.  So line 6 executes,
+and immediately the flow of control jumps to line 10: the 17 is not shown in the output.  How would this
+be different if we moved the test at line 4 below the statement on line 8?</p>
+</div>
+<div class="section" id="the-continue-statement">
+<span id="index-14"></span><h2>11.16. The <code class="docutils literal"><span class="pre">continue</span></code> statement<a class="headerlink" href="#the-continue-statement" title="Permalink to this headline">¶</a></h2>
+<p>This is a control flow statement that causes the program to immediately skip the
+processing of the rest of the body of the loop, <em>for the current iteration</em>.  But
+the loop still carries on running for its remaining iterations:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span><span class="p">[]</span> <span class="n">nums</span> <span class="p">=</span> <span class="p">{</span><span class="m">12</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">17</span><span class="p">,</span> <span class="m">24</span><span class="p">,</span> <span class="m">29</span><span class="p">,</span> <span class="m">30</span><span class="p">};</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span> <span class="k">in</span> <span class="n">nums</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">continue</span><span class="p">;</span>   <span class="c1">// skip the rest of the loop for odd numbers.</span>
+    <span class="p">}</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0} &quot;</span><span class="p">,</span><span class="n">n</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="s">&quot;done\n&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This generates the output</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">12 16 24 30 done</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition-the-pre-test-loop-standard-loop-behaviour admonition">
+<p class="first admonition-title">The pre-test loop &#8212; standard loop behaviour</p>
+<p><code class="docutils literal"><span class="pre">for</span></code>, <code class="docutils literal"><span class="pre">foreach</span></code> and <code class="docutils literal"><span class="pre">while</span></code> loops do their tests at the start, before executing
+any part of the body.   They&#8217;re called <strong>pre-test</strong> loops, because the test
+happens before (<em>pre</em>) the body.
+<code class="docutils literal"><span class="pre">break</span></code>,  <code class="docutils literal"><span class="pre">return</span></code> and <code class="docutils literal"><span class="pre">continue</span></code> are our tools for adapting this standard behaviour.</p>
+<img alt="_images/pre_test_loop.png" class="last" src="_images/pre_test_loop.png" />
+</div>
+</div>
+<div class="section" id="more-generalization">
+<h2>11.17. More generalization<a class="headerlink" href="#more-generalization" title="Permalink to this headline">¶</a></h2>
+<p>As another example of generalization, imagine you wanted a program that would
+print a multiplication table of any size, not just the six-by-six table. You
+could add a parameter to <code class="docutils literal"><span class="pre">generateMultiplicationTable</span></code>:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">generateMultiplicationTable</span><span class="p">(</span><span class="kt">int</span> <span class="n">sz</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">sz</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">generateMultiples</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>We replaced the value 6 with the expression <code class="docutils literal"><span class="pre">sz</span></code>. If we call
+<code class="docutils literal"><span class="pre">generateMultiplicationTable</span></code> with the argument 3, it displays:</p>
+<blockquote>
+<div><div class="highlight-pycon"><div class="highlight"><pre><span class="go">1    2    3    4    5    6</span>
+<span class="go">2    4    6    8   10   12</span>
+<span class="go">3    6    9   12   15   18</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This is fine, except that we probably want the table to be square &#8212; with the
+same number of rows and columns. To do that, we add another parameter to
+<code class="docutils literal"><span class="pre">generateOneRow</span></code> to specify how many columns the table should have.</p>
+<p>We also call this parameter <code class="docutils literal"><span class="pre">sz</span></code>, demonstrating that
+different methods can have parameters with the same name (just like local
+variables). Here&#8217;s the modified section of code.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">generateMultiples</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sz</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">sz</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0,5}&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">*</span><span class="n">n</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">generateMultiplicationTable</span><span class="p">(</span><span class="kt">int</span> <span class="n">sz</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">sz</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">generateMultiples</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sz</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tsz</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">textBox1</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+    <span class="n">generateMultiplicationTable</span><span class="p">(</span><span class="n">tsz</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<img alt="_images/timesTable17.png" src="_images/timesTable17.png" />
+<p>We notice that, because <code class="docutils literal"><span class="pre">a*b</span> <span class="pre">==</span> <span class="pre">b*a</span></code>, the non-diagonal entries in the table appear twice.
+(Our mathematicians would call this a symmetric matrix.)
+We can highlight this important insight by only generating
+half the table. To do that, we&#8217;d only have to change one line of code &#8212; line 14:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">generateMultiples</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>and now, for a 7 times table, we&#8217;ll get:</p>
+<blockquote>
+<div><img alt="_images/timesTable7.png" src="_images/timesTable7.png" />
+</div></blockquote>
+</div>
+<div class="section" id="nested-loops">
+<span id="index-15"></span><h2>11.18. Nested loops<a class="headerlink" href="#nested-loops" title="Permalink to this headline">¶</a></h2>
+<p>C# has a very general approach to composibility: if it is legal to write a
+statement at a given point, then it is legal to write any kind of statement,
+or even a whole block of statements.  What this means is that it is legal to
+put an <code class="docutils literal"><span class="pre">if</span></code> statement inside a <code class="docutils literal"><span class="pre">for</span></code> loop, or a <code class="docutils literal"><span class="pre">for</span></code> loop inside
+another <code class="docutils literal"><span class="pre">for</span></code> loop.  When we put a loop inside another loop we say the loops
+are <em>nested</em>.   Nested loops are often required to process two-dimensional
+data &#8212; like our table that we&#8217;ve just created, or some image processing that
+needs to look at all the pixels in an image.</p>
+<p>We generated our multiplication table using two separate methods: that mental
+decomposition helped keep things simple at each step.  But separate methods also
+introduce some overhead - we had to pass arguments between them, etc.</p>
+<p>Here we generate the same triangular multiplication table again, but this
+time we only use a single method with a nested loop.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">generateMultiplicationTable</span><span class="p">(</span><span class="kt">int</span> <span class="n">sz</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">r</span> <span class="p">&lt;=</span> <span class="n">sz</span><span class="p">;</span> <span class="n">r</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">c</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">c</span> <span class="p">&lt;=</span> <span class="n">r</span><span class="p">;</span> <span class="n">c</span><span class="p">++)</span>
+        <span class="p">{</span>
+            <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0,5}&quot;</span><span class="p">,</span> <span class="n">r</span> <span class="p">*</span> <span class="n">c</span><span class="p">));</span>
+        <span class="p">}</span>
+        <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>How many times is body of the inner loop (at line 7) executed for a given <code class="docutils literal"><span class="pre">sz</span></code>?
+(Or, asked another way, how many numbers were output?)  It turns out to be a very
+popular formula for Computer Scientists:  1 on the first line, + 2 + 3 + 4 ... sz.
+So exactly the number we computed earlier using our <code class="docutils literal"><span class="pre">sumTo</span></code> method.  And if you
+followed the link there to Wikipedia, you&#8217;ll know that the sum of this sequence can be
+instantly calculated as <code class="docutils literal"><span class="pre">sz*(sz+1)/2</span></code>.</p>
+</div>
+<div class="section" id="methods">
+<span id="index-16"></span><h2>11.19. Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<p>A few times now, we have mentioned all the things methods are good for. By
+now, you might be wondering what exactly those things are.  Here are some of
+them:</p>
+<ol class="arabic simple">
+<li>Capturing your mental chunking. Breaking your complex tasks into sub-tasks, and
+giving the sub-tasks a meaningful name is a powerful mental technique.  Looking
+at how we generated the multiplication table, our initial mental chunk was
+to generate one row of the table.  This proved a useful way to break up the problem.</li>
+<li>Dividing a long program into methods allows you to separate parts of the
+program, debug them in isolation, and then compose them into a whole.</li>
+<li>Methods facilitate the use of iteration.</li>
+<li>Well-designed methods are often useful for many programs. Once you write
+and debug one, you can reuse it.</li>
+</ol>
+</div>
+<div class="section" id="newton-s-algorithm-for-finding-square-roots">
+<span id="index-17"></span><h2>11.20. Newton&#8217;s algorithm for finding square roots<a class="headerlink" href="#newton-s-algorithm-for-finding-square-roots" title="Permalink to this headline">¶</a></h2>
+<p>Loops are often used in programs that compute numerical results by starting
+with an approximate answer and iteratively improving it.</p>
+<p>For example, before we had calculators or computers, people needed to
+calculate square roots manually.  Sir Isaac Newton, (according to Wikipedia,
+considered by many to be the greatest and most influential scientist who ever lived)
+used a particularly good algorithm (there is some evidence that this algorithm was known many years before).
+Suppose that you want to know the square root of <code class="docutils literal"><span class="pre">n</span></code>. If you start
+with almost any approximation, you can compute a better approximation (closer
+to the actual answer) with the following formula:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">better</span> <span class="p">=</span> <span class="p">(</span><span class="n">approx</span> <span class="p">+</span> <span class="n">n</span><span class="p">/</span><span class="n">approx</span><span class="p">)/</span><span class="m">2</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Repeat this calculation a few times using your calculator.  Can you
+see why each iteration brings your estimate a little closer?  One of the amazing
+properties of this particular algorithm is how quickly it converges to an accurate
+answer &#8212; a great advantage for doing it manually.</p>
+<p>By using a loop and repeating this formula until the better approximation gets close
+enough to the previous one, we can write a method for computing the square root.
+(In fact, this is how your calculator finds square roots &#8212; it may have a slightly
+different formula and method, but it is also based on repeatedly improving its
+guesses.)</p>
+<p>This is a good example of an <cite>indefinite</cite> iteration problem: we cannot predict in advance
+how many times we&#8217;ll want to improve our guess &#8212; we just want to keep getting closer
+and closer.  Our stopping condition for the loop will be when our old guess and our
+improved guess are &#8220;close enough&#8221; to each other.</p>
+<p>Ideally, we&#8217;d like the old and new guess to be exactly equal to each other when we stop.
+But exact equality is a tricky notion in computer arithmetic when real numbers are involved.
+Because real numbers are not represented absolutely accurately (after all, a number like pi or the
+square root of two has an infinite number of decimal places because it is irrational), we
+need to formulate the stopping test for the loop by asking &#8220;is <cite>a</cite> close enough to <cite>b</cite>&#8221;?
+This test can be coded like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">a</span><span class="p">-</span><span class="n">b</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0.001</span><span class="p">)</span>  <span class="c1">// Make this smaller for better accuracy</span>
+<span class="p">{</span>
+    <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Notice that we take the absolute value of the difference between <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code>!  Make sure you
+understand why this is necessary.</p>
+<p>Here is the code now for Newton&#8217;s square root finder:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">sqrt</span><span class="p">(</span><span class="kt">double</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">approx</span> <span class="p">=</span> <span class="n">n</span><span class="p">/</span><span class="m">2.0</span><span class="p">;</span>     <span class="c1">// Start with some or other guess at the answer</span>
+    <span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">better</span> <span class="p">=</span> <span class="p">(</span><span class="n">approx</span> <span class="p">+</span> <span class="n">n</span> <span class="p">/</span> <span class="n">approx</span><span class="p">)</span> <span class="p">/</span> <span class="m">2.0</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">approx</span> <span class="p">-</span> <span class="n">better</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0.001</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">better</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">approx</span> <span class="p">=</span> <span class="n">better</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">x</span> <span class="p">=</span> <span class="kt">double</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">textBox1</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+    <span class="kt">double</span> <span class="n">y</span> <span class="p">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="kt">string</span> <span class="n">output</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;sqrt({0}) gives {1}\n&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+    <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">output</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The output is:</p>
+<blockquote>
+<div><img alt="_images/newton_sloppy.png" src="_images/newton_sloppy.png" />
+</div></blockquote>
+<p>There are a number of interesting things about this code.</p>
+<ul class="simple">
+<li>The <code class="docutils literal"><span class="pre">while</span></code> loop at line 4 has a strange stopping condition &#8212; always true!  This means it never stops,
+unless we use a <code class="docutils literal"><span class="pre">break</span></code> or a <code class="docutils literal"><span class="pre">return</span></code> to leave the loop.  This is what we&#8217;ve done at line 9.
+Returning from the method, even if we&#8217;re in the middle of some iteration, happens immediately.  The loop does
+no more iterations.</li>
+<li>The <code class="docutils literal"><span class="pre">while</span> <span class="pre">(true)</span> <span class="pre">{</span> <span class="pre">...</span> <span class="pre">}</span></code> form of the loop is widely used.  This is a language <em>idiom</em> &#8212; a convention that
+most programmers will recognize and understand immediately.</li>
+<li>For handling the GUI, we used a text box to allow the user to enter a number.  The code at line 17 shows how
+we extract the text from the text box, and convert it into a double number before calling our new method.</li>
+</ul>
+<p>See if you can improve the approximations by changing the stopping condition.  Also,
+step through the algorithm (perhaps by hand, using your calculator) to see how many
+iterations are needed before it achieves this level of accuracy for <code class="docutils literal"><span class="pre">sqrt(25)</span></code>.</p>
+<p>Here we&#8217;ve made some changes to the loop termination condition: we only stop when the two values are less than 0.00000001 from each other.
+These results are more accurate now:</p>
+<blockquote>
+<div><img alt="_images/newton_better.png" src="_images/newton_better.png" />
+</div></blockquote>
+</div>
+<div class="section" id="algorithms">
+<span id="index-18"></span><h2>11.21. Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this headline">¶</a></h2>
+<p>Newton&#8217;s way of getting the answer is an example of an <strong>algorithm</strong>: it is a mechanical process
+for solving a category of problems (in this case, computing square roots).</p>
+<p>Some kinds of knowledge are not algorithmic.  For example, learning dates
+from history or your multiplication tables involves memorization of specific
+solutions.</p>
+<p>But the techniques you learned for addition with carrying, subtraction
+with borrowing, and long division are all algorithms. Or if you are an avid Sudoku
+puzzle solver, you might have some specific set of steps that you always follow.</p>
+<p>One of the characteristics of algorithms is that they do not require any intelligence to
+carry out. They are mechanical processes in which each step follows from the
+last according to a simple set of rules.  And they&#8217;re designed to solve a
+general class or category of problems, not just a single problem.</p>
+<p>Understanding that hard problems can be solved by step-by-step
+algorithmic processes (and having technology to execute these algorithms for us)
+is one of the major breakthroughs that has had enormous benefits.  So while
+the execution of the algorithm
+may be boring and may require no intelligence, algorithmic or computational
+thinking &#8212; i.e. using algorithms and automation as the basis for approaching problems &#8212;
+is rapidly transforming our society.  Some claim that this shift towards algorithmic thinking
+and processes is going to have even more impact on our society than the
+invention of the printing press.
+And the process of designing algorithms is interesting,
+intellectually challenging, and a central part of what we call programming.</p>
+<p>Some of the things that people do naturally, without difficulty or conscious
+thought, are the hardest to express algorithmically.  Understanding natural
+language is a good example. We all do it, but so far no one has been able to
+explain <em>how</em> we do it, at least not in the form of a step-by-step mechanical
+algorithm.</p>
+</div>
+<div class="section" id="glossary">
+<h2>11.22. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-algorithm">algorithm</dt>
+<dd>A step-by-step process for solving a category of problems.</dd>
+<dt id="term-block-of-statements">block of statements</dt>
+<dd>A block is a group of statements, usually enclosed in braces.</dd>
+<dt id="term-body">body</dt>
+<dd>The statements inside a loop.   Usually a loop body is a block.</dd>
+<dt id="term-breakpoint">breakpoint</dt>
+<dd>A place in your program code where program execution will pause (or break),
+allowing you to inspect the state of the program&#8217;s variables, or single-step
+through individual statements, executing them one at a time.</dd>
+<dt id="term-bump">bump</dt>
+<dd>Programmer slang that means increment.</dd>
+<dt id="term-compound-statement">compound statement</dt>
+<dd>see block of statements.</dd>
+<dt id="term-continue-statement">continue statement</dt>
+<dd>A statement that causes the remainder of the current iteration of a loop to be skipped.
+The flow of execution goes back to the top of the loop, evaluates the condition,
+and if this is true the next iteration of the loop will begin.</dd>
+<dt id="term-counter">counter</dt>
+<dd>A variable used to count something, usually initialized to zero and
+incremented in the body of a loop.</dd>
+<dt id="term-decrement">decrement</dt>
+<dd>Decrease by 1.</dd>
+<dt id="term-definite-iteration">definite iteration</dt>
+<dd>A loop where we have an upper bound on the number of times the
+body will be executed.  Definite iteration is usually best coded
+using a <code class="docutils literal"><span class="pre">for</span></code> loop.</dd>
+<dt id="term-encapsulate">encapsulate</dt>
+<dd>To divide a large complex program into components (like methods) and
+isolate the components from each other (by using local variables, for
+example).</dd>
+<dt id="term-generalize">generalize</dt>
+<dd>To replace something unnecessarily specific (like a constant value)
+with something appropriately general (like a variable or parameter).
+Generalization makes code more versatile, more likely to be reused, and
+sometimes even easier to write.</dd>
+<dt id="term-increment">increment</dt>
+<dd>Used both as a noun and as a verb. The verb means to add to something.  The noun
+is used like this: <em>&#8220;Your study fees increment this year will be 8%&#8221;</em>.</dd>
+<dt id="term-indefinite-iteration">indefinite iteration</dt>
+<dd>A loop where we just need to keep going until some condition is met.
+A <code class="docutils literal"><span class="pre">while</span></code> statement is good to use in this situation.</dd>
+<dt id="term-infinite-loop">infinite loop</dt>
+<dd>A loop in which the terminating condition is never satisfied.</dd>
+<dt id="term-initializer">initializer</dt>
+<dd>An expression that gives an initial value to a variable where the variable
+is first defined.</dd>
+<dt id="term-initialization-of-a-variable">initialization (of a variable)</dt>
+<dd>To initialize a variable is to give it an initial value.
+In C#, if you don&#8217;t do this yourself, your variables will be
+given default initial values.</dd>
+<dt id="term-iteration">iteration</dt>
+<dd>Repeated execution of a set of programming statements.</dd>
+<dt id="term-loop">loop</dt>
+<dd>The construct that allows allows us to repeatedly execute a
+statement or a group of statements (a block or a compound statement)
+until a terminating condition is satisfied.</dd>
+<dt id="term-loop-variable">loop variable</dt>
+<dd>A variable used as part of the terminating condition of a loop.</dd>
+<dt id="term-nested-loop">nested loop</dt>
+<dd>A loop inside the body of another loop.</dd>
+<dt id="term-pre-test-loop">pre-test loop</dt>
+<dd>A loop that tests before deciding whether the execute its body.  <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">while</span></code>
+are both pre-test loops.</dd>
+<dt id="term-single-step">single-step</dt>
+<dd>A mode of execution where you are able to execute your
+program one step at a time, and inspect the consequences of that step.
+Useful for debugging and building your internal mental model of what is
+going on.</dd>
+<dt id="term-trace">trace</dt>
+<dd>To follow the flow of execution of a program by hand, recording the
+change of state of the variables and any output produced.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>11.23. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p>This chapter showed us how to sum an array of items,
+and how to count items.  The counting example also had an <code class="docutils literal"><span class="pre">if</span></code> statement
+that let us only count some selected items.  In the previous
+chapter we also showed a method <code class="docutils literal"><span class="pre">find_first_2_letter_word</span></code> that allowed
+us an &#8220;early exit&#8221; from inside a loop by using <code class="docutils literal"><span class="pre">return</span></code> when some condition occurred.
+We now also have <code class="docutils literal"><span class="pre">break</span></code> to exit a loop (but not the enclosing method, and
+<code class="docutils literal"><span class="pre">continue</span></code> to abandon the current iteration of the loop without ending the loop.</p>
+<p>Composition of array traversal, summing, counting, testing conditions
+and early exit is a rich collection of building blocks that can be combined
+in powerful ways to create many methods that are all slightly different.</p>
+<p>The first six questions are typical methods you should be able to write using only
+these building blocks.</p>
+<ol class="arabic">
+<li><p class="first">Write a method to count how many odd numbers are in an array.</p>
+</li>
+<li><p class="first">Sum up all the even numbers in an array.</p>
+</li>
+<li><p class="first">Sum up all the negative numbers in an array.</p>
+</li>
+<li><p class="first">Count how many words in an array have length 5.  (Use help to find out how to determine the length of a string.)</p>
+</li>
+<li><p class="first">Sum all the elements in an array up to but not including the first even number.
+(Write your unit tests.  What about the case when there is no even number?)</p>
+</li>
+<li><p class="first">Count how many words occur in an array up to and including the first occurrence of the word &#8220;sam&#8221;.
+(Write your unit tests for this case too.  Do something sensible if &#8220;sam&#8221; does not occur.)</p>
+</li>
+<li><p class="first">Add a print statement to Newton&#8217;s <code class="docutils literal"><span class="pre">sqrt</span></code> method to
+show <code class="docutils literal"><span class="pre">better</span></code> each time it is calculated. Call your modified
+method with 25 as an argument and record the results.</p>
+</li>
+<li><p class="first">Trace the execution of the last version of <code class="docutils literal"><span class="pre">generateTable</span></code> and make yourself
+more comfortable with single stepping, and debugging.</p>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">print_triangular_numbers(int</span> <span class="pre">n)</span></code> that prints out the first
+n+1 triangular numbers. A call to <code class="docutils literal"><span class="pre">print_triangular_numbers(5)</span></code> would
+produce the following output:</p>
+<div class="highlight-python"><div class="highlight"><pre>0        0
+1        1
+2        3
+3        6
+4       10
+5       15
+</pre></div>
+</div>
+<p>(<em>Hint</em>: use a web search to find out what a triangular number is.)</p>
+</li>
+<li><ol class="first loweralpha simple">
+<li>What happens if we call our Collatz sequence generator with a negative integer?</li>
+<li>What happens if we call it with zero?</li>
+<li>Change the method so that it outputs an error message in either of these cases, and
+doesn&#8217;t get into an infinite loop.</li>
+</ol>
+</li>
+<li><p class="first">Write a method, <code class="docutils literal"><span class="pre">isPrime</span></code>, which takes a single integer argument
+and returns <code class="docutils literal"><span class="pre">true</span></code> when the argument is a <em>prime number</em> and <code class="docutils literal"><span class="pre">false</span></code>
+otherwise. Add tests for cases like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>// 1 is not regarded as prime. It does not have two distinct factors. Ask Google.
+Tester.TestEq(isPrime(1), false);
+Tester.TestEq(isPrime(2), true);
+Tester.TestEq(isPrime(11), true);
+Tester.TestEq(isPrime(25), false);
+Tester.TestEq(isPrime(35), false);
+Tester.TestEq(isPrime(101), true);
+Tester.TestEq(isPrime(19951123), true);
+Tester.TestEq(isPrime(19961107), true);
+Tester.TestEq(isPrime(19951121), false);
+Tester.TestEq(isPrime(19961007), false);
+</pre></div>
+</div>
+<p>The last cases could represent your birth date.  Were you born on a prime day?
+In a class of 100 students, how many do you think would have prime birth dates?</p>
+</li>
+<li><p class="first">A drunk pirate makes a turn, and then takes some steps forward, and repeats this.
+A social science student records <cite>pairs</cite> of data: the angle of each turn, and the number
+of steps taken after the turn.  Her experimental data is turned into C# as</p>
+<div class="highlight-python"><div class="highlight"><pre>int[] turns = {160, -43, 270, -43};
+int[] steps = {20, 10, 8, 12 };
+</pre></div>
+</div>
+<p>Use a turtle to draw the path taken by our drunk friend.</p>
+</li>
+<li><p class="first">Many interesting shapes can be drawn by the turtle by giving a pair of arrays of like we did
+above, where the first array holds the angles to turn, and the second array holds the
+distances to move forward.  Set up a void method that takes a turtle and two arrays,
+and make the turtle draw the shape defined by the arrays.  Then call it so that the turtle
+draws a house with a cross through the centre, as show here.
+This should be done without going over any of the lines / edges more than once,
+and without lifting your pen.</p>
+<img alt="_images/tess_house.png" src="_images/tess_house.png" />
+</li>
+<li><p class="first">Not all shapes like the one above can be drawn without lifting your pen, or going over
+an edge more than once.  Which of these can be drawn?</p>
+<img alt="_images/tess_more_houses.png" src="_images/tess_more_houses.png" />
+<p>Now read Wikipedia&#8217;s article(<a class="reference external" href="http://en.wikipedia.org/wiki/Eulerian_path">http://en.wikipedia.org/wiki/Eulerian_path</a>) about Eulerian paths.
+Learn how to tell immediately by inspection whether it is possible to find a solution or not.
+If the path is possible, you&#8217;ll also know where to put your pen to start drawing, and where
+you should end up!</p>
+</li>
+<li><p class="first">What will <code class="docutils literal"><span class="pre">num_digits(0)</span></code> return?  Modify it to return <code class="docutils literal"><span class="pre">1</span></code> for this
+case.  Does a call to <code class="docutils literal"><span class="pre">num_digits(-12345)</span></code> work?   Trace through the
+execution and see what happens if you start with a negative number.
+Modify <code class="docutils literal"><span class="pre">num_digits</span></code> so that it works correctly with any integer value.
+Add these tests:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">num_digits</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">num_digits</span><span class="p">(</span><span class="o">-</span><span class="mi">12345</span><span class="p">),</span> <span class="mi">5</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Without making use of strings, write a method <code class="docutils literal"><span class="pre">num_even_digits(n)</span></code> that counts the number
+of even digits in <code class="docutils literal"><span class="pre">n</span></code>.  Here are some tests that should pass:</p>
+<div class="highlight-python"><div class="highlight"><pre>Tester.TestEq(num_even_digits(123456), 3);
+Tester.TestEq(num_even_digits(2468), 4);
+Tester.TestEq(num_even_digits(1357), 0);
+// Normally we never put leading zeros on numbers, but our number
+// system has a special case that probably needs special case handling in the code.
+Tester.TestEq(num_even_digits(0), 1);
+Tester.TestEq(num_even_digits(0002468), 4)
+Tester.TestEq(num_even_digits(-12345), 2);
+Tester.TestEq(num_even_digits(-2468), 4);
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">sum_of_squares(xs)</span></code> that computes the sum
+of the squares of the numbers in the array <code class="docutils literal"><span class="pre">xs</span></code>.  For example,
+<code class="docutils literal"><span class="pre">sum_of_squares(new</span> <span class="pre">double[]</span> <span class="pre">{2,</span> <span class="pre">3,</span> <span class="pre">4})</span></code> should return 4+9+16 which is 29:</p>
+<div class="highlight-python"><div class="highlight"><pre>Tester.TestEq(sum_of_squares(new double[] {2, 3, 4}), 29);
+Tester.TestEq(sum_of_squares(new double[] {}), 0);
+Tester.TestEq(sum_of_squares(new double[] {2, -3, 4}), 29);
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="strings.html" title="12. Strings"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="methods_value_returning.html" title="10. Value-returning methods"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

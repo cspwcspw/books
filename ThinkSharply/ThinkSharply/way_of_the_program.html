@@ -1,0 +1,692 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Basic C# programming theory &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="basic-c-programming-theory">
+<h1>Basic C# programming theory<a class="headerlink" href="#basic-c-programming-theory" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="types">
+<h2>Types<a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h2>
+<p>Before you can write your first program, there is some theory that you must know.  The first thing to know is that according to C#, everything has a <strong>type</strong>.  For example, <em>2</em> is an <em>integer</em>.  We can say that the <strong>type</strong> of <em>2</em> is <em>integer</em>.</p>
+<p>We are going to use five of the C# <strong>primitive</strong> types, described below:</p>
+<dl class="docutils">
+<dt><cite>int</cite></dt>
+<dd>This is any whole number between approximately -2,000,000,000 and 2,000,000,000.</dd>
+<dt><cite>bool</cite></dt>
+<dd>This is either true or false.</dd>
+<dt><cite>double</cite></dt>
+<dd>This is any number with a decimal point in it.</dd>
+<dt><cite>char</cite></dt>
+<dd>This is any single character, digit, or punctuation mark.  In C#, a char is always enclosed in single-quotation ( &#8216; ) marks.</dd>
+<dt><cite>string</cite></dt>
+<dd>This is zero or more characters, digits, and/or punctuation marks.  In C#, a string is always enclosed in quotation ( &#8221; ) marks.</dd>
+</dl>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">We will be referring to these five types very often, and using one or more of them in <em>every single program</em> that we write!  Therefore, become very familiar with them.  When you hear the word <cite>string</cite> or <cite>bool</cite>, for example, you should immediately understand the Computer Science meaning of that term; and whenever you see any data, you should immediately understand what its type is.</p>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Examples</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>int</cite></td>
+<td><ul class="first last simple">
+<li>576</li>
+<li>-873</li>
+<li>0</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><cite>bool</cite></td>
+<td><ul class="first last simple">
+<li>true</li>
+<li>false</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><cite>double</cite></td>
+<td><ul class="first last simple">
+<li>7.51954</li>
+<li>985.0</li>
+<li>-33.614</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><cite>char</cite></td>
+<td><ul class="first last simple">
+<li>&#8216;8&#8217;</li>
+<li>&#8216;z&#8217;</li>
+<li>&#8216;,&#8217;</li>
+<li>&#8216; &#8216;</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><cite>string</cite></td>
+<td><ul class="first last simple">
+<li>&#8220;Pi, as an irrational number, cannot be represented accurately by any simple fraction.&#8221;</li>
+<li>&#8220;z&#8221;</li>
+<li>&#8220;&#8221;</li>
+<li>&#8221; &#8220;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="exercise admonition">
+<p class="first admonition-title">Exercises</p>
+<p>What is the type of:</p>
+<ol class="arabic simple">
+<li>89.9 ______________________________________</li>
+<li>false ______________________________________</li>
+<li>&#8216;p&#8217; ______________________________________</li>
+<li>-0.0 ______________________________________</li>
+<li>11 ______________________________________</li>
+<li>&#8216;0&#8217; ______________________________________</li>
+<li>0 ______________________________________</li>
+<li>&#8220;0&#8221; ______________________________________</li>
+<li>true ______________________________________</li>
+<li>&#8220;z&#8221; ______________________________________</li>
+<li>&#8220;775.21&#8221; ______________________________________</li>
+</ol>
+<p>Which type would you use to represent:</p>
+<ol class="last arabic simple">
+<li>Your name? ______________________________________</li>
+<li>Your age in years? ______________________________________</li>
+<li>Whether you are alive? ______________________________________</li>
+<li>Your grade (A, B, C, D, or E) for an assignment? ______________________________________</li>
+<li>The length of a line in centimetres? ______________________________________</li>
+<li>The number of pages in a book? ______________________________________</li>
+<li>The exact price of a bottle of milk? ______________________________________</li>
+<li>Whether you have eaten anything in the last 6 hours? ______________________________________</li>
+<li>The second letter of your first name? ______________________________________</li>
+<li>The number of grains of sand in a jar? ______________________________________</li>
+<li>The square root of 2? ______________________________________</li>
+<li>Your reasons for reading this book? ______________________________________</li>
+<li>The colour of your eyes? ______________________________________</li>
+</ol>
+</div>
+</div>
+<div class="section" id="working-with-time">
+<h2>Working with time<a class="headerlink" href="#working-with-time" title="Permalink to this headline">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">There Is No &#8220;Right&#8221; Program</p>
+<p class="last">There are an infinite number of ways to write any particular program, just as there are an
+infinite number of ways to paint a picture of a person.  The solutions that your instructors
+give you are just the way that <strong>they</strong> would write the program.  Study them, and learn from them,
+but understand that their solutions are not the only way (or even the best way) to write a program.</p>
+</div>
+<p>The second (and last) bit of theory to know before we begin writing programs is that programming
+instructions are executed <strong>sequentially</strong> <a class="footnote-reference" href="#id3" id="id1">[1]</a>, one after the other.  This means that the
+order in which you write programming statements matters.  If you get the order incorrect,
+the program will do the incorrect thing.</p>
+<p>The order in which statements could be executed is called the <strong>control flow</strong> of the program.
+Control flow consists of multiple <strong>paths</strong>, each of which could be taken during program execution.
+One of the most important skills of a programmer is the ability to &#8220;see&#8221; the control flow of a
+program <a class="footnote-reference" href="#id4" id="id2">[2]</a>.  The best way to get better at &#8220;seeing&#8221; control flow is to read other people&#8217;s programs,
+try to work out what they do <em>without executing them</em>, and then execute them to see if your
+reasoning was correct (or, if your reasoning was incorrect, where and why it was incorrect).</p>
+<p>There are many techniques and tools that programmers have created to help themselves to visualise
+control flow: flowcharts, trace tables, call graphs, sequence diagrams, and so on.  We may cover
+some of these in class.  If you don&#8217;t find the standard tools for visualising control flow to be
+useful, you must invent your own notation or visualisation for understanding control flow.</p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>This is a slight simplification.  You will learn about non-sequential control flows in your second or third year.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>This is not strictly true for all programming languages, but it is true for the vast majority of mainstream programming languages.</td></tr>
+</tbody>
+</table>
+<div class="section" id="a-first-program">
+<h3>A first program<a class="headerlink" href="#a-first-program" title="Permalink to this headline">¶</a></h3>
+<div class="sidebar">
+<p class="first sidebar-title">Syntax</p>
+<p class="last"><strong>Syntax</strong> is the collection of rules that define what a programming language looks like.
+Each programming language has its own syntax, just as each human language has its own grammar and spelling rules.</p>
+</div>
+<p>With that, you are ready to begin your first program!</p>
+<div class="highlight-python"><div class="highlight"><pre>int a;
+int b;
+int c;
+</pre></div>
+</div>
+<p>This simply says that an <cite>int</cite> called <cite>a</cite> exists, an <cite>int</cite> called <cite>b</cite> exists, and an <cite>int</cite> called <cite>c</cite> exists.
+Notice that each statement ends with a <cite>;</cite> (<strong>semicolon</strong>) character.  A shorthand, equivalent way of saying exactly the same thing is</p>
+<div class="highlight-python"><div class="highlight"><pre>int a, b, c;
+</pre></div>
+</div>
+<p><cite>a</cite>, <cite>b</cite>, and <cite>c</cite> are <strong>variables</strong> (or <strong>identifiers</strong>, or <strong>symbols</strong>).  A variable has a name and a type.  It holds a value.
+The value of a variable can be changed, but its name and type cannot.  The programming instructions above are called
+variable <strong>definitions</strong>, since they define that something exists.
+Identifiers should start with a letter and contain no spaces or punctuation.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">A <strong>variable</strong> in Computer Science is not the same as a <strong>variable</strong> in Statistics, or a <strong>variable</strong> in Mathematics.
+Understand the specific Computer Science meaning, and do not confuse it with your other subjects!</p>
+</div>
+<p>Merely saying that something exists doesn&#8217;t make for an exciting program.  Let&#8217;s try this program instead:</p>
+<div class="highlight-python"><div class="highlight"><pre>int a, b, c;
+a = 5;
+b = 10;
+c = a + b;
+</pre></div>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Why not one way to do things?</p>
+<p class="last">Programming languages are designed for humans as well as computers, and language designers have tried to
+make languages that let you express yourself in the way that you find to be most natural.  Some people
+like writing very short, very concise code.  Others like to write many lines, believing that this
+leads to clearer, more readable code.  Most people find a balance between very-concise and very-verbose.
+It doesn&#8217;t matter which style you prefer to write in.  What matters is that you are able to <em>read</em> programs
+written in <em>any</em> style.</p>
+</div>
+<p>Let&#8217;s understand what it does.  First, we define the <cite>a</cite>, <cite>b</cite>, and <cite>c</cite> variables.
+Then we assign the value <cite>5</cite> to <cite>a</cite>.  Then we give the value <cite>10</cite> to <cite>b</cite>.  Lastly, we
+assign the value <cite>15</cite> to <cite>c</cite>.  These statements, of the form <cite>X = Y;</cite>, are
+called <strong>assignment statements</strong>.  Assignment statements are used to change the
+value of a variable.  All assignment statements have a right-hand-side
+(on the right of the <cite>=</cite> symbol) and a left-hand-side (on the left of the <cite>=</cite> symbol).
+There is always a variable name on the left-hand-side.  An assignment statement executes
+the right-hand-side first, and then assigns the resulting value to the variable on the
+left-hand-side.  This is why the variable <cite>c</cite> is given the value <cite>15</cite>, rather than the value <cite>a + b</cite>.</p>
+<div class="admonition-remember-that-control-flow-matters admonition">
+<p class="first admonition-title">Remember that control flow matters ...</p>
+<p class="last">Programs do their work one statement at a time.  So we would be wrong if we looked at
+the program above and tried to think about all four statements at the same time.
+Each statement in a program changes something from how it was before.  (We say the
+program has a <em>state</em>, and statements change the state of the program.)
+So the first key skill we&#8217;ll need is to realize that statements are executed in a
+specific order, top-to-bottom, and that each one makes a change to the state.  It
+is a bit like baking a cake from a recipe &#8212; you need to do things one step at a
+time, in some definite time order.</p>
+</div>
+<p>We can tighten this code up a bit, by combining definitions and assignment statements, and reduce it from 4 lines to 3 lines in length.</p>
+<div class="highlight-python"><div class="highlight"><pre>int a = 5;
+int b = 10;
+int c = a + b;
+</pre></div>
+</div>
+<p>And if we&#8217;d like to, we can use the shorthand form of definitions to reduce it to a single line:</p>
+<div class="highlight-python"><div class="highlight"><pre>int a = 5, b = 10, c = a + b;
+</pre></div>
+</div>
+<div class="admonition-putting-things-together admonition">
+<p class="first admonition-title">Putting things together</p>
+<p>If you&#8217;re not yet convinced that Computer Science isn&#8217;t Mathematics, think about this: in Mathematics, there are common equivalents for <cite>int</cite>, <cite>double</cite>, and <cite>bool</cite> types.  There are no common equivalents for <cite>char</cite> and <cite>string</cite> types.  That might be because Computer Science is a more practical and pragmatic discipline, and one of the common things that people want to be able to do is read and write text.  So it makes sense for Computer Science to have <cite>char</cite> and <cite>string</cite>, and it makes sense for Mathematics to not use those types.  It also makes sense for programming languages, such as C#, to use those types in a non-mathematical way.  For example, if you wrote this:</p>
+<div class="highlight-python"><div class="highlight"><pre>string a = &quot;super&quot;;
+string b = &quot;man&quot;;
+string c = a + b;
+</pre></div>
+</div>
+<p class="last">That would be perfectly OK in C# (and <cite>c</cite> would end up with the value <cite>superman</cite>).
+In Computer Science, <cite>+</cite> commonly means <em>put these things together</em>.  If you put two
+<cite>int</cite>s together, you get the sum of the <cite>int</cite>s.  If you put two <cite>string</cite>s together,
+you get the combined value of both <cite>string</cite>s.  This makes absolutely no sense,
+mathematically.  But this is Computer Science &#8211; not Mathematics!</p>
+</div>
+<div class="exercise admonition">
+<p class="first admonition-title">Exercises</p>
+<p>There is something wrong with each of these lines of code.  For each line, write a sentence describing what is wrong.</p>
+<ol class="arabic simple">
+<li>in a;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>string a b;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>bool a</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>int a, string b;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>var a;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>int 3d;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="7">
+<li>int a = 3.0;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="8">
+<li>double a, b = 5.0, c = &#8220;6.0&#8221;;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>var a = 9, b = 8;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="10">
+<li>char zoology = &#8220;&#8221;;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="11">
+<li>char biology = &#8220;E&#8221;;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="12">
+<li>bool botany = True;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="13">
+<li>INT CHEMISTRY = 100;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="14">
+<li>bool able, able;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="15">
+<li>int articulate = 8; bool ampersand = articulate;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="16">
+<li>string o&#8217;brien = &#8220;Connor&#8221;;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>What is the type of <cite>x</cite>?</p>
+<ol class="last arabic simple">
+<li>var x = &#8220;Yes&#8221;; _______________</li>
+<li>var x = 213; _______________</li>
+<li>var x = 0.0; _______________</li>
+<li>var x = &#8216;y&#8217;; _______________</li>
+<li>var x = &#8220;y&#8221;; _______________</li>
+<li>var x = true; _______________</li>
+<li>var x = 5 + 3; _______________</li>
+<li>var x = &#8220;false&#8221;; _______________</li>
+<li>var x = 3.2/5.1; _______________</li>
+<li>var x = false; _______________</li>
+<li>var x = &#8220;20/5&#8221;; _______________</li>
+</ol>
+</div>
+</div>
+<div class="section" id="basic-arithmetic">
+<h3>Basic Arithmetic<a class="headerlink" href="#basic-arithmetic" title="Permalink to this headline">¶</a></h3>
+<p>There are five arithmetic <strong>operators</strong> that are commonly used in C#.  The first four should be familiar to you from school:</p>
+<ul class="simple">
+<li><cite>X + Y</cite> adds X and Y</li>
+<li><cite>X - Y</cite> subtracts Y from X</li>
+<li><cite>X * Y</cite> multiplies X and Y</li>
+<li><cite>X / Y</cite> divides X by Y</li>
+</ul>
+<p>The last operator is the <strong>modulus</strong> operator:</p>
+<ul class="simple">
+<li><cite>X % Y</cite> gives the remainder that would result from dividing X by Y</li>
+</ul>
+<p>The first time you did division at school, you probably expressed your answer as &#8220;A remainder B&#8221;.  For example, you would say
+that 7 divided by 4 was &#8220;1 remainder 3&#8221;, or that 24 divided by 6 was &#8220;4 remainder 0&#8221;.  The modulus operation gives you
+the &#8220;remainder&#8221; part of the answer; so 7&nbsp;%&nbsp;4&nbsp;gives&nbsp;3, and 24&nbsp;%&nbsp;6&nbsp;gives&nbsp;0.  The sign of the
+answer is the same as the sign of the dividend (so, for example, -7&nbsp;%&nbsp;4&nbsp;gives&nbsp;-3).</p>
+<div class="sidebar">
+<p class="first sidebar-title">Negative numbers and spacing</p>
+<p class="last">You usually don&#8217;t need to put spaces between the parts of an arithmetic expression: 4-5+3 is the same
+thing as 4&nbsp;-&nbsp;5&nbsp;+&nbsp;3.  The only exception to this is when you have a negative term
+in your expression.  C# doesn&#8217;t understand the arithmetic expression <code class="docutils literal"><span class="pre">7--4</span></code>, but it does
+understand <code class="docutils literal"><span class="pre">7</span> <span class="pre">-</span> <span class="pre">-4</span></code>, so be sure to put a space before negative numbers.</p>
+</div>
+<p>You can group arithmetic terms using brackets, just as you would in ordinary mathematics.
+The usual precedence of operations (brackets, division &amp; multiplication, addition &amp; subtraction)
+applies to arithmetic expressions in C#.  When operators have the same precedence, arithmetic
+expressions are evaluated from left to right.</p>
+<p>Arithmetic that is done exclusively with <cite>int</cite>s <em>always</em> results in integer answers.
+This means that 7&nbsp;/&nbsp;4&nbsp;=&nbsp;1, and not 1.75 or 2.  Arithmetic that is done
+exclusively with <cite>double</cite>s results in <cite>double</cite> answers.  This means that 7.0&nbsp;/&nbsp;4.0&nbsp;=&nbsp;1.75.
+Arithmetic that mixes <cite>double</cite>s and <cite>int</cite>s results in <cite>double</cite> answers.
+This means that 7.0&nbsp;/&nbsp;4&nbsp;=&nbsp;1.75, and 7&nbsp;/&nbsp;4.0&nbsp;=&nbsp;1.75.</p>
+<div class="exercise admonition">
+<p class="first admonition-title">Exercises</p>
+<p>What is the answer to these arithmetic expressions?  When the answer is a <cite>double</cite>,
+be sure to show a decimal point in your answer.</p>
+<ol class="last arabic simple">
+<li>6 * 4 - 1 ________</li>
+<li>6 * (4 - 1) ________</li>
+<li>3.2 * 2.0 ________</li>
+<li>3.2 * 2 ________</li>
+<li>(3 * (5 - 2) / 4) + 1 ________</li>
+<li>((5 - 2) / 4 * 3) + 1 ________</li>
+<li>1 + 1.0 ________</li>
+<li>(-(-2) + (-2 * -2 - 4 * 3 * 2)) / 2 * 3 ________</li>
+<li>(-(-2) + (-2 * -2 - 4.0 * 3 * 2)) / 2 * 3 ________</li>
+<li>8 - -8 ________</li>
+<li>(10 * 7) % 3 ________</li>
+<li>(5 % 2) + (71553 % 2) ________</li>
+<li>(19 % 4) + (-72 % 10) ________</li>
+</ol>
+</div>
+</div>
+<div class="section" id="debugging">
+<h3>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h3>
+<p>Programming is a complex process, and because programs are written by human beings,
+they often contain errors. Some of these errors are simple, like messing up the grammar
+of the programming language, and the compiler can tell you there&#8217;s a problem and
+(usually) also tell you where it is, so you can fix it.  These kinds of simple
+errors are called <strong>syntax</strong> errors.  <strong>Syntax</strong> refers to the structure of a
+program and the rules about that structure. Mis-spelling a word in a programming
+language, or putting it in the wrong order, or not including necessary punctuation,
+or including too much punctuation, or not capitalising a word that should be
+capitalised (or vice versa!) are all examples of syntax errors.</p>
+<p>During the first few weeks of your programming career, you will probably spend a lot of time tracking down syntax errors. As you gain experience, you will make fewer syntax errors and find them faster.  After a few weeks, you won&#8217;t make any syntax errors at all!  This is just like the process of learning a new spoken language.  While you are learning, you will make silly errors that a native speaker wouldn&#8217;t make.  But after a while, you don&#8217;t make any errors.  And, just like learning a new spoken language, the more you practise, the better you&#8217;ll get ... and if you don&#8217;t practice enough, you&#8217;ll keep making mistakes.  So practice: it really does make a big difference.</p>
+<p>The more difficult errors are <strong>semantic</strong> errors, where you&#8217;ve given the computer a valid sequence of instructions, but the instructions don&#8217;t lead to the result that you think they lead to.  You&#8217;ll run into plenty of these, and when you do you&#8217;ll need to understand exactly what you&#8217;re asking the computer to do, so that you can figure out where the flaw in your reasoning is.</p>
+<p><strong>Runtime</strong> errors, which cause a program to stop running, occur because of <strong>semantic</strong> errors.  Usually, you&#8217;ve made the error of assuming something that you shouldn&#8217;t have assumed!  These errors are also called <strong>exceptions</strong> because they indicate that something exceptional (and bad) has happened.</p>
+<p>Programming errors are called <strong>bugs</strong> and the process of tracking them down and
+correcting them is called <strong>debugging</strong>.  It is useful to distinguish between types
+of bugs in order to find the cause of the error and fix it more quickly.
+Here is how you can distinguish between types of bugs:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Do you get errors when you <em>compile</em> the program?  If so, you have a <strong>syntax</strong> error.</li>
+<li>Does the program fail to do what you expect it to do?  If so, you have a <strong>semantic</strong> error.</li>
+<li>Does the program stop running before you expect it to?  If so, you have a <strong>runtime</strong> error which is caused by a <strong>semantic</strong> error.  You need to fix the semantic error so that the runtime error will go away.</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="what-if">
+<h3>What if ...?<a class="headerlink" href="#what-if" title="Permalink to this headline">¶</a></h3>
+<p>For our second program, let&#8217;s make a simple password program.  If you give it the right password,
+it will tell you some secret message.  If you don&#8217;t give it the right password, it&#8217;ll tell you to go away.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">password</span> <span class="p">=</span> <span class="n">Password</span><span class="p">.</span><span class="n">Text</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">passwordIsOK</span> <span class="p">=</span> <span class="n">password</span> <span class="p">==</span> <span class="s">&quot;top sekrit&quot;</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">passwordIsOK</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="n">Result</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="s">&quot;My secret message is: Hi, how are you?&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+   <span class="n">Result</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="s">&quot;Go away.  You don&#39;t know the password.&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The first line is easy: a combined definition and assignment.  The second line is where
+we check whether the password is correct or not.  We do this using the <cite>==</cite>, which
+compares two things for equality.  If the things are equal, the expression is <cite>true</cite>;
+otherwise, the expression is <cite>false</cite>.  There are a few other symbol-combinations
+(called <strong>operators</strong>) which are useful for comparing things, and it&#8217;s useful to
+know what they are when you want to make your own conditions:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>X == Y</td>
+<td>true if X is equal to Y</td>
+</tr>
+<tr class="row-even"><td>X &gt;= Y</td>
+<td>true if X is greater than or equal to Y</td>
+</tr>
+<tr class="row-odd"><td>X &lt;= Y</td>
+<td>true if X is less than or equal to Y</td>
+</tr>
+<tr class="row-even"><td>X != Y</td>
+<td>true if X is not equal to Y</td>
+</tr>
+<tr class="row-odd"><td>X &gt; Y</td>
+<td>true if X is greater than Y</td>
+</tr>
+<tr class="row-even"><td>X &lt; Y</td>
+<td>true if X is less than Y</td>
+</tr>
+</tbody>
+</table>
+<p><cite>X</cite> and <cite>Y</cite> may be any expressions, as long as the expressions have the same type.
+Memorise these operators.  They will be used in almost every program that you will write.</p>
+<p>Then we come to an <strong>if-statement</strong>.  An if-statement is a way of doing something only
+if some expression (which is called the <strong>condition</strong> of the if-statement) is <cite>true</cite>.
+In this case, if <cite>passwordIsOK</cite> is <cite>true</cite>, then <cite>Result.Content</cite> will be given the value
+<cite>My secret message is: Hi, how are you?</cite>.  If it&#8217;s not true, then <cite>Go away.  You don&#8217;t
+know the password.</cite> will be assigned to <cite>Result.Content</cite>.</p>
+<p>Conditions <em>must</em> result in a <cite>bool</cite> value.  If your condition results in a <cite>string</cite>,
+<cite>int</cite>, <cite>double</cite> or anything except a <cite>bool</cite> value, your program will not compile.</p>
+<p>The <cite>else</cite> part of an if-statement is optional.  This means that if you only wanted to do
+something when the password was correct, you could have written</p>
+<div class="highlight-python"><div class="highlight"><pre>if (Password.Text == &quot;top sekrit&quot;) {
+   Result.Content = &quot;My secret message is: Hi, how are you?&quot;;
+}
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">In class, you will already have seen brackets being used to group terms,
+just as you would do in Mathematics.  In the if-statement, brackets are used to tell
+C# where the condition starts and ends.  Within the brackets, you can have other brackets
+if you want to group terms.</p>
+</div>
+<div class="exercise admonition">
+<p class="first admonition-title">Exercises</p>
+<p>What is the answer to these expressions?</p>
+<ol class="arabic simple">
+<li>5 &lt; 3 __________</li>
+<li>5 &gt; 3 __________</li>
+<li>6 &lt;= 6 __________</li>
+<li>6 &gt;= 6 __________</li>
+<li>6 &lt; 6 __________</li>
+<li>6 == 6 __________</li>
+<li>6 != 6 __________</li>
+<li>8 != 6 __________</li>
+<li>7 &gt;= 6 __________</li>
+<li>5 - 3 &gt; 2 + 1 __________</li>
+<li>3 - 5 &lt; 1 - 2 __________</li>
+<li>&#8220;apple&#8221; != &#8220;orange&#8221; __________</li>
+<li>&#8220;banana&#8221; &lt;= &#8220;candy&#8221; __________</li>
+<li>3.14 * 2 &gt; 6 __________</li>
+</ol>
+<p>There&#8217;s something wrong with each of the following pieces of code.  For each piece of code, write a sentence describing what is wrong.</p>
+<div class="highlight-python"><div class="highlight"><pre>if 5 &gt; 3 {
+   Result.Content = &quot;Something&quot;;
+}
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>if (5 &lt;&gt; 3) {
+   Result.Content = &quot;Something&quot;;
+}
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>if (&quot;true&quot;) {
+   Result.Content = &quot;Something&quot;;
+}
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>if () {
+   Result.Content = &quot;Something&quot;;
+}
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>If (5 + 3 &lt; 7) {
+   Result.Content = &quot;Something&quot;;
+}
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>if (5 + 3 &lt; 7) {
+   Result.Content = &quot;Something&quot;;
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>if {
+   Result.Content = &quot;Something&quot;;
+}
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>if (5 - 7 &gt; 3)
+   Result.Content = &quot;Something&quot;;
+}
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="last line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

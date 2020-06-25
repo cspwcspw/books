@@ -1,0 +1,629 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>15. Lists &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="16. More Event Handling" href="events.html" />
+    <link rel="prev" title="14. Arrays" href="arrays.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="events.html" title="16. More Event Handling"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="arrays.html" title="14. Arrays"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="lists">
+<span id="index-0"></span><h1>15. Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h1>
+<p>Lists and arrays are similar to each other in many
+ways; for the moment we can think of a list as a supercharged kind of array with some nice extra features.
+We highlight the essential differences as we go along.   Let&#8217;s just review what we already
+know about arrays, because all this information applies to lists too.</p>
+<p>Like an array, a list is an ordered <strong>collection</strong> of values.  We&#8217;ll see other kinds of collections
+later, e.g. a <em>dictionary</em>.</p>
+<p>The individual values that make up a list (or an array) are called its <strong>elements</strong>, or its <strong>items</strong>.
+(We will use the term <cite>element</cite> or <cite>item</cite> to mean the same thing.)  All the elements in a list
+(or array) must be of the same type: so we can have a list (or array) of students, or a list of integers,
+or a list of strings, or a list of turtles.</p>
+<p>Like strings and arrays, individual elements in the list can be accessed by <em>indexing</em>.  The first
+element is always at position 0, the next at position 1, and so on.  This means the whole
+collection (the list or the array) is <em>ordered</em> in the sense that one string comes before
+another in the structure.  (Take note: an <em>ordered</em> collection means &#8220;they&#8217;re in a definite known
+sequence&#8221;.  This is not the same as a <em>sorted</em> collection, which means they&#8217;re in ascending
+(or perhaps descending) order of values.)</p>
+<div class="section" id="what-s-the-key-difference-from-arrays">
+<h2>15.1. What&#8217;s the key difference from arrays?<a class="headerlink" href="#what-s-the-key-difference-from-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Once an array has been created, its length remains unchanged.</p>
+<p>A list is a <em>dynamic</em> structure: it can grow or shrink as our program runs.  We can easily
+add new elements to the existing list, or remove elements.   To do this, (and some other things
+that arrays cannot do), a list has a number of convenient methods available.</p>
+</div>
+<div class="section" id="defining-and-initializing-lists">
+<h2>15.2. Defining and initializing lists<a class="headerlink" href="#defining-and-initializing-lists" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">weekdayNames</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="s">&quot;Sun&quot;</span><span class="p">,</span> <span class="s">&quot;Mon&quot;</span><span class="p">,</span> <span class="s">&quot;Tue&quot;</span><span class="p">,</span> <span class="s">&quot;Wed&quot;</span><span class="p">,</span>
+                                                       <span class="s">&quot;Thur&quot;</span><span class="p">,</span> <span class="s">&quot;Fri&quot;</span><span class="p">,</span> <span class="s">&quot;Sat&quot;</span> <span class="p">};</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">daysInMonths</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span>
+                                           <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">double</span><span class="p">&gt;</span> <span class="n">readings</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">double</span><span class="p">&gt;();</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="n">Button</span><span class="p">&gt;</span> <span class="n">btns</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>The first example defines and initializes an array of seven strings.
+The second defines and initializes an array of 12
+integers. The elements of a list must all be of the same type.</p>
+<p>The form <code class="docutils literal"><span class="pre">List&lt;T&gt;</span></code> is called a <strong>generic</strong> list.  The <strong>T</strong> between the angle brackets
+is a <strong>type parameter</strong>.  It allows us to substitute any type for <strong>T</strong>.  So in line 1 in the definition above, we&#8217;ve
+substituted the type <code class="docutils literal"><span class="pre">string</span></code>, and have a list of strings.  Similarly, in line 3, we define
+a <code class="docutils literal"><span class="pre">List&lt;int&gt;</span></code>.   Both these definitions also have initializers, so those elements are added
+to the list.   In line 5, we have an example where we instantiate a list, but it will not
+contain any elements at this point.  In line 6 we define a variable that can reference a
+list of Button elements, but at this stage the list has not yet been instantiated, so we
+initialize it with the value <code class="docutils literal"><span class="pre">null</span></code>;</p>
+<p>Lists, like arrays, are reference types: a variable refers to the actual object, which must be
+instantiated in the heap.</p>
+<p>Notice also a very important difference between lines 5 and 6:  <code class="docutils literal"><span class="pre">readings</span></code> references a list that
+has no elements in it.   But <code class="docutils literal"><span class="pre">btns</span></code> has the value <code class="docutils literal"><span class="pre">null</span></code> &#8212; it doesn&#8217;t reference anything.</p>
+</div>
+<div class="section" id="accessing-elements">
+<span id="index-1"></span><h2>15.3. Accessing elements<a class="headerlink" href="#accessing-elements" title="Permalink to this headline">¶</a></h2>
+<p>The syntax for accessing the elements of a list is the same as the syntax for
+accessing the characters of a string or the elements of an array &#8212;
+the index operator: <code class="docutils literal"><span class="pre">[]</span></code>. The expression inside the brackets specifies
+the index. Remember that the indices start at 0.  So <code class="docutils literal"><span class="pre">daysInMonths[2]</span></code>
+has the value 31.</p>
+<p>With arrays we have a <code class="docutils literal"><span class="pre">Length</span></code> property that tells us how many elements are
+in the array.  With lists, (and all other collections that we&#8217;ll work with)
+the property is <code class="docutils literal"><span class="pre">Count</span></code>.</p>
+<p>So let&#8217;s provide two methods to show how we would sum the elements in a list of int:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">int</span> <span class="nf">sumList1</span><span class="p">(</span><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">sum</span> <span class="p">+=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="kt">int</span> <span class="nf">sumList2</span><span class="p">(</span><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">sum</span> <span class="p">+=</span> <span class="n">x</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">daysInMonths</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">31</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span>
+                                               <span class="m">31</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span><span class="p">,</span> <span class="m">30</span><span class="p">,</span> <span class="m">31</span> <span class="p">};</span>
+    <span class="kt">int</span> <span class="n">v1</span> <span class="p">=</span> <span class="n">sumList1</span><span class="p">(</span><span class="n">daysInMonths</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">v2</span> <span class="p">=</span> <span class="n">sumList2</span><span class="p">(</span><span class="n">daysInMonths</span><span class="p">);</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 1 demonstrates how we define a list parameter.  Line 6 shows how we index the list.</p>
+<p>The <code class="docutils literal"><span class="pre">foreach</span></code> in line 14 works because a list is an <em>enumerable</em> structure.  We say
+that the <code class="docutils literal"><span class="pre">foreach</span></code> <strong>enumerates</strong> the items in the collection.</p>
+<p>And lines 25 and 26 show that passing a <code class="docutils literal"><span class="pre">List&lt;int&gt;</span></code> argument to a method is just like passing a string,
+an array, or a turtle.</p>
+</div>
+<div class="section" id="when-are-lists-really-special">
+<h2>15.4. When are lists really special?<a class="headerlink" href="#when-are-lists-really-special" title="Permalink to this headline">¶</a></h2>
+<p>Because lists can grow and shrink in size, they&#8217;re ideal for problems that need that kind
+of flexibility.   Let&#8217;s start with a very simple problem:  Write a method to return all
+the prime numbers less than some number N.</p>
+<p>We need to return a list or an array, because there are potentially many such primes.  But because we
+don&#8217;t know how many primes there are going to be when N=1000, we can&#8217;t allocate a fixed-size array to
+hold the answer. So we need a structure that can grow as we discover each new prime.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">findPrimesLessThan</span><span class="p">(</span><span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">results</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">2</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">isPrime</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+         <span class="p">{</span>
+             <span class="n">results</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+         <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Line 8 is the interesting one.  The <code class="docutils literal"><span class="pre">Add</span></code> method of a list puts the new item at the end of the current
+items.  So the list grows in size.  The example also demonstrates a value-returning method that
+returns a list.</p>
+</div>
+<div class="section" id="converting-arrays-to-lists-and-lists-to-arrays">
+<h2>15.5. Converting arrays to lists, and lists to arrays<a class="headerlink" href="#converting-arrays-to-lists-and-lists-to-arrays" title="Permalink to this headline">¶</a></h2>
+<p>If you have an array but need the additional flexibility of a list,
+you can pass the array into the list Constructor, or you can add
+an array of items to the end of an existing list:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">semester1</span> <span class="p">=</span> <span class="p">{</span><span class="s">&quot;Jan&quot;</span><span class="p">,</span> <span class="s">&quot;Feb&quot;</span><span class="p">,</span> <span class="s">&quot;Mar&quot;</span><span class="p">,</span> <span class="s">&quot;Apr&quot;</span><span class="p">,</span> <span class="s">&quot;May&quot;</span><span class="p">,</span> <span class="s">&quot;June&quot;</span><span class="p">};</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="n">semester1</span><span class="p">);</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">semester2</span> <span class="p">=</span> <span class="p">{</span><span class="s">&quot;July&quot;</span><span class="p">,</span> <span class="s">&quot;Aug&quot;</span><span class="p">,</span> <span class="s">&quot;Sep&quot;</span><span class="p">,</span> <span class="s">&quot;Oct&quot;</span><span class="p">,</span> <span class="s">&quot;Nov&quot;</span><span class="p">,</span> <span class="s">&quot;Dec&quot;</span><span class="p">};</span>
+<span class="n">xs</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span><span class="n">semester2</span><span class="p">);</span>
+
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} strings in xs&quot;</span><span class="p">,</span> <span class="n">xs</span><span class="p">.</span><span class="n">Count</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+<p>Lines 1 and 3 define and initialize two string arrays.
+In line 2 we construct a new list initialized with all the strings
+in <code class="docutils literal"><span class="pre">semester1</span></code>.   In line 4, we dynamically add all the second semester&#8217;s
+lines onto the end of <code class="docutils literal"><span class="pre">xs</span></code>.</p>
+<p>Going the other way &#8212; from a list to an array, is just as easy:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">allTheMonths</span> <span class="p">=</span>  <span class="n">xs</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="other-list-methods-that-we-ll-find-useful">
+<h2>15.6. Other list methods that we&#8217;ll find useful<a class="headerlink" href="#other-list-methods-that-we-ll-find-useful" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">xs</span><span class="p">.</span><span class="n">Sort</span><span class="p">();</span>
+<span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">xs</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="s">&quot;rotten&quot;</span><span class="p">);</span>
+<span class="n">xs</span><span class="p">.</span><span class="n">RemoveAt</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="n">xs</span><span class="p">.</span><span class="n">Insert</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="s">&quot;potato&quot;</span><span class="p">);</span>
+<span class="n">xs</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+<p><code class="docutils literal"><span class="pre">Sort</span></code> will put the list into a sorted order.</p>
+<p><code class="docutils literal"><span class="pre">IndexOf</span></code> works on lists like it does on strings: we can find the
+index of the first occurrence of an element in the list.  If it is not
+found, we&#8217;ll get back -1.  So this is a good way to test whether something
+is in a list.</p>
+<p>And <code class="docutils literal"><span class="pre">RemoveAt</span></code> allows us to remove the item at a given position.  The list shrinks,
+and all the items after i get shifted to the left.</p>
+<p>At line 4, a new element is squeezed into the list at index position 3.  All the other
+items have to move up, so the item originally at 3 now goes to position 4, and so on.</p>
+<p>At line 5, the <code class="docutils literal"><span class="pre">Clear</span></code> method empties the list.</p>
+</div>
+<div class="section" id="cloning-lists">
+<h2>15.7. Cloning lists<a class="headerlink" href="#cloning-lists" title="Permalink to this headline">¶</a></h2>
+<p>Because a list is a reference type, the warnings we had earlier apply,  When
+we assign a list to another list variable, or pass a list as an argument, we
+create an alias &#8212; another reference to the same underlying object.   Aliases
+are tricky when the referenced object is modified.</p>
+<p>If we want to modify a list and also keep a copy of the original, we need to be
+able to make a copy of the list itself, not just an alias of its reference.
+This process is sometimes called <strong>cloning</strong>, to avoid the ambiguity of the word copy.</p>
+<p>The easiest way to clone a list is to use the constructor pattern we used
+for arrays:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">one</span> <span class="p">=</span>  <span class="p">....;</span>
+<span class="p">...</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">two</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="n">one</span><span class="p">);</span>
+<span class="n">two</span><span class="p">.</span><span class="n">Sort</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now the sort method on list <code class="docutils literal"><span class="pre">two</span></code> won&#8217;t rearrange the order of the elements in <code class="docutils literal"><span class="pre">one</span></code>.</p>
+</div>
+<div class="section" id="don-t-fiddle-with-a-collection-list-that-is-being-enumerated">
+<h2>15.8. Don&#8217;t fiddle with a collection (list) that is being enumerated<a class="headerlink" href="#don-t-fiddle-with-a-collection-list-that-is-being-enumerated" title="Permalink to this headline">¶</a></h2>
+<p>Enumeration of a list (e.g. using <code class="docutils literal"><span class="pre">foreach</span></code>) &#8220;locks&#8221; the
+list against changes to its size or contents.  So we cannot add or
+delete elements to a collection, nor can we modify any of the elements in
+the collection while the <code class="docutils literal"><span class="pre">foreach</span></code> construct
+is busy working its way through the collection:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">d</span> <span class="k">in</span> <span class="n">daysInMonths</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(...)</span>
+    <span class="p">{</span>    <span class="c1">// Add a 13th month to our year, with 25 days.</span>
+<span class="hll">         <span class="n">daysInMonths</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">25</span><span class="p">);</span> <span class="c1">// Will give an error</span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>We can, however, use a <code class="docutils literal"><span class="pre">for</span></code> or <code class="docutils literal"><span class="pre">while</span></code> loop with our
+own loop indexes, and we can delete or add elements at specific
+positions in the list.</p>
+<p>But you need to be careful: we saw above that if you delete or
+insert a new element at, say, index position 5, all the other elements
+previously at positions 6, 7, 8 etc., move up or move down and so they
+change their index positions.  This can make your loops tricky.</p>
+<p>For this reason it is often easier to make the loop run backwards
+so we don&#8217;t have
+to work out how the indexes to the left of where we are working
+will change as we add or delete items.</p>
+</div>
+<div class="section" id="is-the-original-list-or-array-mutated-or-do-we-want-a-new-list">
+<h2>15.9. Is the original list (or array) mutated, or do we want a new list?<a class="headerlink" href="#is-the-original-list-or-array-mutated-or-do-we-want-a-new-list" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes we&#8217;ll need to create a new list, while leaving
+the original list (or array) unchanged. Sometimes we&#8217;ll be asked
+to mutate, or make the changes to the original.  If the changes
+are going to be made to the original list, we&#8217;ll say that the
+change is an <strong>in-place update</strong>.</p>
+<p>So we should always be clear on which situation we&#8217;re dealing with.</p>
+<p>In this book we sometimes express our requirement as a test case.  let&#8217;s
+consider an example, starting from some unit tests.  We want two methods
+that work with <code class="docutils literal"><span class="pre">List&lt;int&gt;</span></code>.  The one method should take a list and return
+a new list in which all the elements have been doubled:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">2</span> <span class="p">};</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">doubleAll_1</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">6</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">4</span> <span class="p">});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">2</span> <span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+<p>Looking at the test case on line 2 we can see that <code class="docutils literal"><span class="pre">doubleAll_1</span></code> should be a
+value-returning method.  The test at line 3 checks that the <code class="docutils literal"><span class="pre">xs</span></code> that we passed
+into <code class="docutils literal"><span class="pre">doubleAll_1</span></code> still has the original values that we gave it.</p>
+<p>So a method like this passes the tests:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">doubleAll_1</span><span class="p">(</span><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">result</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;();</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">2</span><span class="p">*</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now let&#8217;s solve an in-place version of the problem that passes this test:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">ys</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">2</span> <span class="p">};</span>
+<span class="n">doubleAll_2</span><span class="p">(</span><span class="n">ys</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">6</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">4</span> <span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+<p>The method now should be a void method. And the test at line
+3 checks that the list that was passed as an argument to our
+method has indeed been mutated.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">doubleAll_2</span><span class="p">(</span><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">*=</span> <span class="m">2</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Notice that we did not create a new list &#8212; we changed the
+elements that were in <code class="docutils literal"><span class="pre">xs</span></code>.</p>
+</div>
+<div class="section" id="when-should-we-use-a-list-when-should-we-use-an-array">
+<h2>15.10. When should we use a list, when should we use an array?<a class="headerlink" href="#when-should-we-use-a-list-when-should-we-use-an-array" title="Permalink to this headline">¶</a></h2>
+<p>Some say that the era of the fixed-size array is dead: we should always prefer a list.</p>
+<p>But the historical role of arrays keeps them alive.  For example,
+<code class="docutils literal"><span class="pre">string.Split()</span></code> and <code class="docutils literal"><span class="pre">File.ReadAllLines(...)</span></code> (which we&#8217;ll cover soon)
+return arrays of strings, not a lists.
+This is because methods like this were part of the earliest versions of C#, before
+lists were introduced.  And by time generic lists were introduced, it was too much
+trouble to change things.  (Programmers get resentful when their code
+breaks because older features are changed or removed in newer
+versions of the language, so <em>backward compatibility</em> &#8212; the older code must run
+on the newer versions &#8212; is important.)</p>
+<p>Definitely use a list if you need a structure in which the number of elements can
+change while your program runs.  Or if you need the more powerful methods that a
+list provides, then the list should be your choice.</p>
+<p>In other situations either a list or an array should work equally well.</p>
+</div>
+<div class="section" id="glossary">
+<h2>15.11. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-alias">alias</dt>
+<dd>Multiple variables that contain references to the same object.</dd>
+<dt id="term-clone">clone</dt>
+<dd>To create a new object that has the same value as an existing object.
+Copying a reference creates an alias but doesn&#8217;t clone the object.</dd>
+<dt id="term-collection">collection</dt>
+<dd>A collection of elements is stored in a single structure.  So far we&#8217;ve seen
+arrays and lists.  Both are collections.</dd>
+<dt id="term-dynamic-data-structure">dynamic data structure</dt>
+<dd>A way to organize data that changes it shape or size over time.
+A List in C# is a dynamic data structure that can expand or
+contract as we add or delete items.  Arrays, by contrast, are fixed size.</dd>
+<dt id="term-enumerate">enumerate</dt>
+<dd>To visit each element of a collection in turn.  The <code class="docutils literal"><span class="pre">foreach</span></code> loop allows
+us to enumerate a collection.</dd>
+<dt id="term-element">element</dt>
+<dd>One of the values in a list (or other sequence, like an array). The bracket operator
+selects elements of a list.  Also called an <em>item</em>.</dd>
+<dt id="term-generic">generic</dt>
+<dd>General, or able to work with many different types.  The type <code class="docutils literal"><span class="pre">List&lt;T&gt;</span></code>  means
+we can have a list of any type T &#8212; we can substitute any specific type for T.</dd>
+<dt id="term-index">index</dt>
+<dd>An integer value that indicates the position of an item in a list.
+Indexes start from 0.</dd>
+<dt id="term-in-place">in-place</dt>
+<dd>(or in-place update)  A change that is done to the original list (or collection).
+The opposite idea is that we create a new collection while leaving the original unchanged.</dd>
+<dt id="term-item">item</dt>
+<dd>See <em>element</em>.</dd>
+<dt id="term-list">list</dt>
+<dd>A collection of values, each in a specific position within the list.</dd>
+<dt id="term-list-traversal">list traversal</dt>
+<dd>The sequential accessing of each element in a list.</dd>
+<dt id="term-sequence">sequence</dt>
+<dd>Any of the data types that consist of an ordered collection of elements, with
+each element identified by an index.</dd>
+<dt id="term-type-parameter">type parameter</dt>
+<dd>A type parameter is a place-holder for an actual type in a <em>generic</em> type definition.
+In C#, the type parameters occur in angle brackets, e.g. <code class="docutils literal"><span class="pre">List&lt;T&gt;</span></code>.  When we specialize
+a generic type we have to provide an actual type (e.g. <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">string</span></code>, <code class="docutils literal"><span class="pre">Turtle</span></code>),
+in our definition, e.g.  <code class="docutils literal"><span class="pre">List&lt;string&gt;</span> <span class="pre">myFriends;</span></code></dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>15.12. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Consider this fragment of code:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;();</span>
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">ys</span> <span class="p">=</span> <span class="n">xs</span><span class="p">;</span>
+<span class="n">ys</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Does this create one or two list instances?  Would
+would the value of <code class="docutils literal"><span class="pre">xs.Count</span></code> be after executing this code?</p>
+</li>
+<li><p class="first">What will be the output of the following program?</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">us</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;am&quot;</span><span class="p">,</span> <span class="s">&quot;not&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;crook&quot;</span> <span class="p">};</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">vs</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;am&quot;</span><span class="p">,</span> <span class="s">&quot;not&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;crook&quot;</span> <span class="p">};</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Test 1: {0}&quot;</span><span class="p">,</span>  <span class="n">us</span> <span class="p">==</span> <span class="n">vs</span><span class="p">);</span>
+<span class="n">us</span> <span class="p">=</span> <span class="n">vs</span><span class="p">;</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Test 2: {0}&quot;</span><span class="p">,</span> <span class="n">us</span> <span class="p">==</span> <span class="n">vs</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Provide a <em>detailed</em> explanation of the results.</p>
+</li>
+<li><p class="first">The <code class="docutils literal"><span class="pre">us</span> <span class="pre">==</span> <span class="pre">vs</span></code> expression doesn&#8217;t look &#8220;into&#8221; the list or an array
+when it makes its comparison:   it simply asks
+&#8220;are these two references referring to the same object in memory?&#8221;.  We
+call this kind of test a <em>shallow equality</em> test.  By contrast, a <em>deep
+equality</em> test asks &#8220;do the lists contain the same items in the same order?&#8221;.</p>
+<ol class="loweralpha">
+<li><p class="first">Write a deep equality test for two arrays of string
+so that these unit tests pass:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">us</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;am&quot;</span><span class="p">,</span> <span class="s">&quot;not&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;crook&quot;</span> <span class="p">};</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">vs</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;am&quot;</span><span class="p">,</span> <span class="s">&quot;not&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;crook&quot;</span> <span class="p">};</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">ws</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;am&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;crook&quot;</span> <span class="p">};</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">xs</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;am&quot;</span><span class="p">,</span> <span class="s">&quot;not&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;cowboy&quot;</span> <span class="p">};</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">myEquals</span><span class="p">(</span><span class="n">us</span><span class="p">,</span> <span class="n">vs</span><span class="p">),</span>  <span class="k">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">myEquals</span><span class="p">(</span><span class="n">us</span><span class="p">,</span> <span class="n">ws</span><span class="p">),</span>  <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">myEquals</span><span class="p">(</span><span class="n">us</span><span class="p">,</span> <span class="n">xs</span><span class="p">),</span>  <span class="k">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">myEquals</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">xs</span><span class="p">),</span>  <span class="k">true</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Now do the same for a deep equality test for List&lt;string&gt;.</p>
+</li>
+</ol>
+</li>
+<li><p class="first">Write two methods that remove all the odd numbers from a list.
+The first method should build a new list containing only the even elements.
+The second method should do an in-place change to the original list.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">2</span> <span class="p">};</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">removeOdds_1</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span><span class="m">4</span><span class="p">,</span> <span class="m">2</span><span class="p">});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">removeOdds_1</span><span class="p">(</span><span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{}),</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">2</span> <span class="p">});</span>
+
+<span class="n">removeOdds_2</span><span class="p">(</span><span class="n">xs</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span><span class="m">4</span><span class="p">,</span> <span class="m">2</span><span class="p">});</span>
+
+<span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">ys</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span> <span class="m">11</span><span class="p">,</span> <span class="m">13</span><span class="p">,</span> <span class="m">15</span><span class="p">};</span>
+<span class="n">removeOdds_2</span><span class="p">(</span><span class="n">ys</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">moveToBack(xs,</span> <span class="pre">p)</span></code>.  The p&#8217;th element of the
+list should &#8220;lose its place&#8221; and go to the back of the list.
+If p is out of bounds, no changes are made.  This should be an in-place update.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">30</span><span class="p">,</span><span class="m">50</span><span class="p">,</span><span class="m">40</span><span class="p">,</span><span class="m">70</span><span class="p">,</span><span class="m">20</span> <span class="p">};</span>
+<span class="n">moveToBack</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="m">2</span><span class="p">);</span>         <span class="c1">// move element at position 2 to the back</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">30</span><span class="p">,</span><span class="m">50</span><span class="p">,</span><span class="m">70</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">40</span> <span class="p">});</span>
+<span class="n">moveToBack</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+<span class="n">moveToBack</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+<span class="n">moveToBack</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="m">4</span><span class="p">);</span>
+<span class="n">moveToBack</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+<span class="n">moveToBack</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="m">2</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;(){</span> <span class="m">50</span><span class="p">,</span><span class="m">70</span><span class="p">,</span><span class="m">40</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">20</span><span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Re-do the above exercise, this time with fixed-size arrays.  You may not
+use a list for the logic, nor are you allowed to attempt to resize the array.</p>
+</li>
+<li><p class="first">Write a method that deletes any items in a <code class="docutils literal"><span class="pre">List&lt;int&gt;</span></code> that are
+smaller than their immediate predecessor in the original list.
+The list should be mutated: do not build a new list of items.
+Study the tests carefully to make sure you understand
+the requirements.</p>
+<p>You should try this problem in two ways and compare the code you get. In the
+first case, work backwards, starting at the last element of the list, and
+deciding if it needs to be deleted.  Then work towards the front of the list.</p>
+<p>In the second variation, use a while loop to start at the left and work to the end.
+This is more difficult!</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">xs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">12</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">18</span><span class="p">,</span> <span class="m">11</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span> <span class="m">12</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">2</span> <span class="p">};</span>
+<span class="n">deleteSmallerSuccessors</span><span class="p">(</span><span class="n">xs</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">12</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">18</span><span class="p">,</span> <span class="m">12</span> <span class="p">});</span>
+<span class="n">deleteSmallerSuccessors</span><span class="p">(</span><span class="n">xs</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="m">12</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">18</span> <span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="events.html" title="16. More Event Handling"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="arrays.html" title="14. Arrays"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

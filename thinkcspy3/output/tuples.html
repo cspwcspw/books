@@ -1,0 +1,303 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>9. Tuples &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="10. Event-Driven Programming" href="events.html" />
+    <link rel="prev" title="8. Strings" href="strings.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="events.html" title="10. Event-Driven Programming"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="strings.html" title="8. Strings"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="tuples">
+<h1>9. Tuples<a class="headerlink" href="#tuples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tuples-are-used-for-grouping-data">
+<span id="index-0"></span><h2>9.1. Tuples are used for grouping data<a class="headerlink" href="#tuples-are-used-for-grouping-data" title="Permalink to this headline">¶</a></h2>
+<p>We saw earlier that we could group together pairs of values by
+surrounding with parentheses.  Recall this example:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">year_born</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Paris Hilton&quot;</span><span class="p">,</span> <span class="mi">1981</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This is an example of a <strong>data structure</strong> — a mechanism for grouping and
+organizing data to make it easier to use.</p>
+<p>The pair is an example of a <strong>tuple</strong>. Generalizing this, a tuple can
+be used to group any number of items into a single compound value.
+Syntactically, a tuple is a comma-separated sequence of values.
+Although it is not necessary, it is conventional to enclose tuples in parentheses:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">julia</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Julia&quot;</span><span class="p">,</span> <span class="s2">&quot;Roberts&quot;</span><span class="p">,</span> <span class="mi">1967</span><span class="p">,</span> <span class="s2">&quot;Duplicity&quot;</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="s2">&quot;Actress&quot;</span><span class="p">,</span> <span class="s2">&quot;Atlanta, Georgia&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Tuples are useful for representing what other languages often call <em>records</em> —
+some related information that belongs together, like your student record.  There is
+no description of what each of these fields means, but we can guess.  A tuple
+lets us “chunk” together related information and use it as a single thing.</p>
+<p>Tuples support the same sequence operations as strings. The index operator
+selects an element from a tuple.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">julia</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">1967</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>But if we try to use item assignment to modify one of the elements of the
+tuple, we get an error:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">julia</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span>
+<span class="go">TypeError: &#39;tuple&#39; object does not support item assignment</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>So like strings, tuples are immutable.  Once Python has created a tuple
+in memory, it cannot be changed.</p>
+<p>Of course, even if we can’t modify the
+elements of a tuple, we can always make the <code class="docutils literal notranslate"><span class="pre">julia</span></code> variable reference
+a new tuple holding different information.  To construct the new tuple,
+it is convenient that we can slice parts of the old tuple and join up the
+bits to make the new tuple.  So  if <code class="docutils literal notranslate"><span class="pre">julia</span></code> has a new recent film, we could
+change her variable to reference a new tuple that used some information
+from the old one:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">julia</span> <span class="o">=</span> <span class="n">julia</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;Eat Pray Love&quot;</span><span class="p">,</span> <span class="mi">2010</span><span class="p">)</span> <span class="o">+</span> <span class="n">julia</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">julia</span>
+<span class="go">(&quot;Julia&quot;, &quot;Roberts&quot;, 1967, &quot;Eat Pray Love&quot;, 2010, &quot;Actress&quot;, &quot;Atlanta, Georgia&quot;)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>To create a tuple with a single element (but you’re probably not likely
+to do that too often), we have to include the final comma, because without
+the final comma, Python treats the <code class="docutils literal notranslate"><span class="pre">(5)</span></code> below as an integer in parentheses:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tup</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">tup</span><span class="p">)</span>
+<span class="go">&lt;class &#39;tuple&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">&lt;class &#39;int&#39;&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="tuple-assignment">
+<span id="index-1"></span><h2>9.2. Tuple assignment<a class="headerlink" href="#tuple-assignment" title="Permalink to this headline">¶</a></h2>
+<p>Python has a very powerful <strong>tuple assignment</strong> feature that allows a tuple of variables
+on the left of an assignment to be assigned values from a tuple
+on the right of the assignment.   (We already saw this used for pairs, but it generalizes.)</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">surname</span><span class="p">,</span> <span class="n">b_year</span><span class="p">,</span> <span class="n">movie</span><span class="p">,</span> <span class="n">m_year</span><span class="p">,</span> <span class="n">profession</span><span class="p">,</span> <span class="n">b_place</span><span class="p">)</span> <span class="o">=</span> <span class="n">julia</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This does the equivalent of seven assignment statements, all on one easy line.
+One requirement is that the number of variables on the left must match the number
+of elements in the tuple.</p>
+<p>One way to think of tuple assignment is as tuple packing/unpacking.</p>
+<p>In tuple packing, the values on the left are ‘packed’ together in a
+tuple:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;CS&quot;</span><span class="p">)</span>    <span class="c1"># tuple packing</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In tuple unpacking, the values in a tuple on the right are ‘unpacked’
+into the variables/names on the left:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;CS&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">studies</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span>    <span class="c1"># tuple unpacking</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">&#39;Bob&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span>
+<span class="go">19</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">studies</span>
+<span class="go">&#39;CS&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Once in a while, it is useful to swap the values of two variables.  With
+conventional assignment statements, we have to use a temporary variable. For
+example, to swap <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">temp</span> <span class="o">=</span> <span class="n">a</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">b</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">temp</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Tuple assignment solves this problem neatly:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The left side is a tuple of variables; the right side is a tuple of values.
+Each value is assigned to its respective variable. All the expressions on the
+right side are evaluated before any of the assignments. This feature makes
+tuple assignment quite versatile.</p>
+<p>Naturally, the number of variables on the left and the number of values on the
+right have to be the same:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">ValueError: need more than 3 values to unpack</span>
+</pre></div>
+</div>
+</div></blockquote>
+<span class="target" id="index-2"></span></div>
+<div class="section" id="tuples-as-return-values">
+<span id="index-3"></span><h2>9.3. Tuples as return values<a class="headerlink" href="#tuples-as-return-values" title="Permalink to this headline">¶</a></h2>
+<p>Functions can always only return a single value, but by making that value a tuple,
+we can effectively group together as many values
+as we like, and return them together.   This is very useful — we often want to
+know some batsman’s highest and lowest score, or we want to find the mean and the standard
+deviation, or we want to know the year, the month, and the day, or if we’re doing some
+some ecological modelling we may want to know the number of rabbits and the number
+of wolves on an island at a given time.</p>
+<p>For example, we could write a function that returns both the area and the circumference
+of a circle of radius r:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return (circumference, area) of a circle of radius r &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="n">r</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="composability-of-data-structures">
+<h2>9.4. Composability of Data Structures<a class="headerlink" href="#composability-of-data-structures" title="Permalink to this headline">¶</a></h2>
+<p>We saw in an earlier chapter that we could make a list of pairs, and we had an example
+where one of the items in the tuple was itself a list:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">students</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;CompSci&quot;</span><span class="p">,</span> <span class="s2">&quot;Physics&quot;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;Vusi&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Maths&quot;</span><span class="p">,</span> <span class="s2">&quot;CompSci&quot;</span><span class="p">,</span> <span class="s2">&quot;Stats&quot;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;Jess&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;CompSci&quot;</span><span class="p">,</span> <span class="s2">&quot;Accounting&quot;</span><span class="p">,</span> <span class="s2">&quot;Economics&quot;</span><span class="p">,</span> <span class="s2">&quot;Management&quot;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;Sarah&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;InfSys&quot;</span><span class="p">,</span> <span class="s2">&quot;Accounting&quot;</span><span class="p">,</span> <span class="s2">&quot;Economics&quot;</span><span class="p">,</span> <span class="s2">&quot;CommLaw&quot;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;Zuki&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Sociology&quot;</span><span class="p">,</span> <span class="s2">&quot;Economics&quot;</span><span class="p">,</span> <span class="s2">&quot;Law&quot;</span><span class="p">,</span> <span class="s2">&quot;Stats&quot;</span><span class="p">,</span> <span class="s2">&quot;Music&quot;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Tuples items can themselves be other tuples.  For example, we could improve
+the information about our movie stars to hold the full date of birth rather
+than just the year, and we could have a list of some of her movies and dates that they
+were made, and so on:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">julia_more_info</span> <span class="o">=</span> <span class="p">(</span> <span class="p">(</span><span class="s2">&quot;Julia&quot;</span><span class="p">,</span> <span class="s2">&quot;Roberts&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;October&quot;</span><span class="p">,</span> <span class="mi">1967</span><span class="p">),</span>
+                     <span class="s2">&quot;Actress&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Atlanta&quot;</span><span class="p">,</span> <span class="s2">&quot;Georgia&quot;</span><span class="p">),</span>
+                     <span class="p">[</span> <span class="p">(</span><span class="s2">&quot;Duplicity&quot;</span><span class="p">,</span> <span class="mi">2009</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s2">&quot;Notting Hill&quot;</span><span class="p">,</span> <span class="mi">1999</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s2">&quot;Pretty Woman&quot;</span><span class="p">,</span> <span class="mi">1990</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s2">&quot;Erin Brockovich&quot;</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s2">&quot;Eat Pray Love&quot;</span><span class="p">,</span> <span class="mi">2010</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s2">&quot;Mona Lisa Smile&quot;</span><span class="p">,</span> <span class="mi">2003</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s2">&quot;Oceans Twelve&quot;</span><span class="p">,</span> <span class="mi">2004</span><span class="p">)</span> <span class="p">])</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Notice in this case that the tuple has just five elements — but each of those in turn
+can be another tuple, a list, a string, or any other kind of Python value.
+This property is known as being <strong>heterogeneous</strong>, meaning that it can
+be composed of elements of different types.</p>
+</div>
+<div class="section" id="glossary">
+<h2>9.5. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-data-structure">data structure</dt>
+<dd>An organization of data for the purpose of making it easier to use.</dd>
+<dt id="term-immutable-data-value">immutable data value</dt>
+<dd>A data value which cannot be modified.  Assignments to elements or
+slices (sub-parts) of immutable values cause a runtime error.</dd>
+<dt id="term-mutable-data-value">mutable data value</dt>
+<dd>A data value which can be modified. The types of all mutable values
+are compound types.  Lists and dictionaries are mutable; strings
+and tuples are not.</dd>
+<dt id="term-tuple">tuple</dt>
+<dd>An immutable data value that contains related elements. Tuples are used
+to group together related data, such as a person’s name, their age,
+and their gender.</dd>
+<dt id="term-tuple-assignment">tuple assignment</dt>
+<dd>An assignment to all of the elements in a tuple using a single
+assignment statement. Tuple assignment occurs <em>simultaneously</em> rather than
+in sequence, making it useful for swapping values.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>9.6. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>We’ve said nothing in this chapter about whether you can pass tuples as
+arguments to a function. Construct a small Python example to test whether
+this is possible, and write up your findings.</li>
+<li>Is a pair a generalization of a tuple, or is a tuple a generalization of a pair?</li>
+<li>Is a pair a kind of tuple, or is a tuple a kind of pair?</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="events.html" title="10. Event-Driven Programming"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="strings.html" title="8. Strings"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+﻿<Window x:Class="Fragments.List_algorithms_chapter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="List_algorithms_chapter" Height="300" Width="474">
+    <Grid>
+        <Button Content="Linear Search" Height="23" HorizontalAlignment="Left" Margin="30,21,0,0" Name="btnLinearSearch" VerticalAlignment="Top" Width="75" Click="btnLinearSearch_Click" />
+        <Button Content="Find unknown words" Height="23" HorizontalAlignment="Left" Margin="30,60,0,0" Name="btnFindUnknownWords" VerticalAlignment="Top" Width="119" Click="btnFindUnknownWords_Click" />
+        <Button Content="Load words from file" Height="23" HorizontalAlignment="Left" Margin="31,97,0,0" Name="btnLoadWordsFromFile" VerticalAlignment="Top" Width="119" Click="btnLoadWordsFromFile_Click" />
+        <Button Content="Clean and split string" Height="24" HorizontalAlignment="Left" Margin="31,137,0,0" Name="btnCleanAndSplitString" VerticalAlignment="Top" Width="127" Click="btnCleanAndSplitString_Click" />
+        <Button Content="Binary Search" Height="24" HorizontalAlignment="Left" Margin="31,177,0,0" Name="btnBinarySearch" VerticalAlignment="Top" Width="127" Click="btnBinarySearch_Click" />
+        <Button Content="RemoveDups" Height="24" HorizontalAlignment="Left" Margin="191,20,0,0" Name="btnRemoveDups" VerticalAlignment="Top" Width="87" Click="btnRemoveDups_Click" />
+        <Button Content="Merge Tests" Height="23" HorizontalAlignment="Left" Margin="189,60,0,0" Name="btnMerge" VerticalAlignment="Top" Width="89" Click="btnMerge_Click" />
+        <Button Content="Merge Book" Height="23" HorizontalAlignment="Left" Margin="189,97,0,0" Name="btnMergeBook" VerticalAlignment="Top" Width="89" Click="btnMergeBook_Click" />
+        <Button Content="Merge BookII" Height="23" HorizontalAlignment="Left" Margin="189,138,0,0" Name="btnMergeBook2" VerticalAlignment="Top" Width="89" Click="btnMergeBook2_Click" />
+        <Button Content="QueensTests" Height="24" HorizontalAlignment="Left" Margin="340,20,0,0" Name="btnShuffleTest" VerticalAlignment="Top" Width="87" Click="btnShuffleTest_Click" />
+        <Button Content="FindQueens" Height="24" HorizontalAlignment="Left" Margin="340,97,0,0" Name="btnFindQueens" VerticalAlignment="Top" Width="87" Click="btnFindQueens_Click" />
+        <Button Content="Other" Height="24" HorizontalAlignment="Left" Margin="31,229,0,0" Name="btnOther" VerticalAlignment="Top" Width="87" Click="btnOther_Click" />
+    </Grid>
+</Window>

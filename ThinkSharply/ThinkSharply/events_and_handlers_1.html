@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Code-Behind: Events and Handlers &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="5. Diving into Code" href="diving_into_code.html" />
+    <link rel="prev" title="3. Start with a Window" href="start_window.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="diving_into_code.html" title="5. Diving into Code"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="start_window.html" title="3. Start with a Window"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="code-behind-events-and-handlers">
+<span id="index-0"></span><h1>4. Code-Behind: Events and Handlers<a class="headerlink" href="#code-behind-events-and-handlers" title="Permalink to this headline">¶</a></h1>
+<p>Once we have designed our GUI, we need to write the code-behind: the part of
+the program that will respond to events caused by the user.</p>
+<p>You really need a bit of theory about program code: types, variables, assignment
+statements, etc. before we can write code.  But we&#8217;re going to delay talking about
+that until the next chapter. We want to emphasize first the links between the front-end
+GUI and the code-behind, and the idea that the program responds to the user&#8217;s actions.
+So for this chapter, you might have to copy the code verbatim into your program, and focus
+more on how the big parts fit together.  We&#8217;ll dive deeper into the concepts of coding
+quite soon!</p>
+<p>There are two tasks we&#8217;ll need to get a GUI and a its code-behind to cooperate with one another:</p>
+<ul class="simple">
+<li>Determine which events the GUI should respond to.  Use the GUI designer to &#8220;wire them up&#8221;
+so that they trigger the running of some <strong>handler</strong> code-behind,</li>
+<li>Write the guts of the handler code.</li>
+</ul>
+<p>We&#8217;ll sometimes call a handler an <strong>event handler</strong>.  We mean the same thing.</p>
+<div class="section" id="how-to-wire-up-an-event-so-that-it-triggers-execution-of-our-handler-code">
+<h2>4.1. How to wire up an event so that it triggers execution of our handler code:<a class="headerlink" href="#how-to-wire-up-an-event-so-that-it-triggers-execution-of-our-handler-code" title="Permalink to this headline">¶</a></h2>
+<p>The easiest event to start with is a <code class="docutils literal"><span class="pre">Click</span></code> event on a button.   What
+code do we want to run when the user clicks the button?</p>
+<p>Let&#8217;s assume we need an application that calculate the area of a rectangular
+pane of glass from its width and height.</p>
+<p>The <em>inputs</em> to the program are going to be the width and height.
+The <em>calculation</em> will compute width times height.
+The <em>output</em>, or feedback to the user, will be the result of our calculation.</p>
+<p>We design our Window to look like this:  it has three text box controls, a few
+labels, and a button to perform the calculations.</p>
+<img alt="_images/areaApp1.png" src="_images/areaApp1.png" />
+<p>When we run the program the user will be able to enter the width and height.  But what
+we want to do next is to respond when the user clicks the <code class="docutils literal"><span class="pre">Calculate!</span></code> button.
+In Visual Studio (VS), we can get into the Designer View, and simply double-click on
+the button.  VS then creates a skeleton handler <strong>method</strong> in the code-behind, and
+changes our view so that we&#8217;re now viewing the code behind, ready to write our new
+code. If our button was called  <code class="docutils literal"><span class="pre">btnCalculate</span></code> <a class="footnote-reference" href="#id2" id="id1">[1]</a>, after double-clicking the
+button in the designer, VS will show us this code-behind:</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>If you can&#8217;t remember how to use the Property Editor to change the name of a control, peek back to Section 2.2.</td></tr>
+</tbody>
+</table>
+<img alt="_images/areaApp2.png" src="_images/areaApp2.png" />
+<p>VS did a lot of (necessary) work, but at this stage the best advice is to ignore most of it.
+Lines 27-30 is the bit that interests us: &#8212; this is the handler method that will be executed
+each time the button is clicked by the user.  We are going to write our code at line 29
+(where VS has conveniently positioned our cursor).</p>
+<p>Notice that there are two tabs now at the top: one called <code class="docutils literal"><span class="pre">MainWindow.xaml</span></code>, which is
+our GUI component of the program, and the active one (shown highlighted), which is the
+code-behind.  Its name (<code class="docutils literal"><span class="pre">MainWindow.xaml.cs</span></code>) hints that it is the C# code (the .cs part
+of the name tells us that) behind MainWindow.xaml.  You can switch between the two tabs
+freely.  If you close a tab, you can always open it again from the Solution Explorer window
+in VS.</p>
+</div>
+<div class="section" id="how-to-write-some-interesting-code-in-the-handler">
+<span id="index-1"></span><h2>4.2. How to write some interesting code in the handler:<a class="headerlink" href="#how-to-write-some-interesting-code-in-the-handler" title="Permalink to this headline">¶</a></h2>
+<p>Before we tackle the real problem, let&#8217;s play around a bit.  At line 29, we can insert
+a fragment of code like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>  <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="s">&quot;Pete&#39;s first handler!&quot;</span><span class="p">,</span> <span class="s">&quot;It says ...&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<img alt="_images/areaApp3.png" class="align-right" src="_images/areaApp3.png" />
+<p>Now we run our program and click its <em>Calculate!</em> button, and a message box pops up like this:</p>
+<p>So we&#8217;ve got the program to <em>do</em> something in response to our event!  This is significant
+progress!  You can close
+the pop-up message box and next time you click the button you&#8217;ll get a new event, the
+handler code will be called again, and a new message box will pop up.</p>
+<p>With confidence now that we can get from our GUI to our code-behind, we&#8217;ll delete the line
+we&#8217;ve just written and get back to solving the problem of calculating the area.</p>
+<p>We expect the user to type some numbers into the two text boxes on the GUI. We named them
+<code class="docutils literal"><span class="pre">txtWidth</span></code> and <code class="docutils literal"><span class="pre">txtHeight</span></code> while we were setting properties in the designer, and
+we named the big text box <code class="docutils literal"><span class="pre">txtResult</span></code>.  The names are not used while we are designing the GUI,
+but they are used in the code-behind that we write, where need have to refer to the
+controls by their names.</p>
+<p>So in our handler we have to take the text (a string) in each of the two input text boxes,
+and convert it into a double number so that we can do arithmetic.
+Then we&#8217;ll compute the area (a double), and we&#8217;ll have to convert that
+back to a string.  Then we can output it.   Here is our code for our handler (you may
+want to just copy and paste this from the on-line textbook into your own code):</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">btnCalculate_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">w</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToDouble</span><span class="p">(</span><span class="n">txtWidth</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>  <span class="c1">// Convert string in textbox to double.</span>
+    <span class="kt">double</span> <span class="n">h</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToDouble</span><span class="p">(</span><span class="n">txtHeight</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span> <span class="c1">// Same again.</span>
+    <span class="kt">double</span> <span class="n">area</span> <span class="p">=</span> <span class="n">w</span> <span class="p">*</span> <span class="n">h</span><span class="p">;</span>
+    <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot; {0} x {1} gives an area of {2}\n&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">area</span><span class="p">);</span>
+    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;It says ...&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>And here is what gets displayed when we run the program, enter data, and click the button:</p>
+<img alt="_images/areaApp4.png" src="_images/areaApp4.png" />
+<p>There are a few different options for displaying our results once we&#8217;ve calculated them.
+We&#8217;ve chosen to use a message box here, but in future we&#8217;ll probably prefer to put the
+answers into the third big text box that we&#8217;ve got on the screen.  We can do
+this quite easily by changing line 7 in the above code, to this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>     <span class="n">txtResults</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>The nice thing about doing it like this is that new results simply get appended to the
+bottom of previous results: so you can click the <code class="docutils literal"><span class="pre">Calculate!</span></code> button repeatedly or change
+the width and height and see all the results appear in your text box.  (We even made
+the vertical and horizontal scroll bars visible for this text box, so if you get enough
+results you&#8217;ll be able to scroll through them).</p>
+</div>
+<div class="section" id="console-based-programs-computation-as-calculation">
+<span id="index-2"></span><h2>4.3. Console-based programs:  Computation as Calculation<a class="headerlink" href="#console-based-programs-computation-as-calculation" title="Permalink to this headline">¶</a></h2>
+<p>In this book we&#8217;re stressing the idea that modern computing is about <em>computation as interaction</em>.
+Our touch screens, smart phones, tablet devices have controls like
+scrollbars, buttons, and menus, so <em>interaction</em> is currently the big deal.</p>
+<p>We&#8217;ve used a GUI-based program to program in this style, and this chapter has shown
+how we wire up our programs for this way of thinking.  In the GUI style,
+events occur, and these are wired up to trigger execution of the code in the handlers.</p>
+<p>There is another style of programming called <em>computation as calculation</em>.
+Here a program doesn&#8217;t have a GUI, or events, or handlers.</p>
+<p>It often does three steps:</p>
+<ul class="simple">
+<li>input some data,</li>
+<li>process the data,</li>
+<li>output the results.</li>
+</ul>
+<p>It does the input and output in a <strong>console</strong>, and the flow of logic is very
+strictly top-to-bottom, pre-determined by the program logic, rather than dictated by
+when and how the user clicks buttons.
+We&#8217;ll call this style of program a <strong>console-based program</strong>.</p>
+<div class="sidebar">
+<p class="first sidebar-title">A teletype console from 1963</p>
+<img alt="_images/1963teletypeASR-33.jpg" src="_images/1963teletypeASR-33.jpg" />
+<p class="last">Once upon a time all input and output with computers was like this...   The image comes
+from the museum at <a class="reference external" href="http://www.fcet.staffs.ac.uk/jdw1/sucfm/sucfmoutput.htm">http://www.fcet.staffs.ac.uk/jdw1/sucfm/sucfmoutput.htm</a></p>
+</div>
+<p>Fortunately, C# can work well either with GUIs, or using the
+console (although the console is just represented as a window on the screen these days).
+Sometimes we can even use a mix of the two styles in the same program.</p>
+<p>Let us re-code the above problem about computing the area of glass.  This time
+we&#8217;ll do it as a Console program.   So in Visual Studio, create a new project.
+But instead of choosing a WPF Application, create a Console Application.  VS
+will write a skeleton like this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Linq</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Text</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">AreaOfGlass</span>
+<span class="p">{</span>
+     <span class="k">class</span> <span class="nc">Program</span>
+     <span class="p">{</span>
+         <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+         <span class="p">{</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Once again, there is some necessary scaffolding code (much less than the scaffolding
+for a GUI, though), that we can mainly
+ignore.  What is very different from the WPF flavour of programs is that there is no
+GUI in a Console-based program.</p>
+<p>The program will start executing our code in the body of the
+Main method, i.e. at line 11.    So here is a completed method that you can copy and
+paste into the scaffolding that VS gave you:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="c1">// Get the inputs to the program</span>
+     <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;What is the width? &quot;</span><span class="p">);</span>
+     <span class="kt">string</span> <span class="n">s1</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+     <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;What is the height? &quot;</span><span class="p">);</span>
+     <span class="kt">string</span> <span class="n">s2</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+
+     <span class="c1">// Do the calculations</span>
+     <span class="kt">double</span> <span class="n">w</span> <span class="p">=</span> <span class="kt">double</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">s1</span><span class="p">);</span>
+     <span class="kt">double</span> <span class="n">h</span> <span class="p">=</span> <span class="kt">double</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">s2</span><span class="p">);</span>
+     <span class="kt">double</span> <span class="n">area</span> <span class="p">=</span> <span class="n">w</span> <span class="p">*</span> <span class="n">h</span><span class="p">;</span>
+
+     <span class="c1">// Output the results</span>
+     <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot; {0} x {1} gives an area of {2}\n&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">area</span><span class="p">);</span>
+     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+
+     <span class="c1">// This extra ReadLine keeps the console window open while we admire our results.</span>
+     <span class="kt">string</span> <span class="n">dummy</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>When we run the program, the console-based interaction looks like this:</p>
+<img alt="_images/Console01.png" src="_images/Console01.png" />
+<p>You&#8217;ll find many Console-based examples in the Help system, in textbooks, and in on-line tutorials.
+Authors sometimes prefer them, because they can demonstrate one small technique without
+the overhead of having to design a window. The top-to-bottom execution is also a bit
+easier because we don&#8217;t need to understand events and handlers.  And everything is in one
+file, rather than having to have a GUI window, and some code-behind in another window.</p>
+<p>Of course, one downside to Console programs is that they can only work with text,
+not graphics, and they don&#8217;t match our modern experience with our computers, our
+iPads, and our cellphones.</p>
+<p>In this book we&#8217;ll tend to focus more on GUI-based programs that promote the
+idea of &#8220;computation as interaction&#8221;.</p>
+</div>
+<div class="section" id="glossary">
+<h2>4.4. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-code-behind">code-behind</dt>
+<dd>Code that is &#8220;attached&#8221; to a GUI and provides the logic for the application.
+See the slightly different definition in the first chapter&#8217;s glossary too.</dd>
+<dt id="term-console-based-program">console-based program</dt>
+<dd>Alternative to a GUI-based program.  A console-based program does its input from
+and its output to a text-only console window.</dd>
+<dt id="term-gui-based-program">GUI-based program</dt>
+<dd>An application that uses a GUI as its interface to the user.</dd>
+<dt id="term-handler">handler</dt>
+<dd>Code that we write to respond to an event.</dd>
+<dt id="term-response">response</dt>
+<dd>We get an event, and give a response.  The handler is the code that determines
+what our response is.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>4.5. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><ol class="first loweralpha">
+<li><p class="first">Design an application that contains a button with a suitable caption, and a text box
+(with pretty colours and a nice font!).  When the button is clicked,
+the text in the text box should show the current time of day.
+Here is the code similar to that needed
+in the handler for your button click event:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="n">textbox1</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToShortTimeString</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Now experiment by changing the code.  There is another method called <code class="docutils literal"><span class="pre">ToLongTimeString</span></code>,
+Use it instead, and make a note of what is different.</p>
+</li>
+<li><p class="first">Add another button to your interface. When it is clicked, show the date.</p>
+</li>
+</ol>
+</li>
+<li><p class="first">Add another button to your program above.  When this button&#8217;s click
+event occurs, make the program respond by randomly choosing an
+inspirational saying, or a joke, and displaying it in a message box.
+Here is some skeleton code that randomly picks one of your sayings:
+(You are not expected to understand this all at this stage ... you can
+just copy and paste the code into your program.  All you still have to do
+to complete this is to show the chosen saying in a message box.)</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+      <span class="c1">// Make a list of possible sayings ...</span>
+      <span class="kt">string</span><span class="p">[]</span> <span class="n">possibleSayings</span> <span class="p">=</span> <span class="p">{</span>
+          <span class="s">&quot;Out of my mind... Back in five minutes.&quot;</span><span class="p">,</span>
+          <span class="s">&quot;Your gene pool needs a little chlorine.&quot;</span><span class="p">,</span>
+          <span class="s">&quot;Ever stop to think, and forget to start again?&quot;</span><span class="p">,</span>
+          <span class="s">&quot;I used to have a handle on life, but it broke.&quot;</span>
+      <span class="p">};</span>
+
+      <span class="c1">// Pick a random number between 0 and 3</span>
+      <span class="c1">// (because that is how we number these possible sayings)</span>
+      <span class="n">Random</span> <span class="n">rng</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+      <span class="kt">int</span> <span class="n">choice</span> <span class="p">=</span> <span class="n">rng</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">4</span><span class="p">);</span> <span class="c1">// sets choice to either 0,1,2, or 3</span>
+
+      <span class="c1">// Now put the chosen saying into a string variable ...</span>
+      <span class="kt">string</span> <span class="n">whatToSay</span> <span class="p">=</span> <span class="n">possibleSayings</span><span class="p">[</span><span class="n">choice</span><span class="p">];</span>
+
+      <span class="c1">// Complete this now by using a message box to</span>
+      <span class="c1">// show whatever is in &#39;whatToSay&#39; to the user.</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">Add three more buttons to your program above, with content &#8220;Red&#8221;, &#8220;Green&#8221; and &#8220;Blue&#8221;.
+When one of the buttons is clicked the background brush of the window should be changed.
+Here is some sample code:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">buttonRed_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+     <span class="k">this</span><span class="p">.</span><span class="n">Background</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Red</span><span class="p">;</span>     <span class="c1">// &quot;this&quot; refers to our GUI window</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="diving_into_code.html" title="5. Diving into Code"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="start_window.html" title="3. Start with a Window"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

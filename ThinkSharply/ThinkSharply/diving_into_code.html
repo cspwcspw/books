@@ -1,0 +1,983 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5. Diving into Code &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="6. Nesting Things in Other Things" href="nesting.html" />
+    <link rel="prev" title="4. Code-Behind: Events and Handlers" href="events_and_handlers_1.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="nesting.html" title="6. Nesting Things in Other Things"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="events_and_handlers_1.html" title="4. Code-Behind: Events and Handlers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="diving-into-code">
+<h1>5. Diving into Code<a class="headerlink" href="#diving-into-code" title="Permalink to this headline">¶</a></h1>
+<p>Some of this chapter was adapted or taken from Yusuf&#8217;s tutorial at
+<a class="reference external" href="http://www.ict.ru.ac.za/resources/way_of_the_program/">http://www.ict.ru.ac.za/resources/way_of_the_program/</a>.</p>
+<p>There are a few <em>threshold concepts</em> in this chapter.
+Briefly, a threshold concept is one that is often troublesome
+for some beginners.  It changes the way we think about something.
+(The education theorists use the word <em>transformational</em>.)
+And wrapping our heads around a threshold concept usually requires
+us to let go of the &#8220;old way&#8221; of thinking about or doing things
+before we can see things in the new or different way.  (The fact that the
+new way of seeing things might conflict with other knowledge you already have
+is what sometimes makes threshold ideas so troublesome!)  If you&#8217;d like to know
+more about threshold concepts a Google search will turn up some amazing stuff.</p>
+<div class="sidebar">
+<p class="first sidebar-title">Hint to instructors</p>
+<p>Getting across the idea of what Computer Scientists mean by a <strong>variable</strong> sometimes gives trouble, because it is not the same as the maths meaning of the word.  So one useful analogy might be to compare it to the memory in an older calculator <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
+<ul class="simple">
+<li>We create the variable (with an initial value of zero) when we turn on our calculator.</li>
+<li>We can assign (or <em>store</em>) a new value into the variable/memory at any time.</li>
+<li>We can retrieve and use the value that is currently stored in the calculator&#8217;s memory.
+Importantly, reading the value from a variable does not remove
+it or &#8220;use it up&#8221;.
+So we can use the value as often as we like.</li>
+<li>If we assign a different value to the variable / calculator memory at some later time,
+the old value is lost, gone forever!</li>
+<li>When we turn off the calculator we destroy the variable and its contents.</li>
+</ul>
+<p>A simple game, getting one student in the class to use their calculator
+memory to look after one variable (say <code class="docutils literal"><span class="pre">x</span></code>) and
+other students to look after <code class="docutils literal"><span class="pre">y</span></code> or <code class="docutils literal"><span class="pre">z</span></code> might drive home
+an accurate mental model of what a variable is, and how it works.</p>
+<table class="last docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Some newer calculators remember the value in memory even after the
+calculator is turned off. That is not how variables work in programming languages.</td></tr>
+</tbody>
+</table>
+</div>
+<p>When writing code, there are three essential ideas that are absolutely fundamental:</p>
+<ul class="simple">
+<li>What a <strong>variable</strong> is, and how it is created, given a value, perhaps changed,
+used, and later destroyed. (This is different from maths, so don&#8217;t get confused!)</li>
+<li>Computer code and statements are executed one-at-a-time, and one statement
+can change what a previous statement has done.  (This is different from maths too,
+so it can easily be another stumbling point if we&#8217;re not careful.)</li>
+<li>At any instance in time, every &#8220;live&#8221; variable has some or other value.
+All our live variables and their current
+values are referred to as the <strong>state</strong> of our program. A key idea in programming
+is that each step of the code can update or change the program state.  (Most of the
+Maths you have seen before doesn&#8217;t have the idea of a state that changes over time.
+But this is a central idea in programming.  So once again, it can be a troublesome
+threshold idea that we have to become very comfortable with if we&#8217;re going to
+learn to think like programmers.)</li>
+</ul>
+<div class="section" id="basic-c-programming-theory">
+<h2>5.1. Basic C# programming theory<a class="headerlink" href="#basic-c-programming-theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="types">
+<h3>5.1.1. Types<a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h3>
+<p>Before you can write your first code, there is some theory that you must know.  The first thing to know is that according to C#, everything has a <strong>type</strong>.  For example, in C#, <em>2</em> is an <em>int</em>. (In maths you&#8217;d call it an integer, but we&#8217;re more lazy that that, and always use use this short name for the type.)  We can say that the <strong>type</strong> of <em>2</em> is <em>int</em>.</p>
+<p>We are going to use five of the C# <strong>primitive</strong> types. (&#8220;Primitive&#8221; here means already built-in to C#, and understood in any C# program.).  They are:</p>
+<dl class="docutils">
+<dt><cite>int</cite></dt>
+<dd>This is any whole number between approximately -2000000000 and 2000000000.</dd>
+<dt><cite>bool</cite></dt>
+<dd>This is either true or false.</dd>
+<dt><cite>double</cite></dt>
+<dd>This is any number with a decimal point in it.</dd>
+<dt><cite>char</cite></dt>
+<dd>This is any single character, digit, or punctuation mark.  In C#, a char is always enclosed in single-quotation ( <code class="docutils literal"><span class="pre">'</span></code> ) marks.</dd>
+<dt><cite>string</cite></dt>
+<dd>This is zero or more characters, digits, and/or punctuation marks.  In C#, a string is always enclosed in (double-)quotation ( <code class="docutils literal"><span class="pre">&quot;</span></code> ) marks.</dd>
+</dl>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">We will be referring to these five types very often, and using one or more of
+them in <em>every single program</em> for which
+we write code!  Therefore, become very familiar with them.
+When you hear the word <cite>string</cite> or <cite>bool</cite>, for example, you should
+immediately understand the Computer Science meaning of that term;
+and whenever you see any data, you should immediately understand what its type is.</p>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Examples</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>int</cite></td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">576</span></code></li>
+<li><code class="docutils literal"><span class="pre">20140214</span></code></li>
+<li><code class="docutils literal"><span class="pre">-873</span></code></li>
+<li><code class="docutils literal"><span class="pre">0</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><cite>bool</cite></td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">true</span></code></li>
+<li><code class="docutils literal"><span class="pre">false</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><cite>double</cite></td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">7.51954</span></code></li>
+<li><code class="docutils literal"><span class="pre">985.0</span></code></li>
+<li><code class="docutils literal"><span class="pre">-33.614</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><cite>char</cite></td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">'8'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'z'</span></code></li>
+<li><code class="docutils literal"><span class="pre">','</span></code></li>
+<li><code class="docutils literal"><span class="pre">'</span> <span class="pre">'</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><cite>string</cite></td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">&quot;Are</span> <span class="pre">you</span> <span class="pre">excited?&quot;</span></code></li>
+<li><code class="docutils literal"><span class="pre">&quot;z&quot;</span></code></li>
+<li><code class="docutils literal"><span class="pre">&quot;&quot;</span></code></li>
+<li><code class="docutils literal"><span class="pre">&quot;</span> <span class="pre">&quot;</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="exercise admonition">
+<p class="first admonition-title">Exercises</p>
+<p>What is the type of:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">89.9</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">false</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">'p'</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">-0.0</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">11</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">'0'</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">0</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">&quot;0&quot;</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">true</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">&quot;z&quot;</span></code> ______________________________________</li>
+<li><code class="docutils literal"><span class="pre">&quot;775.21&quot;</span></code> ______________________________________</li>
+</ol>
+<p>When we program, we have to take real-world ideas like kilometers or money or
+names and student numbers, and figure out how best to work with these
+things in C#.
+Which C# primitive type would be best suited to work with:</p>
+<ol class="last arabic simple">
+<li>Your name? ______________________________________</li>
+<li>Your age in years? ______________________________________</li>
+<li>Whether you are alive? ______________________________________</li>
+<li>Your grade (A, B, C, D, or E) for an assignment? ______________________________________</li>
+<li>The length of a line in centimetres? ______________________________________</li>
+<li>The number of pages in a book? ______________________________________</li>
+<li>The exact price of a loaf of bread? ______________________________________</li>
+<li>Whether you have eaten anything in the last 6 hours? ______________________________________</li>
+<li>The second letter of your first name? ______________________________________</li>
+<li>The number of grains of sand in a jar? ______________________________________</li>
+<li>The square root of 2? ______________________________________</li>
+<li>Your reasons for reading this book? ______________________________________</li>
+<li>The colour of your eyes? ______________________________________</li>
+</ol>
+</div>
+</div>
+<div class="section" id="working-with-time">
+<h3>5.1.2. Working with time<a class="headerlink" href="#working-with-time" title="Permalink to this headline">¶</a></h3>
+<div class="sidebar">
+<p class="first sidebar-title">There Is No &#8220;Right&#8221; Program</p>
+<p class="last">There are an infinite number of ways to write any particular program, just as there are an
+infinite number of ways to paint a picture of a person.  The solutions that your instructors
+give you are just the way that <strong>they</strong> would write the program.  Study them, and learn from them,
+but understand that their solutions are not the only way (or even the best way) to write a program.</p>
+</div>
+<p>The second (and last) bit of theory to know before we begin writing
+programs is that programming instructions that we&#8217;re going to deal with in
+these notes are executed <strong>sequentially</strong>,
+one after the other.  We&#8217;ve already seen that
+our code-behind is organized into handler methods that are called when some event happens.
+This means that the order in which you write programming statements within your handler matters.
+Each statement might change the state of the program (by, say, creating a new variable, or changing
+an existing variable.)  If you get the order incorrect, the program will do the incorrect thing.</p>
+<p>The order in which statements are executed is called the <strong>control flow</strong> of the program.
+Control flow can sometimes depend on data: if your age is less than 18 then we want this bit
+of code to execute, otherwise we want some different code to execute.
+So the control flow could consist of multiple <strong>paths</strong>, each of which could be taken during program execution.
+For this kind of programming, one of the most important skills of a programmer
+is the ability to &#8220;see&#8221; the control flow of a
+program.  The best way to get better at &#8220;seeing&#8221; control flow is to read other people&#8217;s programs,
+try to work out what they do <em>without executing them</em>, and then execute them to see if your
+reasoning was correct (or, if your reasoning was incorrect, where and why it was incorrect).</p>
+<p>The way we&#8217;re programming in this book, it is the <em>event</em> &#8212; a click of a button
+(and later, other events like moving the mouse) &#8212; that causes the application
+to spring into action and to begin executing the code in the handler method.</p>
+</div>
+</div>
+<div class="section" id="a-first-program">
+<h2>5.2. A first program<a class="headerlink" href="#a-first-program" title="Permalink to this headline">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Syntax</p>
+<p class="last"><strong>Syntax</strong> is the collection of rules that define what a programming language looks like.
+Each programming language has its own syntax, just as each human language has its own grammar and spelling rules.</p>
+</div>
+<p>With that, you are ready to begin your first program!</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">best</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>This simply says that we should define (create) a variable called <cite>a</cite>, and that <cite>a</cite> should be capable of
+holding an <cite>int</cite> value.  (It will get an initial value of 0, just like your calculator memory is set to zero
+when you first put your batteries into and turn on the calculator.)
+Then we create a second variable called <cite>best</cite>, and a third one called <cite>c</cite>.
+Notice that each statement ends with a <cite>;</cite> (<strong>semicolon</strong>) character.
+A shorthand, equivalent way of saying exactly the same thing is</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">best</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p><cite>a</cite>, <cite>best</cite>, and <cite>c</cite> are <strong>variables</strong>.
+A variable has a name (which is an <strong>identifier</strong>) and a type.  It holds a value.
+The value of a variable can be changed, but its name and type cannot.
+Identifiers should start with a letter and contain no spaces or punctuation.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">A <strong>variable</strong> in Computer Science is not the same as a <strong>variable</strong> in Statistics,
+or a <strong>variable</strong> in Mathematics.
+Understand the specific Computer Science meaning, and do not confuse it with
+your other subjects!</p>
+</div>
+<p>Merely creating a variable doesn&#8217;t make for an exciting program.  Let&#8217;s try this program instead:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="n">a</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+<span class="n">b</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="n">c</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<div class="sidebar">
+<p class="first sidebar-title">Why not one way to do things?</p>
+<p class="last">Programming languages are designed for humans as well as computers, and language designers have tried to
+make languages that let you express yourself in the way that you find to be most natural.  Some people
+like writing very short, very concise code.  Others like to write many lines, believing that this
+leads to clearer, more readable code.  Most people find a balance between very-concise and very-verbose.
+It doesn&#8217;t matter which style you prefer to write in.  What matters is that you are able to <em>read</em> programs
+written in <em>any</em> style.</p>
+</div>
+<p>Let&#8217;s understand what it does.  First, we define (create) the <cite>a</cite>, <cite>b</cite>, and <cite>c</cite> variables.
+Then we assign the value <cite>5</cite> to <cite>a</cite>.  Then we give the value <cite>10</cite> to <cite>b</cite>.  Lastly, we
+put the value <cite>15</cite> into <cite>c</cite>.</p>
+<p>These statements, of the form <cite>X = Y;</cite>, are
+called <strong>assignment statements</strong>.  Assignment statements are used to store a new
+value into a variable.  All assignment statements have a right-hand-side
+(on the right of the <cite>=</cite>) and a left-hand-side (on the left of the <cite>=</cite>).
+There is always a variable name on the left-hand-side.  An assignment statement executes
+the right-hand-side first, and then puts the answer it got into the variable that is named
+on the left-hand-side.</p>
+<p>While the computer is working out the value on the right-hand-side, whenever it
+encounters a variable name it will substitute the value that is currently stored
+in that variable.
+So say we&#8217;re executing line 4 above.  The computer fetches the value in the <cite>a</cite> variable, and substitutes a 5.  In the <cite>b</cite> variable it finds a 10.
+So it adds the 5 and the 10, and gets the value 15.  This is why
+the variable <cite>c</cite> is given the value <cite>15</cite>, rather than the value &#8220;a + b&#8221;.</p>
+<div class="admonition-remember-that-control-flow-matters admonition">
+<p class="first admonition-title">Remember that control flow matters ...</p>
+<p>Programs do their work one statement at a time.  So we would be wrong if we looked at
+the program above and tried to think about all four statements at the same time.
+Each statement in a program changes something from how it was before.  (We said that
+the program has a <em>state</em>, and statements change the state of the program.)
+So the first key skill we&#8217;ll need is to realize that statements are executed in a
+specific order, top-to-bottom, and that each one makes a change to the state.  It
+is a bit like baking a cake from a recipe &#8212; you need to do things one step at a
+time, in the correct order.  If you bake your cake before
+you&#8217;ve mixed the ingredients, you&#8217;re asking for trouble!</p>
+<p class="last">A key programming skill is <em>planning</em> what steps are needed to solve our
+problem, and getting the steps into the correct order.</p>
+</div>
+<p>We can tighten this code up a bit, by combining definitions (where we define, or create, the variable) and assignment statements, and reduce it from 4 lines to 3 lines in length.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">b</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">c</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>And if we&#8217;d like to, we can use the shorthand form of definitions to reduce it to a single line:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">5</span><span class="p">,</span> <span class="n">b</span> <span class="p">=</span> <span class="m">10</span><span class="p">,</span> <span class="n">c</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now lets make it a bit more interesting...</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+<span class="n">a</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+<span class="n">b</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="n">c</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
+<span class="n">b</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">c</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now our variables are given initial values in lines 2-4, but when line 5 is executed
+can you say what value is assigned to <cite>b</cite>?    And when this code completes its execution,
+what value is in the variable <cite>c</cite>?</p>
+<p>If you said the value in <cite>b</cite> was 20, and the value in <cite>c</cite> was still the 15 that was left
+there in line 4, you&#8217;d be right.</p>
+<div class="admonition-putting-things-together admonition">
+<p class="first admonition-title">Putting things together</p>
+<p>If you&#8217;re not yet convinced that Computer Science isn&#8217;t Mathematics, think about this: in Mathematics, there are common equivalents for <cite>int</cite>, <cite>double</cite>, and <cite>bool</cite> types.  There are no common equivalents for <cite>char</cite> and <cite>string</cite> types.  That might be because Computer Science is a more practical and pragmatic discipline, and one of the common things that people want to be able to do is read and write text.  So it makes sense for Computer Science to have <cite>char</cite> and <cite>string</cite>, and it makes sense for Mathematics to not use those types.  It also makes sense for programming languages, such as C#, to use those types in a non-mathematical way.  For example, if you wrote this:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">a</span> <span class="p">=</span> <span class="s">&quot;super&quot;</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">b</span> <span class="p">=</span> <span class="s">&quot;man&quot;</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">hero</span> <span class="p">=</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p class="last">That would be perfectly OK in C# (and <cite>hero</cite> would end up with the value <cite>superman</cite>).
+In Computer Science, <cite>+</cite> commonly means <em>put these things together</em>.  If you put two
+<cite>int</cite>s together, you get the sum of the <cite>int</cite>s.  If you put two <cite>string</cite>s together,
+you get the combined value of both <cite>string</cite>s.  This makes absolutely no sense,
+mathematically.  But this is Computer Science &#8211; not Mathematics!</p>
+</div>
+<div class="exercise admonition">
+<p class="first admonition-title">Exercises</p>
+<p>There is something wrong with each of these lines of code.  For each line, write a sentence describing what is wrong.</p>
+<ol class="arabic simple">
+<li>in a;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>string a b;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>bool a</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>int a, string b;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>int 3d;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="6">
+<li>int a = 3.0;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="7">
+<li>double a, b = 5.0, c = &#8220;6.0&#8221;;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="8">
+<li>char zoology = &#8220;&#8221;;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="9">
+<li>char biology = &#8220;E&#8221;;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="10">
+<li>bool botany = True;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="11">
+<li>INT CHEMISTRY = 100;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="12">
+<li>bool able, able;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="13">
+<li>int articulate = 8; bool ampersand = articulate;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="14">
+<li>string o&#8217;brien = &#8220;Connor&#8221;;</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>What type would we need to fill in to define <cite>x</cite> in each line below?</p>
+<ol class="last arabic simple">
+<li>___________ x = &#8220;Yes&#8221;;</li>
+<li>___________ x = 213;</li>
+<li>___________ x = 0.0;</li>
+<li>___________ x = &#8216;y&#8217;;</li>
+<li>___________ x = &#8220;y&#8221;;</li>
+<li>___________ x = true;</li>
+<li>___________ x = 5 + 3;</li>
+<li>___________ x = &#8220;false&#8221;;</li>
+<li>___________ x = 3.2/5.1;</li>
+<li>___________ x = false;</li>
+<li>___________ x = &#8220;20/5&#8221;;</li>
+</ol>
+</div>
+</div>
+<div class="section" id="basic-arithmetic">
+<h2>5.3. Basic Arithmetic<a class="headerlink" href="#basic-arithmetic" title="Permalink to this headline">¶</a></h2>
+<p>There are five arithmetic <strong>operators</strong> that are commonly used in C#.  The first four should be familiar to you from school:</p>
+<div class="sidebar">
+<p class="first sidebar-title">Negative numbers and spacing</p>
+<p class="last">You usually don&#8217;t need to put spaces between the parts of an arithmetic expression: 4-5+3 is the same
+thing as 4&nbsp;-&nbsp;5&nbsp;+&nbsp;3.  The only exception to this is when you have a negative term
+in your expression.  C# doesn&#8217;t understand the arithmetic expression <code class="docutils literal"><span class="pre">7--4</span></code>, but it does
+understand <code class="docutils literal"><span class="pre">7</span> <span class="pre">-</span> <span class="pre">-4</span></code>, so be sure to put a space before negative numbers.</p>
+</div>
+<ul class="simple">
+<li><cite>X + Y</cite> adds X and Y</li>
+<li><cite>X - Y</cite> subtracts Y from X</li>
+<li><cite>X * Y</cite> multiplies X and Y</li>
+<li><cite>X / Y</cite> divides X by Y</li>
+</ul>
+<p>The last operator is the <strong>modulus</strong> operator:</p>
+<ul class="simple">
+<li><cite>X % Y</cite> gives the remainder that would result from dividing X by Y</li>
+</ul>
+<p>The first time you did division at school, you probably expressed your answer as &#8220;A remainder B&#8221;.  For example, you would say
+that 7 divided by 4 was &#8220;1 remainder 3&#8221;, or that 24 divided by 6 was &#8220;4 remainder 0&#8221;.  The modulus operation gives you
+the &#8220;remainder&#8221; part of the answer; so 7&nbsp;%&nbsp;4&nbsp;gives&nbsp;3, and 24&nbsp;%&nbsp;6&nbsp;gives&nbsp;0.  The sign of the
+answer is the same as the sign of the dividend. (Dividend is the one on the left: dividend/divisor.)  So, for example, -7&nbsp;%&nbsp;4&nbsp;gives&nbsp;-3.</p>
+<img alt="_images/precedence.png" class="align-right" src="_images/precedence.png" />
+</div>
+<div class="section" id="order-of-operations">
+<h2>5.4. Order of Operations<a class="headerlink" href="#order-of-operations" title="Permalink to this headline">¶</a></h2>
+<p>You can (and should) group arithmetic terms using parentheses (round brackets),
+just as you would in ordinary mathematics.  </p>
+<p>The usual precedence of operations (parentheses, division &amp; multiplication,
+addition &amp; subtraction)
+applies to arithmetic expressions in C#.
+When operators have the same precedence (division and multiplication do, and addition and subtraction do), arithmetic
+expressions are evaluated from left to right.</p>
+</div>
+<div class="section" id="can-we-mix-different-types-in-an-expression">
+<h2>5.5. Can we mix different types in an expression?<a class="headerlink" href="#can-we-mix-different-types-in-an-expression" title="Permalink to this headline">¶</a></h2>
+<p>Arithmetic that is done exclusively with <cite>int</cite>s <em>always</em> results in integer answers.
+This means that 7&nbsp;/&nbsp;4&nbsp;=&nbsp;1, and not 1.75 or 2.  Arithmetic that is done
+exclusively with <cite>double</cite>s results in <cite>double</cite> answers.  This means that 7.0&nbsp;/&nbsp;4.0&nbsp;=&nbsp;1.75.</p>
+<p>Arithmetic that mixes <cite>double</cite>s and <cite>int</cite>s results in <cite>double</cite> answers.
+This means that 7.0&nbsp;/&nbsp;4&nbsp;=&nbsp;1.75, and 7&nbsp;/&nbsp;4.0&nbsp;=&nbsp;1.75.</p>
+<div class="exercise admonition">
+<p class="first admonition-title">Exercises</p>
+<p>What is the answer to these arithmetic expressions?  When the answer is a <cite>double</cite>,
+be sure to show a decimal point in your answer.</p>
+<ol class="last arabic simple">
+<li>6 * 4 - 1 ________</li>
+<li>6 * (4 - 1) ________</li>
+<li>3.2 * 2.0 ________</li>
+<li>3.2 * 2 ________</li>
+<li>(3 * (5 - 2) / 4) + 1 ________</li>
+<li>((5 - 2) / 4 * 3) + 1 ________</li>
+<li>1 + 1.0 ________</li>
+<li>(-(-2) + (-2 * -2 - 4 * 3 * 2)) / 2 * 3 ________</li>
+<li>(-(-2) + (-2 * -2 - 4.0 * 3 * 2)) / 2 * 3 ________</li>
+<li>8 - -8 ________</li>
+<li>(10 * 7) % 3 ________</li>
+<li>(5 % 2) + (71553 % 2) ________</li>
+<li>(19 % 4) + (-72 % 10) ________</li>
+</ol>
+</div>
+</div>
+<div class="section" id="tokens-and-keywords">
+<h2>5.6. Tokens and Keywords<a class="headerlink" href="#tokens-and-keywords" title="Permalink to this headline">¶</a></h2>
+<p>A <strong>token</strong> in a programming language is a group of one or more characters that are
+treated as a single chunk.  So a number like <code class="docutils literal"><span class="pre">1234</span></code> would be a token.  An identifier
+like <code class="docutils literal"><span class="pre">x</span></code> or <code class="docutils literal"><span class="pre">average</span></code> is a single token.   The semicolon (<code class="docutils literal"><span class="pre">;</span></code>), the parentheses,
+all the arithmetic operators, the assignment symbol (<code class="docutils literal"><span class="pre">=</span></code>) are also tokens.</p>
+<p>Some tokens consist of more than one character:  we use the <code class="docutils literal"><span class="pre">==</span></code> token to test
+for equality.  We pronounce it <em>equals</em>.   Other multi-character tokens that we&#8217;ll see in the
+next section are <code class="docutils literal"><span class="pre">//</span></code>,  <code class="docutils literal"><span class="pre">/*</span></code> and <code class="docutils literal"><span class="pre">*/</span></code>.   You may not leave a space between these
+characters:  the sequence <code class="docutils literal"><span class="pre">*/</span></code> is one token, but <code class="docutils literal"><span class="pre">*</span> <span class="pre">/</span></code> is two tokens.</p>
+<p>Some identifiers (multi_character tokens that start with a letter) are <strong>keywords</strong> in the
+language: they have a special meaning that the compiler understands.
+Type names like <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">bool</span></code>, and <code class="docutils literal"><span class="pre">string</span></code> are keywords, <code class="docutils literal"><span class="pre">true</span></code> and <code class="docutils literal"><span class="pre">false</span></code> are keywords,
+and we&#8217;ll soon meet other keywords like <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">else</span></code>, <code class="docutils literal"><span class="pre">while</span></code>,
+<code class="docutils literal"><span class="pre">new</span></code>, and <code class="docutils literal"><span class="pre">for</span></code>.   You can find a list of all the keywords
+at <a class="reference external" href="http://msdn.microsoft.com/en-us/library/x53a06bb.aspx">http://msdn.microsoft.com/en-us/library/x53a06bb.aspx</a>.</p>
+<p>You can&#8217;t use keywords for your own identifiers.  So don&#8217;t choose a name like <code class="docutils literal"><span class="pre">double</span></code> for
+your variable (or for a control in your GUI).</p>
+<p>In Visual Studio, and in the on-line version of this textbook, keywords are often shown
+in different colours.  This colour-coding helps us &#8220;chunk&#8221; the program mentally.</p>
+</div>
+<div class="section" id="comments">
+<h2>5.7. Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h2>
+<p>A comment is some part of your program code that exists only for humans. C# understands that
+when it encounters a comment, it should not try to make sense of the comment, nor should it
+try to execute it.</p>
+<p>There are two mechanisms for introducing comments.   A <em>single-line comment</em> starts with
+a double-forward-slash token <code class="docutils literal"><span class="pre">//</span></code>.  C# will ignore everything else to the right of it on the same line.
+Look at the code below at lines 10 and 11 where we use single-line comments.</p>
+<p>Block-comments are comments that can extend over many lines.  A comment starts whenever the
+compiler finds the start-of-comment token (<code class="docutils literal"><span class="pre">/*</span></code>) and everything is treated as a comment until the
+compiler finds a matching end-of-comment token (<code class="docutils literal"><span class="pre">*/</span></code>).  We have a block-comment in the program
+below that starts on line 1 and ends at line 6.</p>
+</div>
+<div class="section" id="type-conversions">
+<h2>5.8. Type conversions<a class="headerlink" href="#type-conversions" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s revisit the code from the previous chapter for calculating the area of a pane of glass.  (We&#8217;ve
+added a new block-comment, so it not completely identical.)</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre>   <span class="cm">/* This is an example of a block-comment that can span</span>
+<span class="cm">      many lines. The C# compiler will ignore comments like this.</span>
+
+<span class="cm">      This fragment of code was written by Pete.</span>
+<span class="cm">      Date of last change:  13 Jan 2014.</span>
+<span class="cm">   */</span>
+
+   <span class="k">private</span> <span class="k">void</span> <span class="nf">btnCalculate_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+   <span class="p">{</span>
+       <span class="kt">double</span> <span class="n">w</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToDouble</span><span class="p">(</span><span class="n">txtWidth</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>  <span class="c1">// Convert string in texbox to double.</span>
+       <span class="kt">double</span> <span class="n">h</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToDouble</span><span class="p">(</span><span class="n">txtHeight</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span> <span class="c1">// Same again.</span>
+       <span class="kt">double</span> <span class="n">area</span> <span class="p">=</span> <span class="n">w</span> <span class="p">*</span> <span class="n">h</span><span class="p">;</span>
+       <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot; {0} x {1} gives an area of {2}\n&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">area</span><span class="p">);</span>
+       <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;It says ...&quot;</span><span class="p">);</span>
+   <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Because C# has this idea of every value has a type,
+a string like &#8220;123&#8221; is not the same as the integer 123, or the double number 123.0</p>
+<p>Humans would have no problem in automatically converting a string into a number, or vice-versa.
+But our programs have to do it the hard way, explicitly.</p>
+<p>Normally input and output from a program will use strings, because that is what we
+humans read and write.  So C# needs a mechanism to convert from the text (or strings)
+that you type into numbers, and vice-versa.</p>
+<p>So lines 10 and 11 illustrate the way we will take some text that the user has
+entered on our GUI, and convert it to a different type: a double in this case.</p>
+<p>C# provides a built-in library of <code class="docutils literal"><span class="pre">Convert</span></code> methods.  In this book
+we&#8217;ll only use two of them: the one we&#8217;ve just seen, and a conversion that can
+convert a string to an <code class="docutils literal"><span class="pre">int</span></code>.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>  <span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="n">txtAge</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>  <span class="c1">// Convert string to an int.</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="string-formatting">
+<h2>5.9. String formatting<a class="headerlink" href="#string-formatting" title="Permalink to this headline">¶</a></h2>
+<p>New let&#8217;s tackle the opposite problem.  Our program has calculated some answers, but we
+need to convert them into strings so that our human users can read them.</p>
+<p>In line 13 of the program above we used the <code class="docutils literal"><span class="pre">string.Format</span></code> method to create a new string.
+Let&#8217;s dig a bit deeper into how that works, as we&#8217;ll be using it a lot.  String formatting
+allows us to provide a text <em>template</em> that contains some <em>place-holders</em>.
+The three place-holders in the template in line
+13 above are <code class="docutils literal"><span class="pre">{0}</span></code>,  <code class="docutils literal"><span class="pre">{1}</span></code>  and <code class="docutils literal"><span class="pre">{2}</span></code>.</p>
+<p>When the <code class="docutils literal"><span class="pre">string.Format</span></code> method is executed, it creates a new string from its template,
+and it replaces all the place-holders with values.
+The place-holders are numbered, and their number
+determines which argument will get plugged in at that position.</p>
+<p>This results in a new string, built from the template and the values that were substituted.
+We can assign this to a string variable, or use it in some other way.</p>
+<p>So in the example above, when line 13 is executed, the current value in variable <code class="docutils literal"><span class="pre">w</span></code>
+gets plugged into
+the template in place of the place-holder <code class="docutils literal"><span class="pre">{0}</span></code>, the current value in <code class="docutils literal"><span class="pre">h</span></code> gets plugged into
+the template in place of <code class="docutils literal"><span class="pre">{1}</span></code>, and the area that we previously calculated on line 12 and then
+saved into a variable gets plugged into the template in place of <code class="docutils literal"><span class="pre">{2}</span></code>.</p>
+<p>String formatting is very powerful and can do much more than we shown here.</p>
+</div>
+<div class="section" id="debugging">
+<h2>5.10. Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>Programming is a complex process, and because programs are written by human beings,
+they often contain errors. Some of these errors are simple, like messing up the grammar
+of the programming language, and the compiler can tell you there&#8217;s a problem and
+(usually) also tell you where it is, so you can fix it.  These kinds of simple
+errors are called <strong>syntax</strong> errors.  <strong>Syntax</strong> refers to the structure of a
+program and the rules about that structure. Mis-spelling a word in a programming
+language, or putting it in the wrong order, or not including necessary punctuation,
+or including too much punctuation, or not capitalising a word that should be
+capitalised (or vice versa!) are all examples of syntax errors.</p>
+<p>During the first few weeks of your programming career, you will probably
+spend a lot of time tracking down syntax errors. As you gain experience,
+you will make fewer syntax errors and find them faster.  After a few weeks,
+you won&#8217;t make any syntax errors at all!  This is just like the process of
+learning a new spoken language.  While you are learning, you will make
+silly errors that a native speaker wouldn&#8217;t make.  But after a while,
+you don&#8217;t make any errors.  And, just like learning a new spoken language,
+the more you practise, the better you&#8217;ll get ... and if you don&#8217;t practice
+enough, you&#8217;ll keep making mistakes.  So practice: it really does make
+a big difference.</p>
+<p>The more difficult errors are <strong>semantic</strong> errors, where you&#8217;ve given
+the computer a valid sequence of instructions that the compiler can understand,
+but the instructions don&#8217;t lead to the result that you think they lead to.
+You&#8217;ll run into
+plenty of these, and when you do you&#8217;ll need to understand exactly what
+you&#8217;re asking the computer to do, so that you can figure out where the
+flaw in your reasoning is.</p>
+<p><strong>Runtime</strong> errors, which cause a program to stop running, occur because
+of <strong>semantic</strong> errors.  Usually, you&#8217;ve made the error of assuming
+something that you shouldn&#8217;t have assumed!  These errors are also
+called <strong>exceptions</strong> because they indicate that something exceptional
+(and bad) has happened. For example, not even the computer can divide
+a number by zero.  So if you&#8217;ve written some code that tries to divide
+by zero, you&#8217;ll get a runtime error.</p>
+<p>Programming errors are called <strong>bugs</strong> and the process of tracking them down and
+correcting them is called <strong>debugging</strong>.  It is useful to distinguish between types
+of bugs in order to find the cause of the error and fix it more quickly.
+Here is how you can distinguish between types of bugs:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Do you get errors when you <em>compile</em> the program?  If so, you have a <strong>syntax</strong> error.</li>
+<li>Does the program fail to do what you expect it to do?  If so, you have a <strong>semantic</strong> error.</li>
+<li>Does the program stop running before you expect it to?  If so,
+you have a <strong>runtime</strong> error which is caused by a <strong>semantic</strong> error.
+You need to fix the semantic error so that the runtime error will go away.</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="variables-in-your-code-behind-methods">
+<h2>5.11. Variables in your code-behind methods<a class="headerlink" href="#variables-in-your-code-behind-methods" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/click_counter.png" class="align-right" src="_images/click_counter.png" />
+<p>An important idea about variables is that at some point in time they are created, and later they die.
+They have a <em>lifetime</em>.</p>
+<p>When we define a variable <em>inside</em> a code-behind method, it only lives <em>while our program is busy executing
+the method</em>.   When the method completes its work, any variables that were created by it are destroyed,
+and their values are lost.</p>
+<p>This means that we can&#8217;t use a variable defined inside a method to &#8220;remember&#8221; values over longer
+periods of time.</p>
+<p>We can also define variables at the <em>class-level</em> (you&#8217;ll learn a lot more about classes soon).
+These are called <em>class-level variables</em>.
+In our programs, these variables are created when our window first opens as we run our program.
+They will stay alive as long as our window is alive, i.e. while our program is running.</p>
+<p>So let&#8217;s do a very simple example.   We&#8217;ll have a GUI with a single button.  Each time the button is
+clicked, we&#8217;ll show a message that tells us how many times the button has been clicked since the program
+started running.</p>
+<p>To keep a counter, we&#8217;ll need a variable, but one that stays alive between clicks of the button.
+So it will need to be defined in the class, rather than inside the method of the handler code.
+We&#8217;ll assume we can create the GUI, and attach a handler:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">Diving_into_code</span> <span class="p">:</span> <span class="n">Window</span>
+<span class="p">{</span>
+    <span class="c1">// Because this variable definition is outside any method,</span>
+    <span class="c1">// it is a class-level variable and it lives on, even after a</span>
+    <span class="c1">// method finishes executing.</span>
+<span class="hll">    <span class="kt">int</span> <span class="n">clickCounter</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span>
+    <span class="k">public</span> <span class="nf">Diving_into_code</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">InitializeComponent</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// A variable defined here only has a short lifetime</span>
+        <span class="c1">// while this method is active.</span>
+        <span class="kt">int</span> <span class="n">ageNow</span> <span class="p">=</span> <span class="m">18</span><span class="p">;</span>
+
+        <span class="c1">// Add one to the class-level counter variable</span>
+<span class="hll">        <span class="n">clickCounter</span> <span class="p">=</span> <span class="n">clickCounter</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+</span>
+        <span class="c1">// prepare the message we want shown.</span>
+        <span class="kt">string</span> <span class="n">msg</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;This was click number {0}.\n&quot;</span><span class="p">,</span> <span class="n">clickCounter</span><span class="p">);</span>
+
+        <span class="c1">// Show the results in our GUI</span>
+        <span class="n">txtResults</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+
+        <span class="c1">// Now even if we change the local variable, it is about to die!</span>
+        <span class="n">ageNow</span> <span class="p">=</span> <span class="n">ageNow</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+        <span class="kt">string</span> <span class="n">msg2</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;I turn {0} next birthday.\n&quot;</span><span class="p">,</span> <span class="n">ageNow</span><span class="p">);</span>
+        <span class="n">txtResults</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="n">msg2</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Notice the variable is defined at line 6, not inside the handler method.
+Each time the handler method is executed, line 20 retrieves the current
+value in the variable, adds one to it, and assigns that value back to become
+the new value of the variable.   Then in lines 23-26 we organize to put the answer
+back into the GUI front-end.   But notice how that works differently from
+the variable <code class="docutils literal"><span class="pre">ageNow</span></code> which is defined inside the method.  Study the results
+carefully.   Why doesn&#8217;t <code class="docutils literal"><span class="pre">ageNow</span></code> also count up 20, 21, 22, 23, 24 ... ?</p>
+</div>
+<div class="section" id="glossary">
+<h2>5.12. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-assignment-statement">assignment statement</dt>
+<dd>An assignment statement first evaluates the expression on its right-hand-side, and
+then stores the value into the variable on its left hand side.</dd>
+<dt id="term-comment">comment</dt>
+<dd>A part of the program that the complier ignores. It exists to be read by other humans.</dd>
+<dt id="term-control-flow">control flow</dt>
+<dd>Statements in a program are executed in a specific order, and each statement
+can change the state of the program (via an assignment statement).  Control flow
+refers to the order in which execution happens in your code.</dd>
+<dt id="term-expression">expression</dt>
+<dd>A combination of operators and operands.   This can also include a call to
+a method, so for example <code class="docutils literal"><span class="pre">2.0</span> <span class="pre">*</span> <span class="pre">3.14159</span> <span class="pre">*</span> <span class="pre">Math.Sqrt(x)</span></code> is an expression
+that can be evaluated.</dd>
+<dt id="term-keyword">keyword</dt>
+<dd>An identifier that is reserved in the language, and has special meaning.</dd>
+<dt id="term-identifier">identifier</dt>
+<dd>Used to name something, like the name we choose for a variable or a control.
+There are some rules that identifiers
+must start with a character and may not contain symbols or spaces.  (There is one
+exception: the underscore character <code class="docutils literal"><span class="pre">_</span></code> is legal anywhere within an identifier,
+even as the first character.)</dd>
+<dt id="term-operator">operator</dt>
+<dd>The main arithmetic operators that combine operands while they evaluate
+the expression.   For example, in the expression <code class="docutils literal"><span class="pre">5</span> <span class="pre">+</span> <span class="pre">y</span></code>, the operator is <code class="docutils literal"><span class="pre">+</span></code>.</dd>
+<dt id="term-operand">operand</dt>
+<dd>The things that an operator works on.  In in the expression <code class="docutils literal"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">3</span></code>, the <code class="docutils literal"><span class="pre">x</span></code> and
+the <code class="docutils literal"><span class="pre">3</span></code> are the operands.</dd>
+<dt id="term-sequentially">sequentially</dt>
+<dd>One after the other.</dd>
+<dt id="term-state-of-the-program">state of the program</dt>
+<dd>Refers to what variables exist in a program at any point in time,
+and what values they hold.</dd>
+<dt id="term-token">token</dt>
+<dd>A &#8220;chunk&#8221; of one or more characters that the compiler treats as a single
+&#8220;word&#8221;.   When we read text we have to group characters into syllables and
+words.  In the same way, when we read code we have to group the characters
+into tokens that carry meaning.</dd>
+<dt id="term-type">type</dt>
+<dd>Every expression and value has a specific type.  Types we&#8217;ll use most are
+<code class="docutils literal"><span class="pre">int</span></code>,  <code class="docutils literal"><span class="pre">double</span></code>, <code class="docutils literal"><span class="pre">string</span></code>, <code class="docutils literal"><span class="pre">bool</span></code> and  <code class="docutils literal"><span class="pre">char</span></code>.</dd>
+<dt id="term-type-conversion">type conversion</dt>
+<dd>An expression that converts from one type of value into another, typically from
+a string like <code class="docutils literal"><span class="pre">&quot;42&quot;</span></code> to an <code class="docutils literal"><span class="pre">int</span></code> value 42.</dd>
+<dt id="term-variable">variable</dt>
+<dd>A variable is a place in the computer&#8217;s memory where it can hold a value.
+The value can be read by your code, and can be overwritten using an assignment statement.</dd>
+<dt id="term-variable-definition">variable definition</dt>
+<dd>A statement that defines a variable causes it be created in
+the computer&#8217;s memory.  A variable definition always gives the type and the name
+of the variable.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>5.13. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Write a program that inputs a number of hours, a number of minutes, and
+a number of seconds  (all integers).  Output the total number of seconds
+represented by the time.  For example, 2 hours 42 minutes and 17 seconds
+would convert to 9737 seconds in total.</p>
+</li>
+<li><p class="first">Write a program that does the opposite of the above: input an integer number
+of seconds, and display the number of hours, minutes and seconds.   For example,
+3665 seconds would display as 1 hour, 1 minute and 5 seconds.</p>
+</li>
+<li><p class="first">Write a program that inputs the lengths of the two shorter sides of a
+right-angled triangle.  It should output the length of the hypotenuse.
+(Refresh your knowledge of Pythagoras&#8217; theorem if you&#8217;re not comfortable with it.)</p>
+</li>
+<li><p class="first">Design an application with 3 buttons showing A, B, and C.  Or perhaps instead,
+(&#8220;crouch&#8221;, &#8220;touch&#8221;, &#8220;set&#8221;), or (&#8220;Three&#8221;, &#8220;Blind&#8221;, &#8220;Mice&#8221;). The buttons
+should be clicked in strict cyclic sequence A,B,C,A,B,C,A,B...</p>
+<ol class="loweralpha simple">
+<li>Arrange program logic that pops up an error message if the user
+gets the sequence wrong.</li>
+<li>Use the <code class="docutils literal"><span class="pre">IsEnabled</span></code> property on the buttons so that it becomes impossible for the user
+to make a mistake.</li>
+</ol>
+</li>
+<li><p class="first">Design a colour-mixing application containing three sliders with a label above each.  Each should allow
+the user to slide between 0 and 255. When any slider is changed, update its
+label to show its value.</p>
+<blockquote>
+<div><img alt="_images/scrollbars.png" src="_images/scrollbars.png" />
+</div></blockquote>
+<ol class="loweralpha" start="2">
+<li><p class="first">Add this method to your code-behind (copy and paste is useful, and we haven&#8217;t covered these
+ideas yet.  The code should make more sense as we progress in the book.   At this stage we&#8217;re focusing
+on how the GUI interacts via events with the code-behind.)</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">setBackgroundColorFromSliders</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// Some say that WPF has a bug, others call it a feature ...</span>
+    <span class="c1">// Do not handle events if the window is still initializing itself.</span>
+    <span class="k">if</span> <span class="p">(!</span><span class="k">this</span><span class="p">.</span><span class="n">IsInitialized</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+    <span class="kt">byte</span> <span class="n">r</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToByte</span><span class="p">(</span><span class="n">slider1</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+    <span class="kt">byte</span> <span class="n">g</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToByte</span><span class="p">(</span><span class="n">slider2</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+    <span class="kt">byte</span> <span class="n">b</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToByte</span><span class="p">(</span><span class="n">slider3</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+
+    <span class="n">label1</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="n">r</span><span class="p">;</span>
+    <span class="n">label2</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="n">g</span><span class="p">;</span>
+    <span class="n">label3</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="n">b</span><span class="p">;</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="n">Background</span> <span class="p">=</span>  <span class="c1">// Create a brush from the slider values</span>
+                <span class="k">new</span> <span class="nf">SolidColorBrush</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">FromRgb</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>A <code class="docutils literal"><span class="pre">byte</span></code> type is like a small integer with values between 0 and 255.
+We use this because the <code class="docutils literal"><span class="pre">Color.FromRgb</span></code> method wants byte arguments.</p>
+</li>
+<li><p class="first">Now add handlers so that each time any of the sliders is changed it responds by
+calling our new <code class="docutils literal"><span class="pre">setBackgroundColor</span></code> method.   Run the program and play. To call
+the method above, use a line like this in your handler:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>  <span class="n">setBackgroundColorFromSliders</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+</ol>
+<div class="admonition-video-demonstration-of-building-this-colour-mixing-application admonition">
+<p class="first admonition-title">Video demonstration of building this colour-mixing application</p>
+<p class="last"><a class="reference external" href="http://www.ict.ru.ac.za/resources/thinksharply/videos/colormixer.avi">http://www.ict.ru.ac.za/resources/thinksharply/videos/colormixer.avi</a></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="nesting.html" title="6. Nesting Things in Other Things"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="events_and_handlers_1.html" title="4. Code-Behind: Events and Handlers"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

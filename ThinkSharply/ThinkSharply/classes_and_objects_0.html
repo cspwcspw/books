@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13. Classes and Objects — an Overview &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="14. Arrays" href="arrays.html" />
+    <link rel="prev" title="12. Strings" href="strings.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="arrays.html" title="14. Arrays"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="strings.html" title="12. Strings"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="classes-and-objects-an-overview">
+<span id="index-0"></span><h1>13. Classes and Objects &#8212; an Overview<a class="headerlink" href="#classes-and-objects-an-overview" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ve been working with Turtles, Windows, Buttons, and so on.
+We look a bit deeper under the covers now...</p>
+<div class="section" id="creating-our-objects">
+<h2>13.1. Creating our objects<a class="headerlink" href="#creating-our-objects" title="Permalink to this headline">¶</a></h2>
+<p>Remember this first program where we used two turtles?  Let&#8217;s take another look.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">MainWindow</span> <span class="p">:</span> <span class="n">Window</span>
+ <span class="p">{</span>
+<span class="hll">     <span class="n">Turtle</span> <span class="n">tess</span><span class="p">,</span> <span class="n">alex</span><span class="p">;</span>    <span class="c1">// Define class-level variables to hold references to turtles</span>
+</span>     <span class="kt">int</span> <span class="n">myAge</span> <span class="p">=</span> <span class="m">18</span><span class="p">;</span>       <span class="c1">// Define and initialize some other class-level variables.</span>
+     <span class="kt">bool</span> <span class="n">haveLicence</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+     <span class="k">public</span> <span class="nf">MainWindow</span><span class="p">()</span>
+     <span class="p">{</span>
+         <span class="n">InitializeComponent</span><span class="p">();</span>
+<span class="hll">         <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="m">100.0</span><span class="p">,</span> <span class="m">30.0</span><span class="p">);</span>  <span class="c1">// Create a turtle in the playground.</span>
+</span><span class="hll">         <span class="n">tess</span><span class="p">.</span><span class="n">BrushWidth</span> <span class="p">=</span> <span class="m">5.1</span><span class="p">;</span>                       <span class="c1">// Set some properties.</span>
+</span><span class="hll">
+</span><span class="hll">         <span class="n">alex</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">,</span> <span class="m">300.0</span><span class="p">,</span> <span class="m">100.0</span><span class="p">);</span> <span class="c1">// Create another turtle.</span>
+</span><span class="hll">         <span class="n">alex</span><span class="p">.</span><span class="n">LineBrush</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Blue</span><span class="p">;</span>
+</span><span class="hll">         <span class="n">alex</span><span class="p">.</span><span class="n">BodyBrush</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Blue</span><span class="p">;</span>
+</span><span class="hll">         <span class="n">alex</span><span class="p">.</span><span class="n">BrushWidth</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span>     <span class="p">}</span>
+
+     <span class="p">...</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The class defines two class-level variables for the turtles we want to use.
+We&#8217;ve also added two other class-level variables with initializers here.</p>
+<p>We don&#8217;t have to create our <code class="docutils literal"><span class="pre">MainWindow</span></code> object ourselves &#8212; that is done automatically
+for us by WPF when our application starts running.</p>
+<p>When our window object is first created it sets aside space within the new object
+for the variables we have defined.  The window also has other built-in
+class-level variables, some automatically part of every window object, and some
+from the XAML controls we defined in our GUI front-end.</p>
+<p>Part of creating any object involves &#8220;setting up its factory defaults&#8221;.
+That is the job of the <strong>constructor method</strong> of any class (lines 7-17 in this example).
+But before that method executes, (e.g. if we set a breakpoint before line 9 executes),
+we can peek into memory and see what is inside our new window object:</p>
+<blockquote>
+<div><img alt="_images/watch0.png" src="_images/watch0.png" />
+</div></blockquote>
+<p>What is significant is that some variables (our turtles and the playground)
+hold <strong>references</strong> to objects.  A reference is sometimes called a <strong>pointer</strong>.
+Variables that can point to other objects start their existence holding the <code class="docutils literal"><span class="pre">null</span></code> value
+&#8212; a special value that says &#8220;I don&#8217;t point to (or reference) anything yet&#8221;.
+But the other kind of variables, value variables like <code class="docutils literal"><span class="pre">myage</span></code> and <code class="docutils literal"><span class="pre">haveLicence</span></code>
+already have their values.</p>
+<p>Then at line 9 we call a method that creates and initializes all the window&#8217;s
+controls (the <code class="docutils literal"><span class="pre">playground</span></code>, the buttons, any textboxes which we put there in
+the GUI designer, etc). Now memory looks like this ...</p>
+<blockquote>
+<div><img alt="_images/watch1.png" src="_images/watch1.png" />
+</div></blockquote>
+<p>It tells us that the canvas and button objects have now been created (they are not
+<code class="docutils literal"><span class="pre">null</span></code> any longer), so we can start using them.</p>
+<p>At line 10 we <em>instantiate</em>, or create, our first turtle.  The keyword <strong>new</strong>
+says <em>&#8220;get the turtle factory to make us a new turtle&#8221;</em>.</p>
+<p>Once the turtle has been created (and its constructor has set all its properties
+to their factory defaults), we&#8217;re ready to save its reference
+into variable <code class="docutils literal"><span class="pre">tess</span></code>.  Only after this can we start using Tess.</p>
+<p>The same is done for Alex.</p>
+<p>By time we reach line 19, we have this:</p>
+<blockquote>
+<div><img alt="_images/watch2.png" src="_images/watch2.png" />
+</div></blockquote>
+<div class="admonition-what-does-all-this-really-mean admonition">
+<p class="first admonition-title">What does all this really mean?</p>
+<p class="last">Defining a Turtle variable doesn&#8217;t make a turtle: it only gives us a variable that
+can reference a turtle.  Creating (or instantiating) a turtle is a separate step.</p>
+</div>
+<p>Let&#8217;s look at the previous debugging information: if we expand the tree of the
+object referenced by <code class="docutils literal"><span class="pre">tess</span></code> (by clicking on the &#8216;+&#8217;), we can also inspect
+the variables and properties in this turtle instance.   We&#8217;ve highlighted a few
+of them that make up the turtle&#8217;s state:
+its current heading and position, its home position, its
+brushwidth, and the fact that the brush is currently down.</p>
+<blockquote>
+<div><img alt="_images/watch3.png" src="_images/watch3.png" />
+</div></blockquote>
+</div>
+<div class="section" id="what-s-the-difference-between-a-class-and-an-object">
+<h2>13.2. What&#8217;s the difference between a class and an object?<a class="headerlink" href="#what-s-the-difference-between-a-class-and-an-object" title="Permalink to this headline">¶</a></h2>
+<p>In our example, Turtle is a class.  Window, Button, Canvas, etc. are all classes too.</p>
+<p>A class is a <em>type</em> in C#.  It is a blueprint that determines how to create objects, or instances,
+and how they can be used.</p>
+<p>When we create an object, that object has the type of the class.</p>
+<p>We like thinking about a class as a <em>factory</em> that can produce instances
+of a particular type.</p>
+<p>So the Turtle class is a factory for turtle instances.  Every time we execute
+<code class="docutils literal"><span class="pre">new</span> <span class="pre">Turtle(...)</span></code> we&#8217;ll produce a new one.
+We could have a loop and create 25 turtles, or 25 buttons if we wished to.
+Each one is an <strong>instance</strong>, or an <strong>object</strong>.</p>
+</div>
+<div class="section" id="value-types-vs-reference-types">
+<span id="index-1"></span><h2>13.3. Value Types vs Reference Types<a class="headerlink" href="#value-types-vs-reference-types" title="Permalink to this headline">¶</a></h2>
+<p>Every type in C# is either a <strong>value type</strong> or a <strong>reference type</strong>.</p>
+<p>Value types are built-in types like int, double, char, bool, byte, float, and some other types
+(from the C# libraries) like Color, DateTime, Point, Vector4, Matrix etc.  When we define a variable
+of one of these types, we set aside enough memory to hold its value.  So on most
+computers, an int needs 4 bytes of memory, while a double needs 8 bytes, and a
+bool only needs one byte.</p>
+<p>By contrast, a variable for a reference type does not hold the object itself:
+it holds a reference (also called a pointer, or an address) to the object,
+while the object itself
+resides in an area of memory called the <strong>heap</strong>.</p>
+<p>All object types (turtles, forms, buttons, arrays, lists, and a host of others
+that we are yet to cover) are reference types &#8212; the actual thing we&#8217;re creating resides
+in the heap, and all we have to work with is a reference, or pointer, to where the object is.</p>
+<p><strong>NB!</strong>  <em>Value type assignment and reference type assignment behave differently!</em></p>
+<p>So we need to be aware of this difference on every assignment statement,
+And let us not forget that we also make an assignment when we pass an
+argument to a parameter, so this also applies there.</p>
+<p><em>It is important that we understand whether we are copying a value into a variable, or
+whether we are copying a reference.</em>   Here is why...</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+<span class="n">x</span> <span class="p">=</span> <span class="n">x</span> <span class="p">+</span> <span class="m">100</span><span class="p">;</span>
+
+<span class="n">Turtle</span> <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">);</span>
+<span class="n">Turtle</span> <span class="n">t</span> <span class="p">=</span> <span class="n">tess</span><span class="p">;</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>In line 2, the value in x is copied into y.  So at that time, x holds 42.  And y holds 42.
+But they are different 42s.  Now on line 3 we change the value in x.
+But y is a different variable with its own value, so <code class="docutils literal"><span class="pre">y</span></code>
+still keeps its value of 42.</p>
+<p>By contrast, in line 5 we create a new turtle and make the variable <code class="docutils literal"><span class="pre">tess</span></code> reference it.
+Then we copy the same reference (address, or pointer) into another variable <code class="docutils literal"><span class="pre">t</span></code>.
+We now have two variables. <code class="docutils literal"><span class="pre">tess</span></code> and <code class="docutils literal"><span class="pre">t</span></code>, <em>but
+there is still only one turtle</em>.   Both variables refer to the <em>same</em> turtle in the heap.</p>
+<p>So at line 7, we turn <code class="docutils literal"><span class="pre">tess</span></code> to the right by 90 degrees. Then what is turtle <code class="docutils literal"><span class="pre">t</span></code>&#8216;s heading?
+If we said 90 we&#8217;d be correct.</p>
+<p>So we have two variables in the program referencing the same underlying object.</p>
+<p>This isn&#8217;t new.  If we look back at the first example in the chapter &#8220;Void Methods&#8221;, we passed the turtle <code class="docutils literal"><span class="pre">tess</span></code>
+to a method called <code class="docutils literal"><span class="pre">drawSquare</span></code>.  Within that method the parameter name <code class="docutils literal"><span class="pre">t</span></code> refers to the same turtle as
+the variable <code class="docutils literal"><span class="pre">tess</span></code> does: there is still only one turtle, but it now has two names referring to it.</p>
+<p>When more than one reference points to the same object, we say the object has an <strong>alias</strong> &#8212; there is
+more than one name that it is known by in different parts of the program.</p>
+</div>
+<div class="section" id="inheritance">
+<span id="index-2"></span><h2>13.4. Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline">¶</a></h2>
+<p>We know that a dog is a kind of mammal.  Humans, cows and pigs are also mammals (mammals have mammary glands, so they have milk).
+A mammal is a kind of vertebrate (has a backbone).  Reptiles like snakes are also vertebrates.
+And of course, vertebrates are one kind of animal, but so are invertebrates like jellyfish, flies and worms.</p>
+<p>Just as the types of the animal kingdom are organized into a hierarchy (a tree),
+so too are our C# types organized into a hierarchy.  If we define a variable of type
+<code class="docutils literal"><span class="pre">Shape</span></code> in our code, put the cursor on the type Shape, and hit
+the <code class="docutils literal"><span class="pre">F1</span></code> key to get help, we&#8217;ll get to a page with a fragment that looks like this:</p>
+<img alt="_images/inheritance1.png" src="_images/inheritance1.png" />
+<p>What that inheritance tells us is that our objects in WPF are even more complicated than the animal
+kingdom!  But we can read from this that any Shape object <strong>is-a</strong> <a class="footnote-reference" href="#id2" id="id1">[1]</a> kind of FrameworkElement, which in turn is-a kind
+of UIElement, which in turn ...   So as we move up the inheritance we get more general.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><em>is-a</em> is used in computer science to tell us about a relationship: that X is a type of Y.  By hyphenating the
+words so that they look a bit different from the normal English &#8220;is a&#8221; we can make our intentions and meaning clearer.</td></tr>
+</tbody>
+</table>
+<p>For using WPF, the UIElement is important at this time.  Of course the UI stands for User Interface - our window
+and everything in it. So any type of object that falls anywhere below UIElement can be put into our window
+somehow.</p>
+<img alt="_images/inheritance2.png" class="align-right" src="_images/inheritance2.png" />
+<p>Clicking on <code class="docutils literal"><span class="pre">More...</span></code> in the help above lets us go further down the hierarchy.  We now get this:</p>
+<p>This tells us that there are six specific built-in types of Shape that we could use in WPF: Ellipse, Line, Path, Polygon,
+Polyline, and Rectangle.   And, of course, an Ellipse is a kind of Shape which is a kind of UIElement...</p>
+</div>
+<div class="section" id="summary">
+<h2>13.5. Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>At this stage it is probably not too important in our C# programming development that we know about the huge
+number of classes that are available.  And we&#8217;re probably not going to need too much detail about this specific
+inheritance hierarchy unless we become WPF wizard programmers.</p>
+<p>But what is important are three big ideas:</p>
+<ul class="simple">
+<li>Some types are value types: their values are stored directly.  Some are reference types.
+We store pointers to reference types, and have to be careful when copying them, because we can create aliases.</li>
+<li>Objects have internal structure and organization (we saw this by
+peeking inside <code class="docutils literal"><span class="pre">MainWindow</span></code> and inside <code class="docutils literal"><span class="pre">tess</span></code>).</li>
+<li>Types are related to each other via inheritance.
+And even though your own type is Human <a class="footnote-reference" href="#id4" id="id3">[2]</a>, at the same time you are also an instance of Mammal,
+and an instance of Vertebrate, and an instance of Animal.   The message
+for programming is that although an object might be a Button, it can also be used as a
+FrameworkElement, or a UIElement, or an Object.  One thing can be all of these types simultaneously.</li>
+</ul>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><em>If there are any aliens or fish enjoying this book, please drop me an email.</em></td></tr>
+</tbody>
+</table>
+<p>Later in the course we&#8217;ll start to create our own classes and we&#8217;ll learn more about inheritance.</p>
+</div>
+<div class="section" id="glossary">
+<h2>13.6. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-aliases">aliases</dt>
+<dd>Multiple references to the same object.</dd>
+<dt id="term-class">class</dt>
+<dd>A class is type.  It is a blueprint that determines how to create objects, or instances,
+and how they can be used.</dd>
+<dt id="term-constructor-method">constructor method</dt>
+<dd>A special method in a class that is automatically called whenever a new instance is created.
+Its job is to set up the internal state of the new object to its initial factory defaults.</dd>
+<dt id="term-heap">heap</dt>
+<dd>A region of memory that holds objects.  Objects are created with the <code class="docutils literal"><span class="pre">new</span></code> keyword.
+They live in the heap until the system figures out that there are no references
+left that can possibly reach them, at which time the available memory will be freed
+up for other use.</dd>
+<dt id="term-is-a">is-a</dt>
+<dd>An abbreviation of &#8220;is a&#8221; as in &#8220;A human <em>is a</em> mammal&#8221;.  It describes a relationship that
+shows that an object with a specific type, e.g. Button, can also be treated as an object
+with a more general type, e.g. a UIElement.</dd>
+<dt id="term-null">null</dt>
+<dd>A special value that can be assigned to any reference variable.  It means
+&#8220;this variable doesn&#8217;t point to any object&#8221;.</dd>
+<dt id="term-object">object</dt>
+<dd>A thing created in the heap.  Its type is the class (or blueprint) that it was created from.
+It can be referenced, or pointed to.  Variables can hold references or pointers to an object.</dd>
+<dt id="term-pointer">pointer</dt>
+<dd>Another name for a reference.</dd>
+<dt id="term-reference">reference</dt>
+<dd>A reference is an address of some memory location in the heap.
+It allows us to locate an object in the heap.</dd>
+<dt id="term-reference-type">reference type</dt>
+<dd>Opposite of a value type. A type (or class) from which instances are created in the heap.
+The objects must always be accessed via a reference.  When an object is passed into a method
+or assigned to another variable, only the reference is duplicated. This means the
+object gets another alias.</dd>
+<dt id="term-value-type">value type</dt>
+<dd>Opposite of a reference type.  Anything that is stored directly.  When value types
+are assigned or passed as arguments to methods, the value is copied and the two copies
+become completely independent of each other.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>13.7. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Consider this fragment of code:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Turtle</span> <span class="n">Tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">);</span>
+<span class="n">Turtle</span> <span class="n">Alex</span> <span class="p">=</span> <span class="n">Tess</span><span class="p">;</span>
+<span class="n">Alex</span><span class="p">.</span><span class="n">BrushWidth</span> <span class="p">=</span> <span class="m">6</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Does this create one or two turtle instances?  Does setting
+the BrushWidth of Alex also change the BrushWidth of Tess?
+Explain in detail.</p>
+</li>
+<li><p class="first">Create and instantiate two turtles, Tess and Alex. Make Tess pink, make Alex blue.
+Now predict what will happen after executing this code, and then check if you were correct.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Turtle</span> <span class="n">Bert</span> <span class="p">=</span> <span class="n">Tess</span><span class="p">;</span>
+<span class="n">Tess</span> <span class="p">=</span> <span class="n">Alex</span><span class="p">;</span>
+<span class="n">Alex</span> <span class="p">=</span> <span class="n">Bert</span><span class="p">;</span>
+<span class="n">Alex</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">100</span><span class="p">);</span>
+<span class="n">Bert</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">50</span><span class="p">);</span>
+<span class="n">Tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">();</span>
+<span class="n">Tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">10</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+<li><p class="first">A turtle&#8217;s appearance can be changed.
+So this line of code can make our turtle look
+like an amoeba (well, perhaps more like an ellipse).</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre> <span class="n">tess</span><span class="p">.</span><span class="n">SetAppearance</span><span class="p">(</span><span class="k">new</span> <span class="n">EllipseGeometry</span><span class="p">(</span><span class="k">new</span> <span class="n">Point</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="m">20</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Red</span><span class="p">,</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Blue</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Explore the WPF inheritance hierarchy for <code class="docutils literal"><span class="pre">Geometry</span></code> &#8212; specifically, what
+specialized kind of Geometries exist.  Instantiate one, and get Tess to have
+a different shape.</p>
+</li>
+<li><p class="first">A turtle can stamp any <code class="docutils literal"><span class="pre">UIElement</span></code> onto its playground at its current position and orientation.
+Here is an example that stamps 5 buttons:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">daynames</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;Mon&quot;</span><span class="p">,</span> <span class="s">&quot;Tue&quot;</span><span class="p">,</span> <span class="s">&quot;Wed&quot;</span><span class="p">,</span> <span class="s">&quot;Thur&quot;</span><span class="p">,</span> <span class="s">&quot;Fri&quot;</span> <span class="p">};</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">Reset</span><span class="p">();</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">WarpTo</span><span class="p">(</span><span class="m">200</span><span class="p">,</span> <span class="m">200</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">5</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>   <span class="c1">// A five-sided regular polygon is called a pentagon.</span>
+<span class="p">{</span>
+    <span class="n">Button</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Button</span><span class="p">();</span>  <span class="c1">// Make a new button for the current corner.</span>
+    <span class="n">b</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="n">daynames</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>  <span class="c1">// Set the caption on the button.</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>            <span class="c1">// Stamp the button into the playground, where tess is at the moment.</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">100</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="m">360</span> <span class="p">/</span> <span class="m">5</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="loweralpha">
+<li><p class="first">Use Help, and write down the full inheritance hierarchy from <code class="docutils literal"><span class="pre">Button</span></code> is-a ??  is-a ??   ...  is-a <code class="docutils literal"><span class="pre">System.Object</span></code>.</p>
+</li>
+<li><p class="first">True or false?     <code class="docutils literal"><span class="pre">Image</span></code> is-a <code class="docutils literal"><span class="pre">UIElement</span></code>?</p>
+</li>
+<li><p class="first">Change the code so that Tess stamps an <code class="docutils literal"><span class="pre">Image</span></code> control showing a ladybug at every corner of a pentagon.</p>
+<img alt="_images/ladybug.png" src="_images/ladybug.png" />
+<p>Here&#8217;s a hint...   Right-click and save this picture, then ...</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Image</span> <span class="n">img</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Image</span><span class="p">();</span>
+<span class="n">img</span><span class="p">.</span><span class="n">Source</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BitmapImage</span><span class="p">(</span><span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="s">&quot;c:\\temp\\ladybug.png&quot;</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="arrays.html" title="14. Arrays"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="strings.html" title="12. Strings"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+﻿<Window x:Class="Window_design_chapter.MyMood"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MyMood" Height="300" Width="300">
+    <Grid Background="#FFBBBBEF">
+        <Label Content="My Mood Today is:" Height="41" HorizontalAlignment="Left" Margin="26,13,0,0" Name="label1" VerticalAlignment="Top" Width="219" FontSize="22" FontWeight="Bold" FontStyle="Italic" />
+        <ScrollBar Height="180" HorizontalAlignment="Left" Margin="28,60,0,0" Name="scrollBar1" VerticalAlignment="Top" Width="31" />
+        <Label Content="Great ..." Height="41" HorizontalAlignment="Left" Margin="84,72,0,0" Name="label2" VerticalAlignment="Top" FontSize="22" Width="117" FontWeight="Bold" FontStyle="Italic" Background="#FF88F765" />
+        <Label Background="#FFFFF765" Content="Average ..." FontSize="22" FontStyle="Italic" FontWeight="Bold" Height="41" HorizontalAlignment="Left" Margin="81,133,0,0" Name="label3" VerticalAlignment="Top" Width="117" />
+        <Label Background="#FFFF001E" Content="Grrr ..." FontSize="22" FontStyle="Italic" FontWeight="Bold" Height="41" HorizontalAlignment="Left" Margin="79,191,0,0" Name="label4" VerticalAlignment="Top" Width="117" />
+    </Grid>
+</Window>

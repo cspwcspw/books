@@ -1,0 +1,1303 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>8. Strings &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="9. Tuples" href="tuples.html" />
+    <link rel="prev" title="7. Iteration" href="iteration.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tuples.html" title="9. Tuples"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="iteration.html" title="7. Iteration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="strings">
+<h1>8. Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="a-compound-data-type">
+<span id="index-0"></span><h2>8.1. A compound data type<a class="headerlink" href="#a-compound-data-type" title="Permalink to this headline">¶</a></h2>
+<p>So far we have seen built-in types like <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>,
+<code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">str</span></code> and we’ve seen lists and pairs.
+Strings, lists, and pairs are qualitatively different from the others because they
+are made up of smaller pieces.  In the case of strings, they’re made up of smaller
+strings each containing one <strong>character</strong>.</p>
+<p>Types that comprise smaller pieces are called <strong>compound data types</strong>.
+Depending on what we are doing, we may want to treat a compound data type as a
+single thing, or we may want to access its parts. This ambiguity is useful.</p>
+</div>
+<div class="section" id="working-with-strings-as-single-things">
+<h2>8.2. Working with strings as single things<a class="headerlink" href="#working-with-strings-as-single-things" title="Permalink to this headline">¶</a></h2>
+<p>We previously saw that each turtle instance has its own attributes and
+a number of methods that can be applied to the instance.  For example,
+we could set the turtle’s color, and we wrote <code class="docutils literal notranslate"><span class="pre">tess.turn(90)</span></code>.</p>
+<p>Just like a turtle, a string is also an object.  So each string instance
+has its own attributes and methods.</p>
+<p>For example:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ss</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span>
+<span class="go">&#39;HELLO, WORLD!&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">upper</span></code> is a method that can be invoked on any string object
+to create a new string, in which all the
+characters are in uppercase.  (The original string <code class="docutils literal notranslate"><span class="pre">ss</span></code> remains unchanged.)</p>
+<p>There are also methods such as <code class="docutils literal notranslate"><span class="pre">lower</span></code>, <code class="docutils literal notranslate"><span class="pre">capitalize</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">swapcase</span></code> that do other interesting stuff.</p>
+<p>To learn what methods are available, you can consult the Help documentation, look for
+string methods, and read the documentation.  Or, if you’re a bit lazier,
+simply type the following into a PyScripter script:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">ss</span> <span class="o">=</span> <span class="s2">&quot;Hello, World!&quot;</span>
+<span class="n">tt</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>When you type the period to select one of the methods of <code class="docutils literal notranslate"><span class="pre">ss</span></code>, PyScripter will pop up a
+selection window showing all the methods (there are around 70 of them — thank goodness we’ll only
+use a few of those!) that could be used on your string.</p>
+<blockquote>
+<div><img alt="_images/string_methods.png" src="_images/string_methods.png" />
+</div></blockquote>
+<p>When you type the name of the method, some further help about its parameter and return
+type, and its docstring, will be displayed.  This is a good example of a tool — PyScripter —
+using the meta-information — the docstrings — provided by the module programmers.</p>
+<blockquote>
+<div><img alt="_images/swapcase.png" src="_images/swapcase.png" />
+</div></blockquote>
+</div>
+<div class="section" id="working-with-the-parts-of-a-string">
+<h2>8.3. Working with the parts of a string<a class="headerlink" href="#working-with-the-parts-of-a-string" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>indexing operator</strong> (Python uses square brackets to enclose the index)
+selects a single character substring from a string:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit</span> <span class="o">=</span> <span class="s2">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The expression <code class="docutils literal notranslate"><span class="pre">fruit[1]</span></code> selects character number 1 from <code class="docutils literal notranslate"><span class="pre">fruit</span></code>, and creates a new
+string containing just this one character. The variable <code class="docutils literal notranslate"><span class="pre">m</span></code> refers to the result.
+When we display <code class="docutils literal notranslate"><span class="pre">m</span></code>, we could get a surprise:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">a</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Computer scientists always start counting
+from zero! The letter at subscript position zero of <code class="docutils literal notranslate"><span class="pre">&quot;banana&quot;</span></code> is <code class="docutils literal notranslate"><span class="pre">b</span></code>.  So at
+position <code class="docutils literal notranslate"><span class="pre">[1]</span></code> we have the letter <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p>
+<p>If we want to access the zero-eth letter of a string, we just place 0,
+or any expression that evaluates to 0, inbetween the brackets:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">b</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The expression in brackets is called an <strong>index</strong>. An index specifies a member
+of an ordered collection, in this case the collection of characters in the string. The index
+<em>indicates</em> which one you want, hence the name. It can be any integer
+expression.</p>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">enumerate</span></code> to visualize the indices:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit</span> <span class="o">=</span> <span class="s2">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">fruit</span><span class="p">))</span>
+<span class="go">[(0, &#39;b&#39;), (1, &#39;a&#39;), (2, &#39;n&#39;), (3, &#39;a&#39;), (4, &#39;n&#39;), (5, &#39;a&#39;)]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Do not worry about <code class="docutils literal notranslate"><span class="pre">enumerate</span></code> at this point, we will see more of it
+in the chapter on lists.</p>
+<p>Note that indexing returns a <em>string</em> — Python has no special type for a single character.
+It is just a string of length 1.</p>
+<p>We’ve also seen lists previously.  The same indexing notation works to extract elements from
+a list:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prime_nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">31</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prime_nums</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">friends</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Joe&quot;</span><span class="p">,</span> <span class="s2">&quot;Zoe&quot;</span><span class="p">,</span> <span class="s2">&quot;Brad&quot;</span><span class="p">,</span> <span class="s2">&quot;Angelina&quot;</span><span class="p">,</span> <span class="s2">&quot;Zuki&quot;</span><span class="p">,</span> <span class="s2">&quot;Thandi&quot;</span><span class="p">,</span> <span class="s2">&quot;Paris&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">friends</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">&#39;Angelina&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="length">
+<span id="index-1"></span><h2>8.4. Length<a class="headerlink" href="#length" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">len</span></code> function, when applied to a string, returns the number of characters in a string:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit</span> <span class="o">=</span> <span class="s2">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>To get the last letter of a string, you might be tempted to try something like
+this:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">sz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span>
+<span class="n">last</span> <span class="o">=</span> <span class="n">fruit</span><span class="p">[</span><span class="n">sz</span><span class="p">]</span>       <span class="c1"># ERROR!</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>That won’t work. It causes the runtime error
+<code class="docutils literal notranslate"><span class="pre">IndexError:</span> <span class="pre">string</span> <span class="pre">index</span> <span class="pre">out</span> <span class="pre">of</span> <span class="pre">range</span></code>. The reason is that there is no
+character at index position 6 in <code class="docutils literal notranslate"><span class="pre">&quot;banana&quot;</span></code>.
+Because we start counting at zero, the six indexes are
+numbered 0 to 5. To get the last character, we have to subtract 1 from
+the length of <code class="docutils literal notranslate"><span class="pre">fruit</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">sz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span>
+<span class="n">last</span> <span class="o">=</span> <span class="n">fruit</span><span class="p">[</span><span class="n">sz</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Alternatively, we can use <strong>negative indices</strong>, which count backward from the
+end of the string. The expression <code class="docutils literal notranslate"><span class="pre">fruit[-1]</span></code> yields the last letter,
+<code class="docutils literal notranslate"><span class="pre">fruit[-2]</span></code> yields the second to last, and so on.</p>
+<p>As you might have guessed, indexing with a negative index also works like this for lists.</p>
+<p>We won’t use negative indexes in the rest of these notes — not many computer languages
+use this idiom, and you’ll probably be better off avoiding it. But there is plenty of
+Python code out on the Internet that will use this trick, so it is best to know that it exists.</p>
+<span class="target" id="index-2"></span></div>
+<div class="section" id="traversal-and-the-for-loop">
+<span id="index-3"></span><h2>8.5. Traversal and the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop<a class="headerlink" href="#traversal-and-the-for-loop" title="Permalink to this headline">¶</a></h2>
+<p>A lot of computations involve processing a string one character at a time.
+Often they start at the beginning, select each character in turn, do something
+to it, and continue until the end. This pattern of processing is called a
+<strong>traversal</strong>. One way to encode a traversal is with a <code class="docutils literal notranslate"><span class="pre">while</span></code> statement:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">ix</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruit</span><span class="p">):</span>
+    <span class="n">letter</span> <span class="o">=</span> <span class="n">fruit</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="n">ix</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This loop traverses the string and displays each letter on a line by itself.
+The loop condition is <code class="docutils literal notranslate"><span class="pre">ix</span> <span class="pre">&lt;</span> <span class="pre">len(fruit)</span></code>, so when <code class="docutils literal notranslate"><span class="pre">ix</span></code> is equal to the
+length of the string, the condition is false, and the body of the loop is not
+executed. The last character accessed is the one with the index
+<code class="docutils literal notranslate"><span class="pre">len(fruit)-1</span></code>, which is the last character in the string.</p>
+<p>But we’ve previously seen how the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop can easily iterate over
+the elements in a list and it can do so for strings as well:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">fruit</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Each time through the loop, the next character in the string is assigned to the
+variable <code class="docutils literal notranslate"><span class="pre">c</span></code>. The loop continues until no characters are left. Here we
+can see the expressive power the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop gives us compared to the
+while loop when traversing a string.</p>
+<p>The following example shows how to use concatenation and a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop to
+generate an abecedarian series. Abecedarian refers to a series or list in which
+the elements appear in alphabetical order. For example, in Robert McCloskey’s
+book <em>Make Way for Ducklings</em>, the names of the ducklings are Jack, Kack, Lack,
+Mack, Nack, Ouack, Pack, and Quack.  This loop outputs these names in order:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">prefixes</span> <span class="o">=</span> <span class="s2">&quot;JKLMNOPQ&quot;</span>
+<span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;ack&quot;</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prefixes</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The output of this program is:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">Jack</span>
+<span class="go">Kack</span>
+<span class="go">Lack</span>
+<span class="go">Mack</span>
+<span class="go">Nack</span>
+<span class="go">Oack</span>
+<span class="go">Pack</span>
+<span class="go">Qack</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Of course, that’s not quite right because Ouack and Quack are misspelled.
+You’ll fix this as an exercise below.</p>
+</div>
+<div class="section" id="slices">
+<span id="index-4"></span><h2>8.6. Slices<a class="headerlink" href="#slices" title="Permalink to this headline">¶</a></h2>
+<p>A <em>substring</em> of a string is obtained by taking a <strong>slice</strong>.   Similarly, we can
+slice a list to refer to some sublist of the items in the list:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Pirates of the Caribbean&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
+<span class="go">Pirates</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">14</span><span class="p">])</span>
+<span class="go">the</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">24</span><span class="p">])</span>
+<span class="go">Caribbean</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">friends</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Joe&quot;</span><span class="p">,</span> <span class="s2">&quot;Zoe&quot;</span><span class="p">,</span> <span class="s2">&quot;Brad&quot;</span><span class="p">,</span> <span class="s2">&quot;Angelina&quot;</span><span class="p">,</span> <span class="s2">&quot;Zuki&quot;</span><span class="p">,</span> <span class="s2">&quot;Thandi&quot;</span><span class="p">,</span> <span class="s2">&quot;Paris&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">friends</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+<span class="go">[&#39;Brad&#39;, &#39;Angelina&#39;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The operator <code class="docutils literal notranslate"><span class="pre">[n:m]</span></code> returns the part of the string from the n’th character
+to the m’th character, including the first but excluding the last. This
+behavior makes sense if you imagine the indices
+pointing <em>between</em> the characters, as in the following diagram:</p>
+<blockquote>
+<div><img alt="'banana' string" src="_images/banana.png" />
+</div></blockquote>
+<p>If you imagine this as a piece of paper, the slice operator <code class="docutils literal notranslate"><span class="pre">[n:m]</span></code> copies out
+the part of the paper between the <code class="docutils literal notranslate"><span class="pre">n</span></code> and <code class="docutils literal notranslate"><span class="pre">m</span></code> positions.  Provided <code class="docutils literal notranslate"><span class="pre">m</span></code> and <code class="docutils literal notranslate"><span class="pre">n</span></code> are
+both within the bounds of the string, your result will be of length (m-n).</p>
+<p>Three tricks are added to this: if you omit the first index (before the colon),
+the slice starts at the beginning of the string (or list). If you omit the second index,
+the slice extends to the end of the string (or list). Similarly, if you provide value for
+<code class="docutils literal notranslate"><span class="pre">n</span></code> that is bigger than the length of the string (or list), the slice will take all the
+values up to the end. (It won’t give an “out of range” error like the normal indexing operation
+does.)   Thus:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit</span> <span class="o">=</span> <span class="s2">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruit</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">&#39;ban&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruit</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+<span class="go">&#39;ana&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruit</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">999</span><span class="p">]</span>
+<span class="go">&#39;ana&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>What do you think <code class="docutils literal notranslate"><span class="pre">s[:]</span></code> means?   What about <code class="docutils literal notranslate"><span class="pre">friends[4:]</span></code>?</p>
+</div>
+<div class="section" id="string-comparison">
+<span id="index-5"></span><h2>8.7. String comparison<a class="headerlink" href="#string-comparison" title="Permalink to this headline">¶</a></h2>
+<p>The comparison operators work on strings. To see if two strings are equal:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;banana&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yes, we have no bananas!&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Other comparison operations are useful for putting words in
+<cite>lexicographical</cite> order:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">word</span> <span class="o">&lt;</span> <span class="s2">&quot;banana&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Your word, &quot;</span> <span class="o">+</span> <span class="n">word</span> <span class="o">+</span> <span class="s2">&quot;, comes before banana.&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">word</span> <span class="o">&gt;</span> <span class="s2">&quot;banana&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Your word, &quot;</span> <span class="o">+</span> <span class="n">word</span> <span class="o">+</span> <span class="s2">&quot;, comes after banana.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yes, we have no bananas!&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This is similar to the alphabetical order you would use with a dictionary,
+except that all the uppercase letters come before all the lowercase letters. As
+a result:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">Your word, Zebra, comes before banana.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>A common way to address this problem is to convert strings to a standard
+format, such as all lowercase, before performing the comparison. A more
+difficult problem is making the program realize that zebras are not fruit.</p>
+</div>
+<div class="section" id="strings-are-immutable">
+<span id="index-6"></span><h2>8.8. Strings are immutable<a class="headerlink" href="#strings-are-immutable" title="Permalink to this headline">¶</a></h2>
+<p>It is tempting to use the <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator on the left side of an assignment,
+with the intention of changing a character in a string.  For example:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">greeting</span> <span class="o">=</span> <span class="s2">&quot;Hello, world!&quot;</span>
+<span class="n">greeting</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;J&#39;</span>            <span class="c1"># ERROR!</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Instead of producing the output <code class="docutils literal notranslate"><span class="pre">Jello,</span> <span class="pre">world!</span></code>, this code produces the
+runtime error <code class="docutils literal notranslate"><span class="pre">TypeError:</span> <span class="pre">'str'</span> <span class="pre">object</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">support</span> <span class="pre">item</span> <span class="pre">assignment</span></code>.</p>
+<p>Strings are <strong>immutable</strong>, which means you can’t change an existing string. The
+best you can do is create a new string that is a variation on the original:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">greeting</span> <span class="o">=</span> <span class="s2">&quot;Hello, world!&quot;</span>
+<span class="n">new_greeting</span> <span class="o">=</span> <span class="s2">&quot;J&quot;</span> <span class="o">+</span> <span class="n">greeting</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_greeting</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The solution here is to concatenate a new first letter onto a slice of
+<code class="docutils literal notranslate"><span class="pre">greeting</span></code>. This operation has no effect on the original string.</p>
+</div>
+<div class="section" id="the-in-and-not-in-operators">
+<span id="index-7"></span><h2>8.9. The <code class="docutils literal notranslate"><span class="pre">in</span></code> and <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">in</span></code> operators<a class="headerlink" href="#the-in-and-not-in-operators" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">in</span></code> operator tests for membership. When both of the arguments to <code class="docutils literal notranslate"><span class="pre">in</span></code>
+are strings, <code class="docutils literal notranslate"><span class="pre">in</span></code> checks whether the left argument is a substring of the right
+argument.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;p&quot;</span> <span class="ow">in</span> <span class="s2">&quot;apple&quot;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;i&quot;</span> <span class="ow">in</span> <span class="s2">&quot;apple&quot;</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;ap&quot;</span> <span class="ow">in</span> <span class="s2">&quot;apple&quot;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;pa&quot;</span> <span class="ow">in</span> <span class="s2">&quot;apple&quot;</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Note that a string is a substring of itself, and the empty string is a
+substring of any other string. (Also note that computer scientists
+like to think about these edge cases quite carefully!)</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;a&quot;</span> <span class="ow">in</span> <span class="s2">&quot;a&quot;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;apple&quot;</span> <span class="ow">in</span> <span class="s2">&quot;apple&quot;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;&quot;</span> <span class="ow">in</span> <span class="s2">&quot;a&quot;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;&quot;</span> <span class="ow">in</span> <span class="s2">&quot;apple&quot;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">in</span></code> operator returns the logical opposite results of <code class="docutils literal notranslate"><span class="pre">in</span></code>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;x&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s2">&quot;apple&quot;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Combining the <code class="docutils literal notranslate"><span class="pre">in</span></code> operator with string concatenation using <code class="docutils literal notranslate"><span class="pre">+</span></code>, we can
+write a function that removes all the vowels from a string:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">remove_vowels</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">vowels</span> <span class="o">=</span> <span class="s2">&quot;aeiouAEIOU&quot;</span>
+    <span class="n">s_sans_vowels</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vowels</span><span class="p">:</span>
+            <span class="n">s_sans_vowels</span> <span class="o">+=</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">s_sans_vowels</span>
+
+<span class="n">test</span><span class="p">(</span><span class="n">remove_vowels</span><span class="p">(</span><span class="s2">&quot;compsci&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;cmpsc&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_vowels</span><span class="p">(</span><span class="s2">&quot;aAbEefIijOopUus&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bfjps&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="a-find-function">
+<span id="index-8"></span><h2>8.10. A <code class="docutils literal notranslate"><span class="pre">find</span></code> function<a class="headerlink" href="#a-find-function" title="Permalink to this headline">¶</a></h2>
+<p>What does the following function do?</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="n">strng</span><span class="p">,</span> <span class="n">ch</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Find and return the index of ch in strng.</span>
+<span class="sd">      Return -1 if ch does not occur in strng.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">strng</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">==</span> <span class="n">ch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ix</span>
+        <span class="n">ix</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;Compsci&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;Compsci&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;Compsci&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;Compsci&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>In a sense, <code class="docutils literal notranslate"><span class="pre">find</span></code> is the opposite of the indexing operator. Instead of taking
+an index and extracting the corresponding character, it takes a character and
+finds the index where that character appears. If the character is not found,
+the function returns <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+<p>This is another example where we see a <code class="docutils literal notranslate"><span class="pre">return</span></code> statement inside a loop.
+If <code class="docutils literal notranslate"><span class="pre">strng[ix]</span> <span class="pre">==</span> <span class="pre">ch</span></code>, the function returns immediately, breaking out of
+the loop prematurely.</p>
+<p>If the character doesn’t appear in the string, then the program exits the loop
+normally and returns <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+<p>This pattern of computation is sometimes called a <strong>eureka traversal</strong> or
+<strong>short-circuit evaluation</strong>,  because as soon as we find what we are looking for,
+we can cry “Eureka!”, take the short-circuit, and stop looking.</p>
+</div>
+<div class="section" id="looping-and-counting">
+<span id="index-9"></span><h2>8.11. Looping and counting<a class="headerlink" href="#looping-and-counting" title="Permalink to this headline">¶</a></h2>
+<p>The following program counts the number of times the letter <code class="docutils literal notranslate"><span class="pre">a</span></code> appears in a
+string, and is another example of the counter pattern introduced in
+<a class="reference internal" href="iteration.html#counting"><span class="std std-ref">Counting digits</span></a>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">count_a</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+
+<span class="n">test</span><span class="p">(</span><span class="n">count_a</span><span class="p">(</span><span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="optional-parameters">
+<span id="index-10"></span><span id="id1"></span><h2>8.12. Optional parameters<a class="headerlink" href="#optional-parameters" title="Permalink to this headline">¶</a></h2>
+<p>To find the locations of the second or third occurrence of a character in a
+string, we can modify the <code class="docutils literal notranslate"><span class="pre">find</span></code> function, adding a third parameter for the
+starting position in the search string:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find2</span><span class="p">(</span><span class="n">strng</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="k">while</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">strng</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">==</span> <span class="n">ch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ix</span>
+        <span class="n">ix</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="n">test</span><span class="p">(</span><span class="n">find2</span><span class="p">(</span><span class="s2">&quot;banana&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The call <code class="docutils literal notranslate"><span class="pre">find2(&quot;banana&quot;,</span> <span class="pre">&quot;a&quot;,</span> <span class="pre">2)</span></code> now returns <code class="docutils literal notranslate"><span class="pre">3</span></code>, the index of the first
+occurrence of “a” in “banana” starting the search at index 2. What does
+<code class="docutils literal notranslate"><span class="pre">find2(&quot;banana&quot;,</span> <span class="pre">&quot;n&quot;,</span> <span class="pre">3)</span></code> return? If you said, 4, there is a good chance you
+understand how <code class="docutils literal notranslate"><span class="pre">find2</span></code> works.</p>
+<p>Better still, we can combine <code class="docutils literal notranslate"><span class="pre">find</span></code> and <code class="docutils literal notranslate"><span class="pre">find2</span></code> using an
+<strong>optional parameter</strong>:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="n">strng</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="k">while</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">strng</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">==</span> <span class="n">ch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ix</span>
+        <span class="n">ix</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>When a function has an optional parameter, the caller <cite>may</cite> provide a
+matching argument. If the third argument is provided to <code class="docutils literal notranslate"><span class="pre">find</span></code>, it gets assigned
+to <code class="docutils literal notranslate"><span class="pre">start</span></code>.  But if the caller leaves the argument out, then start is given
+a default value indicated by the assignment <code class="docutils literal notranslate"><span class="pre">start=0</span></code> in the function definition.</p>
+<p>So the call <code class="docutils literal notranslate"><span class="pre">find(&quot;banana&quot;,</span> <span class="pre">&quot;a&quot;,</span> <span class="pre">2)</span></code> to this version of <code class="docutils literal notranslate"><span class="pre">find</span></code> behaves just
+like <code class="docutils literal notranslate"><span class="pre">find2</span></code>, while in the call <code class="docutils literal notranslate"><span class="pre">find(&quot;banana&quot;,</span> <span class="pre">&quot;a&quot;)</span></code>, <code class="docutils literal notranslate"><span class="pre">start</span></code> will be
+set to the <strong>default value</strong> of <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p>Adding another optional parameter to <code class="docutils literal notranslate"><span class="pre">find</span></code> makes it search from a starting
+position, up to but not including the end position:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="n">strng</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+       <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">strng</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">strng</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">==</span> <span class="n">ch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ix</span>
+        <span class="n">ix</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The optional value for <code class="docutils literal notranslate"><span class="pre">end</span></code> is interesting: we give it a default value <code class="docutils literal notranslate"><span class="pre">None</span></code> if the
+caller does not supply any argument.  In the body of the function we test what <code class="docutils literal notranslate"><span class="pre">end</span></code> is,
+and if the caller did not supply any argument, we reassign <code class="docutils literal notranslate"><span class="pre">end</span></code> to be the length of the string.
+If the caller has supplied an argument for <code class="docutils literal notranslate"><span class="pre">end</span></code>, however, the caller’s value will be used in the loop.</p>
+<p>The semantics of <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> in this function are precisely the same as they are in
+the <code class="docutils literal notranslate"><span class="pre">range</span></code> function.</p>
+<p>Here are some test cases that should pass:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">ss</span> <span class="o">=</span> <span class="s2">&quot;Python strings have some interesting methods.&quot;</span>
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">ss</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="the-built-in-find-method">
+<span id="index-11"></span><h2>8.13. The built-in <code class="docutils literal notranslate"><span class="pre">find</span></code> method<a class="headerlink" href="#the-built-in-find-method" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve done all this work to write a powerful <code class="docutils literal notranslate"><span class="pre">find</span></code> function, we can reveal that
+strings already have their own built-in <code class="docutils literal notranslate"><span class="pre">find</span></code> method.  It can do everything
+that our code can do, and more!</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">ss</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The built-in <code class="docutils literal notranslate"><span class="pre">find</span></code> method is more general than our version. It can find
+substrings, not just single characters:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;banana&quot;</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;banana&quot;</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;na&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Usually we’d prefer to use the methods that Python provides rather than reinvent
+our own equivalents. But many of the built-in functions and methods make good
+teaching exercises, and the underlying techniques you learn are your building blocks
+to becoming a proficient programmer.</p>
+</div>
+<div class="section" id="the-split-method">
+<h2>8.14. The <code class="docutils literal notranslate"><span class="pre">split</span></code> method<a class="headerlink" href="#the-split-method" title="Permalink to this headline">¶</a></h2>
+<p>One of the most useful methods on strings is the <code class="docutils literal notranslate"><span class="pre">split</span></code> method:
+it splits a single multi-word string into a list of individual words, removing
+all the whitespace between them.  (Whitespace means any tabs, newlines, or spaces.)
+This allows us to read input as a single string,
+and split it into words.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ss</span> <span class="o">=</span> <span class="s2">&quot;Well I never did said Alice&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wds</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wds</span>
+<span class="go">[&#39;Well&#39;, &#39;I&#39;, &#39;never&#39;, &#39;did&#39;, &#39;said&#39;, &#39;Alice&#39;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="cleaning-up-your-strings">
+<h2>8.15. Cleaning up your strings<a class="headerlink" href="#cleaning-up-your-strings" title="Permalink to this headline">¶</a></h2>
+<p>We’ll often work with strings that contain punctuation, or tab and newline characters,
+especially, as we’ll see in a future chapter, when we read our text from files or from
+the Internet. But if we’re writing a program, say, to count word frequencies or check the
+spelling of each word, we’d prefer to strip off these unwanted characters.</p>
+<p>We’ll show just one example of how to strip punctuation from a string.
+Remember that strings are immutable, so we cannot change the string with the
+punctuation — we need to traverse the original string and create a new string,
+omitting any punctuation:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">punctuation</span> <span class="o">=</span> <span class="s2">&quot;!</span><span class="se">\&quot;</span><span class="s2">#$%&amp;&#39;()*+,-./:;&lt;=&gt;?@[</span><span class="se">\\</span><span class="s2">]^_`{|}~&quot;</span>
+
+<span class="k">def</span> <span class="nf">remove_punctuation</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">s_sans_punct</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">letter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">punctuation</span><span class="p">:</span>
+            <span class="n">s_sans_punct</span> <span class="o">+=</span> <span class="n">letter</span>
+    <span class="k">return</span> <span class="n">s_sans_punct</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Setting up that first assignment is messy and error-prone.
+Fortunately, the Python <code class="docutils literal notranslate"><span class="pre">string</span></code> module already does it
+for us.  So we will make a slight improvement to this
+program — we’ll import the <code class="docutils literal notranslate"><span class="pre">string</span></code> module and use its definition:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">string</span>
+
+<span class="k">def</span> <span class="nf">remove_punctuation</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">s_without_punct</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">letter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">:</span>
+            <span class="n">s_without_punct</span> <span class="o">+=</span> <span class="n">letter</span>
+    <span class="k">return</span> <span class="n">s_without_punct</span>
+
+<span class="n">test</span><span class="p">(</span><span class="n">remove_punctuation</span><span class="p">(</span><span class="s1">&#39;&quot;Well, I never did!&quot;, said Alice.&#39;</span><span class="p">)</span> <span class="o">==</span>
+                            <span class="s2">&quot;Well I never did said Alice&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_punctuation</span><span class="p">(</span><span class="s2">&quot;Are you very, very, sure?&quot;</span><span class="p">)</span> <span class="o">==</span>
+                             <span class="s2">&quot;Are you very very sure&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Composing together this function and the <code class="docutils literal notranslate"><span class="pre">split</span></code> method from the previous section
+makes a useful combination — we’ll clean out the punctuation, and
+<code class="docutils literal notranslate"><span class="pre">split</span></code> will clean out the newlines and tabs while turning the string into
+a list of words:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">my_story</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Pythons are constrictors, which means that they will &#39;squeeze&#39; the life</span>
+<span class="s2">out of their prey. They coil themselves around their prey and with</span>
+<span class="s2">each breath the creature takes the snake will squeeze a little tighter</span>
+<span class="s2">until they stop breathing completely. Once the heart stops the prey</span>
+<span class="s2">is swallowed whole. The entire animal is digested in the snake&#39;s</span>
+<span class="s2">stomach except for fur or feathers. What do you think happens to the fur,</span>
+<span class="s2">feathers, beaks, and eggshells? The &#39;extra stuff&#39; gets passed out as ---</span>
+<span class="s2">you guessed it --- snake POOP! &quot;&quot;&quot;</span>
+
+<span class="n">wds</span> <span class="o">=</span> <span class="n">remove_punctuation</span><span class="p">(</span><span class="n">my_story</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">wds</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The output:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">[&#39;Pythons&#39;, &#39;are&#39;, &#39;constrictors&#39;, ... , &#39;it&#39;, &#39;snake&#39;, &#39;POOP&#39;]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>There are other useful string methods, but this book isn’t intended to
+be a reference manual. On the other hand, the <em>Python Library Reference</em>
+is. Along with a wealth of other documentation, it is available at
+the <a class="reference external" href="http://www.python.org">Python website</a>.</p>
+</div>
+<div class="section" id="the-string-format-method">
+<span id="index-12"></span><h2>8.16. The string format method<a class="headerlink" href="#the-string-format-method" title="Permalink to this headline">¶</a></h2>
+<p>The easiest and most powerful way to format a string in Python 3 is to use the
+<code class="docutils literal notranslate"><span class="pre">format</span></code> method.  To see how this works, let’s start with a few examples:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">s1</span> <span class="o">=</span> <span class="s2">&quot;His name is </span><span class="si">{0}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Arthur&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Alice&quot;</span>
+<span class="n">age</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="s2">&quot;I am </span><span class="si">{1}</span><span class="s2"> and I am </span><span class="si">{0}</span><span class="s2"> years old.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+
+<span class="n">n1</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">s3</span> <span class="o">=</span> <span class="s2">&quot;2**10 = </span><span class="si">{0}</span><span class="s2"> and </span><span class="si">{1}</span><span class="s2"> * </span><span class="si">{2}</span><span class="s2"> = </span><span class="si">{3:f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">10</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n1</span> <span class="o">*</span> <span class="n">n2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s3</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Running the script produces:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">His name is Arthur!</span>
+<span class="go">I am Alice and I am 10 years old.</span>
+<span class="go">2**10 = 1024 and 4 * 5 = 20.000000</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The template string contains <em>place holders</em>,  <code class="docutils literal notranslate"><span class="pre">...</span> <span class="pre">{0}</span> <span class="pre">...</span> <span class="pre">{1}</span> <span class="pre">...</span> <span class="pre">{2}</span> <span class="pre">...</span></code> etc.
+The <code class="docutils literal notranslate"><span class="pre">format</span></code> method substitutes its arguments into the place holders.
+The numbers in the place holders are indexes that determine which argument
+gets substituted — make sure you understand line 6 above!</p>
+<p>But there’s more!  Each of the replacement fields can also contain a <strong>format specification</strong> —
+it is always introduced by the <code class="docutils literal notranslate"><span class="pre">:</span></code> symbol  (Line 11 above uses one.)
+This modifies how the substitutions are made into the template, and can control things like:</p>
+<ul class="simple">
+<li>whether the field is aligned to the left <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, center <code class="docutils literal notranslate"><span class="pre">^</span></code>, or right <code class="docutils literal notranslate"><span class="pre">&gt;</span></code></li>
+<li>the width allocated to the field within the result string (a number like <code class="docutils literal notranslate"><span class="pre">10</span></code>)</li>
+<li>the type of conversion (we’ll initially only force conversion to float, <code class="docutils literal notranslate"><span class="pre">f</span></code>, as we did in
+line 11 of the code above, or perhaps we’ll ask integer numbers to be converted to hexadecimal using <code class="docutils literal notranslate"><span class="pre">x</span></code>)</li>
+<li>if the type conversion is a float, you can also specify how many decimal places are wanted
+(typically, <code class="docutils literal notranslate"><span class="pre">.2f</span></code> is useful for working with currencies to two decimal places.)</li>
+</ul>
+<p>Let’s do a few simple and common examples that should be enough for most needs.  If you need to
+do anything more esoteric, use <em>help</em> and read all the powerful, gory details.</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="s2">&quot;Paris&quot;</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="s2">&quot;Whitney&quot;</span>
+<span class="n">n3</span> <span class="o">=</span> <span class="s2">&quot;Hilton&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pi to three decimal places is </span><span class="si">{0:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">3.1415926</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;123456789 123456789 123456789 123456789 123456789 123456789&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|||</span><span class="si">{0:&lt;15}</span><span class="s2">|||</span><span class="si">{1:^15}</span><span class="s2">|||</span><span class="si">{2:&gt;15}</span><span class="s2">|||Born in </span><span class="si">{3}</span><span class="s2">|||&quot;</span>
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">n3</span><span class="p">,</span><span class="mi">1981</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The decimal value </span><span class="si">{0}</span><span class="s2"> converts to hex value </span><span class="si">{0:x}</span><span class="s2">&quot;</span>
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">123456</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This script produces the output:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">Pi to three decimal places is 3.142</span>
+<span class="go">123456789 123456789 123456789 123456789 123456789 123456789</span>
+<span class="go">|||Paris          |||    Whitney    |||         Hilton|||Born in 1981|||</span>
+<span class="go">The decimal value 123456 converts to hex value 1e240</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>You can have multiple placeholders indexing the
+same argument, or perhaps even have extra arguments that are not referenced
+at all:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">letter</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Dear </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{2}</span><span class="s2">.</span>
+<span class="s2"> </span><span class="si">{0}</span><span class="s2">, I have an interesting money-making proposition for you!</span>
+<span class="s2"> If you deposit $10 million into my bank account, I can</span>
+<span class="s2"> double your money ...</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">letter</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">,</span> <span class="s2">&quot;Whitney&quot;</span><span class="p">,</span> <span class="s2">&quot;Hilton&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">letter</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Bill&quot;</span><span class="p">,</span> <span class="s2">&quot;Henry&quot;</span><span class="p">,</span> <span class="s2">&quot;Gates&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This produces the following:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">Dear Paris Hilton.</span>
+<span class="go"> Paris, I have an interesting money-making proposition for you!</span>
+<span class="go"> If you deposit $10 million into my bank account, I can</span>
+<span class="go"> double your money ...</span>
+
+
+<span class="go">Dear Bill Gates.</span>
+<span class="go"> Bill, I have an interesting money-making proposition for you!</span>
+<span class="go"> If you deposit $10 million into my bank account I can</span>
+<span class="go"> double your money ...</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>As you might expect, you’ll get an index error if
+your placeholders refer to arguments that you do not provide:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;hello </span><span class="si">{3}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Dave&quot;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;interactive input&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">IndexError</span>: <span class="n">tuple index out of range</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The following example illustrates the real utility of string formatting.
+First, we’ll try to print a table without using string formatting:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i</span><span class="se">\t</span><span class="s2">i**2</span><span class="se">\t</span><span class="s2">i**3</span><span class="se">\t</span><span class="s2">i**5</span><span class="se">\t</span><span class="s2">i**10</span><span class="se">\t</span><span class="s2">i**20&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span>
+                                            <span class="n">i</span><span class="o">**</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This program prints out a table of various powers of the numbers from 1 to 10.
+(This assumes that the tab width is 8.  You might see
+something even worse than this if you tab width is set to 4.)
+In its current form it relies on the tab character ( <code class="docutils literal notranslate"><span class="pre">\t</span></code>) to align the
+columns of values, but this breaks down when the values in the table get larger
+than the tab width:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">i       i**2    i**3    i**5    i**10   i**20</span>
+<span class="go">1       1       1       1       1       1</span>
+<span class="go">2       4       8       32      1024    1048576</span>
+<span class="go">3       9       27      243     59049   3486784401</span>
+<span class="go">4       16      64      1024    1048576         1099511627776</span>
+<span class="go">5       25      125     3125    9765625         95367431640625</span>
+<span class="go">6       36      216     7776    60466176        3656158440062976</span>
+<span class="go">7       49      343     16807   282475249       79792266297612001</span>
+<span class="go">8       64      512     32768   1073741824      1152921504606846976</span>
+<span class="go">9       81      729     59049   3486784401      12157665459056928801</span>
+<span class="go">10      100     1000    100000  10000000000     100000000000000000000</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>One possible solution would be to change the tab width, but the first column
+already has more space than it needs. The best solution would be to set the
+width of each column independently. As you may have guessed by now, string
+formatting provides a much nicer solution.  We can also right-justify each field:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">layout</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:&gt;4}{1:&gt;6}{2:&gt;6}{3:&gt;8}{4:&gt;13}{5:&gt;24}</span><span class="s2">&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;i**2&quot;</span><span class="p">,</span> <span class="s2">&quot;i**3&quot;</span><span class="p">,</span> <span class="s2">&quot;i**5&quot;</span><span class="p">,</span> <span class="s2">&quot;i**10&quot;</span><span class="p">,</span> <span class="s2">&quot;i**20&quot;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">5</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">10</span><span class="p">,</span> <span class="n">i</span><span class="o">**</span><span class="mi">20</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Running this version produces the following (much more satisfying) output:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go"> i  i**2  i**3    i**5        i**10                   i**20</span>
+<span class="go"> 1     1     1       1            1                       1</span>
+<span class="go"> 2     4     8      32         1024                 1048576</span>
+<span class="go"> 3     9    27     243        59049              3486784401</span>
+<span class="go"> 4    16    64    1024      1048576           1099511627776</span>
+<span class="go"> 5    25   125    3125      9765625          95367431640625</span>
+<span class="go"> 6    36   216    7776     60466176        3656158440062976</span>
+<span class="go"> 7    49   343   16807    282475249       79792266297612001</span>
+<span class="go"> 8    64   512   32768   1073741824     1152921504606846976</span>
+<span class="go"> 9    81   729   59049   3486784401    12157665459056928801</span>
+<span class="go">10   100  1000  100000  10000000000   100000000000000000000</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="summary">
+<h2>8.17. Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>This chapter introduced a lot of new ideas.  The following summary
+may prove helpful in remembering what you learned.</p>
+<dl class="glossary docutils">
+<dt id="term-indexing">indexing (<code class="docutils literal notranslate"><span class="pre">[]</span></code>)</dt>
+<dd>Access a single character in a string using its position (starting from
+0).  Example: <code class="docutils literal notranslate"><span class="pre">&quot;This&quot;[2]</span></code> evaluates to <code class="docutils literal notranslate"><span class="pre">&quot;i&quot;</span></code>.</dd>
+<dt id="term-length-function-len">length function (<code class="docutils literal notranslate"><span class="pre">len</span></code>)</dt>
+<dd>Returns the number of characters in a string.  Example:
+<code class="docutils literal notranslate"><span class="pre">len(&quot;happy&quot;)</span></code> evaluates to <code class="docutils literal notranslate"><span class="pre">5</span></code>.</dd>
+<dt id="term-for-loop-traversal-for">for loop traversal (<code class="docutils literal notranslate"><span class="pre">for</span></code>)</dt>
+<dd><p class="first"><em>Traversing</em> a string means accessing each character in the string, one
+at a time.  For example, the following for loop:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="s2">&quot;Example&quot;</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="last">executes the body of the loop 7 times with different values of <code class="docutils literal notranslate"><span class="pre">ch</span></code> each time.</p>
+</dd>
+<dt id="term-slicing">slicing (<code class="docutils literal notranslate"><span class="pre">[:]</span></code>)</dt>
+<dd>A <em>slice</em> is a substring of a string. Example: <code class="docutils literal notranslate"><span class="pre">'bananas</span> <span class="pre">and</span>
+<span class="pre">cream'[3:6]</span></code> evaluates to <code class="docutils literal notranslate"><span class="pre">ana</span></code> (so does <code class="docutils literal notranslate"><span class="pre">'bananas</span> <span class="pre">and</span>
+<span class="pre">cream'[1:4]</span></code>).</dd>
+<dt id="term-string-comparison">string comparison (<code class="docutils literal notranslate"><span class="pre">&gt;,</span> <span class="pre">&lt;,</span> <span class="pre">&gt;=,</span> <span class="pre">&lt;=,</span> <span class="pre">==,</span> <span class="pre">!=</span></code>)</dt>
+<dd>The six common comparison operators work with strings, evaluating according to
+<cite>lexicographical</cite> order.  Examples:
+<code class="docutils literal notranslate"><span class="pre">&quot;apple&quot;</span> <span class="pre">&lt;</span> <span class="pre">&quot;banana&quot;</span></code> evaluates to <code class="docutils literal notranslate"><span class="pre">True</span></code>.  <code class="docutils literal notranslate"><span class="pre">&quot;Zeta&quot;</span> <span class="pre">&lt;</span> <span class="pre">&quot;Appricot&quot;</span></code>
+evaluates to <code class="docutils literal notranslate"><span class="pre">False</span></code>.  <code class="docutils literal notranslate"><span class="pre">&quot;Zebra&quot;</span> <span class="pre">&lt;=</span> <span class="pre">&quot;aardvark&quot;</span></code> evaluates to
+<code class="docutils literal notranslate"><span class="pre">True</span></code> because all upper case letters precede lower case letters.</dd>
+<dt id="term-in-and-not-in-operator-in-not-in">in and not in operator (<code class="docutils literal notranslate"><span class="pre">in</span></code>, <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">in</span></code>)</dt>
+<dd>The <code class="docutils literal notranslate"><span class="pre">in</span></code> operator tests for membership. In the case of
+strings, it tests whether one string is contained inside another
+string.  Examples: <code class="docutils literal notranslate"><span class="pre">&quot;heck&quot;</span> <span class="pre">in</span> <span class="pre">&quot;I'll</span> <span class="pre">be</span> <span class="pre">checking</span> <span class="pre">for</span> <span class="pre">you.&quot;</span></code>
+evaluates to <code class="docutils literal notranslate"><span class="pre">True</span></code>.  <code class="docutils literal notranslate"><span class="pre">&quot;cheese&quot;</span> <span class="pre">in</span> <span class="pre">&quot;I'll</span> <span class="pre">be</span> <span class="pre">checking</span> <span class="pre">for</span>
+<span class="pre">you.&quot;</span></code> evaluates to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="glossary">
+<h2>8.18. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-compound-data-type">compound data type</dt>
+<dd>A data type in which the values are made up of components, or elements,
+that are themselves values.</dd>
+<dt id="term-default-value">default value</dt>
+<dd>The value given to an optional parameter if no argument for it is
+provided in the function call.</dd>
+<dt id="term-docstring">docstring</dt>
+<dd>A string constant on the first line of a function or module definition
+(and as we will see later, in class and method definitions as well).
+Docstrings provide a convenient way to associate documentation with
+code. Docstrings are also used by programming tools to provide interactive help.</dd>
+<dt id="term-dot-notation">dot notation</dt>
+<dd>Use of the <strong>dot operator</strong>, <code class="docutils literal notranslate"><span class="pre">.</span></code>, to access methods and attributes of an object.</dd>
+<dt id="term-immutable-data-value">immutable data value</dt>
+<dd>A data value which cannot be modified.  Assignments to elements or
+slices (sub-parts) of immutable values cause a runtime error.</dd>
+<dt id="term-index">index</dt>
+<dd>A variable or value used to select a member of an ordered collection, such as
+a character from a string, or an element from a list.</dd>
+<dt id="term-mutable-data-value">mutable data value</dt>
+<dd>A data value which can be modified. The types of all mutable values
+are compound types.  Lists and dictionaries are mutable; strings
+and tuples are not.</dd>
+<dt id="term-optional-parameter">optional parameter</dt>
+<dd>A parameter written in a function header with an assignment to a
+default value which it will receive if no corresponding argument is
+given for it in the function call.</dd>
+<dt id="term-short-circuit-evaluation">short-circuit evaluation</dt>
+<dd>A style of programming that shortcuts extra work as soon as the
+outcome is know with certainty. In this chapter our <code class="docutils literal notranslate"><span class="pre">find</span></code>
+function returned as soon as it found what it was looking for; it
+didn’t traverse all the rest of the items in the string.</dd>
+<dt id="term-slice">slice</dt>
+<dd>A part of a string (substring) specified by a range of indices. More
+generally, a subsequence of any sequence type in Python can be created
+using the slice operator (<code class="docutils literal notranslate"><span class="pre">sequence[start:stop]</span></code>).</dd>
+<dt id="term-traverse">traverse</dt>
+<dd>To iterate through the elements of a collection, performing a similar
+operation on each.</dd>
+<dt id="term-whitespace">whitespace</dt>
+<dd>Any of the characters that move the cursor without printing visible
+characters. The constant <code class="docutils literal notranslate"><span class="pre">string.whitespace</span></code> contains all the
+white-space characters.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>8.19. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p>We suggest you create a single file containing the test scaffolding from our previous chapters,
+and put all functions that require tests into that file.</p>
+<ol class="arabic">
+<li><p class="first">What is the result of each of the following:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Python&quot;</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Strings are sequences of characters.&quot;</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;wonderful&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Mystery&quot;</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;p&quot;</span> <span class="ow">in</span> <span class="s2">&quot;Pineapple&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;apple&quot;</span> <span class="ow">in</span> <span class="s2">&quot;Pineapple&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;pear&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s2">&quot;Pineapple&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;apple&quot;</span> <span class="o">&gt;</span> <span class="s2">&quot;pineapple&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;pineapple&quot;</span> <span class="o">&lt;</span> <span class="s2">&quot;Peach&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Modify:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">prefixes</span> <span class="o">=</span> <span class="s2">&quot;JKLMNOPQ&quot;</span>
+<span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;ack&quot;</span>
+
+<span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">prefixes</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">letter</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>so that <code class="docutils literal notranslate"><span class="pre">Ouack</span></code> and <code class="docutils literal notranslate"><span class="pre">Quack</span></code> are spelled correctly.</p>
+</li>
+<li><p class="first">Encapsulate</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">fruit</span> <span class="o">=</span> <span class="s2">&quot;banana&quot;</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">fruit</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>in a function named <code class="docutils literal notranslate"><span class="pre">count_letters</span></code>, and generalize it so that it accepts
+the string and the letter as arguments.  Make the function return the number
+of characters, rather than print the answer.  The caller should do the printing.</p>
+</li>
+<li><p class="first">Now rewrite the <code class="docutils literal notranslate"><span class="pre">count_letters</span></code> function so that instead of traversing the
+string, it repeatedly calls the <code class="docutils literal notranslate"><span class="pre">find</span></code> method, with the optional third parameter
+to locate new occurrences of the letter being counted.</p>
+</li>
+<li><p class="first">Assign to a variable in your program a triple-quoted string that contains
+your favourite paragraph of text — perhaps a poem, a speech, instructions
+to bake a cake, some inspirational verses, etc.</p>
+<p>Write a function which removes all punctuation from the string, breaks the string
+into a list of words, and counts the number of words in your text that contain
+the letter “e”.  Your program should print an analysis of the text like this:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">Your text contains 243 words, of which 109 (44.8%) contain an &quot;e&quot;.</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Print a neat looking multiplication table like this:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">        1   2   3   4   5   6   7   8   9  10  11  12</span>
+<span class="go">  :--------------------------------------------------</span>
+<span class="go"> 1:     1   2   3   4   5   6   7   8   9  10  11  12</span>
+<span class="go"> 2:     2   4   6   8  10  12  14  16  18  20  22  24</span>
+<span class="go"> 3:     3   6   9  12  15  18  21  24  27  30  33  36</span>
+<span class="go"> 4:     4   8  12  16  20  24  28  32  36  40  44  48</span>
+<span class="go"> 5:     5  10  15  20  25  30  35  40  45  50  55  60</span>
+<span class="go"> 6:     6  12  18  24  30  36  42  48  54  60  66  72</span>
+<span class="go"> 7:     7  14  21  28  35  42  49  56  63  70  77  84</span>
+<span class="go"> 8:     8  16  24  32  40  48  56  64  72  80  88  96</span>
+<span class="go"> 9:     9  18  27  36  45  54  63  72  81  90  99 108</span>
+<span class="go">10:    10  20  30  40  50  60  70  80  90 100 110 120</span>
+<span class="go">11:    11  22  33  44  55  66  77  88  99 110 121 132</span>
+<span class="go">12:    12  24  36  48  60  72  84  96 108 120 132 144</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Write a function that reverses its string argument, and satisfies these tests:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;happy&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;yppah&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;Python&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;nohtyP&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">Write a function that mirrors its argument:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">mirror</span><span class="p">(</span><span class="s2">&quot;good&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;gooddoog&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">mirror</span><span class="p">(</span><span class="s2">&quot;Python&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;PythonnohtyP&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">mirror</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">mirror</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;aa&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">Write a function that removes all occurrences of a given letter from a string:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;apple&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;pple&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bnn&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;Mississippi&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Msssspp&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_letter</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;c&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">Write a function that recognizes palindromes. (Hint: use your <code class="docutils literal notranslate"><span class="pre">reverse</span></code> function to make this easy!):</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s2">&quot;abba&quot;</span><span class="p">))</span>
+<span class="n">test</span><span class="p">(</span><span class="ow">not</span> <span class="n">is_palindrome</span><span class="p">(</span><span class="s2">&quot;abab&quot;</span><span class="p">))</span>
+<span class="n">test</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s2">&quot;tenet&quot;</span><span class="p">))</span>
+<span class="n">test</span><span class="p">(</span><span class="ow">not</span> <span class="n">is_palindrome</span><span class="p">(</span><span class="s2">&quot;banana&quot;</span><span class="p">))</span>
+<span class="n">test</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s2">&quot;straw warts&quot;</span><span class="p">))</span>
+<span class="n">test</span><span class="p">(</span><span class="n">is_palindrome</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
+<span class="c1"># test(is_palindrome(&quot;&quot;))    # Is an empty string a palindrome?</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">Write a function that counts how many times a substring occurs in a string:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;is&quot;</span><span class="p">,</span> <span class="s2">&quot;Mississippi&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;an&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;ana&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;nana&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;nanan&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;aaa&quot;</span><span class="p">,</span> <span class="s2">&quot;aaaaaa&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">Write a function that removes the first occurrence of a string from another string:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;an&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bana&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;cyc&quot;</span><span class="p">,</span> <span class="s2">&quot;bicycle&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bile&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;iss&quot;</span><span class="p">,</span> <span class="s2">&quot;Mississippi&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Missippi&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;eggs&quot;</span><span class="p">,</span> <span class="s2">&quot;bicycle&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bicycle&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+<li><p class="first">Write a function that removes all occurrences of a string from another string:</p>
+<blockquote>
+<div><div class="highlight-python3 notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">remove_all</span><span class="p">(</span><span class="s2">&quot;an&quot;</span><span class="p">,</span> <span class="s2">&quot;banana&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;ba&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_all</span><span class="p">(</span><span class="s2">&quot;cyc&quot;</span><span class="p">,</span> <span class="s2">&quot;bicycle&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bile&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_all</span><span class="p">(</span><span class="s2">&quot;iss&quot;</span><span class="p">,</span> <span class="s2">&quot;Mississippi&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Mippi&quot;</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">remove_all</span><span class="p">(</span><span class="s2">&quot;eggs&quot;</span><span class="p">,</span> <span class="s2">&quot;bicycle&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;bicycle&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tuples.html" title="9. Tuples"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="iteration.html" title="7. Iteration"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

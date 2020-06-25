@@ -1,0 +1,11 @@
+﻿<Window x:Class="FibAndFact.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="352" Width="290">
+    <Grid Height="275" Width="235">
+        <TextBox Height="26" HorizontalAlignment="Left" Margin="24,123,0,0" Name="txtFib" VerticalAlignment="Top" Width="51" Text="35" />
+        <Button Content="Factorial" Height="26" HorizontalAlignment="Left" Margin="124,29,0,0" Name="btnFact" VerticalAlignment="Top" Width="65" Click="btnFact_Click" />
+        <Button Content="Fibonacci" Height="27" HorizontalAlignment="Left" Margin="114,0,0,126" Name="btnFib" VerticalAlignment="Bottom" Width="73" Click="btnFib_Click" />  
+        <TextBox Height="26" HorizontalAlignment="Left" Margin="26,31,0,0" Name="txtFact" Text="10" VerticalAlignment="Top" Width="51" />
+    </Grid>
+</Window>

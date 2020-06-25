@@ -1,0 +1,174 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Configuring Ubuntu for Python Development &#8212; How to Think Like a Computer Scientist: Learning with Python 3</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="copyright" title="Copyright" href="copyright.html" />
+    <link rel="next" title="Customizing and Contributing to the Book" href="app_d.html" />
+    <link rel="prev" title="An odds-and-ends Workbook" href="app_b.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="app_d.html" title="Customizing and Contributing to the Book"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="app_b.html" title="An odds-and-ends Workbook"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="configuring-ubuntu-for-python-development">
+<h1>Configuring Ubuntu for Python Development<a class="headerlink" href="#configuring-ubuntu-for-python-development" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><em>Note:</em> the following instructions assume that you are connected to
+the Internet and that you have both the <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">universe</span></code>
+package repositories enabled.  All unix shell commands are assumed to
+be running from your home directory ($HOME).  Finally, any command that
+begins with <code class="docutils literal notranslate"><span class="pre">sudo</span></code> assums that you have administrative rights on your
+machine.  If you do not — please ask your system administrator about
+installing the software you need.</div></blockquote>
+<p>What follows are instructions for setting up an Ubuntu 9.10 (Karmic) home
+environment for use with this book. I use Ubuntu GNU/Linux for both development
+and testing of the book, so it is the only system about which I can personally
+answer setup and configuration questions.</p>
+<p>In the spirit of software freedom and open collaboration, please contact me if
+you would like to maintain a similar appendix for your own favorite system. I’d
+be more than happy to link to it or put it on the Open Book Project site,
+provided you agree to answer user feedback concerning it.</p>
+<p>Thanks!</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="mailto:jeff&#37;&#52;&#48;elkner&#46;net">Jeffrey Elkner</a></div>
+<div class="line">Governor’s Career and Technical Academy in Arlington</div>
+<div class="line">Arlington, Virginia</div>
+</div>
+<div class="section" id="vim">
+<h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.vim.org">Vim</a> can be used very effectively for Python
+development, but Ubuntu only comes with the <cite>vim-tiny</cite> package installed by
+default, so it doesn’t support color syntax highlighting or auto-indenting.</p>
+<p>To use Vim, do the following:</p>
+<ol class="arabic">
+<li><p class="first">From the unix command prompt, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install vim-gnome
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a file in your home directory named <cite>.vimrc</cite> that contains the
+following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>syntax enable
+filetype indent on
+set et
+set sw=4
+set smarttab
+map &lt;f2&gt; :w\|!python %
+</pre></div>
+</div>
+</li>
+</ol>
+<p>When you edit a file with a <cite>.py</cite> extension, you should now have color systax
+highlighting and auto indenting. Pressing the key should run your program, and
+bring you back to the editor when the program completes.</p>
+<p>To learn to use vim, run the following command at a unix command
+prompt:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ vimtutor
+</pre></div>
+</div>
+</div>
+<div class="section" id="home-environment">
+<h2><cite>$HOME</cite> environment<a class="headerlink" href="#home-environment" title="Permalink to this headline">¶</a></h2>
+<p>The following creates a useful environment in your home directory for
+adding your own Python libraries and executable scripts:</p>
+<ol class="arabic">
+<li><p class="first">From the command prompt in your home directory, create <cite>bin</cite> and
+<cite>lib/python</cite> subdirectories by running the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkdir bin lib
+$ mkdir lib/python
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add the following lines to the bottom of your <cite>.bashrc</cite> in your home
+directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PYTHONPATH=$HOME/lib/python
+EDITOR=vim
+
+export PYTHONPATH EDITOR
+</pre></div>
+</div>
+<p>This will set your prefered editor to Vim, add your own <cite>lib/python</cite>
+subdirectory for your Python libraries to your Python path, and add your own
+<cite>bin</cite> directory as a place to put executable scripts. You need to logout and
+log back in before your local <cite>bin</cite> directory will be in your <a class="reference external" href="http://en.wikipedia.org/wiki/Path_(variable)">search path</a>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="making-a-python-script-executable-and-runnable-from-anywhere">
+<h2>Making a Python script executable and runnable from anywhere<a class="headerlink" href="#making-a-python-script-executable-and-runnable-from-anywhere" title="Permalink to this headline">¶</a></h2>
+<p>On unix systems, Python scripts can be made <em>executable</em> using the following
+process:</p>
+<ol class="arabic">
+<li><p class="first">Add this line as the first line in the script:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">At the unix command prompt, type the following to make <cite>myscript.py</cite>
+executable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ chmod +x myscript.py
+</pre></div>
+</div>
+</li>
+<li><p class="first">Move <cite>myscript.py</cite> into your <cite>bin</cite> directory, and it will be runnable from
+anywhere.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="app_d.html" title="Customizing and Contributing to the Book"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="app_b.html" title="An odds-and-ends Workbook"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How to Think Like a Computer Scientist: Learning with Python 3</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; <a href="copyright.html">Copyright</a> 2012, Peter Wentworth, Jeffrey Elkner, Allen B. Downey and Chris Meyers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

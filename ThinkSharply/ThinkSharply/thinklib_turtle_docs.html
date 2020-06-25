@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ThinkLib.Turtle Documentation &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="ThinkLib.Tester Documentation" href="thinklib_tester_docs.html" />
+    <link rel="prev" title="A Few Tips" href="tips.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="thinklib_tester_docs.html" title="ThinkLib.Tester Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tips.html" title="A Few Tips"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="thinklib-turtle-documentation">
+<h1>ThinkLib.Turtle Documentation<a class="headerlink" href="#thinklib-turtle-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This class allows you to create instances of Turtle which can move and draw lines on a Canvas control.
+So before you can start, you need to have a Canvas control in your WPF application.</p>
+<div class="section" id="constructor-method">
+<h2><strong>Constructor method:</strong><a class="headerlink" href="#constructor-method" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">Turtle</span><span class="p">(</span><span class="n">Canvas</span> <span class="n">playground</span><span class="p">,</span> <span class="p">[</span><span class="kt">double</span> <span class="n">homeX</span> <span class="p">=</span> <span class="m">20</span><span class="p">],</span> <span class="p">[</span><span class="kt">double</span> <span class="n">homeY</span> <span class="p">=</span> <span class="m">200</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Initialize a new turtle to use given Canvas, and to set an (optional) Home position.</p>
+</div>
+<div class="section" id="turtle-methods">
+<h2>Turtle Methods<a class="headerlink" href="#turtle-methods" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">public</span> <span class="k">void</span> <span class="nf">Forward</span><span class="p">(</span><span class="kt">double</span> <span class="n">distance</span><span class="p">);</span>  <span class="c1">// Move forward by distance.  If BrushDown, a line is drawn.</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Left</span><span class="p">(</span><span class="kt">double</span> <span class="n">degrees</span><span class="p">);</span>      <span class="c1">// Turn the turtle to its right by this many degrees.</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Right</span><span class="p">(</span><span class="kt">double</span> <span class="n">degrees</span><span class="p">);</span>     <span class="c1">// Turn the turtle to its right by this many degrees.</span>
+<span class="k">public</span> <span class="n">Footprint</span> <span class="nf">Stamp</span><span class="p">();</span>              <span class="c1">// Stamp a footprint at the current position.</span>
+                                       <span class="c1">// There are more overloadings for Stamp() under the Experimental features.</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">WarpTo</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y</span><span class="p">);</span> <span class="c1">// Go to absolute position (x,y) without drawing.</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">WarpTo</span><span class="p">(</span><span class="n">Point</span> <span class="n">pos</span><span class="p">);</span>         <span class="c1">// Go to absolute position pos without drawing.</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Goto</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y</span><span class="p">);</span>  <span class="c1">// Go to absolute position (x,y). Draw if the brush is down.</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Goto</span><span class="p">(</span><span class="n">Point</span> <span class="n">pos</span><span class="p">);</span>           <span class="c1">// Go to absolute position Pos. Draw if the brush is down.</span>
+                                       <span class="c1">// Equivalent to setting the Position property.</span>
+
+<span class="k">public</span> <span class="n">Footprint</span> <span class="nf">Stamp</span><span class="p">(</span><span class="kt">string</span> <span class="n">str</span><span class="p">,</span> <span class="p">[</span><span class="kt">double</span> <span class="n">offsetX</span><span class="p">=</span><span class="m">0.0</span><span class="p">],</span> <span class="p">[</span><span class="kt">double</span> <span class="n">offsetY</span><span class="p">=</span><span class="m">0.0</span><span class="p">],</span> <span class="p">[</span><span class="kt">bool</span> <span class="n">useRotation</span><span class="p">=</span><span class="k">false</span><span class="p">]);</span>
+               <span class="c1">//  Stamp a string at the current turtle position.</span>
+               <span class="c1">//  offsetX and offsetY arguments will offset the text from the turtle.</span>
+               <span class="c1">//  If useRotation is true, the text will be rotated to the turtle&#39;s heading.</span>
+
+<span class="k">public</span> <span class="n">Footprint</span> <span class="nf">Stamp</span><span class="p">(</span><span class="n">ImageSource</span> <span class="n">imgSrc</span><span class="p">,[</span><span class="kt">double</span> <span class="n">hotspotX</span><span class="p">=</span><span class="m">0.0</span><span class="p">],[</span><span class="kt">double</span> <span class="n">hotspotY</span><span class="p">=</span><span class="m">0.0</span><span class="p">],[</span><span class="kt">bool</span> <span class="n">useRotation</span><span class="p">=</span><span class="k">false</span><span class="p">]);</span>
+              <span class="c1">// Stamp an image at the current turtle position.</span>
+              <span class="c1">// If the hotspot offsets are zero, the top left corner of the image will be placed</span>
+              <span class="c1">//    at the turtle&#39;s position.</span>
+              <span class="c1">// If useRotation is true, the image will be rotated to the turtle&#39;s heading.</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">FlushToPlayground</span><span class="p">();</span>       <span class="c1">// Immediately render any drawing that might otherwise not</span>
+                                       <span class="c1">// appear until later during long-running computations.</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Clear</span><span class="p">();</span>                   <span class="c1">// Erase all this turtle&#39;s drawing, footprints and text</span>
+                                       <span class="c1">//    without changing position or heading, or any properties.</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Reset</span><span class="p">();</span>                   <span class="c1">// Clear all this turtle&#39;s drawing, footprints, and text.</span>
+                                       <span class="c1">//    Set Position to Home, Heading to 0, make turtle visible,</span>
+                                       <span class="c1">//    and set properties such as the BrushDown, textFonts</span>
+                                       <span class="c1">//    and colours to their defaults.</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Dispose</span><span class="p">();</span>                 <span class="c1">// Remove all traces of the turtle, and get rid of the turtle.</span>
+                                       <span class="c1">//   This is called automatically if C# garbage collects the</span>
+                                       <span class="c1">//   turtle object.</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">SetAppearance</span><span class="p">(</span><span class="n">ImageSource</span> <span class="n">imgSrc</span><span class="p">,</span> <span class="kt">double</span> <span class="n">hotspotX</span><span class="p">,</span> <span class="kt">double</span> <span class="n">hotspotY</span><span class="p">);</span>
+  <span class="c1">// Change the appearance of this turtle to the image.</span>
+  <span class="c1">// The hotspot offsets in the image determine the turtle&#39;s hotspot, or position.</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">SetAppearance</span><span class="p">(</span><span class="n">Geometry</span> <span class="n">outlineShape</span><span class="p">,</span> <span class="n">Brush</span> <span class="n">outlineBrush</span><span class="p">,</span> <span class="n">Brush</span> <span class="n">bodyBrush</span><span class="p">);</span>
+  <span class="c1">// Change the appearance of this turtle.</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">ResetAppearance</span><span class="p">();</span>
+  <span class="c1">// Reset the turtle&#39;s appearance to its default shape, default OutlineBrush, and default BodyBrush.</span>
+
+<span class="k">public</span> <span class="k">void</span> <span class="nf">SetFootprintOpacity</span><span class="p">(</span><span class="kt">double</span> <span class="n">outlineOpacity</span> <span class="p">=</span> <span class="m">0.7</span><span class="p">,</span> <span class="kt">double</span> <span class="n">bodyOpacity</span> <span class="p">=</span> <span class="m">0.3</span><span class="p">);</span>
+  <span class="c1">// Change the opacity of the footprint outline and body.  Future Stamp() calls will use these values.</span>
+</pre></div>
+</div>
+<p>All the overloadings of Stamp return a Footprint which is also stored in the Turtle&#8217;s list of Footprints.</p>
+</div>
+<div class="section" id="turtle-properties">
+<h2>Turtle Properties<a class="headerlink" href="#turtle-properties" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">public</span> <span class="n">Point</span> <span class="n">Home</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The turtle&#39;s home position.</span>
+
+<span class="k">public</span> <span class="n">Point</span> <span class="n">Position</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// Directly setting the Position is equivalent to Goto(x, y)</span>
+
+<span class="k">public</span> <span class="kt">double</span> <span class="n">Heading</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// Heading, in degrees. 0 is facing East.  Positive angles rotate clockwise.</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="n">Visible</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The visibility of the turtle.</span>
+  <span class="c1">// Visibility does not affect drawing, text, footprints or movement.</span>
+
+<span class="k">public</span> <span class="n">Brush</span> <span class="n">LineBrush</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The brush used for drawing the turtle&#39;s lines.</span>
+
+<span class="k">public</span> <span class="kt">double</span> <span class="n">BrushWidth</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The width of the LineBrush strokes that the turtle leaves behind.</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="n">BrushDown</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The state of the LineBrush, up or down, which controls whether the</span>
+  <span class="c1">// turtle draws when it moves. Even when the brush is up, we can stamp</span>
+  <span class="c1">// footprints and write text.</span>
+
+<span class="k">public</span> <span class="n">Brush</span> <span class="n">OutlineBrush</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The brush used for drawing the turtle&#39;s outline shape.  Black by default.</span>
+
+<span class="k">public</span> <span class="n">Brush</span> <span class="n">BodyBrush</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The brush used for drawing the interior of the turtle.</span>
+
+<span class="k">public</span> <span class="kt">bool</span> <span class="n">Filling</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// Determines whether filling is turned on. What filling actually means depends</span>
+  <span class="c1">// on the fill algorithm of Microsoft&#39;s PolyLineSegment. This can be fun.</span>
+
+<span class="k">public</span> <span class="n">Brush</span> <span class="n">FillBrush</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The brush the turtle uses to fill shapes.</span>
+  <span class="c1">// If this has not been set, LineBrush is used for filling.</span>
+
+<span class="k">public</span> <span class="n">FontFamily</span> <span class="n">TextFontFamily</span>  <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The font family used for write().</span>
+
+<span class="k">public</span> <span class="kt">double</span> <span class="n">TextFontSize</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The font size used for write().</span>
+
+<span class="k">public</span> <span class="n">FontStyle</span> <span class="n">TextFontStyle</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The font style used for write().</span>
+
+<span class="k">public</span> <span class="n">FontWeight</span> <span class="n">TextFontWeight</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The font weight used for write().</span>
+
+<span class="k">public</span> <span class="n">Brush</span> <span class="n">TextBrush</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The brush used for write().</span>
+
+<span class="k">public</span> <span class="n">Color</span> <span class="nf">ColorUnderTurtle</span> <span class="p">(</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// The colour of the pixel in the bitmap under the turtle. This uses and</span>
+  <span class="c1">// has the same restrictions as ColorOfBackgroundAt().</span>
+
+<span class="k">public</span> <span class="n">FootprintCollection</span> <span class="n">Footprints</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// A collection of all the footprints the turtle currently has on the canvas.</span>
+  <span class="c1">// The collection can act as a List&lt;Footprint&gt;, so you can do all List operations</span>
+  <span class="c1">// such as indexing, or enumerate the collection with a foreach loop.</span>
+  <span class="c1">// The element at position [0] is the oldest footprint.</span>
+  <span class="c1">// This is a reference type, so the user can remove (or add)</span>
+  <span class="c1">// footprints, or clear all or part of the collection.</span>
+  <span class="c1">// Footprints are automatically added when any of the Stamp methods are called.</span>
+
+<span class="k">public</span> <span class="kt">int</span> <span class="n">DelayMillisecs</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// Delay this number of milliseconds between each turtle drawing step.</span>
+  <span class="c1">// The default value 0 is fastest.</span>
+  <span class="c1">// Use this property to slow the turtle down if you want to watch the</span>
+  <span class="c1">// drawing pattern appear gradually on the canvas.</span>
+
+<span class="k">public</span> <span class="kt">int</span> <span class="n">BatchSize</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// This controls the maximum number of turtle moves</span>
+  <span class="c1">// before we force the playground to render.  When set to a large number you</span>
+  <span class="c1">// will get good speed, but your rendering will be done in jerky bursts.</span>
+  <span class="c1">// A value of 0 means &quot;never flush --- fastest speed.&quot;  But the canvas will</span>
+  <span class="c1">// only update when when the whole computation completes and the application</span>
+  <span class="c1">// becomes idle.</span>
+  <span class="c1">// When set to 1, (the default) you will flush the partial work after</span>
+  <span class="c1">// every drawing command.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="experimental-properties-and-methods">
+<h2>Experimental Properties and Methods<a class="headerlink" href="#experimental-properties-and-methods" title="Permalink to this headline">¶</a></h2>
+<p>These allow you to add your own UIElements to those managed by the Turtle.  If you find
+yourself using these a lot, it is probably time you stopped using the Turtle module
+and just worked directly in WPF.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">public</span> <span class="n">Color</span> <span class="nf">ColorOfBackgroundAt</span><span class="p">(</span><span class="n">Point</span> <span class="n">pt</span><span class="p">);</span>
+  <span class="c1">// Returns a Color of the pixel at point pt in the playground.  This only works</span>
+  <span class="c1">// if the background of the parent Canvas is a bitmap image.  In all other cases</span>
+  <span class="c1">// (solid color canvas, gradient fills, etc.) the method will return Color.Transparent.</span>
+
+<span class="k">public</span> <span class="n">Path</span> <span class="n">TurtleUI</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// Get the Path that defines the turtle. We expose this because perhaps</span>
+  <span class="c1">// you&#39;ll be able to apply WPF effects like DropShadows or Blurs, and</span>
+  <span class="c1">// apply animations to the dependency properties like the Opacity.</span>
+
+<span class="k">public</span> <span class="n">Geometry</span> <span class="n">TurtleGeometry</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// Get or set the Geometry that defines the shape of the turtle. This is</span>
+  <span class="c1">// for those who might want to create a turtle with a different look!</span>
+  <span class="c1">// It is experimental --- treat with caution.</span>
+
+<span class="k">public</span> <span class="k">static</span> <span class="n">PathGeometry</span> <span class="nf">GeometryFromPoints</span><span class="p">(</span><span class="n">Point</span><span class="p">[]</span> <span class="n">points</span><span class="p">);</span>
+  <span class="c1">// Given a list of points, return a PathGeometry.  This is a helper method</span>
+  <span class="c1">// that can be used to create a simple Geometry composed of straight lines.</span>
+  <span class="c1">// This Geometry can then be assigned to the TurtleGeometry, or used with DrawGeometry.</span>
+  <span class="c1">// This is a static method, so the call is  Turtle.GeometryFromPoints(...)</span>
+
+<span class="k">public</span> <span class="k">static</span> <span class="n">PathGeometry</span> <span class="n">DefaultTurtleGeometry</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// A (static) property that returns the turtle shape we know and love.</span>
+
+<span class="k">public</span> <span class="n">Footprint</span> <span class="nf">Stamp</span><span class="p">(</span><span class="n">Geometry</span> <span class="n">geom</span><span class="p">);</span>
+  <span class="c1">// Stamp a user-defined geometry at the current turtle&#39;s position and heading,</span>
+  <span class="c1">// using the current turtle properties for OutlineBrush, BrushWidth, Filling, etc.</span>
+
+<span class="k">public</span> <span class="k">virtual</span> <span class="n">Footprint</span> <span class="nf">Stamp</span><span class="p">(</span><span class="n">UIElement</span> <span class="n">theUIE</span><span class="p">);</span>
+  <span class="c1">// Stamp a UIElement at the current position, as a footprint.</span>
+  <span class="c1">// The opacity settings for footprints are not applied here.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sample-fragments">
+<h2>Sample fragments<a class="headerlink" href="#sample-fragments" title="Permalink to this headline">¶</a></h2>
+<p>Here are some sample fragments of code that you can copy and paste
+to get started on playing with the experimental features ...</p>
+<div class="section" id="use-an-image-for-the-turtle">
+<h3>Use an image for the turtle<a class="headerlink" href="#use-an-image-for-the-turtle" title="Permalink to this headline">¶</a></h3>
+<p>In this example, we use an image of a spider <a class="reference download internal" href="_downloads/spider2.png"><code class="xref download docutils literal"><span class="pre">spider2.png</span></code></a>
+for tess.  So the footprints also look like the image.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">ImageSource</span> <span class="n">imgSrc</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BitmapImage</span><span class="p">(</span><span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="s">&quot;pack://application:,,,/spider2.png&quot;</span><span class="p">));</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">SetAppearance</span><span class="p">(</span><span class="n">imgSrc</span><span class="p">,</span> <span class="m">60</span><span class="p">,</span> <span class="m">90</span><span class="p">);</span>  <span class="c1">// (60,90) is where the spider&#39;s body segments join.</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">SetFootprintOpacity</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.5</span><span class="p">);</span>    <span class="c1">// Make footprints a bit bolder than the default.</span>
+
+<span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">();</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">200</span><span class="p">);</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="m">60</span><span class="p">);</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">();</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">200</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_images/Tess_is_spider.png" src="_images/Tess_is_spider.png" />
+</div>
+<div class="section" id="stamp-an-image">
+<h3>Stamp an image<a class="headerlink" href="#stamp-an-image" title="Permalink to this headline">¶</a></h3>
+<p>Here is an example where tess stamps an image <a class="reference download internal" href="_downloads/ladybug.png"><code class="xref download docutils literal"><span class="pre">landybug.png</span></code></a> on her playground:</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">ImageSource</span> <span class="n">imgSrc</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BitmapImage</span><span class="p">(</span><span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="s">&quot;pack://application:,,,/ladybug.png&quot;</span><span class="p">));</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">(</span><span class="n">imgSrc</span><span class="p">,</span> <span class="n">imgSrc</span><span class="p">.</span><span class="n">Width</span><span class="p">/</span><span class="m">2</span><span class="p">,</span> <span class="n">imgSrc</span><span class="p">.</span><span class="n">Height</span><span class="p">/</span><span class="m">2</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">100</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="m">45</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<img alt="_images/Tess_stamps_ladybugs.png" src="_images/Tess_stamps_ladybugs.png" />
+</div>
+<div class="section" id="stamp-a-wfp-geometry">
+<h3>Stamp a WFP geometry<a class="headerlink" href="#stamp-a-wfp-geometry" title="Permalink to this headline">¶</a></h3>
+<p>This is a more complex example that stamps a WPF geometry</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">tess</span><span class="p">.</span><span class="n">Reset</span><span class="p">();</span>
+
+<span class="n">Geometry</span> <span class="n">g</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RectangleGeometry</span><span class="p">(</span><span class="k">new</span> <span class="n">Rect</span><span class="p">(-</span><span class="m">20</span><span class="p">,</span> <span class="p">-</span><span class="m">8</span><span class="p">,</span> <span class="m">40</span><span class="p">,</span> <span class="m">16</span><span class="p">));</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">WarpTo</span><span class="p">(</span><span class="m">200</span><span class="p">,</span> <span class="m">400</span><span class="p">);</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">BrushWidth</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="n">tess</span><span class="p">.</span><span class="n">BodyBrush</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RadialGradientBrush</span><span class="p">(</span><span class="n">Colors</span><span class="p">.</span><span class="n">Red</span><span class="p">,</span> <span class="n">Colors</span><span class="p">.</span><span class="n">Blue</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="m">18</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>      <span class="c1">// Stamp the rectangle filled with the body brush</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Left</span><span class="p">(</span><span class="m">18</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">80</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">SetFootprintOpacity</span><span class="p">(</span><span class="n">i</span> <span class="p">/</span> <span class="m">10.0</span><span class="p">,</span> <span class="p">(</span><span class="m">10</span> <span class="p">-</span> <span class="n">i</span><span class="p">)</span> <span class="p">/</span> <span class="m">10.0</span><span class="p">);</span> <span class="c1">// fiddle opacity each time</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stamp-a-uielement">
+<h3>Stamp a UIElement<a class="headerlink" href="#stamp-a-uielement" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s create a full-blown UIElement that won&#8217;t depend on tess&#8217; brushes, and we&#8217;ll
+attach some scale and rotation transforms too.  You&#8217;ll need to run this to
+appreciate it!</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="n">Tess</span><span class="p">.</span><span class="n">Reset</span><span class="p">();</span>
+<span class="n">Geometry</span> <span class="n">geom</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RectangleGeometry</span><span class="p">(</span><span class="k">new</span> <span class="n">Rect</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">5</span><span class="p">));</span>
+<span class="kt">double</span> <span class="n">scalingFactor</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">18</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="n">Path</span> <span class="n">p</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Path</span><span class="p">()</span>  <span class="p">{</span> <span class="n">Stroke</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Black</span><span class="p">,</span>  <span class="n">StrokeThickness</span> <span class="p">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">Data</span> <span class="p">=</span> <span class="n">geom</span><span class="p">,</span>
+                       <span class="n">Fill</span> <span class="p">=</span> <span class="n">Brushes</span><span class="p">.</span><span class="n">Red</span><span class="p">,</span>  <span class="n">StrokeEndLineCap</span> <span class="p">=</span> <span class="n">PenLineCap</span><span class="p">.</span><span class="n">Round</span>  <span class="p">};</span>
+    <span class="n">TransformGroup</span> <span class="n">tg</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TransformGroup</span><span class="p">();</span>
+    <span class="n">tg</span><span class="p">.</span><span class="n">Children</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">RotateTransform</span><span class="p">(</span><span class="n">i</span><span class="p">*</span><span class="m">20</span><span class="p">));</span>  <span class="c1">// i * 20 degrees of rotation</span>
+    <span class="n">scalingFactor</span> <span class="p">+=</span> <span class="m">0.2</span><span class="p">;</span>
+    <span class="n">tg</span><span class="p">.</span><span class="n">Children</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ScaleTransform</span><span class="p">(</span><span class="n">scalingFactor</span><span class="p">,</span> <span class="n">scalingFactor</span><span class="p">));</span>  <span class="c1">// grow it bigger</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">RenderTransform</span> <span class="p">=</span> <span class="n">tg</span><span class="p">;</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Stamp</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+    <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">50</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="thinklib_tester_docs.html" title="ThinkLib.Tester Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tips.html" title="A Few Tips"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+﻿<Window x:Class="GlossaryBuilder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Think Sharply Glossary Summarizer" Height="402" Width="808" >
+
+    <Grid>
+        
+        <TabControl HorizontalAlignment="Stretch" Margin="12,12,0,0" Name="tabControl1" VerticalAlignment="Stretch">
+            <TabItem Header="Browse definitions" Name="BrowseTab">
+                <Grid >
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF8F918A" Offset="1" />
+                            <GradientStop Color="#FFD4FFFF" Offset="0.009" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <ListBox HorizontalAlignment="Left" Margin="16,56,0,7" Name="lbTerms" VerticalAlignment="Stretch" SelectionChanged="lbTerms_SelectionChanged" Width="173">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Path=Term}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox >
+                    <WebBrowser HorizontalAlignment="Stretch" Margin="230,57,15,6" Name="theBrowser" VerticalAlignment="Stretch" Height="Auto" Width="Auto" />
+                    <RadioButton Content="Sort Alphabetically" Height="19" HorizontalAlignment="Left" Margin="24,6,0,0" Name="rbAlpha" VerticalAlignment="Top" Width="125" IsChecked="True" Unchecked="rb_Changed" Checked="rb_Changed" />
+                    <RadioButton Content="Sort by Chapter Number" Height="19" HorizontalAlignment="Left" Margin="24,25,0,0" Name="rbChapter" VerticalAlignment="Top" Width="163" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Chapter Filter" Name="FilterTab">
+                <Grid HorizontalAlignment="Stretch" Margin="0" Name="grid1" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF8F918A" Offset="1" />
+                            <GradientStop Color="#FFD4FFFF" Offset="0.009" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                <Label Content="Select the chapters to be included in the glossary, then click Apply." Height="34" Name="label1" Width="395" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="6,4,0,0" />
+                    <Button Content="Apply filters" Height="38" HorizontalAlignment="Left" Margin="483,24,0,0" Name="btnApplyFilters" VerticalAlignment="Top" Width="107" Click="btnApplyFilters_Click" />
+                    <Button Content="Select All" Height="30" HorizontalAlignment="Left" Margin="20,38,0,0" Name="btnSelectAllFilters" VerticalAlignment="Top" Width="95" Click="btnSelectAllFilters_Click" />
+                    <Button Content="Invert Selection" Height="30" HorizontalAlignment="Left" Margin="140,38,0,0" Name="btnInvertSelection" VerticalAlignment="Top" Width="93" Click="btnInvertSelection_Click" />
+                    <WrapPanel Height="Auto" HorizontalAlignment="Stretch" Margin="20,80,18,6" Name="chaptersCheckboxPanel" VerticalAlignment="Stretch" Width="Auto" Background="White" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Quizzer" Name="QuizTab"  >
+                <Grid HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF8F918A" Offset="1" />
+                            <GradientStop Color="#FFD4FFFF" Offset="0.009" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <WebBrowser HorizontalAlignment="Stretch" Margin="245,6,6,6" Name="theQuizBrowser" VerticalAlignment="Stretch" Height="Auto" Width="517" />
+                    <Button Content="Ask Question" Height="23" HorizontalAlignment="Left" Margin="149,18,0,0" Name="button1" VerticalAlignment="Top" Width="90" Click="button1_Click" />
+                    <Button Content="Show Answers" Height="23" HorizontalAlignment="Left" Margin="97,75,0,0" Name="btnShowAnswers" VerticalAlignment="Top" Width="90" Click="btnShowAnswers_Click" />
+                    <WebBrowser Height="Auto" HorizontalAlignment="Left" Margin="10,104,0,6" Name="theQuizAnswerBrowser" VerticalAlignment="Stretch" Width="221" />
+                </Grid>
+
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+</Window>

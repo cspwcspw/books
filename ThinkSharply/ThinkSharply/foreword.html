@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Foreword &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="1. Introduction" href="introduction.html" />
+    <link rel="prev" title="Think Sharply with C#" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="1. Introduction"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Think Sharply with C#"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="foreword">
+<h1>Foreword<a class="headerlink" href="#foreword" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="thanks">
+<h2>Thanks<a class="headerlink" href="#thanks" title="Permalink to this headline">¶</a></h2>
+<p>This is an Open Source textbook</p>
+<p>That means that anyone can use it non-commercially, or modify it, extend it,
+translate it into other languages, or even make a movie of its exciting plot.  However, any use must
+stick to the legal fine-print at <a class="reference external" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">http://creativecommons.org/licenses/by-nc-sa/3.0/</a></p>
+<p>The first chapter is an extract from a tutorial by Yusuf Motara.  Find the full
+tutorial at <a class="reference external" href="http://www.ict.ru.ac.za/resources/way_of_the_program/">http://www.ict.ru.ac.za/resources/way_of_the_program/</a>.
+He based some of it on an earlier version of a Python book at
+<a class="reference external" href="http://openbookproject.net/thinkcs/python/english3e/">http://openbookproject.net/thinkcs/python/english3e/</a>, and that was
+based on yet an earlier version by different authors.
+And even though Yusuf wrote most of the text in this chapter,
+it was subsequently modified by the current author,
+Peter Wentworth, who bears ultimate responsibility for
+any errors, omissions, or mistakes...</p>
+</div>
+<div class="section" id="why">
+<h2>Why?<a class="headerlink" href="#why" title="Permalink to this headline">¶</a></h2>
+<p>As an educator, the book tries to do a few things that are
+different from many of the usual approaches.</p>
+<p>I&#8217;m trying to move gently towards the idea of Computation-as-Interaction,
+rather than Computation-as-Calculation.  These days
+we interact with computational artefacts through GUIs.  Notions
+of events and responses are more prevalent than console-based
+top-to-bottom calculation.  Many of our students have never seen
+a command-line program, and perhaps some never will.
+Lynn Andrea Stein&#8217;s <em>Rethinking CS101</em> project has been
+influential, see <a class="reference external" href="http://www.cs101.org/">http://www.cs101.org/</a></p>
+<p>In recent times the theory of <em>threshold concepts</em> and <em>troublesome concepts</em>
+has become a fashionable and useful lens for understanding why students
+have difficulty transitioning to newer ways of thinking about a subject.
+Although there probably won&#8217;t be widespread agreement soon about what exactly
+the threshold concepts are for our students, the book does isolate and emphasize
+some concepts like state, flow of control, recursion, representation, data
+transformation, mental chunking, and so on.  If you&#8217;ve not encountered this
+idea yet, see <a class="reference external" href="http://crpit.com/confpapers/CRPITV95Rountree.pdf">http://crpit.com/confpapers/CRPITV95Rountree.pdf</a> or
+looking for Threshold Concepts on Google will do the trick.</p>
+<p>I like visual examples.  Some of our students, sadly, often seem very
+weak in the cognitive areas of what Piaget theory refers to
+as &#8220;Formal Operations&#8221; and the ability to abstract, manipulate, reason
+about, and control the internal, non-visible state of the program.  This
+means they&#8217;re more comfortable with more concrete approaches.</p>
+<p>So where possible, I prefer the state of the computation to be explicitly visible.
+To this end I use a Logo-like turtle, and I use the graphical controls that are
+available in Windows Presentation Foundation quite heavily.   And when we
+first tackle recursion, I go for turtle-based fractal curves because of
+this explicit visibility of the internal unfolding of the algorithm.</p>
+<p>Our literature abounds too with studies that show that students who are
+left to infer and construct their own internal cognitive models of computation
+get it wrong much of the time.  So they end up with non-viable models
+of even the most fundamental ideas, like how assignment works.
+(Non-viable means their conceptualization may work in some situations, but
+it gives wrong answers in other cases.)  So I put a strong emphasis
+on debugging, single-stepping, inspecting the internal state of the computation
+as it runs, etc. in the hope that we can build accurate internal mental models.</p>
+<p>Ask yourself or your teaching peers to take their best guess as to what percentage of
+students typically come out of a year-long programming course with a viable understanding
+of value assignment, or with a viable understanding of reference assignment.
+See how that compares with the study at <a class="reference external" href="http://dl.acm.org/citation.cfm?id=1227481">http://dl.acm.org/citation.cfm?id=1227481</a></p>
+<p>And then, of course, we must face the question: &#8220;Do we do objects
+right up front, early, or do we delay them while we try to build
+the algorithmic and coding skills in a procedural way?&#8221;  I advocate
+early <em>exposure</em> to objects, terminology, and use-cases, but late
+<em>synthesis</em> of objects.  A GUI-builder and some turtle examples seem ideal for
+this.  We can work with objects from a library, and build familiarity with
+the OOP concepts like instances, properties, internal state, lifetimes, events, inheritance
+and so on way before we get into &#8220;Now synthesize your own objects&#8221;.  On the
+same theme, I have a distaste for introductory approaches that use very trivial
+(or minimalist) classes.  Nor do I like OOP examples that give rise to just a single
+instance.  Here I find students struggle to separate the idea of the class as a factory,
+and the instances that it produces.</p>
+<p>So from the first time students see the Button type, this book will have at
+least two instances, or at least two turtles.  When we do inheritance,
+I prefer inheriting from something that already has significant complexity
+and functionality.  (In this book we inherit the Turtle type and give it
+some extra and some overriding behaviour.)</p>
+<p>There is also a tendency in the book to often introduce concepts &#8220;informally&#8221;
+the first time, just because we need it for a compelling current example.
+Then later we&#8217;ll hit the chapters where we revisit and cover the concept more fully.
+So you might bump your head against a <em>while</em> loop in Chapter 7, and
+some arrays in Chapter 8, even though the chapters on loops and arrays only
+come later in the book.  I hope this provides an early motivating context for
+the construct or for the feature.  It also seems useful to be able to tell
+students &#8220;Sure, we haven&#8217;t done that.
+So go see what you can find out about it on your own.&#8221;</p>
+<p>The  <a class="reference external" href="./tips.html">Tips</a> appendix in this book also explains some of my thinking around
+teaching Computer Science: I like to cover the appendix material explicitly
+with my students.</p>
+<p>Enjoy the book.</p>
+<p>Peter Wentworth,  January 2015.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="1. Introduction"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Think Sharply with C#"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

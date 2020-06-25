@@ -1,0 +1,1281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>19. List and Array Algorithms &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="20. The N-Queens Puzzle — a Case Study" href="n_queens_I.html" />
+    <link rel="prev" title="18. I/O, Files, and Networks" href="files.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="n_queens_I.html" title="20. The N-Queens Puzzle — a Case Study"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="18. I/O, Files, and Networks"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="list-and-array-algorithms">
+<span id="index-0"></span><h1>19. List and Array Algorithms<a class="headerlink" href="#list-and-array-algorithms" title="Permalink to this headline">¶</a></h1>
+<p>This chapter is a bit different from what we&#8217;ve done so far: rather than
+introduce more new C# syntax and features, we&#8217;re going to focus on
+the program development process, and some algorithms that work with lists and arrays.</p>
+<p>As we&#8217;ve already seen, arrays and lists share many common features.  The key
+difference is that arrays are fixed-size: once you create an array, its number
+of elements remains fixed.  Lists, by contrast, can grow and shrink as our
+program runs.   So in some examples here we use arrays, but we&#8217;ll expect that
+we could use the same algorithm for lists.  And vice-versa.   And we sometimes use the
+word <em>list</em> to mean either an array or a list.</p>
+<p>As in all parts of this book, our expectation is that you, the reader, will
+copy our code into your C# environment, play and experiment, and work along with us.</p>
+<p>Part of this chapter works with the
+book <a class="reference download internal" href="_downloads/alice_in_wonderland.txt"><code class="xref download docutils literal"><span class="pre">Alice</span> <span class="pre">in</span> <span class="pre">Wonderland</span></code></a> and a
+<a class="reference download internal" href="_downloads/vocab.txt"><code class="xref download docutils literal"><span class="pre">vocabulary</span> <span class="pre">file</span></code></a>.  Your browser should be able to download
+and save these files from these links.</p>
+<div class="section" id="test-driven-development">
+<span id="index-1"></span><h2>19.1. Test-driven development<a class="headerlink" href="#test-driven-development" title="Permalink to this headline">¶</a></h2>
+<p>Early in our <cite>Value-returning methods</cite> chapter we introduced the idea of
+<em>incremental development</em>, where we added small fragments of
+code to slowly build up the whole, so that we could easily find
+problems early. Later in that same chapter we introduced <cite>unit testing</cite>
+and gave code for our testing framework so that we could capture, in code,
+appropriate tests for the methods we were writing.</p>
+<p><strong>Test-driven development (TDD)</strong> is a software development practice which
+goes one step further.  The key idea is that automated
+tests should be written <em>first</em>.  This technique is called <em>test-driven</em>
+because &#8212; if we are to believe the extremists &#8212; non-testing code should
+only be written after writing the tests, and in response to the fact that
+some test is failing.</p>
+<p>We can still work in small incremental steps, but
+now we&#8217;ll define and express those steps in terms of increasingly
+sophisticated unit tests that demand more from our code at each stage.</p>
+<p>We&#8217;ll turn our attention to some standard algorithms that process lists now, but
+as we proceed through this chapter we&#8217;ll attempt to do so in the spirit envisaged
+by TDD.</p>
+</div>
+<div class="section" id="the-linear-search-algorithm">
+<span id="index-2"></span><h2>19.2. The linear search algorithm<a class="headerlink" href="#the-linear-search-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;d like to know the index where a specific item occurs within in an array or list of items.
+We&#8217;ll return the index of the item if it is found, or we&#8217;ll return
+-1 if the item doesn&#8217;t occur in the list / array.  Let us start with some tests in an
+array of strings:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">friends</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;Joe&quot;</span><span class="p">,</span> <span class="s">&quot;Zoe&quot;</span><span class="p">,</span> <span class="s">&quot;Brad&quot;</span><span class="p">,</span> <span class="s">&quot;Angelina&quot;</span><span class="p">,</span> <span class="s">&quot;Zuki&quot;</span><span class="p">,</span> <span class="s">&quot;Thandi&quot;</span><span class="p">,</span> <span class="s">&quot;Paris&quot;</span> <span class="p">};</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">searchLinear</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="s">&quot;Zoe&quot;</span><span class="p">),</span> <span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">searchLinear</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="s">&quot;Joe&quot;</span><span class="p">),</span> <span class="m">0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">searchLinear</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="s">&quot;Paris&quot;</span><span class="p">),</span> <span class="m">6</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">searchLinear</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="s">&quot;Bill&quot;</span><span class="p">),</span> <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Motivated by the fact that our tests don&#8217;t even run, let alone pass, we now write
+the method:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Find and return the index of target in xs</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">private</span> <span class="kt">int</span> <span class="nf">searchLinear</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">xs</span><span class="p">,</span> <span class="kt">string</span> <span class="n">target</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="n">target</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>There are a some points to learn here: We&#8217;ve seen a similar algorithm before in the chapter
+on strings: there we searched for the index of a character in a string.
+There we also used a <code class="docutils literal"><span class="pre">while</span></code> loop, here we&#8217;ve used a <code class="docutils literal"><span class="pre">for</span></code> loop.
+There are other variations &#8212; perhaps we could use a <code class="docutils literal"><span class="pre">List&lt;string&gt;</span></code> instead of an
+array of strings, but the essential similarity in all these variations is
+that we test every item in turn. But we also ensure that as soon as we
+find the item we immediately return, without needed to examine the rest
+of the items.</p>
+<p>Searching all items of a sequence from first to last is called a <strong>linear search</strong>.
+Each time we check an item, we&#8217;ll call it a <strong>probe</strong>.  We like to count
+probes as a measure of how efficient our algorithm is, and this will be a good
+indication of how long our algorithm will take to execute.</p>
+<p>Let N be the length of the list to be searched.
+Linear searching is characterized by the fact that the number of probes needed to find some
+target depends directly on N. So if the list becomes ten times bigger,
+we can expect to wait ten times longer when searching for things.
+Notice too, that if we&#8217;re searching for a target
+that is not present in the list, we&#8217;ll have to go all the way to the end before we can return
+the negative value. So this case needs N probes. However, if we&#8217;re
+searching for a target that does exist in the list, we could be lucky
+and find it immediately in position 0, or we might have to look further, perhaps halfway,
+perhaps even all the way to the last item. On average, when the target is present,
+we&#8217;re going to need to go about halfway through the list, or N/2 probes.</p>
+<p>We say that this search has <strong>linear performance</strong> (linear meaning <cite>straight line</cite>) because,
+if we were to measure the average search times for different sizes of lists (N) all containing
+random values, and then plot a graph of probes against N,
+we&#8217;d get an approximately straight line graph &#8212; as N gets bigger, so probes will
+increase proportionally.</p>
+<p>Analysis like this is pretty meaningless for small collections &#8212; the computer is quick enough
+not to bother if the list only has a handful of items. So generally, we&#8217;re interested in
+whether our algorithms are <strong>scalable</strong> &#8212; do they perform adequately if we throw bigger problems at
+them?  Would this search be a sensible one to use if we had a million or ten million
+items (perhaps the catalogue of books in your local library)?  What happens
+for really large datasets, e.g. how does Google search so brilliantly well?</p>
+</div>
+<div class="section" id="a-more-realistic-problem">
+<h2>19.3. A more realistic problem<a class="headerlink" href="#a-more-realistic-problem" title="Permalink to this headline">¶</a></h2>
+<p>As children learn to read, there are expectations that their vocabulary will grow.  So a
+child of age 14 is expected to know more words than a child of age 8. When choosing
+reading books, an important question might be <em>&#8220;which words in this book
+are not in the expected vocabulary?&#8221;</em>  Let&#8217;s write a program to find out!</p>
+<p>Let us assume we can already load a vocabulary of words into our program, and we can input
+the text of a book, and split it into an array of words.  Let us write some tests for
+what we need to do next.  Test data can usually be very small, even if we intend
+to finally use our methods for much larger cases:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">vocab</span> <span class="p">=</span> <span class="p">{</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;boy&quot;</span><span class="p">,</span> <span class="s">&quot;dog&quot;</span><span class="p">,</span> <span class="s">&quot;down&quot;</span><span class="p">,</span>
+                       <span class="s">&quot;fell&quot;</span><span class="p">,</span> <span class="s">&quot;girl&quot;</span><span class="p">,</span> <span class="s">&quot;grass&quot;</span><span class="p">,</span> <span class="s">&quot;the&quot;</span><span class="p">,</span> <span class="s">&quot;tree&quot;</span><span class="p">};</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">book_words</span> <span class="p">=</span> <span class="s">&quot;the apple fell from the tree to the grass&quot;</span><span class="p">.</span><span class="n">Split</span><span class="p">();</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">empty</span> <span class="p">=</span> <span class="p">{};</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">findUnknownWords</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">book_words</span><span class="p">),</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span><span class="s">&quot;from&quot;</span><span class="p">,</span> <span class="s">&quot;to&quot;</span><span class="p">});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">findUnknownWords</span><span class="p">(</span><span class="n">empty</span><span class="p">,</span> <span class="n">book_words</span><span class="p">),</span>  <span class="n">book_words</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">findUnknownWords</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;the&quot;</span><span class="p">,</span> <span class="s">&quot;boy&quot;</span><span class="p">,</span> <span class="s">&quot;fell&quot;</span> <span class="p">}),</span> <span class="n">empty</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Notice we used <code class="docutils literal"><span class="pre">Split</span></code> to create our array of words &#8212;
+it is easier than typing in the array, and very convenient if you want to input a
+sentence into the program and turn it into an array of words.</p>
+<p>We now need to implement the method for which we&#8217;ve written tests, and we&#8217;ll make
+use of our linear search.  The basic strategy is to run through each word in
+the book, look it up in the vocabulary, and if it is not in the vocabulary, save it
+into a new resulting array which we return from the method:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Return an array of words from wds that do not occur in knownVocab</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">private</span> <span class="kt">string</span><span class="p">[]</span> <span class="nf">findUnknownWords</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">knownVocab</span><span class="p">,</span> <span class="kt">string</span><span class="p">[]</span> <span class="n">wds</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">results</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">w</span> <span class="k">in</span> <span class="n">wds</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">searchLinear</span><span class="p">(</span><span class="n">knownVocab</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">results</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">results</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Now our tests all pass. In this example it makes sense to use a list rather than an
+array to collect the unknown words, because we can&#8217;t tell how many there are going
+to be until we&#8217;ve found them.  So we need the dynamic expandability that the list offers.
+Perhaps the method should have returned a list rather than an array.</p>
+<p>Now let us look at scalability.  We have more realistic vocabulary in the
+download provided at the beginning of this chapter,
+so let us read in that file as an array of lines.  Here is a fragment of code:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span> <span class="n">vocabPath</span> <span class="p">=</span> <span class="s">&quot;..\\..\\vocab.txt&quot;</span><span class="p">;</span>  <span class="c1">// in the project folder</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">vocab</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllLines</span><span class="p">(</span><span class="n">vocabPath</span><span class="p">);</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} lines in {1}.&quot;</span><span class="p">,</span> <span class="n">vocab</span><span class="p">.</span><span class="n">Length</span><span class="p">,</span> <span class="n">vocabPath</span><span class="p">),</span>
+                <span class="s">&quot;From the vocabulary&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>C# responds with:</p>
+<blockquote>
+<div><img alt="_images/vocabMessageBox.png" src="_images/vocabMessageBox.png" />
+</div></blockquote>
+<p>So we&#8217;ve got a more sensible size vocabulary. If we open the file in a text editor we can
+confirm that the number of words matches what our program reports.</p>
+<p>Now we tackle the
+problem of getting the book loaded and split into words.
+We&#8217;re going to need a little black magic.  Books have punctuation, and have
+mixtures of lower-case and upper-case letters.  We need to clean up the contents
+of the book.  This will involve converting everything to the same case (we&#8217;ll choose
+lower-case, because our vocabulary happens to be lower-case), removing all the characters
+we don&#8217;t want, and breaking what remains into words.  But, in the spirit of Test Driven Development,
+we begin by writing some tests:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">convertToCleanedWords</span><span class="p">(</span><span class="s">&quot;My name ?? is Earl!&quot;</span><span class="p">),</span>
+              <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span><span class="s">&quot;my&quot;</span><span class="p">,</span> <span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;is&quot;</span><span class="p">,</span> <span class="s">&quot;earl&quot;</span><span class="p">});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">convertToCleanedWords</span><span class="p">(</span><span class="s">&quot;\&quot;Well, I never!\&quot;, said Alice.&quot;</span><span class="p">),</span>
+              <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{</span><span class="s">&quot;well&quot;</span><span class="p">,</span> <span class="s">&quot;i&quot;</span><span class="p">,</span> <span class="s">&quot;never&quot;</span><span class="p">,</span> <span class="s">&quot;said&quot;</span><span class="p">,</span> <span class="s">&quot;alice&quot;</span><span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>We recall that the <code class="docutils literal"><span class="pre">Split</span></code> method has a convenient
+overloading that can do what we need:
+if we supply an array of <code class="docutils literal"><span class="pre">char</span></code>, it will use any one of the chars in the array
+as a delimiter.  So our strategy will be to make a char array of all the punctuation, white space
+and characters that we don&#8217;t want, and to split the string wherever we find one of those delimiters.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span><span class="p">[]</span> <span class="nf">convertToCleanedWords</span><span class="p">(</span><span class="kt">string</span> <span class="n">theText</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">t</span> <span class="p">=</span> <span class="n">theText</span><span class="p">.</span><span class="n">ToLower</span><span class="p">();</span>
+    <span class="kt">string</span> <span class="n">unwanted</span> <span class="p">=</span> <span class="s">&quot; 0123456789!\&quot;#$%&amp;()*+,-./:;&lt;=&gt;?@[]^_`{|}~&#39;\\;\r\n&quot;</span><span class="p">;</span>
+    <span class="kt">char</span><span class="p">[]</span> <span class="n">delims</span> <span class="p">=</span> <span class="n">unwanted</span><span class="p">.</span><span class="n">ToCharArray</span><span class="p">();</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">results</span> <span class="p">=</span> <span class="n">t</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="n">delims</span><span class="p">,</span> <span class="n">StringSplitOptions</span><span class="p">.</span><span class="n">RemoveEmptyEntries</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 3 turns the whole string into lower-case.  In line 4 we list the characters we
+want to get rid of, and line 5 turns this into a array of char, ready for use on line 6. Line
+6 splits the text into a new word whenever it finds any one of the delimiters, and the delimiter
+is discarded in this process.
+The special option <code class="docutils literal"><span class="pre">StringSplitOptions.RemoveEmptyEntries</span></code> ensures that
+we don&#8217;t return any empty words in the result array.  Our tests pass now.
+(This is not a perfect word-splitter &#8212; for example, it will split &#8220;Alice&#8217;s&#8221;
+into two words &#8212; &#8220;alice&#8221; and &#8220;s&#8221;.  But it is adequate for our textbook
+purpose of teaching some algorithms!)</p>
+<p>It would be possible to combine all 5 lines in the body of the method into just
+a single line of code.  But the step-by-step approach used here somehow feels more
+readable and more easily understandable (this should always be the top priority).
+It is certainly easier to step through with the debugger
+if we do more smaller steps rather than one giant one.</p>
+<p>So now we&#8217;re ready to read in our book with this fragment of code:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span><span class="p">[]</span> <span class="nf">getWordsInBook</span><span class="p">(</span><span class="kt">string</span> <span class="n">bookPath</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">return</span> <span class="nf">convertToCleanedWords</span><span class="p">(</span><span class="n">File</span><span class="p">.</span><span class="n">ReadAllText</span><span class="p">(</span><span class="n">bookPath</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="p">...</span> <span class="c1">//   ..\\..\\ goes up two levels, i.e. in the project folder</span>
+<span class="kt">string</span> <span class="n">bookPath</span> <span class="p">=</span> <span class="s">&quot;..\\..\\alice_in_wonderland.txt&quot;</span><span class="p">;</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">bookWords</span> <span class="p">=</span> <span class="n">getWordsInBook</span><span class="p">(</span><span class="n">bookPath</span><span class="p">);</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} words in the book {1}.&quot;</span><span class="p">,</span>
+                 <span class="n">bookWords</span><span class="p">.</span><span class="n">Length</span><span class="p">,</span> <span class="n">bookPath</span><span class="p">),</span> <span class="s">&quot;From the book&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The MessageBox informs us that there are 27336 words in our book.
+If we set a breakpoint on line 9, and inspect <code class="docutils literal"><span class="pre">bookwords</span></code>, we find words like
+&#8220;alice&#8221;, &#8220;s&#8221;, &#8220;adventures&#8221;, &#8220;in&#8221;, &#8220;wonderland&#8221;, &#8220;lewis&#8221;, &#8220;carroll&#8221;  ...</p>
+<p>Now we have all our pieces ready.  Let us see what words in this book are not in
+the vocabulary:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">missingWords</span> <span class="p">=</span> <span class="n">findUnknownWords</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">bookWords</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>We wait some time while C#
+works its way through this, and finds the 3396 words in the book that are
+not in the vocabulary.  Mmm...  This is not particularly scalable.  For a vocabulary
+that is twenty times larger (you&#8217;ll often find school dictionaries with 300 000 words,
+for example), and for longer books, this is going to be quite slow.  So let us make some timing
+measurements while we think about how we can improve this in the next section.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">using</span> <span class="nn">System.Diagnostics</span><span class="p">;</span>  <span class="c1">// for Stopwatch</span>
+
+ <span class="n">Stopwatch</span> <span class="n">sw</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Stopwatch</span><span class="p">();</span>
+ <span class="n">sw</span><span class="p">.</span><span class="n">Start</span><span class="p">();</span>
+ <span class="kt">string</span><span class="p">[]</span> <span class="n">missing_words</span> <span class="p">=</span> <span class="n">findUnknownWords</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">bookWords</span><span class="p">);</span>
+ <span class="kt">double</span> <span class="n">elapsedMilliSecs</span> <span class="p">=</span> <span class="p">(</span><span class="n">sw</span><span class="p">.</span><span class="n">Elapsed</span><span class="p">).</span><span class="n">TotalMilliseconds</span><span class="p">;</span>
+ <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} unknown words in the book.\n{1:F0} ms.&quot;</span><span class="p">,</span>
+                                 <span class="n">missingWords</span><span class="p">.</span><span class="n">Length</span><span class="p">,</span> <span class="n">elapsedMilliSecs</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>We get the results and some timing that we can use for comparisons later:</p>
+<blockquote>
+<div><img alt="_images/Linear_search_timing.png" src="_images/Linear_search_timing.png" />
+</div></blockquote>
+<div class="admonition-did-it-really-give-us-a-correct-answer admonition">
+<p class="first admonition-title">Did it really give us a &#8220;correct&#8221; answer?</p>
+<p class="last">If you inspect the content of the <code class="docutils literal"><span class="pre">missingWords</span></code> array, it hasn&#8217;t really answered our
+original question well. In fact, 398 of those missing words are repetitions of the
+word &#8220;alice&#8221;, because &#8220;alice&#8221; isn&#8217;t in our vocabulary.  If an unknown word occurs multiple
+times, should we just count it once?  Perhaps we should have asked
+our original question better.</p>
+</div>
+</div>
+<div class="section" id="binary-search">
+<span id="index-3"></span><h2>19.4. Binary Search<a class="headerlink" href="#binary-search" title="Permalink to this headline">¶</a></h2>
+<p>If you think about what we&#8217;ve just done, it is not how we&#8217;d work in real life.
+If you were given a vocabulary and asked to tell if some word was present,
+you&#8217;d probably start in the middle. You can do this because the vocabulary
+is ordered &#8212; so you can probe some word in the middle, and immediately realize
+that your target was before (or perhaps after) the one you had probed.  Applying this
+principle repeatedly leads us to a very much better algorithm for searching in a
+collection of items that are already ordered.  (Note that if the items are not ordered,
+you have little choice other than to look through all of them.  But, if we know
+the items are in order, we can improve our searching technique).</p>
+<p>Lets start with some tests.  Remember, the items need to be sorted if we&#8217;re going to use this method:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">friends</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;Angelina&quot;</span><span class="p">,</span> <span class="s">&quot;Brad&quot;</span><span class="p">,</span> <span class="s">&quot;Joe&quot;</span><span class="p">,</span> <span class="s">&quot;Paris&quot;</span><span class="p">,</span> <span class="s">&quot;Thandi&quot;</span><span class="p">,</span> <span class="s">&quot;Zoe&quot;</span><span class="p">,</span> <span class="s">&quot;Zuki&quot;</span> <span class="p">};</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">searchBinary</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="s">&quot;Bill&quot;</span><span class="p">),</span> <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">searchBinary</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="s">&quot;Abbey&quot;</span><span class="p">),</span> <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">searchBinary</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="s">&quot;Zummy&quot;</span><span class="p">),</span> <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">friends</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+<span class="p">{</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">searchBinary</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="n">friends</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Even our test cases are interesting this time: notice that we start
+with items not in the array and look at boundary conditions &#8212; in the
+middle of the array, less than all items in the array, bigger than the biggest.
+Then our loop uses every element as a target, and confirms that our
+binary search returns the corresponding index of that item.</p>
+<p>It is useful to think about having a <em>region-of-interest</em> (ROI) within the array or list that is being
+searched.  This ROI will be the portion of the list in which it is still possible
+that our target might be found.  Our algorithm will start with the ROI initially set to all
+the items in the array.  We&#8217;ll always probe in the middle of the current ROI.
+On every probe there are
+three possible outcomes: either we find the target, or we learn that we can
+discard the top half of the ROI, or we learn that we can discard the bottom half
+of the ROI.  We keep probing repeatedly, narrowing down the ROI,
+until we find our target or until we end up with no more items in our ROI.
+We can code this as follows:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Find and return the index of target in array xs.</span>
+<span class="c1">/// Return -1 if target does not exist.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">public</span> <span class="kt">int</span> <span class="nf">searchBinary</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">xs</span><span class="p">,</span> <span class="kt">string</span> <span class="n">target</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">lb</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">ub</span> <span class="p">=</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">lb</span> <span class="p">&lt;</span> <span class="n">ub</span><span class="p">)</span> <span class="c1">// exit if region of interest (ROI) becomes empty</span>
+    <span class="p">{</span>
+        <span class="c1">// Next probe should be in the middle of the ROI</span>
+        <span class="kt">int</span> <span class="n">mid_index</span> <span class="p">=</span> <span class="p">(</span><span class="n">lb</span> <span class="p">+</span> <span class="n">ub</span><span class="p">)</span> <span class="p">/</span> <span class="m">2</span><span class="p">;</span>
+
+        <span class="c1">// Do the probe by fetching the item at that position</span>
+        <span class="kt">string</span> <span class="n">item_at_mid</span> <span class="p">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">mid_index</span><span class="p">];</span>
+
+        <span class="c1">// Console.WriteLine(&quot;Target=\&quot;{0}\&quot;  ROI=[{1} - {2}) (size={3}), probed xs[{4}]=\&quot;{5}\&quot;&quot;,</span>
+        <span class="c1">//                         target, lb, ub, ub - lb, mid_index, item_at_mid);</span>
+
+        <span class="c1">// How does the probed item compare to the target?</span>
+        <span class="kt">int</span> <span class="n">c</span> <span class="p">=</span> <span class="n">item_at_mid</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">target</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">mid_index</span><span class="p">;</span>      <span class="c1">// Found it!</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">lb</span> <span class="p">=</span> <span class="n">mid_index</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>    <span class="c1">// Use upper half of ROI next time</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">ub</span> <span class="p">=</span> <span class="n">mid_index</span><span class="p">;</span>        <span class="c1">// Use lower half of ROI next time</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span> <span class="c1">// we did not find it, and ROI is empty.</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The region of interest is represented by two variables, a lower bound <code class="docutils literal"><span class="pre">lb</span></code>
+and an upper bound <code class="docutils literal"><span class="pre">ub</span></code>.  It is important to be precise about what values
+these indexes have.  We&#8217;ll make <code class="docutils literal"><span class="pre">lb</span></code> hold the index of the first item in the ROI, (it is
+an <em>inclusive</em>, or <em>closed</em> bound), and we&#8217;ll
+make <code class="docutils literal"><span class="pre">ub</span></code> hold the index just <em>beyond</em> the
+last item of interest (it is an <em>exclusive</em>, or <em>open</em> bound).</p>
+<p>With this code in place, our tests pass.  Great.  Now if we substitute a call to this
+search algorithm instead of calling the <code class="docutils literal"><span class="pre">searchLinear</span></code> in <code class="docutils literal"><span class="pre">findUnknownWords</span></code>, can we
+improve our performance?  When we do that, we get our results much faster: using the binary
+search reported a speed of 64ms whereas the linear search reported a speed of 4398ms
+&#8212; almost 70 times faster. (Your own measurements may be a bit different, of course.)</p>
+<p>Why is this binary search so much faster than the linear search?  If we uncomment
+the statement on lines 17 and 18, we&#8217;ll be able to see the probes done during a
+search.  Let&#8217;s go ahead, and try that:</p>
+<div class="highlight-python"><div class="highlight"><pre>Target=&quot;magical&quot;  ROI=[0 - 19455) (size=19455), probed xs[9727]=&quot;knowing&quot;
+Target=&quot;magical&quot;  ROI=[9728 - 19455) (size=9727), probed xs[14591]=&quot;resurgence&quot;
+Target=&quot;magical&quot;  ROI=[9728 - 14591) (size=4863), probed xs[12159]=&quot;overslept&quot;
+Target=&quot;magical&quot;  ROI=[9728 - 12159) (size=2431), probed xs[10943]=&quot;misreading&quot;
+Target=&quot;magical&quot;  ROI=[9728 - 10943) (size=1215), probed xs[10335]=&quot;magnet&quot;
+Target=&quot;magical&quot;  ROI=[9728 - 10335) (size=607), probed xs[10031]=&quot;lightning&quot;
+Target=&quot;magical&quot;  ROI=[10032 - 10335) (size=303), probed xs[10183]=&quot;longitudinal&quot;
+Target=&quot;magical&quot;  ROI=[10184 - 10335) (size=151), probed xs[10259]=&quot;lumber&quot;
+Target=&quot;magical&quot;  ROI=[10260 - 10335) (size=75), probed xs[10297]=&quot;lyrical&quot;
+Target=&quot;magical&quot;  ROI=[10298 - 10335) (size=37), probed xs[10316]=&quot;made&quot;
+Target=&quot;magical&quot;  ROI=[10317 - 10335) (size=18), probed xs[10326]=&quot;magic&quot;
+Target=&quot;magical&quot;  ROI=[10327 - 10335) (size=8), probed xs[10331]=&quot;magnanimity&quot;
+Target=&quot;magical&quot;  ROI=[10327 - 10331) (size=4), probed xs[10329]=&quot;magician&quot;
+Target=&quot;magical&quot;  ROI=[10327 - 10329) (size=2), probed xs[10328]=&quot;magically&quot;
+Target=&quot;magical&quot;  ROI=[10327 - 10328) (size=1), probed xs[10327]=&quot;magical&quot;
+Binary search returned 10327
+</pre></div>
+</div>
+<p>Here we see that finding the target word &#8220;magical&#8221; needed just 15 probes before it was found
+at index 10327.  The important thing is that each probe halves (with some truncation)
+the remaining region of interest. By contrast, the linear search would have needed
+10328 probes to find the same target word.</p>
+<p>The word <em>binary</em> means <em>two</em>.  Binary search gets its name from the fact that each
+probe splits the list into two pieces and discards the one half from the region of interest.</p>
+<p>The beauty of the algorithm is that we could double the size of the vocabulary, and
+it would only need one extra probe!  And after another doubling, just another one probe.
+So as the vocabulary gets bigger, this algorithm&#8217;s performance becomes even more
+impressive.</p>
+<p>Can we put a formula to this?   If our list size is N, what is the biggest number of
+probes k we could need?  The maths is a bit easier if we turn the question around:
+how big a list N could we deal with, given that we were only allowed to make k probes?</p>
+<p>With 1 probe, we can only search a list of size 1.  With two probes we could cope with
+lists up to size 3 &#8212; (test the middle item with the first probe, then test either the
+left or right sub-list with the second probe).  With one more probe, we could cope with 7 items (the
+middle item, and two sub-lists of size 3).  With four probes, we can search 15 items,
+and 5 probes lets us search up to 31 items.  So the general relationship is given by the formula</p>
+<blockquote>
+<div>N =  2<sup>k</sup> - 1</div></blockquote>
+<p>where k is the number of probes we&#8217;re allowed to make, and N is
+the maximum size of the list that can be searched in k probes.   This method
+is <em>exponential</em> in k (because k occurs in the exponent part).  If we wanted to
+turn the formula around and solve for k in terms of N, we need to move the
+constant 1 to the other side, and take a log (base 2) on each side. (The log is the
+inverse of an exponent.)  So the formula for k in terms of N is now:</p>
+<blockquote>
+<div><img alt="_images/log2np1.png" src="_images/log2np1.png" />
+</div></blockquote>
+<p>The square-only-on-top brackets are called <em>ceiling brackets</em>: this means that you must round the
+number up to the next whole integer (because we can&#8217;t make 7.3 probes &#8212; it will need to be 8).</p>
+<p>Let us try this on a calculator, or in C#, which is the mother of all calculators:
+Here is a fragment of code that calculates and outputs the formula for various values of N:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">N</span> <span class="k">in</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[]</span> <span class="p">{</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">100</span><span class="p">,</span> <span class="m">1000</span><span class="p">,</span> <span class="m">1000000</span><span class="p">,</span> <span class="m">1000000000</span><span class="p">})</span>
+<span class="p">{</span>
+   <span class="kt">int</span> <span class="n">maxProbes</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">Ceiling</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">N</span> <span class="p">+</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">)));</span>
+   <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;{0} items would need at most {1} probes.&quot;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">maxProbes</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>And here are the magical results:</p>
+<div class="highlight-python"><div class="highlight"><pre>1 items would need at most 1 probes.
+2 items would need at most 2 probes.
+3 items would need at most 2 probes.
+4 items would need at most 3 probes.
+5 items would need at most 3 probes.
+10 items would need at most 4 probes.
+100 items would need at most 7 probes.
+1000 items would need at most 10 probes.
+1000000 items would need at most 20 probes.
+1000000000 items would need at most 30 probes.
+</pre></div>
+</div>
+<p>This tells us that searching 1000 items needs 10 or fewer probes. (Well technically, with 10
+probes we can search exactly 1023 items, but the easy and useful stuff to
+remember here is that &#8220;1000 items needs 10 probes, a million needs 20 probes,
+and a billion items only needs 30 probes.&#8221;)</p>
+<p>You will rarely encounter algorithms that scale to large datasets as beautifully as binary search does!</p>
+</div>
+<div class="section" id="getting-the-unique-elements-in-an-array">
+<span id="index-4"></span><h2>19.5. Getting the unique elements in an array<a class="headerlink" href="#getting-the-unique-elements-in-an-array" title="Permalink to this headline">¶</a></h2>
+<p>We sometimes want to get the unique elements in an array or a list.  We could use a list
+and delete the elements we don&#8217;t want. Or we could build a new list that contains only
+those elements we do want, while leaving the original array or list unchanged.</p>
+<p>Consider our case of looking for words in Alice in Wonderland
+that are not in our vocabulary.  We had a report that there are 3398 such words, but there
+are duplicates in that list.  How can we remove these duplicates?</p>
+<p>A good approach is to first sort the array &#8212; this means any duplicates will be
+positioned next to each other.  Then we can build a new list, without duplicates.
+Let us start with some test cases for removing adjacent duplicates from an array
+that is already sorted:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">removeAdjacentDups</span><span class="p">(</span><span class="k">new</span> <span class="kt">string</span><span class="p">[]{</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="s">&quot;c&quot;</span><span class="p">,</span><span class="s">&quot;c&quot;</span><span class="p">}),</span>
+                                     <span class="k">new</span> <span class="kt">string</span><span class="p">[]{</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="s">&quot;c&quot;</span><span class="p">});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">removeAdjacentDups</span><span class="p">(</span><span class="k">new</span> <span class="kt">string</span><span class="p">[]{}),</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[]{});</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">removeAdjacentDups</span><span class="p">(</span><span class="k">new</span> <span class="kt">string</span><span class="p">[]{</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;big&quot;</span><span class="p">,</span> <span class="s">&quot;big&quot;</span><span class="p">,</span> <span class="s">&quot;bite&quot;</span><span class="p">,</span> <span class="s">&quot;dog&quot;</span><span class="p">}),</span>
+                            <span class="k">new</span> <span class="kt">string</span><span class="p">[]{</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;big&quot;</span><span class="p">,</span> <span class="s">&quot;bite&quot;</span><span class="p">,</span> <span class="s">&quot;dog&quot;</span><span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The algorithm is easy and efficient.  We simply have to remember the most recent
+item that was inserted into the result, and avoid inserting it again:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span><span class="p">[]</span> <span class="nf">removeAdjacentDups</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">xs</span><span class="p">.</span><span class="n">Length</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="k">return</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{};</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">results</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+    <span class="kt">string</span> <span class="n">elemLastAdded</span> <span class="p">=</span> <span class="n">xs</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
+    <span class="n">results</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">elemLastAdded</span><span class="p">);</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">!=</span> <span class="n">elemLastAdded</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">results</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+            <span class="n">elemLastAdded</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">results</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The amount of work done in this algorithm is linear &#8212; each item in <code class="docutils literal"><span class="pre">xs</span></code> causes the loop
+to execute exactly once, and there are no nested loops.  So doubling the number of elements in
+<code class="docutils literal"><span class="pre">xs</span></code> should cause this method to run twice as long: the relationship between the size of
+the list and the time to run will be graphed as a straight (linear) line.</p>
+<p>Let us go back now to our analysis of <cite>Alice in Wonderland</cite>.  Before checking the words in the
+book against the vocabulary, we&#8217;ll sort those words into order, and eliminate duplicates.
+So our new code and the resulting output looks like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">wds</span> <span class="p">=</span> <span class="n">getWordsInBook</span><span class="p">(</span><span class="n">bookPath</span><span class="p">);</span>
+<span class="n">Array</span><span class="p">.</span><span class="n">Sort</span><span class="p">(</span><span class="n">wds</span><span class="p">);</span>
+<span class="kt">string</span><span class="p">[]</span> <span class="n">uniqueWds</span> <span class="p">=</span> <span class="n">removeAdjacentDups</span><span class="p">(</span><span class="n">wds</span><span class="p">);</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;{0} has {1} words, {2} are unique.&quot;</span><span class="p">,</span>
+               <span class="n">bookPath</span><span class="p">,</span> <span class="n">wds</span><span class="p">.</span><span class="n">Length</span><span class="p">,</span> <span class="n">uniqueWds</span><span class="p">.</span><span class="n">Length</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+<img alt="_images/unique_words_in_alice.png" src="_images/unique_words_in_alice.png" />
+</div></blockquote>
+<p>If we now look up our unique words the vocabulary, we&#8217;ll realize two advantages:</p>
+<ul class="simple">
+<li>We do about 10 times less work because the number of unique words is about
+10 times smaller than the original.  So it runs about 10 times faster.</li>
+<li>The answer is more useful: it gives us an accurate idea of what new words
+the children will encounter if we prescribe this book as a set work.  And, of
+course, the unknown words will already be in alphabetic order.</li>
+</ul>
+<p>It is pretty amazing that Lewis Carroll was able to write a classic
+piece of literature using only 2569 different words!</p>
+</div>
+<div class="section" id="merging-sorted-arrays">
+<span id="index-5"></span><h2>19.6. Merging sorted arrays<a class="headerlink" href="#merging-sorted-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we have two sorted arrays. Devise an algorithm to merge them together into a single sorted array.</p>
+<p>A simple but inefficient algorithm could be to define a new array that is big enough to hold all the elements,
+copy all the elements to the new array, and then sort it.</p>
+<p>But this doesn&#8217;t take advantage of the fact that the input arrays are already sorted.</p>
+<p>Lets get some tests together first:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span> <span class="p">=</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">13</span><span class="p">,</span> <span class="m">15</span><span class="p">,</span> <span class="m">17</span><span class="p">,</span> <span class="m">19</span> <span class="p">};</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">ys</span> <span class="p">=</span> <span class="p">{</span> <span class="m">4</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">12</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="m">24</span> <span class="p">};</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">zs</span> <span class="p">=</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">12</span><span class="p">,</span> <span class="m">13</span><span class="p">,</span> <span class="m">15</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">17</span><span class="p">,</span> <span class="m">19</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="m">24</span> <span class="p">};</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">empty</span> <span class="p">=</span> <span class="p">{</span> <span class="p">};</span>
+
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">merge</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">empty</span><span class="p">),</span> <span class="n">xs</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">merge</span><span class="p">(</span><span class="n">empty</span><span class="p">,</span> <span class="n">ys</span><span class="p">),</span> <span class="n">ys</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">merge</span><span class="p">(</span><span class="n">empty</span><span class="p">,</span> <span class="n">empty</span><span class="p">),</span> <span class="n">empty</span><span class="p">);</span>
+<span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">merge</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">),</span> <span class="n">zs</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Here is our merge algorithm:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">public</span> <span class="kt">int</span><span class="p">[]</span> <span class="nf">merge</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">xs</span><span class="p">,</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">ys</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span><span class="p">[]</span> <span class="n">results</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">xs</span><span class="p">.</span><span class="n">Length</span> <span class="p">+</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">xi</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">yi</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">zi</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">xi</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span> <span class="p">&amp;&amp;</span> <span class="n">yi</span> <span class="p">&lt;</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Both arrays still have items, copy smaller item to result.</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span>  <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">]</span> <span class="p">&lt;=</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">]</span> <span class="p">?</span> <span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">++]</span> <span class="p">:</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">++]);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Copy items from whichever array has some remaining.</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">yi</span> <span class="p">&lt;</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span> <span class="c1">// Add remaining items from ys</span>
+    <span class="p">{</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">++];</span>
+    <span class="p">}</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">xi</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span> <span class="c1">// Add remaining items from xs</span>
+    <span class="p">{</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">++];</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The algorithm works as follows: we create a result array that is the correct size.  We keep three indexes,
+one into each input array, and one into the result array.
+On each iteration of the loop, whichever array item is smaller
+gets copied to the result, and that array&#8217;s index is advanced.  (The index of the result array is
+also advanced.)  As soon as either index for the input arrays
+reaches the end of its array, we exit the loop and copy any remaining items to the result.</p>
+<p>Line 15 is a compact way of writing three separate statements.
+<code class="docutils literal"><span class="pre">result[zi++]</span></code> is common idiom in the C-like family of languages. It means &#8220;use the value of <code class="docutils literal"><span class="pre">zi</span></code>
+to index the array, and then (for next time), increment the value of <code class="docutils literal"><span class="pre">zi</span></code>&#8221;. So line 15 is equivalent
+to the more verbose version</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">result</span><span class="p">[</span><span class="n">zi</span><span class="p">]</span> <span class="p">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">];</span>    <span class="c1">// First use the old values of xi and yi, do the work,</span>
+<span class="n">zi</span><span class="p">++;</span>                   <span class="c1">// then increment the two indexes.</span>
+<span class="n">yi</span><span class="p">++;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 9 uses this shorthand, and also uses a <em>conditional operator</em> (also found in C, C++, Java, etc.).
+The expression before the <code class="docutils literal"><span class="pre">?</span></code> is a boolean condition that is evaluated.  If it is true, the result of the
+expression become the expression after the question mark, otherwise the result of the whole expression becomes
+the expression after the colon.  So line 9 could be written more verbosely like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span>  <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">]</span> <span class="p">&lt;=</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">])</span>
+<span class="p">{</span>
+     <span class="n">result</span><span class="p">[</span><span class="n">zi</span><span class="p">]</span> <span class="p">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">];</span>
+     <span class="n">zi</span><span class="p">++;</span>
+     <span class="n">xi</span><span class="p">++;</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+     <span class="n">result</span><span class="p">[</span><span class="n">zi</span><span class="p">]</span> <span class="p">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">];</span>
+     <span class="n">zi</span><span class="p">++;</span>
+     <span class="n">yi</span><span class="p">++;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>What if I wanted to use this algorithm to merge arrays of strings?   I can create an overloaded
+method (another method with the same name, but a different signature) that uses string
+arrays.  Three lines would need to change:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span class="hll"><span class="k">public</span> <span class="kt">string</span><span class="p">[]</span> <span class="nf">merge</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">xs</span><span class="p">,</span> <span class="kt">string</span><span class="p">[]</span> <span class="n">ys</span><span class="p">)</span>
+</span><span class="p">{</span>
+<span class="hll">    <span class="kt">string</span><span class="p">[]</span> <span class="n">results</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[</span><span class="n">xs</span><span class="p">.</span><span class="n">Length</span> <span class="p">+</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">];</span>
+</span>    <span class="kt">int</span> <span class="n">xi</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">yi</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">zi</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">xi</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span> <span class="p">&amp;&amp;</span> <span class="n">yi</span> <span class="p">&lt;</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Both lists still have items, copy smaller item to result.</span>
+<span class="hll">        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">].</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">])</span> <span class="p">&lt;=</span> <span class="m">0</span> <span class="p">?</span> <span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">++]</span> <span class="p">:</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">++]);</span>
+</span>    <span class="p">}</span>
+
+    <span class="c1">// Copy items from whichever list has some remaining.</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">yi</span> <span class="p">&lt;</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span> <span class="c1">// Add remaining items from ys</span>
+    <span class="p">{</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">++];</span>
+    <span class="p">}</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">xi</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span> <span class="c1">// Add remaining items from xs</span>
+    <span class="p">{</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">++];</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Notice that in line 9 we had to use the <code class="docutils literal"><span class="pre">CompareTo</span></code> method for the comparison (because
+strings cannot be compared with <code class="docutils literal"><span class="pre">&lt;=</span></code>).  Interestingly, though, integers, doubles, chars, etc.
+can also be compared using <code class="docutils literal"><span class="pre">CompareTo</span></code> &#8212; so we could use line 9 from this version
+in the version for integers, and we&#8217;d reduce the number of differences to just two lines:
+the method signature on line 1, and the definition of the new array on line 3.</p>
+</div>
+<div class="section" id="generic-methods-a-first-look">
+<span id="index-6"></span><h2>19.7. Generic methods &#8212; a first look<a class="headerlink" href="#generic-methods-a-first-look" title="Permalink to this headline">¶</a></h2>
+<p>If I wanted to merge arrays of <code class="docutils literal"><span class="pre">double</span></code>, I&#8217;d need another method overloading with two lines different.
+And then another overloading for merging arrays of <code class="docutils literal"><span class="pre">char</span></code>, or arrays of <code class="docutils literal"><span class="pre">student</span></code>, and so on.
+Each new method would have just two lines of code different from the others.</p>
+<p>C# has a powerful mechanism that allows us to parametrize a method so that it works for any type T.
+(We&#8217;ve already seen the notation with lists.)</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span class="hll"><span class="k">public</span> <span class="n">T</span><span class="p">[]</span> <span class="n">merge</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">T</span><span class="p">[]</span> <span class="n">xs</span><span class="p">,</span> <span class="n">T</span><span class="p">[]</span> <span class="n">ys</span><span class="p">)</span>
+</span><span class="p">{</span>
+<span class="hll">    <span class="n">T</span><span class="p">[]</span> <span class="n">results</span> <span class="p">=</span> <span class="k">new</span> <span class="n">T</span><span class="p">[</span><span class="n">xs</span><span class="p">.</span><span class="n">Length</span> <span class="p">+</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">];</span>
+</span>    <span class="kt">int</span> <span class="n">xi</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">yi</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">zi</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">xi</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span> <span class="p">&amp;&amp;</span> <span class="n">yi</span> <span class="p">&lt;</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Both lists still have items, copy smaller item to result.</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">].</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">])</span> <span class="p">&lt;=</span> <span class="m">0</span> <span class="p">?</span> <span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">++]</span> <span class="p">:</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">++]);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Copy items from whichever list has some remaining.</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">yi</span> <span class="p">&lt;</span> <span class="n">ys</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span> <span class="c1">// Add remaining items from ys</span>
+    <span class="p">{</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">yi</span><span class="p">++];</span>
+    <span class="p">}</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">xi</span> <span class="p">&lt;</span> <span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span> <span class="c1">// Add remaining items from xs</span>
+    <span class="p">{</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">zi</span><span class="p">++]</span> <span class="p">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">xi</span><span class="p">++];</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>This still needs another tweak before it works, but let&#8217;s understand what we&#8217;ve got so far:</p>
+<p>The <code class="docutils literal"><span class="pre">&lt;T&gt;</span></code> in the signature in line 1 is called a <em>type parameter</em>.  It says &#8220;this works for
+any type, call the type T&#8221;.  A method that works for many types is called a <strong>generic method</strong>.
+Then the T can also be used in the signature and in the body of the method as a substitution.
+So reading line 1, it says &#8220;The method expects two arrays with elements of type <code class="docutils literal"><span class="pre">T</span></code> as inputs,
+and it returns an array of T&#8221;.  Each time we call this method from a different place in our code,
+the <code class="docutils literal"><span class="pre">T</span></code> could be substituted by a different <em>concrete type</em> (e.g. <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">string</span></code>, <code class="docutils literal"><span class="pre">Turtle</span></code>).</p>
+<p>So, if we attempt to merge an array of strings with another array of strings to produce
+an array of strings, it is going to work just fine.
+But trying to merge an array of ints with an array of strings will produce an error:
+<code class="docutils literal"><span class="pre">T</span></code> cannot be an <code class="docutils literal"><span class="pre">int</span></code> and a <code class="docutils literal"><span class="pre">string</span></code> at the same time.</p>
+<p>Line 3 says &#8220;Define a new array of type T, and instantiate it.&#8221;</p>
+<p>If we copy this code into our program, we get an error on line 9.  The compiler complains that <em>&#8220;T does
+not contain a definition for &#8216;CompareTo&#8217;.&#8221;</em></p>
+<p>This is because not all element types T can be compared to each other.  So, for example,
+if we tried to merge two arrays of <code class="docutils literal"><span class="pre">Turtle</span></code> or <code class="docutils literal"><span class="pre">Button</span></code>, there is no <code class="docutils literal"><span class="pre">CompareTo</span></code> method
+that lets us compare one turtle to another.
+At the heart of the problem is that our &#8220;generic&#8221; mechanism is <em>too</em> general.  We need
+a little more magic on line 1, like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">public</span> <span class="n">T</span><span class="p">[]</span> <span class="n">merge</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">T</span><span class="p">[]</span> <span class="n">xs</span><span class="p">,</span> <span class="n">T</span><span class="p">[]</span> <span class="n">ys</span><span class="p">)</span> <span class="k">where</span> <span class="n">T</span><span class="p">:</span><span class="n">IComparable</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal"><span class="pre">where</span></code> keyword introduces an extra constraint on what concrete types
+can be used at any call site.   It says &#8220;Only types that satisfy the <code class="docutils literal"><span class="pre">IComparable</span></code>
+interface are acceptable&#8221;.  We&#8217;ll learn more about interfaces shortly.  But for now, it
+is enough to know that this means that the compiler now has a guarantee that there
+will be a <code class="docutils literal"><span class="pre">CompareTo</span></code> method for type T, and our error on line 9 disappears.</p>
+<p>With this change in place we now have a generic <code class="docutils literal"><span class="pre">merge</span></code> method that works for any
+arrays of element types, provided they can be compared to each other.
+If we did attempt to pass arrays of <code class="docutils literal"><span class="pre">Turtle</span></code> or <code class="docutils literal"><span class="pre">Button</span></code>, or any other types that
+don&#8217;t support comparison, we&#8217;d get a compilation error at at the call site.</p>
+<p>Most of the methods we work with can be generalized in this way: we can have a binary
+search, for example, that works for arrays of any comparable type.  For most of the
+methods we cover in this chapter we won&#8217;t do this generalization &#8212; simply because
+it allows us to focus more on the logic of the algorithms, rather than the C#
+machinery for making the algorithm more general.</p>
+</div>
+<div class="section" id="alice-in-wonderland-again">
+<h2>19.8. Alice in Wonderland, again!<a class="headerlink" href="#alice-in-wonderland-again" title="Permalink to this headline">¶</a></h2>
+<p>Underlying the algorithm for merging sorted lists is a deep pattern of computation that
+is widely reusable.  The pattern essence is <em>&#8220;Run through the lists always processing the
+smallest remaining items from each, with these cases to consider:&#8221;</em></p>
+<ul class="simple">
+<li>What should we do when either list has no more items?</li>
+<li>What should we do if the smallest items from each list are equal to each other?</li>
+<li>What should we do if the smallest item in the first list is smaller than the smallest one the second list?</li>
+<li>What should we do in the remaining case?</li>
+</ul>
+<p>Lets assume we have two sorted lists.  Exercise your algorithmic skills by adapting
+the merging algorithm pattern for each of these cases:</p>
+<ul class="simple">
+<li>Return only those items that are present in both lists.</li>
+<li>Return only those items that are present in the first list, but not in the second.</li>
+<li>Return only those items that are present in the second list, but not in the first.</li>
+<li>Return items that are present in either the first or the second list.</li>
+<li>Return items from the first list that are not eliminated by a matching element
+in the second list.  In this case, an item in the second list &#8220;knocks out&#8221; just one
+matching item in the first list.  This operation is sometimes called <em>bagdiff</em>.
+For example  <code class="docutils literal"><span class="pre">bagdiff(new</span> <span class="pre">int[]</span> <span class="pre">{5,7,11,11,11,12,13},</span> <span class="pre">new</span> <span class="pre">int[]</span> <span class="pre">{7,8,11});</span></code>
+would return  <code class="docutils literal"><span class="pre">new</span> <span class="pre">int[]{5,11,11,12,13}</span></code></li>
+</ul>
+<p>In the previous section we sorted the words from the book, and eliminated duplicates.
+Our vocabulary is also sorted.  So third case above &#8212; find all items in the second list
+that are not in the first list, would be another way to implement <code class="docutils literal"><span class="pre">findUnknownWords</span></code>.
+Instead of searching for every word in the dictionary (either by linear or binary search),
+why not use a variant of the merge to return the words that occur in the book, but not in
+the vocabulary.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span><span class="p">[]</span> <span class="nf">findUnknownsMergePattern</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">vocab</span><span class="p">,</span> <span class="kt">string</span><span class="p">[]</span> <span class="n">wds</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">results</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+
+    <span class="kt">int</span> <span class="n">xi</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">yi</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">xi</span> <span class="p">&lt;</span> <span class="n">vocab</span><span class="p">.</span><span class="n">Length</span> <span class="p">&amp;&amp;</span> <span class="n">yi</span> <span class="p">&lt;</span> <span class="n">wds</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">v</span> <span class="p">=</span> <span class="n">vocab</span><span class="p">[</span><span class="n">xi</span><span class="p">].</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">wds</span><span class="p">[</span><span class="n">yi</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">xi</span><span class="p">++;</span>         <span class="c1">// move past this vocab word</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">v</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">yi</span><span class="p">++;</span>         <span class="c1">// this word is recognized</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">results</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">wds</span><span class="p">[</span><span class="n">yi</span><span class="p">++]);</span>   <span class="c1">// this word not in vocab</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Copy any words that have not yet been checked.</span>
+    <span class="c1">// If the vocab is at the end, they are all unrecognised.</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">yi</span> <span class="p">&lt;</span> <span class="n">wds</span><span class="p">.</span><span class="n">Length</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">results</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">wds</span><span class="p">[</span><span class="n">yi</span><span class="p">++]);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">results</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Now we put it all together:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="k">void</span> <span class="nf">btnMergeBook_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">vocab</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllLines</span><span class="p">(</span><span class="n">vocabPath</span><span class="p">);</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">bookWords</span> <span class="p">=</span> <span class="n">getWordsInBook</span><span class="p">(</span><span class="n">bookPath</span><span class="p">);</span>
+
+    <span class="n">Stopwatch</span> <span class="n">sw</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Stopwatch</span><span class="p">();</span>
+    <span class="n">sw</span><span class="p">.</span><span class="n">Start</span><span class="p">();</span>
+    <span class="n">Array</span><span class="p">.</span><span class="n">Sort</span><span class="p">(</span><span class="n">bookWords</span><span class="p">);</span>
+    <span class="n">sw</span><span class="p">.</span><span class="n">Stop</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">sortTime</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">((</span><span class="n">sw</span><span class="p">.</span><span class="n">Elapsed</span><span class="p">).</span><span class="n">TotalMilliseconds</span><span class="p">);</span>
+
+    <span class="n">sw</span><span class="p">.</span><span class="n">Restart</span><span class="p">();</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">uniqueWds</span> <span class="p">=</span> <span class="n">removeAdjacentDups</span><span class="p">(</span><span class="n">bookWords</span><span class="p">);</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">missingWords</span> <span class="p">=</span> <span class="n">findUnknownsMergePattern</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">uniqueWds</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">checkingTime</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span><span class="p">(</span><span class="n">sw</span><span class="p">.</span><span class="n">Elapsed</span><span class="p">).</span><span class="n">TotalMilliseconds</span><span class="p">);</span>
+    <span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span>
+         <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;There are {0} unknown words in the book.\n&quot;</span> <span class="p">+</span>
+               <span class="s">&quot;Sort time = {1}ms.\nRemDups and checking time = {2}ms.&quot;</span><span class="p">,</span>
+           <span class="n">missingWords</span><span class="p">.</span><span class="n">Length</span><span class="p">,</span> <span class="n">sortTime</span><span class="p">,</span> <span class="n">checkingTime</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Even more stunning performance here:</p>
+<blockquote>
+<div><img alt="_images/messageBox_alice_merge_results.png" src="_images/messageBox_alice_merge_results.png" />
+</div></blockquote>
+<p>Let&#8217;s review what we&#8217;ve done. We started with a word-by-word linear lookup in the vocabulary
+that ran in about 5 seconds.  We implemented a clever binary search,
+about 70 times faster.
+But then we did something even better: we sorted the
+words from the book, eliminated duplicates, and used a merging pattern to find
+words from the book that were not in the dictionary.  Not only did we now have a
+more useful result: the unique unknown words in alphabetical order, but
+the algorithm is a lot faster than our first attempt!</p>
+<p>That is what we can call a good day at the office!</p>
+</div>
+<div class="section" id="glossary">
+<h2>19.9. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-linear">linear</dt>
+<dd>Relating to a straight line.  Here, we talk about graphing how the time taken by an
+algorithm depends on the size of the data it is processing.  Linear algorithms have
+straight-line graphs that can describe this relationship.</dd>
+<dt id="term-merge-algorithm">merge algorithm</dt>
+<dd>An efficient algorithm that merges two already sorted lists, to produce a sorted list result.
+The merge algorithm is really a pattern of computation that can be adapted and reused for
+various other scenarios, such as finding words that are in one array but not in another.</dd>
+<dt id="term-probe">probe</dt>
+<dd>While searching for an item, each time we take a look we call it a probe.</dd>
+<dt id="term-scalable">scalable</dt>
+<dd>An algorithm or technique which remains viable or practical when applied to large
+problems.</dd>
+<dt id="term-search-binary">search; binary</dt>
+<dd>A famous algorithm that searches for a target in a sorted list.  Each probe in the
+list allows us to discard half the remaining items, so the algorithm is very efficient.</dd>
+<dt id="term-search-linear">search; linear</dt>
+<dd>A search that probes each item in a list or sequence, from first, until it finds
+what it is looking for.  It is used for searching for a target in unordered lists of items.</dd>
+<dt id="term-test-driven-development">test-driven development</dt>
+<dd>A software development practice which arrives at a desired feature
+through a series of small, iterative steps motivated by automated tests
+which are <em>written first</em> that express increasing refinements of the
+desired feature.  (see the Wikipedia article on <a class="reference external" href="http://en.wikipedia.org/wiki/Test_driven_development">Test-driven
+development</a>
+for more information.)</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>19.10. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">The section in this chapter called <a class="reference internal" href="#alice-in-wonderland-again">Alice in Wonderland, again!</a> started with the
+observation that the merge algorithm uses a pattern that can be reused
+in other situations.  Adapt the merge algorithm to write each of these methods,
+as was suggested there:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>Return only those items that are present in both arrays.</li>
+<li>Return only those items that are present in the first array, but not in the second.</li>
+<li>Return only those items that are present in the second array, but not in the first.</li>
+<li>Return items that are present in either the first or the second array.</li>
+<li>Return items from the first array that are not eliminated by a matching element
+in the second array.  In this case, an item in the second array &#8220;knocks out&#8221; just one
+matching item in the first array.  This operation is sometimes called <em>bagdiff</em>.
+For example  <code class="docutils literal"><span class="pre">bagdiff([5,7,11,11,11,12,13],</span> <span class="pre">[7,8,11])</span></code> would return  <code class="docutils literal"><span class="pre">[5,11,11,12,13]</span></code></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first">Every week a computer scientist buys four lotto tickets. On each lotto ticket she must
+pick 6 numbers between 1 and 49.   She always chooses
+prime numbers, with the hope that if she ever hits the jackpot, she will be able
+to go onto TV and facebook and tell everyone her secret.  This will suddenly create widespread
+public interest in prime numbers, and will be the trigger event that ushers in a new age of
+enlightenment and world peace.  She represents her weekly tickets as an array of arrays:</p>
+<div class="highlight-python"><div class="highlight"><pre>int[] [] my_tickets =
+          {   new int[] { 7, 17, 37, 19, 23, 43},
+              new int[] { 7,  2, 13, 41, 31, 43},
+              new int[] { 2,  5,  7, 11, 13, 17},
+              new int[] {13, 17, 37, 19, 23, 43} };
+</pre></div>
+</div>
+<p>Complete these exercises.</p>
+<ol class="loweralpha">
+<li><p class="first">Each lotto draw picks six random balls, numbered from 1 to 49.  Write
+a method to return a random lotto draw.  Note that it should not be possible
+to pick the same ball more than once. Statisticians call this &#8220;picking
+balls without replacement&#8221;.</p>
+</li>
+<li><p class="first">Write a method that compares a single ticket and a draw, and returns
+the number of correct picks on that ticket:</p>
+<div class="highlight-python"><div class="highlight"><pre>Tester.TestEq(lotto_match(new int[]{42,4,7,11,1,13}, new int[]{2,5,7,11,13,17}), 3);
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method that takes an array of tickets and a draw, and returns an array
+telling how many picks were correct on each ticket:</p>
+<div class="highlight-python"><div class="highlight"><pre>Tester.TestEq(lotto_matches(new int[]{42,4,7,11,1,13}, my_tickets), new int[]{1,2,3,1});
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method that takes an array of integers, and returns the number of primes in the array:</p>
+<div class="highlight-python"><div class="highlight"><pre>Tester.TestEq(primes_in(new int[]{42, 4, 7, 11, 1, 13}), 3);
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method to discover whether the computer scientist has missed any
+prime numbers in her selection of her tickets. Return an array of all primes that she has missed:</p>
+<div class="highlight-python"><div class="highlight"><pre>Tester.TestEq(prime_misses(my_tickets), new int[]{3, 29, 47});
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method that repeatedly makes a new draw, and compares the draw to the four tickets.</p>
+<ol class="lowerroman simple">
+<li>Count how many draws are needed until one of the computer scientist&#8217;s tickets has at least
+3 correct picks.
+Try the experiment twenty times, and average out the number of draws needed.</li>
+<li>How many draws are needed, on average, before she gets at least 4 picks correct?</li>
+<li>How many draws are needed, on average, before she gets at least 5 correct?  (This
+might take a while.)</li>
+</ol>
+<p>Notice that we have difficulty constructing test cases here, because our random numbers
+are not deterministic. Automated testing only really works if you already know what
+the answer should be!</p>
+</li>
+</ol>
+</li>
+<li><p class="first">Read <em>Alice in Wonderland</em>.  You can read the plain text version we have with this textbook,
+or if you have e-book reader software on your PC, or a Kindle, iPhone, Android, etc.
+you&#8217;ll be able to find a suitable version for your device at
+<a class="reference external" href="http://www.gutenberg.org/">http://www.gutenberg.org/</a>.  They also have html and pdf versions, with pictures,
+and thousands of other classic books!</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="n_queens_I.html" title="20. The N-Queens Puzzle — a Case Study"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="18. I/O, Files, and Networks"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

@@ -1,0 +1,1177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10. Value-returning methods &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="11. Iteration" href="iteration.html" />
+    <link rel="prev" title="9. Working with Booleans and Conditional Statements" href="conditionals.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="iteration.html" title="11. Iteration"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="conditionals.html" title="9. Working with Booleans and Conditional Statements"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="value-returning-methods">
+<h1>10. Value-returning methods<a class="headerlink" href="#value-returning-methods" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="methods-that-return-values">
+<span id="index-1"></span><h2>10.1. Methods that return values<a class="headerlink" href="#methods-that-return-values" title="Permalink to this headline">¶</a></h2>
+<p>In an earlier chapter we wrote a void method, <code class="docutils literal"><span class="pre">drawSquare</span></code>.
+It was called when we wanted it to execute a sequence of steps that caused
+the turtle to draw.</p>
+<p>Now we write the other kind of method: a value-returning method.
+In an earlier exercise we saw
+the standard formula for compound interest:</p>
+<img alt="_images/compoundInterest.png" src="_images/compoundInterest.png" />
+<p>So let&#8217;s code a method that can calculate according to this formula:</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="kt">double</span> <span class="nf">finalAmt</span><span class="p">(</span><span class="kt">double</span> <span class="n">p</span><span class="p">,</span> <span class="kt">double</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">double</span> <span class="n">t</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="c1">// Apply the compound interest formula to p to produce the final amount.</span>
+     <span class="kt">double</span> <span class="n">a</span> <span class="p">=</span> <span class="n">p</span> <span class="p">*</span> <span class="n">Math</span><span class="p">.</span><span class="n">Pow</span><span class="p">((</span><span class="m">1</span> <span class="p">+</span> <span class="n">r</span><span class="p">/</span><span class="n">n</span><span class="p">),</span> <span class="p">(</span><span class="n">n</span><span class="p">*</span><span class="n">t</span><span class="p">));</span>
+     <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li>On line 1 the <strong>return type</strong> of the method &#8212; the type of value it will return &#8212; is
+<code class="docutils literal"><span class="pre">double</span></code>.  (In void methods the keyword <code class="docutils literal"><span class="pre">void</span></code> was used instead of a return type).</li>
+<li>Methods can return strings, booleans, doubles, integers, turtles, etc. &#8212; in fact, any type!  But we
+must explicitly say what type the method will return.</li>
+<li>The <strong>return</strong> statement on line 5 is followed an expression. This expression will be
+evaluated and returned to the caller. If our method signature promised to return a double,
+we can&#8217;t return a string or a boolean.  <a class="footnote-reference" href="#id2" id="id1">[1]</a></li>
+<li>We&#8217;ve used the <code class="docutils literal"><span class="pre">Pow</span></code> method from the built-in <code class="docutils literal"><span class="pre">Math</span></code> module to raise one value to the power of another.</li>
+<li>Because we&#8217;re working with money that has decimal points, we&#8217;ve used double types for the amount, the rate
+of interest, and the period (so 5.5 years is possible).</li>
+</ul>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>In C#, a value-returning method must say what type it intends to return, and it
+must stick to its promise from the signature.
+Some other computer languages (e.g. Python) have a
+more relaxed attitude towards types. Sometimes a single method can return a string,
+at other times the same method might return an int or a double, or a turtle.</td></tr>
+</tbody>
+</table>
+<p>Once we have a method that captures our desired calculations, (and our mental chunking
+that allows us to think of a compound interest as a single calculation)
+it becomes a reusable chunk that we can call from elsewhere.  We could use the method
+in a console-based program, a WPF program, or in some code behind a web page.
+Here we&#8217;ve created a simple WPF application and we
+show the handler which we&#8217;ve attached to the button.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="k">void</span> <span class="nf">btnGo_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="c1">// The double.Parse(string s) method does the same</span>
+     <span class="c1">// as Convert.ToDouble</span>
+
+     <span class="kt">double</span> <span class="n">toInvest</span> <span class="p">=</span> <span class="kt">double</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">txtPrincipal</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+     <span class="kt">double</span> <span class="n">rate</span> <span class="p">=</span> <span class="kt">double</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">txtInterestRate</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+<span class="hll">     <span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">txtNumTimesCompounded</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+</span>     <span class="kt">double</span> <span class="n">t</span> <span class="p">=</span> <span class="kt">double</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">txtYearsInvested</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+
+     <span class="kt">double</span> <span class="n">final</span> <span class="p">=</span> <span class="n">finalAmt</span><span class="p">(</span><span class="n">toInvest</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+     <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Returned from method: {0}\n&quot;</span><span class="p">,</span> <span class="n">final</span><span class="p">));</span>
+     <span class="n">txtResult</span><span class="p">.</span><span class="n">AppendText</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;Formatted as a currency: {0:C}\n&quot;</span><span class="p">,</span> <span class="n">final</span><span class="p">));</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Running the program we get results similar to this:</p>
+<blockquote>
+<div><img alt="_images/Compound_interest_GUI.png" src="_images/Compound_interest_GUI.png" />
+</div></blockquote>
+<ul class="simple">
+<li>The first line of output is a bit messy with all these decimal places, but remember that
+C# doesn&#8217;t understand that we&#8217;re working with money: C# just does the calculation to
+the best of its ability, perhaps with some inaccuracy, but without rounding to two decimals.</li>
+<li>In the second line of output we&#8217;ve used a fancier feature of the <code class="docutils literal"><span class="pre">Format</span></code> method for strings:
+this allows us to convert the number according to local currency rules for the computer. This
+example shows what is displayed if the local currency is South African Rands.  Elsewhere in
+the world the output might show a <code class="docutils literal"><span class="pre">$14,898.46</span></code>.  So your computer knows what region of the
+world it is set up for, and what the currency rules are for that region.</li>
+</ul>
+<p>Notice something else very important here. The name of the variable we pass as an
+argument &#8212; <code class="docutils literal"><span class="pre">toInvest</span></code> &#8212; can be different from the name of the parameter
+&#8212; <code class="docutils literal"><span class="pre">p</span></code>.  (But it doesn&#8217;t have to be different!)</p>
+<p>These short variable names are getting quite tricky, so here are two more versions
+of our method.</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre>  <span class="k">private</span> <span class="kt">double</span> <span class="nf">finalAmtV2</span><span class="p">(</span><span class="kt">double</span> <span class="n">principalAmount</span><span class="p">,</span> <span class="kt">double</span> <span class="n">nominalRate</span><span class="p">,</span>
+                             <span class="kt">int</span> <span class="n">numTimesPerYear</span><span class="p">,</span> <span class="kt">double</span> <span class="n">years</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="kt">double</span> <span class="n">a</span> <span class="p">=</span> <span class="n">principalAmount</span> <span class="p">*</span>
+                 <span class="n">Math</span><span class="p">.</span><span class="n">Pow</span><span class="p">((</span><span class="m">1</span> <span class="p">+</span> <span class="n">nominalRate</span> <span class="p">/</span> <span class="n">numTimesPerYear</span><span class="p">),</span> <span class="p">(</span><span class="n">numTimesPerYear</span> <span class="p">*</span> <span class="n">years</span><span class="p">));</span>
+      <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">private</span> <span class="kt">double</span> <span class="nf">finalAmtV3</span><span class="p">(</span><span class="kt">double</span> <span class="n">amt</span><span class="p">,</span> <span class="kt">double</span> <span class="n">rate</span><span class="p">,</span> <span class="kt">int</span> <span class="n">compounded</span><span class="p">,</span> <span class="kt">double</span> <span class="n">years</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="kt">double</span> <span class="n">a</span> <span class="p">=</span> <span class="n">amt</span> <span class="p">*</span> <span class="n">Math</span><span class="p">.</span><span class="n">Pow</span><span class="p">((</span><span class="m">1</span> <span class="p">+</span> <span class="n">rate</span> <span class="p">/</span> <span class="n">compounded</span><span class="p">),</span> <span class="p">(</span><span class="n">compounded</span> <span class="p">*</span> <span class="n">years</span><span class="p">));</span>
+      <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+  <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>They all  perform exactly the same computation.  Use your judgement to write code that can be best
+understood by other humans!  Short variable names are more economical and sometimes make
+code easier to read: <img alt="einstein" src="_images/einstein.png" /> would not be nearly so memorable or elegant if Einstein had
+used longer variable names!  If you do prefer short names,
+make sure you also have some comments to enlighten the reader
+about what the variables are used for.</p>
+</div>
+<div class="section" id="scopes-and-lifetimes">
+<span id="index-2"></span><h2>10.2. Scopes and Lifetimes<a class="headerlink" href="#scopes-and-lifetimes" title="Permalink to this headline">¶</a></h2>
+<p>Any object that is created, (e.g. your main window, turtle Tess, a variable) has
+a <strong>scope</strong> &#8212; that portion of your program in which it can be accessed and used.</p>
+<p>When we create a variable inside a method, it only exists inside
+the method, it belongs to the method, and we cannot use it outside the method.
+We say it has <strong>local scope</strong>, and we sometimes call it a <strong>local variable</strong>.
+For example, consider the <code class="docutils literal"><span class="pre">finalAmtV3</span></code> method above.  If we try to use variable <code class="docutils literal"><span class="pre">a</span></code>
+outside the method, we&#8217;ll get an error.  The variable <code class="docutils literal"><span class="pre">a</span></code> is local to <code class="docutils literal"><span class="pre">finalAmtV3</span></code>.</p>
+<p>Additionally, variable <code class="docutils literal"><span class="pre">a</span></code> only exists while the method is being
+executed &#8212; we call this its <strong>lifetime</strong>.
+When the execution of the method ends, all local variables are destroyed.</p>
+<p>Parameters are also local, and have local scope and short lifetimes too.
+For example, the variables <code class="docutils literal"><span class="pre">amt</span></code>, <code class="docutils literal"><span class="pre">rate</span></code>, <code class="docutils literal"><span class="pre">compounded</span></code>, and <code class="docutils literal"><span class="pre">years</span></code> are created when
+<code class="docutils literal"><span class="pre">finalAmtV3</span></code> is called, and their lifetime ends when the method completes its execution.</p>
+<p>Why is this idea of a lifetime of a variable (or any object) important?  Because it is not possible for a method
+to save some value to a local variable and get it back next time the method is called.
+Each call of the method creates new local variables, and their
+lifetimes expire (along with any values they were holding) when the method returns to the caller.</p>
+<p>The object that is instantiated from the class that contains our methods also has its own lifetime.
+Typically, for our applications, our main window object is instantiated (created) when the program starts
+running.  So the main window lifetime is usually starts when the program starts running, and it dies
+when the window is closed or the application ends.</p>
+<p>Any variables defined directly in a class (rather than in a method of the class)
+are called <strong>class-level variables</strong>.  Their lifetime is not the same as that of a local variable
+in a method.</p>
+<p>Our main window object dies when the application is closed.</p>
+<p>So we&#8217;ve always defined our turtle variables as class-level variables.  And we create the
+turtle in the constructor (i.e. when the window is born, we create the turtle object).
+Turtle Tess contains some of its own
+variables and properties &#8212; the brush width, the heading, the position, and so on.
+When Tess dies, her variables and properties die too.  But she will usually only die when the
+window for the application is closed.
+Of course we&#8217;ll also instantiate Alex, and the variables and properties
+associated with Alex will persist for his lifetime.</p>
+<p>So class-level variables &#8212; those defined in the class &#8212;
+have a longer lifetime that local variables defined
+in a method.</p>
+<p>Now the nice thing about class-level variables is that they are in scope &#8212;
+they can be seen and used &#8212; by any other method in the class.</p>
+<p>So if a method needs to remember a value between calls to itself,
+(e.g. suppose the method wants to count how many
+times it has been called so far), it must use a class-level variable to keep this counter.</p>
+<div class="admonition-class-level-variables-we-ve-seen-this-movie-before admonition">
+<p class="first admonition-title">Class-level variables &#8212; We&#8217;ve seen this movie before!</p>
+<p>Let&#8217;s take another look at the very first turtle program we saw.
+The variable <code class="docutils literal"><span class="pre">tess</span></code> at line 3 is class-level: it
+is defined in the class.  So it can be used in both the constructor
+method (lines 5-9) and the handler method (lines 11-17).</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">MainWindow</span> <span class="p">:</span> <span class="n">Window</span>
+ <span class="p">{</span>
+     <span class="n">Turtle</span> <span class="n">tess</span><span class="p">;</span>              <span class="c1">// Define a variable to refer to our turtle</span>
+
+     <span class="k">public</span> <span class="nf">MainWindow</span><span class="p">()</span>
+     <span class="p">{</span>
+         <span class="n">InitializeComponent</span><span class="p">();</span>
+         <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">playground</span><span class="p">);</span>  <span class="c1">// Create a turtle in the playground</span>
+     <span class="p">}</span>
+
+     <span class="k">private</span> <span class="k">void</span> <span class="nf">btnDemo1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">80.0</span><span class="p">);</span>
+         <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+         <span class="n">tess</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="m">30.0</span><span class="p">);</span>
+         <span class="n">tess</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90.0</span><span class="p">);</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>If we mistakenly deleted line 3 and defined <code class="docutils literal"><span class="pre">Turtle</span> <span class="pre">tess</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">Turtle(playground)</span></code> at line 8,
+it would be a local variable inside the constructor method <code class="docutils literal"><span class="pre">MainWindow()</span></code>.  So</p>
+<ul class="last simple">
+<li>the variable <code class="docutils literal"><span class="pre">tess</span></code> would not be visible and we&#8217;d get errors on lines 13-16, and</li>
+<li>even if we commented out the lines in error, Tess&#8217; lifetime would start at line 8, and would end at line 9 when
+the constructor method completed execution.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="more-value-returning-methods">
+<h2>10.3. More value-returning methods<a class="headerlink" href="#more-value-returning-methods" title="Permalink to this headline">¶</a></h2>
+<p>The next example is <code class="docutils literal"><span class="pre">area</span></code>, which returns the area of a circle with the given radius.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">area</span><span class="p">(</span><span class="kt">double</span> <span class="n">radius</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">b</span> <span class="p">=</span> <span class="m">3.14159</span> <span class="p">*</span> <span class="n">radius</span> <span class="p">*</span> <span class="n">radius</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The expression to be returned can be arbitrarily complicated,
+so we could have written this method body in just one line.
+On the other hand, <strong>temporary variables</strong> like <code class="docutils literal"><span class="pre">b</span></code> above
+often make debugging easier, because we can set breakpoints and inspect them.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">area</span><span class="p">(</span><span class="kt">double</span> <span class="n">radius</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">Math</span><span class="p">.</span><span class="n">PI</span> <span class="p">*</span> <span class="n">radius</span> <span class="p">*</span> <span class="n">radius</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Here we&#8217;ve also used the constant <code class="docutils literal"><span class="pre">PI</span></code> from the <code class="docutils literal"><span class="pre">Math</span></code> library. It is
+more accurate than our <code class="docutils literal"><span class="pre">3.14159</span></code>, and it makes the programmer&#8217;s
+intentions clearer.</p>
+<p>Sometimes it is useful to have multiple return statements, one in each branch
+of a conditional. This method takes an integer mark, and
+returns &#8220;Whoops!&#8221; if the mark is below 50, and &#8220;Good news!&#8221; if it is 50 or above:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span> <span class="nf">classifyMark</span><span class="p">(</span><span class="kt">int</span> <span class="n">percent</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">percent</span> <span class="p">&lt;</span> <span class="m">50</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Whoops!&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Good news!&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Another way to write the above method is to leave out the <code class="docutils literal"><span class="pre">else</span></code> and just
+follow the <code class="docutils literal"><span class="pre">if</span></code> condition by the second <code class="docutils literal"><span class="pre">return</span></code> statement.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span> <span class="nf">classifyMark</span><span class="p">(</span><span class="kt">int</span> <span class="n">percent</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">percent</span> <span class="p">&lt;</span> <span class="m">50</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Whoops!&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="s">&quot;Good news!&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The moment a <code class="docutils literal"><span class="pre">return</span></code> statement is executed, anywhere in the method, the
+flow of execution returns immediately to the call site and the method call is completed.
+(There are some more advanced features, like <code class="docutils literal"><span class="pre">try</span></code> and <code class="docutils literal"><span class="pre">catch</span></code> where this
+can change &#8212; we&#8217;ll get to them a bit later.)</p>
+<p id="index-3">Code that appears after a <code class="docutils literal"><span class="pre">return</span></code> statement, or at any other place the flow of
+execution can never reach is called <strong>unreachable code</strong>.
+Your C# compiler should warn you about unreachable code, but your program can still run.</p>
+<p>In a value-returning method, every possible path of the flow of execution must
+return a value.  If, for example, you left out line 7 in the method above,
+your program would give a compile error, saying &#8220;not all code paths return a value&#8221;.</p>
+<p>It is also possible to use a return statement in the middle of a loop,
+in which case control immediately returns from the method.  Let us assume that we want
+a method which looks through an array of words.  It should return the
+first two-letter word.  If there is not one, it should return the
+empty string:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span> <span class="nf">find_first_2_letter_word</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">xs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">wd</span> <span class="k">in</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">wd</span><span class="p">.</span><span class="n">Length</span> <span class="p">==</span> <span class="m">2</span><span class="p">)</span> <span class="p">{</span>
+           <span class="k">return</span> <span class="n">wd</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Executing this fragment of code would pop up a message box with
+the result &#8220;is&#8221;:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="kt">string</span><span class="p">[]</span> <span class="n">wds</span> <span class="p">=</span> <span class="p">{</span> <span class="s">&quot;The&quot;</span><span class="p">,</span> <span class="s">&quot;world&quot;</span><span class="p">,</span> <span class="s">&quot;is&quot;</span><span class="p">,</span> <span class="s">&quot;not&quot;</span><span class="p">,</span> <span class="s">&quot;enough&quot;</span><span class="p">,</span> <span class="s">&quot;go&quot;</span><span class="p">,</span> <span class="s">&quot;in&quot;</span> <span class="p">};</span>
+<span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">find_first_2_letter_word</span><span class="p">(</span><span class="n">wds</span><span class="p">));</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Single-step through this code and convince yourself that for the data
+we&#8217;ve provided, the method returns while processing the third element
+in the array: it does not have to traverse the whole array.</p>
+</div>
+<div class="section" id="program-development">
+<span id="index-4"></span><h2>10.4. Program development<a class="headerlink" href="#program-development" title="Permalink to this headline">¶</a></h2>
+<p>At this point, you should be able to look at complete methods and tell what
+they do. Also, if you have been doing the exercises, you have written some
+small methods. As you write larger methods, you might start to have more
+difficulty, especially with runtime and semantic errors.</p>
+<p>To deal with increasingly complex programs, we are going to suggest a technique
+called <strong>incremental development</strong>. The goal of incremental development is to
+avoid long debugging sessions by adding and testing only a small amount of code
+at a time.</p>
+<p>As an example, suppose we want to find the distance between two points, given
+by the coordinates (x<sub>1</sub>, y<sub>1</sub>) and
+(x<sub>2</sub>, y<sub>2</sub>).  By the Pythagorean theorem, the distance is:</p>
+<blockquote>
+<div><img alt="Distance formula" src="_images/distance_formula.png" />
+</div></blockquote>
+<p>The first step is to consider what a <code class="docutils literal"><span class="pre">distance</span></code> method should look like in
+C#. In other words, what are the inputs (parameters) and what is the output
+(return value)?   And what is the best type for each of these?</p>
+<p>In this case, the two points are the inputs, which we can represent using four
+double parameters. The return value is the distance, also a double.</p>
+<p>Already we can write an outline of the method that captures our thinking so far:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">distance</span><span class="p">(</span><span class="kt">double</span> <span class="n">x1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">x2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y2</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="m">0.0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Obviously, this version of the method doesn&#8217;t compute distances correctly; it always
+returns zero.  (It has to return some double, or we&#8217;ll get an error!)
+But it is syntactically correct, we&#8217;ve got its signature as we want it,
+and it will compile and run, which means that we can test it before we make
+it more complicated.  We&#8217;ll call a method like this (one for which we have not
+yet written the logic of the innards) a <em>stub</em>.</p>
+<p>Often stubs are a useful thinking mechanism to help with <em>abstraction</em>:
+we are able to say &#8220;Aha, we know we can write a method for distance or compound interest.
+Let&#8217;s ignore the inner detail for the moment (abstraction),
+and focus instead on the bigger picture problem&#8221;.</p>
+<p>To test the new method, we could call it with sample values and confirm that it returns 0:</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="n">MessageBox</span><span class="p">.</span><span class="n">Show</span><span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="m">1.0</span><span class="p">,</span> <span class="m">2.0</span><span class="p">,</span> <span class="m">4.0</span><span class="p">,</span> <span class="m">6.0</span><span class="p">).</span><span class="n">ToString</span><span class="p">());</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>We chose these values so that the horizontal distance equals 3 and the vertical
+distance equals 4; that way, the result is 5 (the hypotenuse of a 3-4-5
+triangle). When testing a method, it is useful (perhaps even essential)
+to know the right answer.</p>
+<p>At this point we have confirmed that the method is syntactically correct, and
+we can start adding lines of code. After each incremental change, we test the
+method again. If an error occurs at any point, we know where it must be &#8212; in
+the last line we added.</p>
+<p>A logical first step in the computation is to find the differences
+x<sub>2</sub>- x<sub>1</sub> and y<sub>2</sub>- y<sub>1</sub>.  We will
+refer to those values using temporary variables named <code class="docutils literal"><span class="pre">dx</span></code> and <code class="docutils literal"><span class="pre">dy</span></code>.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">distance</span><span class="p">(</span><span class="kt">double</span> <span class="n">x1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">x2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y2</span><span class="p">)</span>
+<span class="p">{</span>   <span class="kt">double</span> <span class="n">dx</span> <span class="p">=</span> <span class="n">x2</span> <span class="p">-</span> <span class="n">x1</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">dy</span> <span class="p">=</span> <span class="n">y2</span> <span class="p">-</span> <span class="n">y1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="m">0.0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>If we call the method with the arguments shown above, when the flow of execution
+gets to the return statement, <code class="docutils literal"><span class="pre">dx</span></code> should be 3 and <code class="docutils literal"><span class="pre">dy</span></code> should be 4.
+We can check that this is the case by setting a breakpoint and inspecting the variables
+to confirm that the method is getting the right parameters and performing the first
+computation correctly. If not, there are only a few lines to check.</p>
+<p>Next we compute the sum of squares of <code class="docutils literal"><span class="pre">dx</span></code> and <code class="docutils literal"><span class="pre">dy</span></code>:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">distance</span><span class="p">(</span><span class="kt">double</span> <span class="n">x1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">x2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y2</span><span class="p">)</span>
+<span class="p">{</span>   <span class="kt">double</span> <span class="n">dx</span> <span class="p">=</span> <span class="n">x2</span> <span class="p">-</span> <span class="n">x1</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">dy</span> <span class="p">=</span> <span class="n">y2</span> <span class="p">-</span> <span class="n">y1</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">dsquared</span> <span class="p">=</span> <span class="n">dx</span> <span class="p">*</span> <span class="n">dx</span> <span class="p">+</span> <span class="n">dy</span> <span class="p">*</span> <span class="n">dy</span><span class="p">;</span>
+    <span class="k">return</span> <span class="m">0.0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Again, we could run the program at this stage and check the value of <code class="docutils literal"><span class="pre">dsquared</span></code> (which
+should be 25).</p>
+<p>Finally, we&#8217;ll use the <code class="docutils literal"><span class="pre">Sqrt</span></code> method to compute and return the result:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">distance</span><span class="p">(</span><span class="kt">double</span> <span class="n">x1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">x2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y2</span><span class="p">)</span>
+<span class="p">{</span>   <span class="kt">double</span> <span class="n">dx</span> <span class="p">=</span> <span class="n">x2</span> <span class="p">-</span> <span class="n">x1</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">dy</span> <span class="p">=</span> <span class="n">y2</span> <span class="p">-</span> <span class="n">y1</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">dsquared</span> <span class="p">=</span> <span class="n">dx</span> <span class="p">*</span> <span class="n">dx</span> <span class="p">+</span> <span class="n">dy</span> <span class="p">*</span> <span class="n">dy</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">d</span> <span class="p">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">Sqrt</span><span class="p">(</span><span class="n">dsquared</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>If that works correctly, you are done. Otherwise, you might want to inspect the
+value of <code class="docutils literal"><span class="pre">d</span></code> before the return statement.</p>
+<p>When you start out, you might add only a line or two of code at a time. As you
+gain more experience, you might find yourself writing and debugging bigger
+conceptual chunks. Either way, stepping through your code one line at a time and
+verifying that each step matches your expectations can save you a lot of
+debugging time.  As you improve your programming skills you should find yourself
+managing bigger and bigger chunks: this is very similar to the way we learned to read
+letters, syllables, words, phrases, sentences, paragraphs, etc., or the way we learn
+to chunk music &#8212; from individual notes to chords, bars, phrases, movements, and so on.</p>
+<p>The key aspects of the process are:</p>
+<ol class="arabic simple">
+<li>Start with a working skeleton program and make small incremental changes. At any
+point, if there is an error, you will know exactly where it is.</li>
+<li>Use temporary variables to refer to intermediate values so that you
+can easily inspect and check them.</li>
+<li>Once the program is working, relax, sit back, and play around with your options.
+(There is interesting research that links &#8220;playfulness&#8221; to better understanding,
+better learning, more enjoyment, and a more positive mindset about
+what you can achieve &#8212; so spend some time fiddling around!)
+You might want to consolidate multiple statements into one bigger compound expression,
+or rename the variables you&#8217;ve used, or see if you can make the method shorter.
+A good guideline is to aim for making code as easy as possible for others to read.</li>
+</ol>
+<div class="admonition-a-tip-about-debugging admonition" id="index-5">
+<p class="first admonition-title">A tip about debugging</p>
+<p>You must have a clear solution to the problem, and must know what should
+happen before you can debug a program.  Work on <em>solving</em> the problem
+on a piece of paper <em>before</em> you concern yourself with
+writing code.</p>
+<p>Writing a program doesn&#8217;t solve the problem &#8212; it simply <em>automates</em>
+the manual steps you would take.</p>
+<p class="last">So first make sure you have
+a pen-and-paper manual solution that works.
+Programming then is about making those manual steps happen automatically.</p>
+</div>
+</div>
+<div class="section" id="composition">
+<span id="index-6"></span><h2>10.5. Composition<a class="headerlink" href="#composition" title="Permalink to this headline">¶</a></h2>
+<p>As you should expect by now, you can call one method from within another.
+This ability is called <strong>composition</strong>.</p>
+<p>As an example, we&#8217;ll write a method that takes two points, the centre of the
+circle and a point on the perimeter, and computes the area of the circle.</p>
+<p>Assume that the centre point is stored in the variables <code class="docutils literal"><span class="pre">xc</span></code> and <code class="docutils literal"><span class="pre">yc</span></code>, and
+the perimeter point is in <code class="docutils literal"><span class="pre">xp</span></code> and <code class="docutils literal"><span class="pre">yp</span></code>. The first step is to find the
+radius of the circle, which is the distance between the two points.
+Fortunately, we&#8217;ve just written a method, <code class="docutils literal"><span class="pre">distance</span></code>, that does just that,
+so now all we have to do is use it:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">double</span> <span class="n">radius</span> <span class="p">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The second step is to find the area of a circle with that radius and return it.
+Again we will use one of our earlier methods:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="kt">double</span> <span class="n">result</span> <span class="p">=</span> <span class="n">area</span><span class="p">(</span><span class="n">radius</span><span class="p">);</span>
+<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Wrapping that up in a method, we get:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">area2</span><span class="p">(</span><span class="kt">double</span> <span class="n">xc</span><span class="p">,</span> <span class="kt">double</span> <span class="n">yc</span><span class="p">,</span> <span class="kt">double</span> <span class="n">xp</span><span class="p">,</span> <span class="kt">double</span> <span class="n">yp</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">radius</span> <span class="p">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">);</span>
+    <span class="kt">double</span> <span class="n">result</span> <span class="p">=</span> <span class="n">area</span><span class="p">(</span><span class="n">radius</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>We called this method <code class="docutils literal"><span class="pre">area2</span></code> to distinguish it from the <code class="docutils literal"><span class="pre">area</span></code> method
+we wrote earlier.</p>
+<p>The temporary variables <code class="docutils literal"><span class="pre">radius</span></code> and <code class="docutils literal"><span class="pre">result</span></code> are useful for development,
+debugging, and single-stepping through the code to inspect what is happening,
+but once the program is working, we can make it more concise by
+composing the method calls:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">double</span> <span class="nf">area3</span><span class="p">(</span><span class="kt">double</span> <span class="n">xc</span><span class="p">,</span> <span class="kt">double</span> <span class="n">yc</span><span class="p">,</span> <span class="kt">double</span> <span class="n">xp</span><span class="p">,</span> <span class="kt">double</span> <span class="n">yp</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nf">area</span><span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Try single stepping through both.</p>
+</div>
+<div class="section" id="boolean-methods">
+<span id="index-7"></span><h2>10.6. Boolean methods<a class="headerlink" href="#boolean-methods" title="Permalink to this headline">¶</a></h2>
+<p>Methods can return Boolean values, which is often convenient for hiding
+complicated tests inside methods. For example:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">bool</span> <span class="nf">isDivisible</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Test if x is exactly divisible by y.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">%</span> <span class="n">y</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>It is common to give <strong>Boolean methods</strong> names that sound like yes/no questions.  <code class="docutils literal"><span class="pre">isDivisible</span></code> returns
+either <code class="docutils literal"><span class="pre">false</span></code> or <code class="docutils literal"><span class="pre">true</span></code> to indicate whether the <code class="docutils literal"><span class="pre">x</span></code> is or is not divisible by <code class="docutils literal"><span class="pre">y</span></code>.</p>
+<p>We can make the method more concise by taking advantage of the fact that the
+condition of the <code class="docutils literal"><span class="pre">if</span></code> statement is itself a Boolean expression. We can return
+it directly, avoiding the <code class="docutils literal"><span class="pre">if</span></code> statement altogether:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">bool</span> <span class="nf">isDivisible</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Test if x is exactly divisible by y.</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="p">%</span> <span class="n">y</span> <span class="p">==</span> <span class="m">0</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Boolean methods are often used in conditional statements:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">isDivisible</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span> <span class="p">{</span>  <span class="p">...</span> <span class="c1">// Do something ...  }</span>
+<span class="k">else</span> <span class="p">{</span>  <span class="p">...</span> <span class="c1">// Do something else ...  }</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>It might be tempting to write something like:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">isDivisible</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">==</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>but the extra comparison is unnecessary.</p>
+</div>
+<div class="section" id="unit-testing">
+<h2>10.7. Unit testing<a class="headerlink" href="#unit-testing" title="Permalink to this headline">¶</a></h2>
+<p>It is a common best practice in software development to include
+automatic <strong>unit testing</strong> of source code. Unit testing provides a way to
+automatically verify that individual pieces of code, such as methods, are
+working properly. This makes it easier to change the implementation of a
+method at a later time and quickly check that it
+still does what it was intended to do.</p>
+<p>Some years back organizations had the view that their
+valuable asset was the program code and documentation.  Organizations will
+now spend a large portion of their software budgets on crafting (and preserving) their tests.</p>
+<p>Unit testing also forces the programmer to think about the different cases
+that the method needs to handle.  Another benefit is that you only have to
+code up the tests once, rather than having to keep entering the same test
+data over and over as you develop your code.</p>
+<p>Extra code in your program which is there because it makes debugging, development,
+or testing easier is called <strong>scaffolding</strong>.</p>
+<p>A collection of tests for some code is called its <strong>test suite</strong>.</p>
+<p>There are a few different ways to do unit testing in C#, but they carry
+quite a bit of overhead.
+So for now we&#8217;re going to ignore what the C# community usually does,
+and we&#8217;re going to start with our own library that provides an easier
+way to get started with writing unit tests.</p>
+<div class="sidebar">
+<p class="first sidebar-title">You&#8217;ll need to add ThinkLib to your program</p>
+<p class="last">As we did earlier with the Turtles, you&#8217;ll need the ThinkLib module.
+See the appendix for details.</p>
+</div>
+<p>Let&#8217;s start with the <code class="docutils literal"><span class="pre">classifyMark</span></code> method that we wrote earlier in this
+chapter.   First we plan our tests.  We&#8217;d like to know
+if the method returns the correct value when its argument is below 50,
+exactly 50, or above 50.  So three tests should do the trick.
+When planning tests, you&#8217;ll always want to think carefully about the &#8220;edge&#8221; cases &#8212;
+here, an argument of exactly 50 is on the edge of where the method
+behaviour changes. It might be an easy spot for the programmer to make a mistake!
+So it is a good case to include in our test suite.</p>
+<p>We add this code to our program ...</p>
+<blockquote>
+<div><div class="highlight-csharp"><div class="highlight"><pre><span class="k">using</span> <span class="nn">ThinkLib</span><span class="p">;</span>   <span class="c1">// As we did before for the turtles...</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">button1_Click</span><span class="p">(</span><span class="kt">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">RoutedEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">classifyMark</span><span class="p">(</span><span class="m">25</span><span class="p">),</span> <span class="s">&quot;Whoops!&quot;</span><span class="p">);</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">classifyMark</span><span class="p">(</span><span class="m">65</span><span class="p">),</span> <span class="s">&quot;Good news!&quot;</span><span class="p">);</span>
+    <span class="n">Tester</span><span class="p">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">classifyMark</span><span class="p">(</span><span class="m">50</span><span class="p">),</span> <span class="s">&quot;Good news!&quot;</span><span class="p">);</span>  <span class="c1">// Ha! We thought about the edge case!</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>When the click event occurs, the tests run, and the results pop up in a window:</p>
+<blockquote>
+<div><img alt="_images/unitTest_pass.png" src="_images/unitTest_pass.png" />
+</div></blockquote>
+<p>If we fiddle with the code, let&#8217;s say we change <code class="docutils literal"><span class="pre">classifyMark</span></code> like this:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">private</span> <span class="kt">string</span> <span class="nf">classifyMark</span><span class="p">(</span><span class="kt">int</span> <span class="n">percent</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">percent</span> <span class="p">&gt;</span> <span class="m">50</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Good news!&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="s">&quot;Whoops!&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Now we re-run our tests:</p>
+<blockquote>
+<div><img alt="_images/unitTest_fail.png" src="_images/unitTest_fail.png" />
+</div></blockquote>
+<p>Aha!  The opposite of <code class="docutils literal"><span class="pre">&lt;</span></code> was incorrectly coded as <code class="docutils literal"><span class="pre">&gt;</span></code>. That&#8217;s a common mistake!
+Changing our code to improve its style or readability caused our code to <em>regress</em>, or go backwards.</p>
+</div>
+<div class="section" id="glossary">
+<h2>10.8. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-boolean-method">Boolean method</dt>
+<dd>A method that returns a Boolean value.  The only possible
+values of the <code class="docutils literal"><span class="pre">bool</span></code> type are <code class="docutils literal"><span class="pre">false</span></code> and <code class="docutils literal"><span class="pre">true</span></code>.</dd>
+<dt id="term-composition-of-methods">composition (of methods)</dt>
+<dd>Calling one method from within the body of another, or using the
+return value of one method as an argument to the call of another.</dd>
+<dt id="term-value-returning-method">value-returning method</dt>
+<dd>A method that yields a return value.  The other kind of method is a
+void method, discussed in an earlier chapter.</dd>
+<dt id="term-incremental-development">incremental development</dt>
+<dd>A program development plan intended to simplify debugging by adding and
+testing only a small amount of code at a time.</dd>
+<dt id="term-return-type">return type</dt>
+<dd>A value-returning method returns a value of some specific type.  When the
+method is defined, this type comes before the method name.  In the body
+of the method there must be a return statement that returns some value matching
+the return type of the method.</dd>
+<dt id="term-return-value">return value</dt>
+<dd>The value provided as the result of a value-returning method call.</dd>
+<dt id="term-scaffolding">scaffolding</dt>
+<dd>Code that is used during program development to assist with development
+and debugging. The unit test code that we added in this chapter are
+examples of scaffolding.</dd>
+<dt id="term-stub">stub</dt>
+<dd>A method with dummy innards, but the signature is correct, and having
+the method allows us to write other code or unit tests.  A stub is often
+part of our scaffolding.</dd>
+<dt id="term-temporary-variable">temporary variable</dt>
+<dd>A variable used to store an intermediate value in a complex calculation.</dd>
+<dt id="term-test-suite">test suite</dt>
+<dd>A collection of tests for some code you have written.</dd>
+<dt id="term-unit-testing">unit testing</dt>
+<dd>An automatic mechanism used to validate that individual chunks of code
+are working properly.  Having a test suite is extremely useful when somebody
+modifies or extends the code: it provides a safety net against
+going backwards by putting new bugs into previously working code.
+The term <em>regression testing</em> is often used to capture this idea that we
+don&#8217;t want to go backwards!</dd>
+<dt id="term-unreachable-code">unreachable code</dt>
+<dd>Statements in a program that can never be executed, often because they appear
+after a <code class="docutils literal"><span class="pre">return</span></code> statement.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>10.9. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Assume the days of the week are numbered 0,1,2,3,4,5,6 from Sunday to Saturday.
+Write a method which is given the day number, and it returns the day name (a string).</p>
+</li>
+<li><p class="first">We go on a wonderful holiday (perhaps to jail, if we don&#8217;t like happy exercises)
+leaving on day number 3 (a Wednesday).  We return home after 137 sleeps.
+Write a general version of the program which takes the starting day number, and
+the length of our stay, and it will output the name of day of the week we will return on.</p>
+</li>
+<li><p class="first">Write a method which is given an exam mark, and it returns a string &#8212;
+the grade for that mark &#8212; according to this scheme:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Mark</th>
+<th class="head">Grade</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&gt;= 75</td>
+<td>First</td>
+</tr>
+<tr class="row-odd"><td>[70-75)</td>
+<td>Upper Second</td>
+</tr>
+<tr class="row-even"><td>[60-70)</td>
+<td>Second</td>
+</tr>
+<tr class="row-odd"><td>[50-60)</td>
+<td>Third</td>
+</tr>
+<tr class="row-even"><td>[45-50)</td>
+<td>F1 Supp</td>
+</tr>
+<tr class="row-odd"><td>[35-45)</td>
+<td>F2</td>
+</tr>
+<tr class="row-even"><td>&lt; 35</td>
+<td>F3</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The square and round brackets denote closed and open intervals.
+A closed interval includes the number, and open interval excludes it.
+So 34.99999 gets grade F3, but 35 gets grade F2.
+Assume</p>
+<div class="highlight-python"><div class="highlight"><pre>double[] xs = {83, 75, 74.9, 70, 69.9, 65, 60, 59.9, 55, 50,
+                      49.9, 45, 44.9, 35, 34.9, 2, 0};
+</pre></div>
+</div>
+<p>Test your method by showing the mark and the grade for all the elements in this array.</p>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">find_hypot</span></code> which, given the length of two sides of a right-angled triangle, returns
+the length of the hypotenuse.  (Hint:  <code class="docutils literal"><span class="pre">Math.Sqrt</span></code> will compute the square root.)</p>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">is_rightangled</span></code> which, given the length of three sides of a triangle,
+will determine whether the triangle is right-angled.  Assume that the third argument to the
+method is always the longest side.  It will return <code class="docutils literal"><span class="pre">true</span></code> if the triangle
+is right-angled, or <code class="docutils literal"><span class="pre">false</span></code> otherwise.</p>
+<p>Hint: Floating point arithmetic is not always exactly accurate,
+so it is not safe to test floating point numbers for equality.
+If a good programmer wants to know whether
+<code class="docutils literal"><span class="pre">x</span></code> is equal or close enough to <code class="docutils literal"><span class="pre">y</span></code>, they would probably code it up as:</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span class="k">if</span>  <span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">x</span><span class="p">-</span><span class="n">y</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0.000001</span><span class="p">)</span>    <span class="c1">// If x is approximately equal to y</span>
+    <span class="p">...</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Extend the above program so that the sides can be given to the method in any order.</p>
+<p><strong>All of the exercises below can be done in a single program. The button handler
+can run all the tests in your test suite.
+As you work through the exercises, add the new tests to your test suite.
+(If you open the on-line version of the textbook,
+you can easily copy and paste the tests and the fragments of code into your C# editor.)
+After completing each exercise, confirm that all the tests pass.</strong></p>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">sum_to(n)</span></code> that returns the sum of all integer numbers up to and
+including <code class="docutils literal"><span class="pre">n</span></code>.   So <code class="docutils literal"><span class="pre">sum_to(10)</span></code> would be <cite>1+2+3...+10</cite> which would return the value 55.</p>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">area_of_circle(r)</span></code> which returns the area of a circle of radius <code class="docutils literal"><span class="pre">r</span></code>.</p>
+</li>
+<li><p class="first">The four compass points can be abbreviated by characters as &#8216;N&#8217;, &#8216;E&#8217;, &#8216;S&#8217;, and &#8216;W&#8217;.
+Write a method <code class="docutils literal"><span class="pre">turn_clockwise</span></code> that takes one of these four compass points as
+its parameter, and returns the next compass point in the clockwise direction.
+Here are some tests that should pass:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">turn_clockwise</span><span class="p">(</span><span class="s">&#39;N&#39;</span><span class="p">),</span> <span class="s">&#39;E&#39;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">turn_clockwise</span><span class="p">(</span><span class="s">&#39;W&#39;</span><span class="p">),</span> <span class="s">&#39;N&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You might ask <em>&#8220;What if the argument to the method is some other value?&#8221;</em>  For all
+other cases, the method should return the character &#8216;?&#8217;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">turn_clockwise</span><span class="p">(</span><span class="s">&#39;Q&#39;</span><span class="p">),</span> <span class="s">&#39;?&#39;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">turn_clockwise</span><span class="p">(</span><span class="s">&#39;X&#39;</span><span class="p">),</span> <span class="s">&#39;?&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">day_name</span></code> that converts an integer number 0 to 6 into the name of
+a day.  Assume day 0 is &#8220;Sunday&#8221;.  Once again, return &#8220;Oops&#8221; if the arguments to the method
+are not valid.  Here are some tests that should pass:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_name</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s">&quot;Wednesday&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_name</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="s">&quot;Saturday&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_name</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span> <span class="s">&quot;Oops&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_name</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s">&quot;Oops&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write the inverse method <code class="docutils literal"><span class="pre">day_num</span></code> which is given a day name, and returns its number:</p>
+<div class="highlight-python"><div class="highlight"><pre>Tester.TestEq(day_num(&quot;Friday&quot;), 5);
+Tester.TestEq(day_num(&quot;Sunday&quot;), 0);
+Tester.TestEq(day_num(day_name(3)), 3);    // Make sure you get this!
+Tester.TestEq(day_name(day_num(&quot;Thursday&quot;)), &quot;Thursday&quot;);
+</pre></div>
+</div>
+</li>
+<li><p class="first">(This is similar to question 2)
+Write a method that helps answer questions like &#8220;Today is Wednesday.  I leave on holiday
+in 19 days time.  What day will that be?&#8221; So the method must take a day name and
+a <code class="docutils literal"><span class="pre">delta</span></code> argument &#8212; the number of days to add &#8212; and should return the resulting day name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_add</span><span class="p">(</span><span class="s">&quot;Monday&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>  <span class="s">&quot;Friday&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_add</span><span class="p">(</span><span class="s">&quot;Tuesday&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s">&quot;Tuesday&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_add</span><span class="p">(</span><span class="s">&quot;Tuesday&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="s">&quot;Tuesday&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_add</span><span class="p">(</span><span class="s">&quot;Sunday&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="s">&quot;Tuesday&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><em>Hint:</em> use the first two methods written above to help you write this one.</p>
+</li>
+<li><p class="first">Can your <code class="docutils literal"><span class="pre">day_add</span></code> method already work with negative deltas? For example,
+-1 would be yesterday, or -7 would be a week ago:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_add</span><span class="p">(</span><span class="s">&quot;Sunday&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s">&quot;Saturday&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_add</span><span class="p">(</span><span class="s">&quot;Sunday&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">),</span> <span class="s">&quot;Sunday&quot;</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">day_add</span><span class="p">(</span><span class="s">&quot;Tuesday&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">),</span> <span class="s">&quot;Sunday&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If your method already works, explain why.  If it does not work, make it work.</p>
+<p><em>Hint:</em> Play with some cases of using the remainder operator <cite>%</cite>
+(introduced at the beginning of the previous chapter).  Specifically, explore
+what happens to  <code class="docutils literal"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">7</span></code>  when x is negative.</p>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">days_in_month</span></code> which takes the name of a month, and returns the number
+of days in the month.  Ignore leap years:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">days_in_month</span><span class="p">(</span><span class="s">&quot;February&quot;</span><span class="p">),</span> <span class="mi">28</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">days_in_month</span><span class="p">(</span><span class="s">&quot;December&quot;</span><span class="p">),</span> <span class="mi">31</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If the method is given invalid arguments, it should return -1.</p>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">to_secs</span></code> that converts hours, minutes and seconds to
+a total number of seconds.  Here are some tests that should pass:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">to_secs</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">9010</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">to_secs</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">7200</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">to_secs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">120</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">to_secs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span> <span class="mi">42</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">to_secs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="o">-</span><span class="mi">590</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Extend <code class="docutils literal"><span class="pre">to_secs</span></code> so that it can cope with real values as inputs.  It
+should always return an integer number of seconds (truncated towards zero):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">to_secs</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">10.71</span><span class="p">),</span> <span class="mi">9010</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">to_secs</span><span class="p">(</span><span class="mf">2.433</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">8758</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write three methods that are the &#8220;inverses&#8221; of <code class="docutils literal"><span class="pre">to_secs</span></code>:</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">hours_in</span></code> returns the whole integer number of hours
+represented by a total number of seconds.</p>
+<p><code class="docutils literal"><span class="pre">minutes_in</span></code> returns the whole integer number of left over minutes
+in a total number of seconds, once the hours
+have been taken out.</p>
+<p><code class="docutils literal"><span class="pre">seconds_in</span></code> returns the left over seconds
+represented by a total number of seconds.</p>
+</div></blockquote>
+<p>You may assume that the total number of seconds passed to these methods is an integer.
+Here are some test cases:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">hours_in</span><span class="p">(</span><span class="mi">9010</span><span class="p">),</span> <span class="mi">2</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">minutes_in</span><span class="p">(</span><span class="mi">9010</span><span class="p">),</span> <span class="mi">30</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">seconds_in</span><span class="p">(</span><span class="mi">9010</span><span class="p">),</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition-it-won-t-always-be-obvious-what-is-wanted admonition">
+<p class="first admonition-title">It won&#8217;t always be obvious what is wanted ...</p>
+<p>In the third case above, the requirement seems quite ambiguous and fuzzy.  But the test clarifies
+what we actually need to do.</p>
+<p>Unit tests often have this secondary benefit of clarifying the specifications.   If you write your
+own test suites, consider it part of the problem-solving process as you ask questions about what
+you really expect to happen, and whether you&#8217;ve considered all the possible cases.</p>
+<p class="last">Interestingly, some of the literature on Computational Thinking suggests that having a
+high tolerance for ambiguity is necessary for success in this field!</p>
+</div>
+</li>
+<li><p class="first">Which of these tests fail?  Explain why.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="mi">3</span> <span class="o">%</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="mi">3</span> <span class="o">%</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="mi">4</span>  <span class="o">*</span>  <span class="mi">2</span><span class="p">,</span> <span class="mi">14</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="s">&quot;hello, world!&quot;</span><span class="o">.</span><span class="n">Length</span><span class="p">,</span> <span class="mi">13</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a <code class="docutils literal"><span class="pre">compare</span></code> method that returns <code class="docutils literal"><span class="pre">1</span></code> if <code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">b</span></code>, <code class="docutils literal"><span class="pre">0</span></code> if
+<code class="docutils literal"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">b</span></code>, and <code class="docutils literal"><span class="pre">-1</span></code> if <code class="docutils literal"><span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">b</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">compare</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">compare</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">compare</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">compare</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method called <code class="docutils literal"><span class="pre">hypotenuse</span></code> that
+returns the length of the hypotenuse of a right triangle given the lengths
+of the two shorter edges as parameters:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">hypotenuse</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mf">5.0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">hypotenuse</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="mf">13.0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">hypotenuse</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="mf">25.0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">hypotenuse</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="mf">15.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">slope(x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2)</span></code> that returns the slope of
+the line through the points (x1, y1) and (x2, y2). Be sure your
+implementation of <code class="docutils literal"><span class="pre">slope</span></code> can pass the following tests:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">slope</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">slope</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">slope</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">slope</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">2.0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Then use a call to <code class="docutils literal"><span class="pre">slope</span></code> in a new method named
+<code class="docutils literal"><span class="pre">intercept(x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2)</span></code> that returns the y-intercept of the line
+through the points <code class="docutils literal"><span class="pre">(x1,</span> <span class="pre">y1)</span></code> and <code class="docutils literal"><span class="pre">(x2,</span> <span class="pre">y2)</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">intercept</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="mf">3.0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">intercept</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="mf">7.0</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">intercept</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="mf">5.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write a method called <code class="docutils literal"><span class="pre">isEven(n)</span></code> that takes an integer as an argument
+and returns <code class="docutils literal"><span class="pre">true</span></code> if the argument is an even number and <code class="docutils literal"><span class="pre">false</span></code> if
+it is odd.</p>
+<p>Add your own tests to the test suite.</p>
+</li>
+<li><p class="first">Now write the method <code class="docutils literal"><span class="pre">is_odd(n)</span></code> that returns <code class="docutils literal"><span class="pre">true</span></code> when <code class="docutils literal"><span class="pre">n</span></code> is odd
+and <code class="docutils literal"><span class="pre">false</span></code> otherwise. Include unit tests for this method too.</p>
+<p>Finally, modify it so that it uses a call to <code class="docutils literal"><span class="pre">is_even</span></code> to determine if its
+argument is an odd integer, and ensure that its test still pass.</p>
+</li>
+<li><p class="first">Write a method <code class="docutils literal"><span class="pre">is_factor(f,</span> <span class="pre">n)</span></code> that passes these tests:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_factor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_factor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_factor</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_factor</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_factor</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_factor</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_factor</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>An important role of unit tests is that they can also
+act as unambiguous &#8220;specifications&#8221; of what is expected.  These test
+cases answer the question <em>Do we treat 1 and 15 as factors of 15?</em></p>
+</li>
+<li><p class="first">Look up what a <em>proper factor</em> is.  Write a method <code class="docutils literal"><span class="pre">is_proper_factor(f,</span> <span class="pre">n)</span></code> that passes these tests:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_proper_factor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_proper_factor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_proper_factor</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_proper_factor</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_proper_factor</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_proper_factor</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_proper_factor</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Write <code class="docutils literal"><span class="pre">is_multiple</span></code> to satisfy these unit tests:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_multiple</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_multiple</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_multiple</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_multiple</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">true</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">is_multiple</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Can you find a way to use <code class="docutils literal"><span class="pre">is_factor</span></code> in your definition of <code class="docutils literal"><span class="pre">is_multiple</span></code>?</p>
+</li>
+<li><p class="first">Write the method <code class="docutils literal"><span class="pre">f2c(t)</span></code> designed to return the
+integer value of the nearest degree Celsius for given temperature in
+Fahrenheit.:</p>
+<div class="highlight-python"><div class="highlight"><pre>    Tester.TestEq(f2c(212), 100);     // Boiling point of water
+    Tester.TestEq(f2c(32), 0);        // Freezing point of water
+    Tester.TestEq(f2c(-40), -40);     // Wow, what an interesting case!
+    Tester.TestEq(f2c(36), 2);
+    Tester.TestEq(f2c(37), 3);
+    Tester.TestEq(f2c(38), 3);
+    Tester.TestEq(f2c(39), 4);
+
+If someone says &quot;Wow, it was cold at the North Pole, -40 degrees&quot; you don&#39;t need to
+ask whether they measured in Fahrenheit or Celsius.  Both measurement scales are straight
+line graphs, and -40 is the value at which the lines intersect each other.
+</pre></div>
+</div>
+</li>
+<li><p class="first">Now do the opposite: write the method <code class="docutils literal"><span class="pre">c2f</span></code> which converts Celsius to Fahrenheit:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">c2f</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">32</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">c2f</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="mi">212</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">c2f</span><span class="p">(</span><span class="o">-</span><span class="mi">40</span><span class="p">),</span> <span class="o">-</span><span class="mi">40</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">c2f</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="mi">54</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">c2f</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span> <span class="mi">64</span><span class="p">);</span>
+<span class="n">Tester</span><span class="o">.</span><span class="n">TestEq</span><span class="p">(</span><span class="n">c2f</span><span class="p">(</span><span class="o">-</span><span class="mi">48</span><span class="p">),</span> <span class="o">-</span><span class="mi">54</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Since our book title mentions <em>thinking</em>, read at least one reference about
+thinking, and about fun ideas like <em>fluid intelligence</em>, a key ingredient in problem solving.
+See, for example, <a class="reference external" href="http://psychology.about.com/od/cognitivepsychology/a/fluid-crystal.htm">http://psychology.about.com/od/cognitivepsychology/a/fluid-crystal.htm</a>.
+Being good at Computer Science requires a good mix of both fluid and crystallized kinds of intelligence.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="iteration.html" title="11. Iteration"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="conditionals.html" title="9. Working with Booleans and Conditional Statements"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>

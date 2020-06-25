@@ -1,0 +1,23 @@
+﻿<Window x:Class="CompoundInterest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Compound Interest Calculator" Height="231" Width="575">
+    <Grid UseLayoutRounding="False" Height="196" Width="557">
+        <TextBox Height="169" HorizontalAlignment="Left" Margin="220,12,0,0" Name="txtResult" VerticalAlignment="Top" Width="325" VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderBrush="#FF0044DD" />
+        <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="164,84,0,0" Name="btnGo" VerticalAlignment="Top" Width="41" Click="btnGo_Click" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="91.903,17.5,0,0" Name="txtPrincipal" VerticalAlignment="Top" Width="48" Text="10000" />
+        <Label Content="Principal amt" Height="28" HorizontalAlignment="Left" Margin="7,15.5,0,0" Name="label1" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="91.903,0,0,118" Name="txtInterestRate" Text="0.08" VerticalAlignment="Bottom" Width="48" />
+        <Label Content="Interest rate" Height="28" HorizontalAlignment="Left" Margin="7,53,0,0" Name="label2" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="90.903,106,0,0" Name="txtNumTimesCompounded" Text="12" VerticalAlignment="Top" Width="49" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="90.903,137,0,0" Name="txtYearsInvested" Text="5" VerticalAlignment="Top" Width="49" AcceptsReturn="False" />
+        <Label Content="Years invested" Height="28" HorizontalAlignment="Left" Margin="6,135,0,0" Name="label4" VerticalAlignment="Top" />
+        <TextBlock Height="39" Margin="15,90,0,0" Name="textBlock1" Text="Times compounded per year" VerticalAlignment="Top" TextWrapping="Wrap" HorizontalAlignment="Left" Width="109.903" />
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF76C39F" Offset="0.894" />
+                <GradientStop Color="#FFA1E8E1" Offset="0.031" />
+            </LinearGradientBrush>
+        </Grid.Background>
+    </Grid>
+</Window>

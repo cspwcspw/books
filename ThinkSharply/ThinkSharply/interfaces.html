@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>30. Interfaces &mdash; Think Sharply with C#: How to Think like a Computer Scientist</title>
+    
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'Second Edition',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Think Sharply with C#: How to Think like a Computer Scientist" href="index.html" />
+    <link rel="next" title="A Few Tips" href="tips.html" />
+    <link rel="prev" title="29. Dictionaries" href="dictionaries.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tips.html" title="A Few Tips"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dictionaries.html" title="29. Dictionaries"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="interfaces">
+<h1>30. Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-bigger-picture">
+<h2>30.1. The Bigger Picture<a class="headerlink" href="#the-bigger-picture" title="Permalink to this headline">¶</a></h2>
+<p>Up until this point in our book, an object&#8217;s <em>type</em> has
+determined its state and behaviour, and how we use it.
+Because <code class="docutils literal"><span class="pre">tess</span></code> is a Turtle, we can call <code class="docutils literal"><span class="pre">Turn</span></code> and <code class="docutils literal"><span class="pre">Forward</span></code> methods,
+or get the <code class="docutils literal"><span class="pre">Heading</span></code> property.  Because <code class="docutils literal"><span class="pre">playground</span></code> is a <code class="docutils literal"><span class="pre">Canvas</span></code>,
+we can set its background brush or get its size.</p>
+<img alt="_images/interfaces.png" src="_images/interfaces.png" />
+<p>The word <em>interface</em> is used with two different meanings in programming.
+The real-world meaning is <em>&#8220;the way we interact with an object&#8221;</em>.  This is
+separate from <em>&#8220;how it works&#8221;</em>, or its implementation.   In our classes
+we&#8217;ve made some members public (that&#8217;s its interface to the outside
+world), and some members private (that&#8217;s how we chose to implement
+the interface).</p>
+<img alt="_images/implementations.png" src="_images/implementations.png" />
+<p>So when our boss says <em>&#8220;What&#8217;s the interface to the Random class?&#8221;</em>,
+he is probably asking us to describe its public methods and members.</p>
+<p>In C# (and some other languages, notably Java) we have a second
+more formal meaning the word.
+An <strong>interface</strong> is a language construct which contains some method
+signatures (and possibly a few other things) that defines a contract.</p>
+<p>Object-oriented thinking in programming arose because people looked
+at the world around them, saw objects, grouped them into types, and
+realized that they had certain attributes, or states, and were capable
+of different behaviours.  So we thought that would be a good way to
+organize software too!</p>
+<p>But in real life, its not just &#8220;type&#8221; that determines how things can be
+used.  Objects can <em>be</em> one type of thing, but also have
+different &#8220;roles&#8221;.   A person might have roles like
+a &#8220;parent&#8221;, or a &#8220;chess player&#8221; or a &#8220;student&#8221;.</p>
+<p>So let&#8217;s look at some devices that we use every day: our digital camera,
+our smart-phone, our Internet provider, our USB flash stick, our portable
+music player, our TV, our tablet PC, our alarm clock, our FM radio.</p>
+<p>They&#8217;re all different types of things, but some of them can perform
+in roles that others can&#8217;t.  Which of the devices can act in the
+role of &#8220;memory device for storing a file&#8221;?   Which can act in the
+role of &#8220;music player&#8221;?   Which can act in the role of &#8220;video player&#8221;?
+Which of these devices can act in the role of &#8220;camera&#8221; and take a photograph?
+Which can act as a &#8220;email reader&#8221;, a &#8220;calculator&#8221;, an &#8220;alarm clock&#8221;
+or a &#8220;radio receiver&#8221;?</p>
+<p>So in programming, in addition to defining something&#8217;s
+type, (i.e. what it <em>is</em>), we want some extra mechanism to describe and
+add extra roles or different ways in which it can be used.</p>
+<p>This is what a formal programming <strong>interface</strong> is all about:
+it describes a <em>role</em> that an object can play when it interacts with other objects.</p>
+<p>When we plug our phone into our computer&#8217;s USB port and copy some files
+into its memory, our computer doesn&#8217;t need to know the <em>type</em> of the
+object we&#8217;ve plugged in &#8212; whether this is a phone, an external hard
+drive, or a camera, or a USB flash stick. All it needs to know is
+that this object is capable of the role &#8220;memory device for storing a file&#8221;.</p>
+<p>It turns out that we&#8217;ve seen this repeatedly already in our book, but we just
+have not fully identified where it has been happening.</p>
+<p>Let&#8217;s think about the
+<code class="docutils literal"><span class="pre">foreach</span></code> loop.  We use it with strings, with arrays, with lists,
+with dictionary keys, etc.   In C#, a class needs to provide a method
+called <code class="docutils literal"><span class="pre">GetEnumerator</span></code>.  It returns an object with methods that allow
+<code class="docutils literal"><span class="pre">foreach</span></code> to get at every item in turn.  So if we look at IntelliSense
+for a string, an array, a list or a dictionary, we&#8217;ll always find
+a method called <code class="docutils literal"><span class="pre">GetEnumerator</span></code>.</p>
+<img alt="_images/getenumerator.png" src="_images/getenumerator.png" />
+<p>This is the magic that lets the <code class="docutils literal"><span class="pre">foreach</span></code> traverse different types of things: they
+can all play the particular role required by <code class="docutils literal"><span class="pre">foreach</span></code>, even though they&#8217;re
+all objects of fundamentally different types.</p>
+<div class="admonition-for-another-take-on-interfaces-see-dave-s-page admonition">
+<p class="first admonition-title">For another take on Interfaces, see Dave&#8217;s page</p>
+<p class="last"><a class="reference external" href="http://www.hitthebits.com/2012/11/what-are-interfaces.html">http://www.hitthebits.com/2012/11/what-are-interfaces.html</a></p>
+</div>
+</div>
+<div class="section" id="back-to-the-low-level-code">
+<span id="index-0"></span><h2>30.2. Back to the low-level code<a class="headerlink" href="#back-to-the-low-level-code" title="Permalink to this headline">¶</a></h2>
+<p>Learning to define and implement our own interfaces is a bit beyond the scope of this book.
+But we will look at one or two interfaces that are already defined in the .Net Framework,
+and see some ways in which we can use them.</p>
+<p>An interface is really a &#8220;contract&#8221; between a class, and the &#8220;consumer&#8221; that wants to
+use the class.  In C#, this contract specifies what members must be implemented in
+order to fulfil the contract.</p>
+<div class="section" id="example-1">
+<h3>30.2.1. Example 1<a class="headerlink" href="#example-1" title="Permalink to this headline">¶</a></h3>
+<p>In our chapter on list and array algorithms we sorted an array of strings using <code class="docutils literal"><span class="pre">Array.Sort</span></code>.
+We also used this in the Queens algorithm, where we shuffled our queens by using
+random integers as the keys for the sort.</p>
+<img alt="_images/comparable.png" src="_images/comparable.png" />
+<p>Take a close look at this code: we&#8217;ve created four arrays, three of them
+were able to be sorted just fine, but we&#8217;ve got a run-time error for the
+array of Rectangles. It failed to compare two elements of the array.  Why?</p>
+<p>Here&#8217;s a hint from IntelliSense:</p>
+<img alt="_images/arraysort.png" src="_images/arraysort.png" />
+<p>What the message is telling us is that it doesn&#8217;t mind what type of
+objects are in the array, but whatever they are, they must have an
+<code class="docutils literal"><span class="pre">IComparable</span></code> interface.   The <code class="docutils literal"><span class="pre">IComparable</span></code> contract specifies
+that there must be a method called <code class="docutils literal"><span class="pre">CompareTo</span></code> (recall that we&#8217;ve
+used this before when we used it to compare strings to each other).</p>
+<p>So ints, strings, chars, DateTime have <code class="docutils literal"><span class="pre">IComparable</span></code> interfaces,
+(and, by contract, they therefore must have a <code class="docutils literal"><span class="pre">CompareTo</span></code> method).
+If we know how to compare them, we know how to sort them!</p>
+<p>But we don&#8217;t have a way to compare <code class="docutils literal"><span class="pre">Rectangle</span></code> objects to each other.
+<code class="docutils literal"><span class="pre">Rectangle</span></code> does not implement the interface <code class="docutils literal"><span class="pre">IComparable</span></code>.</p>
+<p>When we define our own classes we need to ask whether it makes sense
+to compare our new types of objects to each other.  For example, it might
+be sensible to allow <code class="docutils literal"><span class="pre">Student</span></code> objects to be ordered by student numbers.
+In that case we might decide that our class should implement
+<code class="docutils literal"><span class="pre">IComparable</span></code>, and we&#8217;d be required to write a
+<code class="docutils literal"><span class="pre">CompareTo</span></code> method in our new class to achieve this.</p>
+</div>
+<div class="section" id="example-2">
+<h3>30.2.2. Example 2<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h3>
+<p>Here is a contract of
+what an object needs to do to be able to fulfil the role <code class="docutils literal"><span class="pre">IDictionary</span></code>.  (It is a
+convention in C# to always name interface contracts with a name starting with a capital I.)</p>
+<div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">public</span> <span class="k">interface</span> <span class="n">IDictionary</span><span class="p">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;</span> <span class="p">:</span>
+                   <span class="n">ICollection</span><span class="p">&lt;</span><span class="n">KeyValuePair</span><span class="p">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;&gt;,</span>
+                   <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">KeyValuePair</span><span class="p">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="p">&gt;&gt;,</span>
+                   <span class="n">IEnumerable</span>
+ <span class="p">{</span>
+     <span class="n">ICollection</span><span class="p">&lt;</span><span class="n">TValue</span><span class="p">&gt;</span> <span class="n">Values</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+     <span class="n">TValue</span> <span class="k">this</span><span class="p">[</span><span class="n">TKey</span> <span class="n">key</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+     <span class="k">void</span> <span class="nf">Add</span><span class="p">(</span><span class="n">TKey</span> <span class="n">key</span><span class="p">,</span> <span class="n">TValue</span> <span class="k">value</span><span class="p">);</span>
+     <span class="kt">bool</span> <span class="nf">Remove</span><span class="p">(</span><span class="n">TKey</span> <span class="n">key</span><span class="p">);</span>
+     <span class="kt">bool</span> <span class="nf">TryGetValue</span><span class="p">(</span><span class="n">TKey</span> <span class="n">key</span><span class="p">,</span> <span class="k">out</span> <span class="n">TValue</span> <span class="k">value</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Notice the keyword <code class="docutils literal"><span class="pre">interface</span></code> in line 1.</p>
+<p>In the contract, all we have are member definitions and type signatures.
+So the contract specifies &#8220;what&#8221; has to be available, not &#8220;how&#8221; any particular
+class chooses to do it.</p>
+<p>Lines 2-4 says that in order to act in the role of
+<code class="docutils literal"><span class="pre">IDictionary</span></code>, we&#8217;ve also got to be able to act in the role of <code class="docutils literal"><span class="pre">ICollection</span></code>
+and <code class="docutils literal"><span class="pre">IEnumerable</span></code>.  Those contracts have a few more methods and members that are
+required.   But more importantly, it shows that interface contracts can depend on,
+or inherit, contract requirements from other interfaces.</p>
+<p>Now when we (or the Microsoft developers) write a new class, we can provide the
+&#8220;promise&#8221; side of the contract.  We can say &#8220;We&#8217;re defining a new Turtle class, and
+we want our turtle objects to also be able to act in the role of a dictionary, as
+specified by the <code class="docutils literal"><span class="pre">IDictionary</span></code> interface&#8221;.  So the class <em>implements</em> the interface.</p>
+<p>Now the magic happens.   If we have a turtle object, and if turtles can act as dictionaries
+(our turtles in this book cannot, by the way), then code like this would be possible:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">Turtle</span> <span class="n">tess</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Turtle</span><span class="p">(...);</span>
+
+<span class="hll"><span class="n">IDictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">tdict</span> <span class="p">=</span> <span class="n">tess</span><span class="p">;</span>
+</span><span class="n">tdict</span><span class="p">[</span><span class="s">&quot;distance covered&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="m">25</span><span class="p">;</span>
+<span class="n">tdict</span><span class="p">[</span><span class="s">&quot;year of manufacture&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="m">2013</span><span class="p">;</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">k</span> <span class="k">in</span> <span class="n">td</span><span class="p">.</span><span class="n">Keys</span><span class="p">)</span>  <span class="p">...</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 3 is the magic line.  It says <em>&#8220;we&#8217;re not interested in interacting with tess as
+a turtle, we&#8217;re only interested in interacting with the object in terms of its
+IDictionary role&#8221;</em>.   So we can define variable <code class="docutils literal"><span class="pre">tdict</span></code> so that its type is the <em>interface</em> type.
+Now it is possible to assign any object to variable <code class="docutils literal"><span class="pre">tdict</span></code>, provided it knows
+how to fulfil the role demanded by the interface.</p>
+</div>
+</div>
+<div class="section" id="three-flavours-of-polymorphism">
+<h2>30.3. Three flavours of polymorphism<a class="headerlink" href="#three-flavours-of-polymorphism" title="Permalink to this headline">¶</a></h2>
+<p>Recall that polymorphism means &#8220;able to work with many types&#8221;.</p>
+<p>We&#8217;ve used subtype-based polymorphism: a method that requires a <code class="docutils literal"><span class="pre">Turtle</span></code> argument can also
+work for a subtype of <code class="docutils literal"><span class="pre">Turtle</span></code>, e.g. our <code class="docutils literal"><span class="pre">TurtleGTX</span></code>.  This is what inheritance gives us.</p>
+<p>The second type we&#8217;ve seen is parametric polymorphism: we use type parameters in <code class="docutils literal"><span class="pre">List&lt;T&gt;</span></code>
+or in <code class="docutils literal"><span class="pre">Dictionary&lt;K,V&gt;</span></code>.  Another name for parametric polymorphism is <em>generic</em>.</p>
+<p>In this chapter we&#8217;ve now seen <em>interface-based polymorphism</em>.  In the code example above,
+we&#8217;re able to treat tess as a dictionary.  So all the dictionary methods are able to work
+with many types.</p>
+</div>
+<div class="section" id="type-testing-and-casting">
+<h2>30.4. Type testing and casting<a class="headerlink" href="#type-testing-and-casting" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes we might need to &#8220;undo&#8221; the polymorphism.   We have an object that we know is some
+type of <code class="docutils literal"><span class="pre">Turtle</span></code>, but we&#8217;d really like to  a) know if it really a more special kind of <code class="docutils literal"><span class="pre">TurtleGTX</span></code>,
+and b) if it is, take advantage of its extra capabilities.</p>
+<p>So let&#8217;s go back to our <code class="docutils literal"><span class="pre">DrawSquare</span></code> method from the Inheritance chapter.  We saw there that
+it works with any turtle.   Now we&#8217;ll add this new requirement:  if the turtle has extra capabilities,
+(i.e. it is really a <code class="docutils literal"><span class="pre">TurtleGTX</span></code>), then get it to spin on each corner as it is draws the square.</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="k">void</span> <span class="nf">drawSquare</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sz</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">side</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">side</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">;</span> <span class="n">side</span><span class="p">++)</span>
+     <span class="p">{</span>
+         <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">sz</span><span class="p">);</span>
+         <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+<span class="hll">         <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="k">is</span> <span class="n">TurtleGTX</span><span class="p">)</span>
+</span>         <span class="p">{</span>
+<span class="hll">           <span class="n">TurtleGTX</span> <span class="n">tgtx</span> <span class="p">=</span> <span class="p">(</span><span class="n">TurtleGTX</span><span class="p">)</span> <span class="n">t</span><span class="p">;</span>
+</span><span class="hll">           <span class="n">tgtx</span><span class="p">.</span><span class="n">Spin</span><span class="p">();</span>
+</span>         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Line 7 is a <strong>type test</strong>.   It allows us to ask whether this turtle <code class="docutils literal"><span class="pre">t</span></code> is
+actually a more derived (more capable) <code class="docutils literal"><span class="pre">TurtleGTX</span></code>.   Line 9 defines a new
+variable that can reference a <code class="docutils literal"><span class="pre">TurtleGTX</span></code>.  The type name in the parentheses on the
+right is called a <strong>cast</strong> or a <strong>type cast</strong>.  It allows us to treat our turtle as
+a <code class="docutils literal"><span class="pre">TurtleGTX</span></code>.   Once we have our reference to a fancy turtle, we can
+call its <code class="docutils literal"><span class="pre">Spin()</span></code> method.</p>
+<p>You will get an exception if you attempt to type cast a plain turtle to a <code class="docutils literal"><span class="pre">TurtleGTX</span></code>.  It
+just doesn&#8217;t have the capabilities!   That is why we tested first on line 7, to make sure
+it could work.  (You could wrap the type-cast in a try...catch block, but it is generally
+considered bad style to write code that you expect to routinely throw exceptions.)</p>
+<p>The mechanism we&#8217;ve shown above works in C#, Java, and a few other languages.  But C# also
+has an alternative mechanism that is a widely used idiom:</p>
+<blockquote>
+<div><div class="highlight-csharp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre> <span class="k">private</span> <span class="k">void</span> <span class="nf">drawSquare</span><span class="p">(</span><span class="n">Turtle</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sz</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">side</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">side</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">;</span> <span class="n">side</span><span class="p">++)</span>
+     <span class="p">{</span>
+         <span class="n">t</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">sz</span><span class="p">);</span>
+         <span class="n">t</span><span class="p">.</span><span class="n">Right</span><span class="p">(</span><span class="m">90</span><span class="p">);</span>
+
+<span class="hll">         <span class="n">TurtleGTX</span> <span class="n">tgtx</span> <span class="p">=</span> <span class="n">t</span> <span class="k">as</span> <span class="n">TurtleGTX</span><span class="p">;</span>
+</span>         <span class="k">if</span> <span class="p">(</span><span class="n">tgtx</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+             <span class="n">tgtx</span><span class="p">.</span><span class="n">Spin</span><span class="p">();</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal"><span class="pre">as</span></code> keyword does a &#8220;safe&#8221; type cast, and returns <code class="docutils literal"><span class="pre">null</span></code> if
+the cast was not possible.</p>
+<p>Type testing and type casting also work if the type being tested and cast
+is an interface type.</p>
+</div>
+<div class="section" id="back-to-the-high-level-view">
+<h2>30.5. Back to the high-level view<a class="headerlink" href="#back-to-the-high-level-view" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s revisit the last example in the previous chapter now.  The different specialized
+implementations of dictionaries (<code class="docutils literal"><span class="pre">Dictionary</span></code>, <code class="docutils literal"><span class="pre">SortedDictionary</span></code>) all implement the
+interface <code class="docutils literal"><span class="pre">IDictionary</span></code>.
+So in the last example in the previous chapter, we set the return
+type of the method to <code class="docutils literal"><span class="pre">IDictionary</span></code>, and we changed the calling code to
+work in terms of that <em>role</em> rather than work with the <em>type</em> of the object.</p>
+<p>This is a powerful technique.  A role is more abstract than a type.  By moving our
+thinking up to &#8220;what roles is each object capable of&#8221; rather than &#8220;What type of thing
+is this&#8221;, we create opportunities for phones that can also take photographs, or act as
+music players.</p>
+<p>And putting a separate and explicit &#8220;contract&#8221; between our components
+&#8212; one side promises to fulfil the contract, the other side only uses the object
+in terms of what has been promised &#8212; leads to improved reliability in our systems.</p>
+<p>It is quite easy now for us to go back to our example at the end of the last chapter
+and choose some different dictionary
+implementation in the <code class="docutils literal"><span class="pre">letterFreqs</span></code> method.  As long as our new choice implements
+<code class="docutils literal"><span class="pre">IDictionary</span></code>, nothing else will need changing.</p>
+<p>Interfaces promote a kind of plug-and-play approach to software components, just as our
+USB interface allows a kind of plug-and-play way of hooking devices up to each other.
+As long as the interface is supported, we no longer have to care about the type of
+the object.</p>
+</div>
+<div class="section" id="glossary">
+<h2>30.6. Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-implement-an-interface">implement an interface</dt>
+<dd>A class that agrees to an interface contract is agreeing to provide certain functionality.
+It does so by providing properties and methods (and even other kinds of members)
+that fulfil its obligations.</dd>
+<dt id="term-interface-the-informal-usage">interface (the informal usage)</dt>
+<dd>The way something interacts with other components outside of itself.  A gear lever
+in a motor car is an interface to the gearbox.  In programming we use the
+word loosely to mean &#8220;the public members of a class&#8221;.</dd>
+<dt id="term-interface-a-formal-programming-interface">interface (a formal programming interface)</dt>
+<dd>A specification of what methods and members an implementing class promises to the consumer of
+the functionality. Classes can implement many different interfaces.</dd>
+<dt id="term-role">role</dt>
+<dd>Something that an object can <em>do</em>, as opposed to what it fundamentally <em>is</em>.</dd>
+<dt id="term-type-cast">type cast</dt>
+<dd>A conversion from one type to another.</dd>
+<dt id="term-type-test">type test</dt>
+<dd>A test that lets us determine if an object is convertible to a specific type.</dd>
+</dl>
+</div>
+<div class="section" id="exercises">
+<h2>30.7. Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>We want an interface called <code class="docutils literal"><span class="pre">IMusicPlayer</span></code>.  What methods and members should an
+object have so that others can interact with it in its role as a music player?</li>
+<li>Some types are <code class="docutils literal"><span class="pre">ICloneable</span></code>.   Look up the interface, discover what members
+it promises.  Find at least two types that are cloneable, and two that are not.
+Are arrays cloneable?  Are lists cloneable? What about <code class="docutils literal"><span class="pre">DateTime</span></code> and dictionaries?</li>
+<li>Serialization of an object means <em>&#8220;to convert it into some textual representation&#8221;</em>.
+For example, our XAML text is a serialized representation
+of the GUI window we design.  Many types of objects can be serialized,
+so, as we might expect, there is an interface called <code class="docutils literal"><span class="pre">ISerializable</span></code>.  Look up help
+for <code class="docutils literal"><span class="pre">ISerializable</span></code> and determine what members a class must provide in order to fulfil this role.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tips.html" title="A Few Tips"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dictionaries.html" title="29. Dictionaries"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Think Sharply with C#: How to Think like a Computer Scientist</a> &raquo;</li> 
+      </ul>
+    </div> 
+  <div class="footer"> 
+   <span class="creativecommons"> 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" > 
+      <img src="_static/creativecommons-88x31.png" 
+           border="0" alt="Creative Commons License"/> 
+     </a> 
+    Licensed under a 
+    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"> 
+    Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. 
+    </a> 
+   </span> 
+  </div>
+  </body>
+</html>
