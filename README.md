@@ -5,12 +5,11 @@ These free open-source textbooks were developed and used with an introductory Co
 
 
 Sources for both books uses reStructuredText markup which is then processed by Sphinx.
-The html is not easily viewable directly on github, so the output has been zipped up.  You can download and unzip it for convenient viewing. 
 
+The html is not easily viewable directly on github, so the output has been zipped up.  You can download and unzip it for convenient viewing without having to process and build the source yourself.  
 
-The Python-3 book is at http://github.com/cspwcspw/books/thinkcspy3.zip
-
-The C# book is at http://github.com/cspwcspw/books/ThinkSharply.zip
+thinkcspy3.zip for the Python-3 book. 
+ThinkSharply.zip for the C# book.
 
 
 Enjoy!
