@@ -356,7 +356,7 @@ simple example that copies the contents at some web URL to a local file.
         
         import urllib.request
 
-        url = "http://xml.resource.org/public/rfc/txt/rfc793.txt" 
+        url = "https://www.ietf.org/rfc/rfc793.txt" 
         destination_filename = "rfc793.txt"
         
         urllib.request.urlretrieve(url, destination_filename)
@@ -385,11 +385,11 @@ our local disk, we read it directly into a string, and return it:
                 The contents is converted to a string before returning it.
             """
             my_socket = urllib.request.urlopen(url)
-            dta = str(my_socket.readall())  
+            dta = str(my_socket.read())  
             my_socket.close()
             return dta        
 
-        the_text = retrieve_page("http://xml.resource.org/public/rfc/txt/rfc793.txt")
+        the_text = retrieve_page("https://www.ietf.org/rfc/rfc793.txt")
         print(the_text)
         
 Opening the remote url returns what we call a **socket**.  This is a handle to 
